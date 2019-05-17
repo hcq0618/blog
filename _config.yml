@@ -14,7 +14,7 @@ timezone: Asia/Shanghai
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: https://hcq0618.github.io/blog/
-root: /
+root: /blog/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 
@@ -79,6 +79,6 @@ theme: icarus
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/hcq0618/blog
+  repo: https://github.com/hcq0618/blog.git
   branch: master
   message: "Site updated: {{ now('YYYY-MM-DD HH:mm:ss') }}"
