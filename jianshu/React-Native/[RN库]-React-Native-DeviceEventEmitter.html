@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[RN库] React Native DeviceEventEmitter</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[RN库] React Native DeviceEventEmitter</h1>
+        <div class="show-content">
+          <h1>实现<br>
+</h1><p>DeviceEventEmitter在RN内的发送和接受消息。例如：</p><p>A页面注册通知：</p><blockquote>
+<p>import {DeviceEventEmitter} from'react-native';</p>
+<p>//…</p>
+<p>//调用事件通知</p>
+<p>DeviceEventEmitter.emit('xxxName’,param);</p>
+<p>//xxxName:通知的名称 param：发送的消息（传参）</p>
+</blockquote><p>B页面接收通知：</p><blockquote>
+<p>componentDidMount(){</p>
+<p>varself =this;</p>
+<p>this.listener =DeviceEventEmitter.addListener('xxxName',function(param){</p>
+<p>// use param do something</p>
+<p>});</p>
+<p>}</p>
+<p>//xxxName:通知的名称 param:接收到的消息（传参）</p>
+<p>componentWillUnmount(){</p>
+<p>this.listener.remove();</p>
+<p>}</p>
+<p>//在componentWillUnmount 内需要我们手动移除通知</p>
+</blockquote><p>知道DeviceEventEmitter的简单使用后</p><p>我的页面在获取到用户数据后：</p><blockquote>
+<p>//注册监听事件，时间名称：changeMine 传参：jsonData.avatar（头像url）</p>
+<p>DeviceEventEmitter.emit('changeMine',jsonData.avatar);</p>
+</blockquote><p>tabbar.js 文件:</p><blockquote>
+<p>componentDidMount(){</p>
+<p>varself =this;</p>
+<p>this.listener = DeviceEventEmitter.addListener('changeMine',function(url){</p>
+<p>self.setState({</p>
+<p>avatar:url</p>
+<p>})</p>
+<p>});</p>
+<p>//通知开始，获取到url，调用setState 方法，刷新状态机，这时候实时的刷新了‘我的’图标</p>
+<p>//最后别忘了移除通知</p>
+<p>componentWillUnmount(){</p>
+<p>this.listener.remove();</p>
+<p>}</p>
+</blockquote><h1>js 向 js 发送数据</h1><p>DeviceEventEmitter.emit('自定义名称',发送数据);</p><p>例：边看边买退出登录之后，我的淘宝和详情页的钱包数据应该改变。这时，我们可以在退出登录请求返回退出登录成功时发送一个通知</p><blockquote>
+<p>userInfo.userLogout((success) =&gt; {</p>
+<p>if (success) {</p>
+<p>DeviceEventEmitter.emit('taobaoBind',{taobaoBind:false,walletSum:0.00,couponNum:0});</p>
+<p>const nav = this.props.navigator;</p>
+<p>const routers = nav.getCurrentRoutes();</p>
+<p>if (routers.length &gt; 1) {</p>
+<p>nav.pop();</p>
+<p>}</p>
+<p>}</p>
+<p>});</p>
+</blockquote><p>然后在我的淘宝和详情页接收通知，并使用setState改变数据</p><blockquote><p>DeviceEventEmitter.addListener('taobaoBind',(events) =&gt;{this.setState({walletSum : events.walletSum});});</p></blockquote><p>js接受数据</p><blockquote><p>DeviceEventEmitter.addListener('名称',(events) ={使用数据events});</p></blockquote><p>android向js发送数据</p><blockquote>
+<p>WritableMap params = Arguments.createMap();</p>
+<p>params.putString("message",msg.obj.toString());</p>
+<p>reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)</p>
+<p>.emit(eventName, params);</p>
+</blockquote><p>例：扫码轮询时，扫码成功可以向扫码页发送一个扫码成功的状态，输入密码完成时，也可以发送一个状态，使扫码页自动关闭。并将用户信息发给我的淘宝，详情页等。</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

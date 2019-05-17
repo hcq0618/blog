@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Unity] Prefab里面的Prefab关联问题</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[Unity] Prefab里面的Prefab关联问题</h1>
+        <div class="show-content">
+          <p>最近造了个轮子可以批量替换prefab里的prefab，欢迎大家测试～<a href="https://bitbucket.org/xuanyusong/prefab-replace" target="_blank">https://bitbucket.org/xuanyusong/prefab-replace</a></p><p>最近在做UI部分中遇到了这样的问题，就是Prefab里面预制了Prefab。可是在Unity里面一旦Prefab预制了Prefab那么内部的Prefab就失去关联。导致与如果要改内部的Prefab需要把所有引用的地方全部改一遍。今天在逛国外网站看到了一个老外的思路，原文在这里<a href="http://framebunker.com/blog/poor-mans-nested-prefabs/" target="_blank">http://framebunker.com/blog/poor-mans-nested-prefabs/</a></p><p>下面直接上代码</p><blockquote>
+<p>using UnityEngine;</p>
+<p>#if UNITY_EDITOR</p>
+<p>using UnityEditor;</p>
+<p>using UnityEditor.Callbacks;</p>
+<p>#endif</p>
+<p>using System.Collections.Generic;</p>
+<p><br></p>
+<p>[ExecuteInEditMode]</p>
+<p>public class PrefabInstance : MonoBehaviour</p>
+<p>{</p>
+<p>	public GameObject prefab;</p>
+<p><br></p>
+<p>#if UNITY_EDITOR</p>
+<p>	// Struct of all components. Used for edit-time visualization and gizmo drawing</p>
+<p>	public struct Thingy {</p>
+<p>		public Mesh mesh;</p>
+<p>		public Matrix4x4 matrix;</p>
+<p>		public List&lt;Material&gt; materials;</p>
+<p>	}</p>
+<p><br></p>
+<p>	[System.NonSerializedAttribute] public List&lt;Thingy&gt; things = new List&lt;Thingy&gt; ();</p>
+<p><br></p>
+<p>	void OnValidate () {</p>
+<p>		things.Clear();</p>
+<p>		if (enabled)</p>
+<p>			Rebuild (prefab, Matrix4x4.identity);</p>
+<p>	}</p>
+<p><br></p>
+<p>	void OnEnable () {</p>
+<p>		things.Clear();</p>
+<p>		if (enabled)</p>
+<p>			Rebuild (prefab, Matrix4x4.identity);</p>
+<p>	}</p>
+<p><br></p>
+<p>	void Rebuild (GameObject source, Matrix4x4 inMatrix) {</p>
+<p>		if (!source)</p>
+<p>			return;</p>
+<p><br></p>
+<p>		Matrix4x4 baseMat = inMatrix * Matrix4x4.TRS (-source.transform.position, Quaternion.identity, Vector3.one);</p>
+<p>		foreach (MeshRenderer mr in source.GetComponentsInChildren(typeof (Renderer), true))</p>
+<p>		{</p>
+<p>			things.Add(new Thingy () {</p>
+<p>				mesh = mr.GetComponent&lt;MeshFilter&gt;().sharedMesh,</p>
+<p>				matrix = baseMat * mr.transform.localToWorldMatrix,</p>
+<p>				materials = new List&lt;Material&gt; (mr.sharedMaterials)</p>
+<p>			});</p>
+<p>		}</p>
+<p><br></p>
+<p>		foreach (PrefabInstance pi in source.GetComponentsInChildren(typeof (PrefabInstance), true))</p>
+<p>		{</p>
+<p>			if (pi.enabled &amp;&amp; pi.gameObject.activeSelf)</p>
+<p>				Rebuild (pi.prefab, baseMat * pi.transform.localToWorldMatrix);</p>
+<p>		}</p>
+<p>	}</p>
+<p><br></p>
+<p>	// Editor-time-only update: Draw the meshes so we can see the objects in the scene view</p>
+<p>	void Update () {</p>
+<p>		if (EditorApplication.isPlaying)</p>
+<p>			return;</p>
+<p>		Matrix4x4 mat = transform.localToWorldMatrix;</p>
+<p>		foreach (Thingy t in things)</p>
+<p>			for (int i = 0; i &lt; t.materials.Count; i++)</p>
+<p>				Graphics.DrawMesh (t.mesh, mat * t.matrix, t.materials[i], gameObject.layer, null, i);</p>
+<p>	}</p>
+<p><br></p>
+<p>	// Picking logic: Since we don't have gizmos.drawmesh, draw a bounding cube around each thingy</p>
+<p>	void OnDrawGizmos () { DrawGizmos (new Color (0,0,0,0)); }</p>
+<p>	void OnDrawGizmosSelected () { DrawGizmos (new Color (0,0,1,.2f)); }</p>
+<p>	void DrawGizmos (Color col) {</p>
+<p>		if (EditorApplication.isPlaying)</p>
+<p>			return;</p>
+<p>		Gizmos.color = col;</p>
+<p>		Matrix4x4 mat = transform.localToWorldMatrix;</p>
+<p>		foreach (Thingy t in things)</p>
+<p>		{</p>
+<p>			Gizmos.matrix = mat * t.matrix;</p>
+<p>			Gizmos.DrawCube(t.mesh.bounds.center, t.mesh.bounds.size);</p>
+<p>		}</p>
+<p>	}</p>
+<p><br></p>
+<p>	// Baking stuff: Copy in all the referenced objects into the scene on play or build</p>
+<p>	[PostProcessScene(-2)]</p>
+<p>	public static void OnPostprocessScene() {</p>
+<p>		foreach (PrefabInstance pi in UnityEngine.Object.FindObjectsOfType (typeof (PrefabInstance)))</p>
+<p>	    	BakeInstance (pi);</p>
+<p>	}</p>
+<p><br></p>
+<p>	public static void BakeInstance (PrefabInstance pi) {</p>
+<p>		if(!pi.prefab || !pi.enabled)</p>
+<p>			return;</p>
+<p>		pi.enabled = false;</p>
+<p>		GameObject go = PrefabUtility.InstantiatePrefab(pi.prefab) as GameObject;</p>
+<p>		Quaternion rot = go.transform.localRotation;</p>
+<p>		Vector3 scale = go.transform.localScale;</p>
+<p>		go.transform.parent = pi.transform;</p>
+<p>		go.transform.localPosition = Vector3.zero;</p>
+<p>		go.transform.localScale = scale;</p>
+<p>		go.transform.localRotation = rot;</p>
+<p>		pi.prefab = null;</p>
+<p>		foreach (PrefabInstance childPi in go.GetComponentsInChildren&lt;PrefabInstance&gt;())</p>
+<p>			BakeInstance (childPi);</p>
+<p>	}</p>
+<p><br></p>
+<p>#endif</p>
+<p>}</p>
+</blockquote><p>用法比较简单，比如我有两个Prefab，inside嵌入在Big里面。如下图所示，把PrefabInstance脚本挂在Big上，然后把inside拖入下方。</p><p></p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-96725fd31f44b3f7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>OK 无论怎么修改inside这个Prefab，当实例化Big的时候都能得到最新修改的Inside这个Prefab。</p><p>持续思考：</p><p>界面预览问题，就是我在布界面的时候，我需要把子集Prefab界面控件拖进来预览效果。如果用上述思路UI的Prefab就必须通过脚本自动生成。一份是预览用的也就是不需要脚本的，一份是只带脚本运行时动态生成的。在处理自动生成UIPrefab的时候可以利用tag 比如像这种需要内嵌的Prefab标记一个特殊的tag，在Editor下完成Prefab的导出。另外布界面的时候不需要绑定脚本，而上述脚本的绑定也应该由Editor导出Prefab的时候完成。</p><p>总之一切布界面的时候只操作Prefab不操作脚本。</p><p>最近造了个轮子可以批量替换prefab里的prefab，欢迎大家测试～<a href="https://bitbucket.org/xuanyusong/prefab-replace" target="_blank">https://bitbucket.org/xuanyusong/prefab-replace</a></p><p>如果有更好的方法欢迎各位朋友在下面给我留言，谢谢。</p><p>本文固定链接: <a href="https://www.xuanyusong.com/archives/3042" target="_blank">https://www.xuanyusong.com/archives/3042</a></p><p>转载请注明: <a href="https://www.xuanyusong.com/archives/author/xuanyusong" target="_blank">雨松MOMO</a> 2014年07月31日 于 <a href="https://www.xuanyusong.com/" target="_blank">雨松MOMO程序研究院</a> 发表</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

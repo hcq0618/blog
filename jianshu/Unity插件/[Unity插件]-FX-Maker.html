@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Unity插件] FX Maker</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[Unity插件] FX Maker</h1>
+        <div class="show-content">
+          <p>插件介绍</p><p>    FX Maker是一款制作特效的工具，它专为移动操作系统做了优化。包括300种Prefab特效，300种纹理结构、100种网格、100种曲线效果。支持英文和韩文，由开发商IGSoft提供。是UNT3D中一款强大的粒子特效制作工具。</p><p>概述</p><p>-  FX Maker包含300个特效Prefabs。</p><p>-  已经为移动设备进行了优化。FX Maker是用来产生特效的工具（创建、查看、分析、测试）。</p><p>-  支持BuildSprite功能，可以把数百个三角形转化为仅仅2个三角形。</p><p>-  支持Mesh、Legacy和Shuriken粒子系统。</p><p>-  粒子大小调节（Transform.Scale）</p><p>-  调整速度（Mesh, Legacy, Shuriken）</p><p>-  适用于Unity 4.3.4或更高版本（支持Unity5）。</p><p>-  包含的资源：300个特效，300个纹理，100个Mesh，100个曲线动画。</p><p>FX Maker是Unity3d一款非常流行的效果制作插件。不但有超过300种效果预制体， 还可以自己制作效果。包含Mesh Effect 和Particle Effect。</p><p>优点：资源库大，可以将消耗资源非常多的粒子效果 转换为帧动画效果。当然也可以直接用不转帧动画的效果，这种效果是画面最好的，但是对显卡开销大。帧动画显卡开销小，占内存大，适合移动平台。Fx Maker还能自动保存。</p><p>使用步骤:</p><p><b>一:导入包</b></p><p><b><a href="http://jingyan.baidu.com/article/cb5d6105fda595005d2fe068.html" target="_blank">http://jingyan.baidu.com/article/cb5d6105fda595005d2fe068.html</a></b></p><p><b>二:打开主场景sceneFXMaker</b></p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-bdfac16af5b2839c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><b>三:运行</b></p><p>运行界面如下，注意不要选全屏运行，要在运行时至少同时有Game界面和Inspector界面。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-368037fafdb02e0d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>当前运行的效果对应 _CurrentObject下面的物体。既可以对下图左侧的UI界面操作，亦可以对Hierarchy下面的物体进行直接操作。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-c6e6a1e96c871ef1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>EffectMesh</p><p>网格动画，主要是平面的网格动画，Mesh_Ring和Mesh_Virtical有特殊形状的形状片的动画。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-098d2b794259c85e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>EffectParticle</p><p>粒子效果，其中最后的Shuriken里包含的是新的Shuriken粒子系统，其他全是旧的粒子系统。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-6b71f8fac79b364d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>EffectSample</p><p>效果样例展示</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-405675a540b71ae2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>Resources</p><p>包含一些资源，其中最重要的是Animation的曲线效果 和 Mesh下的网格 </p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-3c59d87459ba8efe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><b>四:做简单的帧动画效果</b></p><p>1.选第一个Project文件夹，新建一个空效果</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-6250b847fcda0fa1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>2.从已有的效果拷贝物体过来</p><p>已有效果，对着FX Maker UI里的物体点击右键，Copy</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-19fdd0b35db64029.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>3.运行看看效果</p><p>4.做成帧动画(精灵动画)</p><p>先点击Sprite</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-42d11dc429993e3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>在出现下图左侧的Build Sprite界面时，用鼠标滚轮调整视口，如右侧红框，使之刚好涵盖效果区域。</p><p>接着可以直接点“Build Sprite”按钮</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-5ed42aa30c036b90.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>之后就生成了新的效果,名字是 原名+_1 之类的,就在原效果旁边。</p><p>对着新效果点右键，Export。 之后就生成了一般的Unity Package。</p><p>包括了所有这个效果需要用到的资源。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-d58c25f8fdad2ac4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-4c347ee10f34bef2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><b>五:使用导出的效果</b></p><p>直接导入使用即可。效果路径和原工程下的路径完全一样。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-47a3bc9dce185ef1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><b>六 加入其他东西Build Sprite</b></p><p>并不一定要FxMaker的效果才可以拿来Build Sprite。任何东西，只要相机看得见就可以放进去Build Sprite。并且可以和FxMaker的混合Build。</p><p>将东西加到效果下，这里是将Unity包里的Constructor放到效果 NewEffect1里。</p><p>正常Build Sprite</p><p>Build好后把新效果里的NcBillboard去掉，或者NcBillboard里的Front Axis设置为 Axis_Back。不然方向会颠倒。 </p><p>由于使用的是Particle下的Addictive Shader,所以是与背景混合的半透明效果。</p><p>所以只适合拿来做效果。</p><p>至于真实物体的3D转2D,有兴趣的朋友可以自己去研究。 </p><p>帧数起码要在FPS20以上，否则卡顿感太明显。</p><p>帧动画虽然不消耗显卡，但是贴图占内存还是比较大的。所以用完一定要释放内存。</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

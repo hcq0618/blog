@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Unity优化] UGUI一个优化效率小技巧</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[Unity优化] UGUI一个优化效率小技巧</h1>
+        <div class="show-content">
+          <p>无意间发现了一个小技巧。如下图所示，可以发现UGUI的Image组件的RaycastTarget勾选以后会消耗一些效率，为了节省效率就不要勾选它了，不仅Image组件Text组件也有这样的问题。 一般UI里也就是按钮才需要接收响应事件，那么大部分image和text是是不需要开RaycastTarget的。</p><p></p><p></p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-cbac9b6a4fcf7076.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>但是问题就来了，Unity默认在hierarchy窗口Create-&gt;UI-&gt;Image 、Text的时候就会自动帮我们勾选上RaycastTarget， 一个复杂点的界面至少也300+个Image和Text， 总不能一个个取消吧。 所以我们可以重写Create-&gt;UI-&gt;Image的事件。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-3d0147f90b0733ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><blockquote>
+<p>[MenuItem("GameObject/UI/Image")]</p>
+<p>	static void CreatImage()</p>
+<p>	{</p>
+<p>		if(Selection.activeTransform)</p>
+<p>		{</p>
+<p>			if(Selection.activeTransform.GetComponentInParent&lt;Canvas&gt;())</p>
+<p>			{</p>
+<p>				GameObject go = new GameObject("image",typeof(Image));</p>
+<p>				go.GetComponent&lt;Image&gt;().raycastTarget = false;</p>
+<p>				go.transform.SetParent(Selection.activeTransform);</p>
+<p>			}</p>
+<p>		}</p>
+<p>	}</p>
+</blockquote><p> 这样创建出来的Image就不带 RaycastTarget,Text组件原理同上。 Unity版本5.3.3</p><p><b>作者：雨松MOMO</b></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

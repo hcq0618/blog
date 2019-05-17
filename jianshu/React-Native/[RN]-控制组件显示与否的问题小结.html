@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[RN] 控制组件显示与否的问题小结</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[RN] 控制组件显示与否的问题小结</h1>
+        <div class="show-content">
+          <h1>问题说明<br>
+</h1><p>在开发React Native过程中，我们常常会根据一个变量的值是否为空来控制组件的显示与否。</p><p>一个简单的做法是{ someVariable &amp;&amp; &lt;Text&gt;some text&lt;/Text&gt; }</p><p>今天就因为写了这样的代码踩到了一个坑，导致App Crash了。</p><p>Error内容：RawText “” must be wrapped in an explicitcomponent.</p><p>分析了一波，发现是数据问题导致的。当下面的代码中someVariable的值为空字符串''的时候，就会出现这种Error。</p><p>{ someVariable &amp;&amp; &lt;Text&gt;some text&lt;/Text&gt; }</p><h1>测试结果</h1><p>为了分析这个问题，针对someVariable为空的情况做了一些测试，结果如下：</p><p>case 1.{ '' &amp;&amp; &lt;Text&gt;some text&lt;/Text&gt; }=&gt;有Error，App会Crash</p><p>case 2.{ 0 &amp;&amp; &lt;Text&gt;some text&lt;/Text&gt; }=&gt;有Error，App会Crash</p><p>case 3.{ null &amp;&amp; &lt;Text&gt;some text&lt;/Text&gt; }=&gt; 没有Error,&lt;Text&gt;组件不会显示</p><p>case 4.{ undefined &amp;&amp; &lt;Text&gt;some text&lt;/Text&gt; }=&gt; 没有Error,&lt;Text&gt;组件不会显示</p><p>case 5.{ NaN &amp;&amp; &lt;Text&gt;some text&lt;/Text&gt; }=&gt;有Error，App会Crash</p><p>case 6.{ [] &amp;&amp; &lt;Text&gt;some text&lt;/Text&gt; }=&gt; 没有Error,&lt;Text&gt;组件会显示</p><p>case 7.{ {} &amp;&amp; &lt;Text&gt;some text&lt;/Text&gt; }=&gt; 没有Error,&lt;Text&gt;组件会显示</p><h1>原因分析</h1><p>为什么会出现以上结果呢？</p><p>为了分析这个问题首先需要明白expr1 &amp;&amp; expr2的含义。</p><p>这个表达式是说当expr1为false的时候，会返回expr1，否则会返回expr2。</p><p>那么''|0|null|undefined|NaN|[]|{}这些值到底是true还是false呢，我们可以在Chrome Console上面通过两个非操作!!来测试一下。</p><p></p><p>从上面结果可以看到，''|0|null|undefined|NaN的值是false，[]|{}的值为true。</p><p>好了，通过以上分析我们可以得到case 1 ~ case 6的结果如下：</p><p>case 1.{ '' &amp;&amp; &lt;Text&gt;some text&lt;/Text&gt; }=&gt;{ '' }</p><p>case 2.{ 0 &amp;&amp; &lt;Text&gt;some text&lt;/Text&gt; }=&gt;{ 0 }</p><p>case 3.{ null &amp;&amp; &lt;Text&gt;some text&lt;/Text&gt; }=&gt;{ null }</p><p>case 4.{ undefined &amp;&amp; &lt;Text&gt;some text&lt;/Text&gt; }=&gt;{ undefined }</p><p>case 5.{ NaN &amp;&amp; &lt;Text&gt;some text&lt;/Text&gt; }=&gt;{ NaN }</p><p>case 6.{ [] &amp;&amp; &lt;Text&gt;some text&lt;/Text&gt; }=&gt;{ &lt;Text&gt;some text&lt;/Text&gt; }</p><p>case 7.{ {} &amp;&amp; &lt;Text&gt;some text&lt;/Text&gt; }=&gt;{ &lt;Text&gt;some text&lt;/Text&gt; }</p><p>在React Native中{ '' }|{ 0 }|{ NaN }会被当做文本字符串，必须要包含在&lt;Text&gt;组件中，所以case 1、case 2、case 5会导致App Crash；case 3、case 4不会报错，也不会在页面上显示任何东西；case 5、case 6会在页面上显示some text文本。</p><h1>解决方案</h1><p>为了规避App Crash的风险，有两个简单的方案来实现【根据变量的值是否为空来控制组件的显示与否】：</p><p>1.当变量类型为Object或Array时，可以使用lodash的isEmpty方法</p><p>{ !_.isEmpty(someVariable) &amp;&amp; &lt;Text&gt;some text&lt;/Text&gt; }</p><p>2.当变量为其他类型时，使用两个非操作</p><p>{ !!someVariable &amp;&amp; &lt;Text&gt;some text&lt;/Text&gt; }</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

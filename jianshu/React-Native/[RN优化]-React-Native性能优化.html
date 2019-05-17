@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[RN优化] React Native性能优化</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[RN优化] React Native性能优化</h1>
+        <div class="show-content">
+          <p>使用 React Native 替代基于 WebView 的框架来开发 App 的一个强有力的理由，就是为了使 App 可以达到每秒 60 帧（足够流畅），并且能有类似原生 App 的外观和手感。因此我们也尽可能地优化 React Native 去实现这一目标，使开发者能集中精力处理 App 的业务逻辑，而不用费心考虑性能。但是，总还是有一些地方有所欠缺，以及在某些场合 React Native 还不能够替你决定如何进行优化（用原生代码写也无法避免），因此人工的干预依然是必要的。</p><p>本文的目的是教给你一些基本的知识，来帮你排查性能方面的问题，以及探讨这些问题产生的原因和推荐的解决方法。</p><h1>关于“帧”你所需要知道的</h1><p>老一辈人常常把电影称为“移动的画”，是因为视频中逼真的动态效果其实是一种幻觉，这种幻觉是由一组静态的图片以一个稳定的速度快速变化所产生的。我们把这组图片中的每一张图片叫做一帧，而每秒钟显示的帧数直接的影响了视频（或者说用户界面）的流畅度和真实感。iOS 设备提供了每秒 60 的帧率，这就留给了开发者和 UI 系统大约 16.67ms 来完成生成一张静态图片（帧）所需要的所有工作。如果在这分派的 16.67ms 之内没有能够完成这些工作，就会引发‘丢帧’的后果，使界面表现的不够流畅。</p><p>下面要讲的事情可能更为复杂：请先调出你应用的开发菜单，打开Show FPS Monitor. 你会注意到有两个不同的帧率.</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-2fc3a60a7a402dd0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><h1>JS 帧率(JavaScript 线程)</h1><p>对大多数 React Native 应用来说，业务逻辑是运行在 JavaScript 线程上的。这是 React 应用所在的线程，也是发生 API 调用，以及处理触摸事件等操作的线程。更新数据到原生支持的视图是批量进行的，并且在事件循环每进行一次的时候被发送到原生端，这一步通常会在一帧时间结束之前处理完（如果一切顺利的话）。如果 JavaScript 线程有一帧没有及时响应，就被认为发生了一次丢帧。 例如，你在一个复杂应用的根组件上调用了this.setState，从而导致一次开销很大的子组件树的重绘，可想而知，这可能会花费 200ms 也就是整整 12 帧的丢失。此时，任何由 JavaScript 控制的动画都会卡住。只要卡顿超过 100ms，用户就会明显的感觉到。</p><p>这种情况经常发生在老的Navigator导航器的切换过程中：当你 push 一个新的路由时，JavaScript 需要绘制新场景所需的所有组件，以发送正确的命令给原生端去创建视图。由于切换是由 JavaScript 线程所控制，因此经常会占用若干帧的时间，引起一些卡顿。有的时候，组件会在componentDidMount函数中做一些额外的事情，这甚至可能会导致页面切换过程中多达一秒的卡顿。</p><p>另一个例子是老的触摸事件的响应：如果你正在 JavaScript 线程处理一个跨越多个帧的工作，你可能会注意到TouchableOpacity的响应被延迟了。这是因为 JavaScript 线程太忙了，不能够处理主线程发送过来的原始触摸事件，结果TouchableOpacity就不能及时响应这些事件并命令主线程的页面去调整透明度了。</p><h1>UI 帧率(主线程)</h1><p>很多人会注意到，NavigatorIOS的性能要比老的纯 JS 实现的Navigator好的多。原因就是它的切换动画是完全在主线程上执行的，因此不会被 JavaScript 线程上的掉帧所影响。</p><p>同样，当 JavaScript 线程卡住的时候，你仍然可以欢快的上下滚动ScrollView，因为ScrollView运行在主线程之上（尽管滚动事件会被分发到 JS 线程，但是接收这些事件对于滚动这个动作来说并不必要）。</p><h1>性能问题的常见原因</h1><h2>开发模式 (dev=true)</h2><p>JavaScript 线程的性能在开发模式下是很糟糕的。这是不可避免的，因为有许多工作需要在运行的时候去做，譬如使你获得良好的警告和错误信息，又比如验证属性类型（propTypes）以及产生各种其他的警告。请务必注意在<a href="https://reactnative.cn/docs/running-on-device#%E5%8F%91%E5%B8%83%E5%BA%94%E7%94%A8" target="_blank">release 模式</a>下去测试性能。</p><h2>console.log 语句</h2><p>在运行打好了离线包的应用时，控制台打印语句可能会极大地拖累 JavaScript 线程。注意有些第三方调试库也可能包含控制台打印语句，比如<a href="https://github.com/evgenyrodionov/redux-logger" target="_blank">redux-logger</a>，所以在发布应用前请务必仔细检查，确保全部移除。</p><blockquote><p>这里有个小技巧可以在发布时屏蔽掉所有的console.*调用。React Native 中有一个全局变量__DEV__用于指示当前运行环境是否是开发环境。我们可以据此在正式环境中替换掉系统原先的 console 实现。</p></blockquote><blockquote>
+<p>if (!__DEV__) {</p>
+<p>  global.console = {</p>
+<p>    info: () =&gt; {},</p>
+<p>    log: () =&gt; {},</p>
+<p>    warn: () =&gt; {},</p>
+<p>    debug: () =&gt; {},</p>
+<p>    error: () =&gt; {}</p>
+<p>  };</p>
+<p>}</p>
+</blockquote><p>这样在打包发布时，所有的控制台语句就会被自动替换为空函数，而在调试时它们仍然会被正常调用。</p><blockquote>
+<p>还有个<a href="https://babeljs.io/docs/plugins/transform-remove-console/" target="_blank">babel 插件</a>可以帮你移除所有的console.*调用。首先需要使用yarn add --dev babel-plugin-transform-remove-console来安装，然后在项目根目录下编辑（或者是新建）一个名为·.babelrc`的文件，在其中加入：</p>
+<p>{</p>
+<p>  "env": {</p>
+<p>    "production": {</p>
+<p>      "plugins": ["transform-remove-console"]</p>
+<p>    }</p>
+<p>  }</p>
+<p>}</p>
+</blockquote><p>这样在打包发布时，所有的控制台语句就会被自动移除，而在调试时它们仍然会被正常调用。</p><h2>ListViewinitial rendering is too slow or scroll performance is bad for large lists</h2><p>Use the new<a href="https://reactnative.cn/docs/flatlist" target="_blank">FlatList</a>or<a href="https://reactnative.cn/docs/sectionlist" target="_blank">SectionList</a>component instead. Besides simplifying the API, the new list components also have significant performance enhancements, the main one being nearly constant memory usage for any number of rows.</p><p>If your<a href="https://reactnative.cn/docs/flatlist" target="_blank">FlatList</a>is rendering slow, be sure that you've implemented<a href="https://facebook.github.io/react-native/flatlist.md#getitemlayout" target="_blank">getItemLayout</a>to optimize rendering speed by skipping measurement of the rendered items.</p><h2>在重绘一个几乎没有什么变化的页面时，JS 帧率严重降低</h2><p>你可以实现shouldComponentUpdate函数来指明在什么样的确切条件下，你希望这个组件得到重绘。如果你编写的是纯粹的组件（界面完全由 props 和 state 所决定），你可以利用PureComponent来为你做这个工作。再强调一次，不可变的数据结构（immutable，即对于引用类型数据，不修改原值，而是复制后修改并返回新值）在提速方面非常有用 —— 当你不得不对一个长列表对象做一个深度的比较，它会使重绘你的整个组件更加快速，而且代码量更少。</p><h2>在屏幕上移动视图（滚动，切换，旋转）时，UI 线程掉帧</h2><p>当具有透明背景的文本位于一张图片上时，或者在每帧重绘视图时需要用到透明合成的任何其他情况下，这种现象尤为明显。设置shouldRasterizeIOS或者renderToHardwareTextureAndroid属性可以显著改善这一现象。 注意不要过度使用该特性，否则你的内存使用量将会飞涨。在使用时，要评估你的性能和内存使用情况。如果你没有需要移动这个视图的需求，请关闭这一属性。</p><h2>使用动画改变图片的尺寸时，UI 线程掉帧</h2><p>在 iOS 上，每次调整 Image 组件的宽度或者高度，都需要重新裁剪和缩放原始图片。这个操作开销会非常大，尤其是大的图片。比起直接修改尺寸，更好的方案是使用transform: [{scale}]的样式属性来改变尺寸。比如当你点击一个图片，要将它放大到全屏的时候，就可以使用这个属性。</p><h2>Touchable 系列组件不能很好的响应</h2><p>有些时候，如果我们有一项操作与点击事件所带来的透明度改变或者高亮效果发生在同一帧中，那么有可能在onPress函数结束之前我们都看不到这些效果。比如在onPress执行了一个setState的操作，这个操作需要大量计算工作并且导致了掉帧。对此的一个解决方案是将onPress处理函数中的操作封装到requestAnimationFrame中：</p><blockquote>
+<p>handleOnPress() {</p>
+<p>  // 谨记在使用requestAnimationFrame、setTimeout以及setInterval时</p>
+<p>  // 要使用TimerMixin（其作用是在组件unmount时，清除所有定时器）</p>
+<p>  this.requestAnimationFrame(() =&gt; {</p>
+<p>    this.doExpensiveAction();</p>
+<p>  });</p>
+<p>}</p>
+</blockquote><h1>分析</h1><p>你可以利用内置的分析器来同时获取 JavaScript 线程和主线程中代码执行情况的详细信息。</p><p>对于 iOS 来说，Instruments 是一个宝贵的工具库，Android 的话可以使用 systrace，具体可以参考下面的使用 systrace 调试 Android UI 性能。</p><p>But first,<a href="https://reactnative.cn/docs/performance#running-in-development-mode-dev-true" target="_blank">make sure that Development Mode is OFF!</a>You should see__DEV__ === false, development-level warning are OFF, performance optimizations are ONin your application logs.</p><p>Another way to profile JavaScript is to use the Chrome profiler while debugging. This won't give you accurate results as the code is running in Chrome but will give you a general idea of where bottlenecks might be. Run the profiler under Chrome'sPerformancetab. A flame graph will appear underUser Timing. To view more details in tabular format, click at theBottom Uptab below and then selectDedicatedWorker Threadat the top left menu.</p><h2>使用 systrace 调试 Android UI 性能</h2><p>Android supports 10k+ different phones and is generalized to support software rendering: the framework architecture and need to generalize across many hardware targets unfortunately means you get less for free relative to iOS. But sometimes, there are things you can improve -- and many times it's not native code's fault at all!</p><p>The first step for debugging this jank is to answer the fundamental question of where your time is being spent during each 16ms frame. For that, we'll be using a standard Android profiling tool calledsystrace.</p><p>systraceis a standard Android marker-based profiling tool (and is installed when you install the Android platform-tools package). Profiled code blocks are surrounded by start/end markers which are then visualized in a colorful chart format. Both the Android SDK and React Native framework provide standard markers that you can visualize.</p><h3>1. Collecting a trace</h3><p>First, connect a device that exhibits the stuttering you want to investigate to your computer via USB and get it to the point right before the navigation/animation you want to profile. Runsystraceas follows:</p><p>$ &lt;path_to_android_sdk&gt;/platform-tools/systrace/systrace.py --time=10 -o trace.html sched gfx view -a &lt;your_package_name&gt;</p><p>A quick breakdown of this command:</p><p>timeis the length of time the trace will be collected in seconds</p><p>sched,gfx, andvieware the android SDK tags (collections of markers) we care about:schedgives you information about what's running on each core of your phone,gfxgives you graphics info such as frame boundaries, andviewgives you information about measure, layout, and draw passes</p><p>-a &lt;your_package_name&gt;enables app-specific markers, specifically the ones built into the React Native framework.your_package_namecan be found in theAndroidManifest.xmlof your app and looks likecom.example.app</p><p>Once the trace starts collecting, perform the animation or interaction you care about. At the end of the trace, systrace will give you a link to the trace which you can open in your browser.</p><h2>2. Reading the trace</h2><p>After opening the trace in your browser (preferably Chrome), you should see something like this:</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-9a7afe9de7c53686.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><blockquote><p>HINT: Use the WASD keys to strafe and zoom</p></blockquote><p>If your trace .html file isn't opening correctly, check your browser console for the following:</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-12d55abddac52c94.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>SinceObject.observewas deprecated in recent browsers, you may have to open the file from the Google Chrome Tracing tool. You can do so by:</p><p>Opening tab in chrome<a href="https://reactnative.cn/docs/performance/chrome://tracing/" target="_blank">chrome://tracing</a></p><p>Selecting load</p><p>Selecting the html file generated from the previous command.</p><blockquote>
+<p>Enable VSync highlighting</p>
+<p>Check this checkbox at the top right of the screen to highlight the 16ms frame boundaries:</p>
+<p><br></p>
+</blockquote><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-e86944c038349431.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><blockquote><p>You should see zebra stripes as in the screenshot above. If you don't, try profiling on a different device: Samsung has been known to have issues displaying vsyncs while the Nexus series is generally pretty reliable.</p></blockquote><h3>3. Find your process</h3><p>Scroll until you see (part of) the name of your package. In this case, I was profilingcom.facebook.adsmanager, which shows up asbook.adsmanagerbecause of silly thread name limits in the kernel.</p><p>On the left side, you'll see a set of threads which correspond to the timeline rows on the right. There are a few threads we care about for our purposes: the UI thread (which has your package name or the name UI Thread),mqt_js, andmqt_native_modules. If you're running on Android 5+, we also care about the Render Thread.</p><p>UI Thread.This is where standard android measure/layout/draw happens. The thread name on the right will be your package name (in my case book.adsmanager) or UI Thread. The events that you see on this thread should look something like this and have to do withChoreographer,traversals, andDispatchUI:</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-cc4a1bfe24535050.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>JS Thread.This is where JavaScript is executed. The thread name will be eithermqt_jsor&lt;...&gt;depending on how cooperative the kernel on your device is being. To identify it if it doesn't have a name, look for things likeJSCall,Bridge.executeJSCall, etc:</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-508afa8236020ae7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>Native Modules Thread.This is where native module calls (e.g. theUIManager) are executed. The thread name will be eithermqt_native_modulesor&lt;...&gt;. To identify it in the latter case, look for things likeNativeCall,callJavaModuleMethod, andonBatchComplete:</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-724a5a9c4e149db4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>Bonus: Render Thread.If you're using Android L (5.0) and up, you will also have a render thread in your application. This thread generates the actual OpenGL commands used to draw your UI. The thread name will be eitherRenderThreador&lt;...&gt;. To identify it in the latter case, look for things likeDrawFrameandqueueBuffer:</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-cb90d07ddb469d3a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><h3>Identifying a culprit</h3><p>A smooth animation should look something like the following:</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-b5125bf9b6b486ec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>Each change in color is a frame -- remember that in order to display a frame, all our UI work needs to be done by the end of that 16ms period. Notice that no thread is working close to the frame boundary. An application rendering like this is rendering at 60 FPS.</p><p>If you noticed chop, however, you might see something like this:</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-175bff0efa96e205.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>Notice that the JS thread is executing basically all the time, and across frame boundaries! This app is not rendering at 60 FPS. In this case,the problem lies in JS.</p><p>You might also see something like this:</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-7bea8753e8798264.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>In this case, the UI and render threads are the ones that have work crossing frame boundaries. The UI that we're trying to render on each frame is requiring too much work to be done. In this case,the problem lies in the native views being rendered.</p><p>At this point, you'll have some very helpful information to inform your next steps.</p><h3>Resolving JavaScript issues</h3><p>If you identified a JS problem, look for clues in the specific JS that you're executing. In the scenario above, we seeRCTEventEmitterbeing called multiple times per frame. Here's a zoom-in of the JS thread from the trace above:</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-fdd59015257c79ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>This doesn't seem right. Why is it being called so often? Are they actually different events? The answers to these questions will probably depend on your product code. And many times, you'll want to look into<a href="https://facebook.github.io/react/component-specs.md#updating-shouldcomponentupdate" target="_blank">shouldComponentUpdate</a>.</p><h3>Resolving native UI Issues</h3><p>If you identified a native UI problem, there are usually two scenarios:</p><p>the UI you're trying to draw each frame involves too much work on the GPU, or</p><p>You're constructing new UI during the animation/interaction (e.g. loading in new content during a scroll).</p><p><b>Too much GPU work</b></p><p>In the first scenario, you'll see a trace that has the UI thread and/or Render Thread looking like this:</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-ddc2248f9ee24b81.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>Notice the long amount of time spent inDrawFramethat crosses frame boundaries. This is time spent waiting for the GPU to drain its command buffer from the previous frame.</p><p>To mitigate this, you should:</p><p>investigate usingrenderToHardwareTextureAndroidfor complex, static content that is being animated/transformed (e.g. theNavigatorslide/alpha animations)</p><p>make sure that you arenotusingneedsOffscreenAlphaCompositing, which is disabled by default, as it greatly increases the per-frame load on the GPU in most cases.</p><p>If these don't help and you want to dig deeper into what the GPU is actually doing, you can check out<a href="http://developer.android.com/tools/help/gltracer.html" target="_blank">Tracer for OpenGL ES</a>.</p><p><b>Creating new views on the UI thread</b></p><p>In the second scenario, you'll see something more like this:</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-627d66c61a3ac184.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>Notice that first the JS thread thinks for a bit, then you see some work done on the native modules thread, followed by an expensive traversal on the UI thread.</p><p>There isn't an easy way to mitigate this unless you're able to postpone creating new UI until after the interaction, or you are able to simplify the UI you're creating. The react native team is working on an infrastructure level solution for this that will allow new UI to be created and configured off the main thread, allowing the interaction to continue smoothly.</p><h2>拆包(RAM bundles)和内联引用</h2><p>如果你有一个较为庞大的应用程序，你可能要考虑使用RAM(Random Access Modules，随机存取模块）格式的 bundle 和内联引用。这对于具有大量页面的应用程序是非常有用的，这些页面在应用程序的典型使用过程中可能不会被打开。通常对于启动后一段时间内不需要大量代码的应用程序来说是非常有用的。例如应用程序包含复杂的配置文件屏幕或较少使用的功能，但大多数会话只涉及访问应用程序的主屏幕更新。我们可以通过使用RAM格式来优化bundle的加载，并且内联引用这些功能和页面（当它们被实际使用时）。</p><h3>加载 JavaScript</h3><p>在 react-native 执行 JS 代码之前，必须将代码加载到内存中并进行解析。如果你加载了一个 50MB 的 bundle，那么所有的 50mb 都必须被加载和解析才能被执行。RAM 格式的 bundle 则对此进行了优化，即启动时只加载 50MB 中实际需要的部分，之后再逐渐按需加载更多的包。</p><h3>内联引用</h3><p>内联引用(require 代替 import)可以延迟模块或文件的加载，直到实际需要该文件。一个基本的例子看起来像这样：</p><p><b>优化前</b></p><blockquote>
+<p>import React, { Component } from 'react';</p>
+<p>import { Text } from 'react-native';</p>
+<p>// ... import some very expensive modules</p>
+<p>// You may want to log at the file level to verify when this is happening</p>
+<p>console.log('VeryExpensive component loaded');</p>
+<p>export default class VeryExpensive extends Component {</p>
+<p>  // lots and lots of code</p>
+<p>  render() {</p>
+<p>    return &lt;Text&gt;Very Expensive Component&lt;/Text&gt;;</p>
+<p>  }</p>
+<p>}</p>
+</blockquote><p><b>优化后</b></p><blockquote>
+<p>import React, { Component } from 'react';</p>
+<p>import { TouchableOpacity, View, Text } from 'react-native';</p>
+<p>let VeryExpensive = null;</p>
+<p>export default class Optimized extends Component {</p>
+<p>  state = { needsExpensive: false };</p>
+<p>  didPress = () =&gt; {</p>
+<p>    if (VeryExpensive == null) {</p>
+<p>      VeryExpensive = require('./VeryExpensive').default;</p>
+<p>    }</p>
+<p>    this.setState(() =&gt; ({</p>
+<p>      needsExpensive: true,</p>
+<p>    }));</p>
+<p>  };</p>
+<p>  render() {</p>
+<p>    return (</p>
+<p>      &lt;View style={{ marginTop: 20 }}&gt;</p>
+<p>        &lt;TouchableOpacity onPress={this.didPress}&gt;</p>
+<p>          &lt;Text&gt;Load&lt;/Text&gt;</p>
+<p>        &lt;/TouchableOpacity&gt;</p>
+<p>        {this.state.needsExpensive ? &lt;VeryExpensive /&gt; : null}</p>
+<p>      &lt;/View&gt;</p>
+<p>    );</p>
+<p>  }</p>
+<p>}</p>
+</blockquote><p>即便不使用 RAM 格式，内联引用也会使启动时间减少，因为优化后的代码只有在第一次 require 时才会执行。</p><h1>启用 RAM 格式</h1><p>在 iOS 上使用 RAM 格式将创建一个简单的索引文件，React Native 将根据此文件一次加载一个模块。在 Android 上，默认情况下它会为每个模块创建一组文件。你可以像 iOS 一样，强制 Android 只创建一个文件，但使用多个文件可以提高性能，并降低内存占用。</p><p>在 Xcode 中启用 RAM 格式，需要编辑 build phase 里的"Bundle React Native code and images"。在../node_modules/react-native/packager/react-native-xcode.sh中添加export BUNDLE_COMMAND="ram-bundle":</p><blockquote>
+<p>export BUNDLE_COMMAND="ram-bundle"</p>
+<p>export NODE_BINARY=node</p>
+<p>../node_modules/react-native/packager/react-native-xcode.sh</p>
+</blockquote><p>在 Android 上启用 RAM 格式，需要编辑 android/app/build.gradle 文件。在apply from: "../../node_modules/react-native/react.gradle"之前修改或添加project.ext.react：</p><blockquote>
+<p>project.ext.react = [</p>
+<p>  bundleCommand: "ram-bundle",</p>
+<p>]</p>
+</blockquote><p>如果在 Android 上，你想使用单个索引文件（如前所述），请在 Android 上使用以下行：</p><blockquote>
+<p>project.ext.react = [</p>
+<p>  bundleCommand: "ram-bundle",</p>
+<p>  extraPackagerArgs: ["--indexed-ram-bundle"]</p>
+<p>]</p>
+</blockquote><h1>配置预加载及内联引用</h1><p>现在我们已经启用了RAM格式，然而调用require会造成额外的开销。因为当遇到尚未加载的模块时，require需要通过bridge来发送消息。这主要会影响到启动速度，因为在应用程序加载初始模块时可能触发相当大量的请求调用。幸运的是，我们可以配置一部分模块进行预加载。为了做到这一点，你将需要实现某种形式的内联引用。</p><h1>添加 packager 配置文件</h1><p>在项目中创建一个名为 packager 的文件夹，并创建一个名为 config.js 的文件。添加以下内容：</p><blockquote>
+<p>const config = {</p>
+<p>  transformer: {</p>
+<p>    getTransformOptions: () =&gt; {</p>
+<p>      return {</p>
+<p>        transform: { inlineRequires: true },</p>
+<p>      };</p>
+<p>    },</p>
+<p>  },</p>
+<p>};</p>
+<p>module.exports = config;</p>
+</blockquote><p>在 Xcode 的 Build phase 中添加export BUNDLE_CONFIG="packager/config.js"</p><blockquote>
+<p>export BUNDLE_COMMAND="ram-bundle"</p>
+<p>export BUNDLE_CONFIG="packager/config.js"</p>
+<p>export NODE_BINARY=node</p>
+<p>../node_modules/react-native/packager/react-native-xcode.sh</p>
+</blockquote><p>编辑 android/app/build.gradle 文件，添加bundleConfig: "packager/config.js",</p><blockquote>
+<p>project.ext.react = [</p>
+<p>  bundleCommand: "ram-bundle",</p>
+<p>  bundleConfig: "packager/config.js"</p>
+<p>]</p>
+</blockquote><p>最后，在 package.json 的“scripts”下修改“start”命令来启用配置文件：</p><blockquote><p>"start": "node node_modules/react-native/local-cli/cli.js start --config ../../../../packager/config.js",</p></blockquote><p>此时用npm start启动你的 packager 服务即会加载配置文件。请注意，如果你仍然通过 xcode 或是 react-native run-android 等方式自动启动 packager 服务，则由于没有使用上面的参数，不会加载配置文件。</p><p>调试预加载的模块</p><p>在您的根文件 (index.(ios|android).js) 中，您可以在初始导入(initial imports)之后添加以下内容：</p><blockquote>
+<p>const modules = require.getModules();</p>
+<p>const moduleIds = Object.keys(modules);</p>
+<p>const loadedModuleNames = moduleIds</p>
+<p>  .filter(moduleId =&gt; modules[moduleId].isInitialized)</p>
+<p>  .map(moduleId =&gt; modules[moduleId].verboseName);</p>
+<p>const waitingModuleNames = moduleIds</p>
+<p>  .filter(moduleId =&gt; !modules[moduleId].isInitialized)</p>
+<p>  .map(moduleId =&gt; modules[moduleId].verboseName);</p>
+<p>// make sure that the modules you expect to be waiting are actually waiting</p>
+<p>console.log(</p>
+<p>  'loaded:',</p>
+<p>  loadedModuleNames.length,</p>
+<p>  'waiting:',</p>
+<p>  waitingModuleNames.length</p>
+<p>);</p>
+<p>// grab this text blob, and put it in a file named packager/modulePaths.js</p>
+<p>console.log(`module.exports = ${JSON.stringify(loadedModuleNames.sort())};`);</p>
+</blockquote><p>当你运行你的应用程序时，你可以查看 console 控制台，有多少模块已经加载，有多少模块在等待。你可能想查看 moduleNames，看看是否有任何意外。注意在首次 import 时调用的内联引用。你可能需要检查和重构，以确保只有你想要的模块在启动时加载。请注意，您可以根据需要修改 Systrace 对象，以帮助调试有问题的引用。</p><blockquote>
+<p>require.Systrace.beginEvent = (message) =&gt; {</p>
+<p>  if(message.includes(problematicModule)) {</p>
+<p>    throw new Error();</p>
+<p>  }</p>
+<p>}</p>
+</blockquote><p>虽然每个 App 各有不同，但只加载第一个页面所需的模块是有普适意义的。当你满意时，把 loadedModuleNames 的输出放到 packager/modulePaths.js 文件中。</p><h1>更新配置文件</h1><p>Returning to packager/config.js we should update it to use our newly generated modulePaths.js file.</p><blockquote>
+<p>const modulePaths = require('./modulePaths');</p>
+<p>const resolve = require('path').resolve;</p>
+<p>const fs = require('fs');</p>
+<p>// Update the following line if the root folder of your app is somewhere else.</p>
+<p>const ROOT_FOLDER = path.resolve(__dirname, '..');</p>
+<p>const config = {</p>
+<p>  transformer: {</p>
+<p>    getTransformOptions: () =&gt; {</p>
+<p>      const moduleMap = {};</p>
+<p>      modulePaths.forEach(path =&gt; {</p>
+<p>        if (fs.existsSync(path)) {</p>
+<p>          moduleMap[resolve(path)] = true;</p>
+<p>        }</p>
+<p>      });</p>
+<p>      return {</p>
+<p>        preloadedModules: moduleMap,</p>
+<p>        transform: { inlineRequires: { blacklist: moduleMap } },</p>
+<p>      };</p>
+<p>    },</p>
+<p>  },</p>
+<p>};</p>
+<p>module.exports = config;</p>
+</blockquote><p>在启用RAM格式之后，配置文件中的preloadedModules条目指示哪些模块需要预加载。当 bundle 被加载时，这些模块立即被加载，甚至在任何 requires 执行之前。blacklist 表明这些模块不应该被要求内联引用，因为它们是预加载的，所以使用内联没有性能优势。实际上每次解析内联引用 JavaScript 都会花费额外的时间。</p><h1>测试和衡量改进</h1><p>您现在应该准备好使用RAM格式和内联引用来构建您的应用了。保存启动前后的时间，来测试下有多少改进吧！</p><p>无状态组件需使用 PureComponent 而不是 Component； 说明：无状态组件是指内部没有使用 state 的组件，但是可以使用 props 来进行某些属性控制;</p><p>使用 InteractionManager.runAfterInteractions，在动画或者某些特定场景中利用 InteractionManager 来选择性的渲染新场景所需的最小限度的内容； 使用场景类似于：</p><blockquote>
+<p>class ExpensiveScene extends <a href="http://react.component/" target="_blank">React.Component</a>{</p>
+<p>    constructor(props, context) {</p>
+<p>        super(props, context);</p>
+<p>        this.state = { renderPlaceholderOnly: true };</p>
+<p>    }</p>
+<p>    componentDidMount() {</p>
+<p>        InteractionManager.runAfterInteractions(() =&gt; {</p>
+<p>            this.setState({ renderPlaceholderOnly: false });</p>
+<p>        });</p>
+<p>    }</p>
+<p>    render() {</p>
+<p>        if (this.state.renderPlaceholderOnly) {</p>
+<p>            return this.renderPlaceholderView();</p>
+<p>        }</p>
+<p>        return (</p>
+<p>            &lt;View&gt;</p>
+<p>                &lt;Text&gt;Your full view goes here&lt;/Text&gt;</p>
+<p>            &lt;/View&gt;</p>
+<p>        );</p>
+<p>    }</p>
+<p>    renderPlaceholderView() {</p>
+<p>        return (</p>
+<p>            &lt;View&gt;</p>
+<p>                &lt;Text&gt;Loading...&lt;/Text&gt;</p>
+<p>            &lt;/View&gt;</p>
+<p>        );</p>
+<p>    }</p>
+<p>}</p>
+</blockquote><p>使用新版本组件替换旧办法组件； 例如：FlatList 替换 ListView，React Navigation 替换 Navigator 等</p><p>在使用 Touchable 系列组件时，进行 setState 或者大量调帧操作，请使用如下方式</p><blockquote>
+<p>handleOnPress() {</p>
+<p>    this.requestAnimationFrame(() =&gt; {</p>
+<p>      //todo</p>
+<p>    });</p>
+<p>  }</p>
+</blockquote>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[RN] Weex&amp;ReactNative对比</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[RN] Weex&amp;ReactNative对比</h1>
+        <div class="show-content">
+          <blockquote><p>weex开源有一段时间了，其实去年刚听说weex这个项目的时候，我就对它很感兴趣，很大程度上是因为我自己对vue的喜爱。我从13年左右开始接触vue，14年开始熟悉这个轻量的框架，并慢慢的推荐给了身边的朋友，当我得知手淘的weex是基于vue的时候，就有了想了解一下的冲动。在weex开源之前，我刚好有几个月的时间一直在致力于ReactNative的优化改造，加上自己之前使用ReactJS的一些经验，对于ReactNative项目也算有了一些自己的见解。趁着weex开源了，赶在前几天，我花了两三天的时间把weex android的源码完整的看了一遍，前端js代码也粗略看了一下，结合自己对ReactNative源码的一些了解，正好在这里对两者做一个尽量中立的比对。</p></blockquote><p>首先，我们要承认，weex的确是站在ReactNative的肩膀上的，核心思想上两者并没有大的区别，直观的看上去，我认为有三个主要的区别：</p><h1>JS引擎</h1><p>weex使用V8， ReactNative使用JSCore</p><h1>JS开发框架</h1><p>weex基于vue.js(2W+ star)。小巧轻量的前端开发框架，组件化，数据绑定，2.0引入virtual dom。</p><p>ReactNative使用React(4W+ star)。革命性的前端开发框架，组件化，数据绑定，virtual dom。</p><h1>Android版本要求</h1><p>ReactNative使用了Choreographer，因此必须在API16以上才可以使用。</p><p>weex使用handler来代替Choreographer，可以在API14以上使用。</p><blockquote><p>weex出来的初衷也是为了解决ReactNative使用过程中遇到的一些问题，当然具体决定使用那个框架，我觉得需要从一下几个方面来做对比</p></blockquote><h1>学习成本</h1><p>1. 环境配置：</p><p>ReactNative需要按照文档安装配置很多依赖的工具，相对比较麻烦。 weex安装cli之后就可以使用</p><p>2. vue vs react</p><p>react模板JSX学习使用有一定的成本 vue更接近常用的web开发方式，模板就是普通的html，数据绑定使用mustache风格，样式直接使用css</p><p>3. 布局</p><p>两者实现了flexbox的相同子集（都使用了FaceBook的代码解析），基本没有区别</p><h1>易用性</h1><p>1. sdk使用</p><p>ReactNative需要解决mvn依赖的问题，因此必须自己修改源码，打包发布</p><p>weex可以直接在mvn项目中使用</p><p>2 调试</p><p>都可以在chrome中调试JS代码</p><p>weex支持在chrome中预览页面dom节点，ReactNative不支持</p><p>3 页面开发</p><p>weex提供了一个playground，可以方便的预览正在开发的页面</p><p>ReactNative开发一个页面，需要建立一个native工程，然后编译运行</p><p>4 即时预览</p><p>weex和ReactNative都有提供hot reload功能，可以边更改代码，边在手机上看到效果</p><p>5 打包</p><p>ReactNative官方只能将ReactNative基础js库和业务js一起打成一个js bundle，没有提供分包的功能，需要制作分包打包工具</p><p>weex默认打的js bundle只包含业务js代码，体积小很多，基础js库包含在weex sdk中</p><p>6 部署</p><p>斑马目前同时支持weex和ReactNative页面，但是中心已经转向weex</p><p>另外斑马提供了可以拖拽搭建weex活动页面的功能</p><p>7 扩展性</p><p>组件的扩展上，weex和ReactNative具有一样的能力</p><p>三方库的接入上，weex对网络，图片，统计等常见的用户可能想自己定制的功能，提供了相应的适配接口，可以由用户方便的定制，ReactNative需要自己修改源码</p><p>8 集团库接入</p><p>weex有默认的mtop接入实现，UT接入实现</p><p>windvane也提供了对weex页面的支持，可以复用app中的web容器</p><p>9 跨平台</p><p>ReactNative支持Android iOS两个平台，需要自己扩展去支持web，windows和node-webkit的支持正在开发中</p><p>weex可以支持Android iOS web三个平台</p><p>10 Moudle方法调用线程</p><p>weex 可以通过注解标注是否在UI线程执行</p><p>ReactNative在native_modules线程执行</p><p>11 异步</p><p>weex只支持callback</p><p>ReactNative提供了Promise的支持</p><h1>性能</h1><p>1 分包加载</p><p>ReactNative需要自己实现，从而优化JS加载执行时间</p><p>weex默认提供分包实现</p><p>2 官方支持</p><p>ReactNative官方关注的重心目前并不在性能上</p><p>weex持续关注性能优化</p><p>3 大块view渲染</p><p>ReactNative默认没有优化机制，长view渲染性能会比较差</p><p>weex提供了node和tree两种渲染模式，优化长view的渲染</p><p>4 ListView Android</p><p>ReactNative目前采用scrollView使用，有一些性能问题</p><p>weex使用recyclerview实现，性能稍好</p><h1>社区</h1><p>ReactNative 3w+ star，issue，pull request， contributor多，社区活跃，围绕react产生了许多开发框架</p><p>weex开源较晚，目前只有4k+ start，contributor以阿里人为主，较少，issue和pull request也比较少，社区目前规模比较小</p><h1>工具链</h1><p>1 debug tool</p><p>都有提供在chrome中调试的支持</p><p>2 打包工具</p><p>ReactNative需要自己改造</p><p>weex默认提供的足够满足使用需求</p><p>3 webpack，gulp，脚手架工程</p><p>weex有相应的插件，方便开发，部署使用</p><p>ReactNative有，但是很久未更新，需要自己维护</p><blockquote><p>通过上面的一些对比，就我个人来说，我还是比较倾向于使用weex，我比较熟悉vue是一方面，另外性能和发布这一块也是我比较关注的点。使用ReactNative确实也可以做到不错，但是最终我发现，自己其实是在做weex团队已经做的事情。与其这样，为什么我不选择weex，去帮助weex解决一些其他问题，给自己留更多时间去做业务开发呢？另外从业务开发的角度，我也觉得weex的门槛相对比较低，更适合业务开发同学上手，简单就是不简单。</p></blockquote><p><a href="http://dev.bingocc.com/buiweex/docs/" target="_blank">http://dev.bingocc.com/buiweex/docs/</a></p><p><a href="http://weex.apache.org/cn/guide/" target="_blank">http://weex.apache.org/cn/guide/</a></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

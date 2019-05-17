@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Unity] Android全自动打包生成apk</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[Unity] Android全自动打包生成apk</h1>
+        <div class="show-content">
+          <p>Unity自动打包Android其实要比IOS容易得多，因为Android不用先生成java工程，然后在构建.apk包，我先说说Android打包的步骤。</p><p>1.把sdk拷贝至Plugins/Android下。</p><p>如下图所示，如果你做过Android源生开发，我相信下面的东西你不会陌生。可是如果你没做过Android原生开发，我还是详细说明以下。</p><p>AndroidManifest：这是Android程序必不可少的文件，这里记录着应用程序的启动Activity。Activity就是Android的一个界面，一般应用程序会有很多Acitivty，来回切换界面。但是游戏就不太一样了，因为游戏只需要一个Activity 一个View就可以了。（扯远了）</p><p>AndroidManifest：里面还记录着应用程序的权限，Service啊什么的，，有兴趣的同学可以谷歌搜一搜。</p><p>每次打包的时候Unity会用它默认的AndroidManifest，它默认的AndroidManifest在 unity.app/Contents/PlaybackEngines/AndroidPlayer下面。当你在进行打包apk的时候 unity会拷贝该路径下的所有参数。</p><p>在ProjectSetting里面勾选一些权限的时候，Unity会自动帮你修改AndroidManifest里面的权限，但是如果某个权限不能在Unity工程里面修改，那么就需要自己手动替换。如下图所示，我们把AndroidManifest放在Plugins/Android下面， 这样Unity在进行打包的时候就不会用它默认的，而是用我自己新写的打包。。这样就方便灵活很多了。。</p><p>bin:下面就记录着sdk用到的第三方jar</p><p>res：下面就是安卓的一些图片，资源啊什么。</p><p>你可以随便解开一个android的APK看看它的目录结构就明白了。。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-023b15f9b35219c4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>这样在打包的时候unity就会自动把Plugins/Android下面的所有资源打包在你的APK里面了。但是如果你做渠道包的时候，每个包用的是不同的sdk，所以你需要在打包不同渠道的时候把相关的文件拷贝在Plugins/Android下面。</p><p>如下图所示，我在根目录下创建一个文件夹名子叫91，当我自动化打包的时候自动把91文件夹下面的资源先拷贝在Plugins/Android下面，然后在自动打包。。打完包以后再把Plugins/Andoird文件夹清空即可。。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-4cc6d58eb949859e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>Ok上脚本。。代码和上一篇文章的第一步差不多，我就不多余注释，，执行下面shell脚本将自动打开unity，然后执行ProjectBuild.BuidForAndroid方法。。 project-$1 就是传入的参数。。</p><blockquote>
+<p>#!/bin/sh</p>
+<p>#参数判断  </p>
+<p>if [ $# != 1 ];then  </p>
+<p>    echo "需要一个参数。 参数是游戏包的名子"  </p>
+<p>    exit    </p>
+<p>fi  </p>
+<p>#UNITY程序的路径#</p>
+<p>UNITY_PATH=/Applications/Unity/Unity.app/Contents/MacOS/Unity</p>
+<p>#游戏程序路径#</p>
+<p>PROJECT_PATH=/Users/MOMO/commond</p>
+<p>#在Unity中构建apk#</p>
+<p>$UNITY_PATH -projectPath $PROJECT_PATH -executeMethod ProjectBuild.BuildForAndroid project-$1 -quit</p>
+<p>echo "Apk生成完毕"</p>
+</blockquote><p>在关闭unity的情况下运行。在命令行里面执行这一条脚本， 参数一个参数 91。</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-7a4cc479b9e26605.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><blockquote>
+<p>using System.Collections;</p>
+<p>using System.IO;</p>
+<p>using UnityEditor;</p>
+<p>using UnityEngine;</p>
+<p>using System.Collections.Generic;</p>
+<p>using System;</p>
+<p><br></p>
+<p>class ProjectBuild : Editor{</p>
+<p><br></p>
+<p>	//在这里找出你当前工程所有的场景文件，假设你只想把部分的scene文件打包 那么这里可以写你的条件判断 总之返回一个字符串数组。</p>
+<p>	static string[] GetBuildScenes()</p>
+<p>	{</p>
+<p>		List&lt;string&gt; names = new List&lt;string&gt;();</p>
+<p>		foreach(EditorBuildSettingsScene e in EditorBuildSettings.scenes)</p>
+<p>		{</p>
+<p>			if(e==null)</p>
+<p>				continue;</p>
+<p>			if(e.enabled)</p>
+<p>				names.Add(e.path);</p>
+<p>		}</p>
+<p>		return names.ToArray();</p>
+<p>	}</p>
+<p><br></p>
+<p>	static void BuildForAndroid()</p>
+<p>	{</p>
+<p>		Function.DeleteFolder(Application.dataPath+"/Plugins/Android");</p>
+<p><br></p>
+<p>		if(Function.projectName == "91")</p>
+<p>		{</p>
+<p>			Function.CopyDirectory(Application.dataPath+"/91",Application.dataPath+"/Plugins/Android");</p>
+<p>			PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "USE_SHARE");</p>
+<p>		}</p>
+<p>		string path = Application.dataPath +"/" + Function.projectName+".apk";</p>
+<p>		BuildPipeline.BuildPlayer(GetBuildScenes(), path, BuildTarget.Android, BuildOptions.None);</p>
+<p>	}</p>
+<p>}</p>
+</blockquote><p>程序会执行BuildForAndroid的方法，这里我把shell传入的参数取出来。根据传入的不同参数来初始化打包的一些设置。。</p><p>最终BuildPlayr就开始构建apk，第二个参数就是打包出apk保存的路径。 在打包之前你可以处理一些 游戏包名， 游戏icon 等等一些平台之间的特殊性 ，也可以设置一些 预定义标签，。</p><blockquote>
+<p>using UnityEngine;</p>
+<p><br></p>
+<p>#if UNITY_EDITOR</p>
+<p>using UnityEditor;</p>
+<p>using UnityEditor.Callbacks;</p>
+<p>using UnityEditor.XCodeEditor;</p>
+<p>using System.Xml;</p>
+<p>#endif</p>
+<p>using System.IO;</p>
+<p><br></p>
+<p>public static class XCodePostProcess</p>
+<p>{</p>
+<p>    #if UNITY_EDITOR</p>
+<p>    [PostProcessBuild (100)]</p>
+<p>    public static void OnPostProcessBuild (BuildTarget target, string pathToBuiltProject)</p>
+<p>    {</p>
+<p>		if (target == BuildTarget.Android)</p>
+<p>		{</p>
+<p>			Function.DeleteFolder(Application.dataPath+"/Plugins/Android");</p>
+<p>			if(Function.projectName== "91")</p>
+<p>	     	 {</p>
+<p>	            	 //当我们在打91包的时候 这里面做一些 操作。</p>
+<p><br></p>
+<p>			 }</p>
+<p>		}</p>
+<p>    }</p>
+<p>    #endif</p>
+<p>}</p>
+</blockquote><p><b> </b>在回到XUPortr里面，当Android打包完毕后，这里我们清空Plugins/Android文件夹。。或者你也可以做一些操作。。</p><p>Function.cs 用到的一个工具类</p><blockquote>
+<p>using UnityEngine;</p>
+<p>using System.Collections;</p>
+<p>using System.IO;</p>
+<p>public class Function  {</p>
+<p><br></p>
+<p>	//得到项目的名称</p>
+<p>	public static string projectName</p>
+<p>	{</p>
+<p>		get</p>
+<p>		{</p>
+<p>			//在这里分析shell传入的参数， 还记得上面我们说的哪个 project-$1 这个参数吗？</p>
+<p>			//这里遍历所有参数，找到 project开头的参数， 然后把-符号 后面的字符串返回，</p>
+<p>			//这个字符串就是 91 了。。</p>
+<p>			foreach(string arg in System.Environment.GetCommandLineArgs()) {</p>
+<p>				if(arg.StartsWith("project"))</p>
+<p>				{</p>
+<p>					return arg.Split("-"[0])[1];</p>
+<p>				}</p>
+<p>			}</p>
+<p>			return "test";</p>
+<p>		}</p>
+<p>	}</p>
+<p><br></p>
+<p>	public static void DeleteFolder(string dir)</p>
+<p>	{</p>
+<p>		foreach (string d in Directory.GetFileSystemEntries(dir))</p>
+<p>		{</p>
+<p>			if (File.Exists(d))</p>
+<p>			{</p>
+<p>				FileInfo fi = new FileInfo(d);</p>
+<p>				if (fi.Attributes.ToString().IndexOf("ReadOnly") != -1)</p>
+<p>					fi.Attributes = FileAttributes.Normal;</p>
+<p>				File.Delete(d);</p>
+<p>			}</p>
+<p>			else</p>
+<p>			{</p>
+<p>				DirectoryInfo d1 = new DirectoryInfo(d);</p>
+<p>				if (d1.GetFiles().Length != 0)</p>
+<p>				{</p>
+<p>					DeleteFolder(d1.FullName);////递归删除子文件夹</p>
+<p>				}</p>
+<p>				Directory.Delete(d);</p>
+<p>			}</p>
+<p>		}</p>
+<p>	}</p>
+<p><br></p>
+<p>	public static void CopyDirectory(string sourcePath, string destinationPath)</p>
+<p>	{</p>
+<p>		DirectoryInfo info = new DirectoryInfo(sourcePath);</p>
+<p>		Directory.CreateDirectory(destinationPath);</p>
+<p>		foreach (FileSystemInfo fsi in info.GetFileSystemInfos())</p>
+<p>		{</p>
+<p>			string destName = Path.Combine(destinationPath, fsi.Name);</p>
+<p>			if (fsi is System.IO.FileInfo)      </p>
+<p>				File.Copy(fsi.FullName, destName);</p>
+<p>			else                    </p>
+<p>			{</p>
+<p>				Directory.CreateDirectory(destName);</p>
+<p>				CopyDirectory(fsi.FullName, destName);</p>
+<p>			}</p>
+<p>		}</p>
+<p>	}</p>
+<p>}</p>
+</blockquote><p>如下图所示，脚本运行完毕，你打包的APK就静静的放在了这里，怎么样？简单吧？嘿嘿。。</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-86fc0aea58f9bcb0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>注意事项：</p><p>1、因为你的工程可能比较大，如果IOS和Android同时打包的话切个平台都要半个多小时，我建议的svn在本地check out 两个工程，一个切在ios 一个切在Android  打包的时候分开打。</p><p>2.执行shell脚本的时候请关闭保存unity工程。</p><p>3.Android 因为不受证书的限制，我上传的工程建议你下载下来看看，肯定可以直接打出来包。。</p><p>4.我建议打包的机器使用mac。 因为windows不能打包IOS 而MAC可以同时 打包 IOS 和 Android</p><p>工程下载地址：<a href="http://pan.baidu.com/s/1o6OATcu" target="_blank">http://pan.baidu.com/s/1o6OATcu</a></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

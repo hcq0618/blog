@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Unity插件] 好插件让你事半功倍！</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[Unity插件] 好插件让你事半功倍！</h1>
+        <div class="show-content">
+          <h1>Mesh Baker<br>
+</h1><p>我们在项目开发的时候经常会大量使用大规模的Mesh，导致Draw Call过高。而Mesh Baker扮演了网格烘焙器的角色，其工作原理是将网格和材质合并，从而降低渲染的Draw Call。</p><p><b>下面，我们就来谈谈使用方法：</b></p><p>Texture Packing</p><p>我们常常会遇到角色网格相似，但是纹理繁杂细碎的情况。这时我们需要把纹理合并在同一张图上。纹理拼合的操作面板如下图所示：选择不同的网格来拼合，Texture Baker自动分析其Shader，Size等属性，最后点击Bake Material Into Combined Material，即可完成拼合。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-217f0a47e7cd0a67.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>Mesh Batching</p><p>在纹理拼合后已经形成为一张图片了，这时候我们需要进行Mesh拼合，即使用Mesh Baker来烘焙网格。在此，我们新建一个新的GameObject，点击Bake就把3个Mesh烘焙在一个Object上了。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-620eb9f0de8ee330.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>同时，在进行了这两步之后，我们会发现Draw Call上的变化。</p><p><b>合并前</b></p><p><b><br></b></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-c43698d7a9e5b5d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><b>合并后</b></p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-f13c03bb1ee3c21a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>不难发现，合并前12个Draw Call，合并后只有2个，从而在一定程度上降低渲染压力。</p><p>对Skinned Mesh进行拼合</p><p>Unity引擎无法原生支持蒙皮网格的Draw Call Batching，而Mesh Baker能将多个Skinned mesh合并。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-bd5234c7d48042e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-a663f4339c0e0f9d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>经过合并后，人物的材质已经相同，所以我们能在上图中看到这些角色只产生了一个Draw Call。同理，即使再加入更多的角色也能合并成非常少的Draw Call，从而减少渲染耗时。</p><p>除此之外， Mesh Baker还支持将Mesh Renderer与Skinned Mesh Renderer一起合并。比如开发中常用到的道具如帽子、剑等，使得角色在换装时也只产生一个Draw Call，非常实用。</p><p><b>在使用skinnedmesh时有几个注意点：</b></p><p>合并后将原始模型的Bone保持Active；</p><p>Disable原始模型的Skinned Mesh Renderer；</p><p>确保原始的Animation始终在运行；</p><p>如果需要Mesh Rendering与Skinned Mesh 一起合并，则需要保证在其在同一张Texture Atlas和Mesh容器中。</p><p><b>SimpleLOD</b></p><p>除了Mesh Baker，另一个插件SimpleLOD也比较适合大规模场景的制作开发。在处理多人在线的项目（如MMO游戏）时，按照我们以往的优化方法是尽可能降低Draw Call和减少渲染消耗，在远处使用低级LOD，在Run-time时根据相机距离切换合适的LOD，使得在手机性能有限的情况下尽量渲染更多的角色，达到更好的效果。</p><p>而SimpleLOD恰好可以满足这一点，除了同样拥有Mesh Baker所具有的Mesh合并、Atlas烘焙等功能，它还能提供Mesh的简化（Mesh Baker无法提供），并对动态蒙皮网格进行了很好的支持。该插件可在Run-time和Editor中都可以使用，同时开放了源码，大家可以根据项目的实际情况而作修改。</p><p><b><br></b></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-726f35587ab8d1cc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><b>我们拿以下原始模型来举例：</b></p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-96f3c9a7cbf3336c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>打开插件后有如下一些选项：点击Merge child meshes</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-f2b68078807a8adb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>我们知道Unity支持的网格顶点数不能超过65536，但是当我们把很多物体合成一个Mesh时很可能会超过这个限制。而这个插件会针对这种情况进行自动处理，可以看到下图中的两辆车Merge后成Merged part1和Merged part2 。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-8a015ed089d309ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>烘焙Atlas</p><p>下图是Texture packing，根据模型的Material自动把不同类型的Texture分类显示出来，在合并的时候，会自动把同类型的Texture合并。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-7b8d5130479d66ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>合并之后的效果对比：Draw Call数量由原来的136降至24个。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-1be5ee3fc2db03c0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>选择了模型之后，点击Simplify mesh，它会尽可能在保持原样的基础上简化网格。如下图，汽车模型的网格面片数从六万多顶点数减少到了两万七。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-f0d58d087a05c956.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-ac7751ac1ddef83c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>同时，它也能自动生成不同级别的LOD。这里有6层LOD（从大到小），点击Bake LOD后它会自动计算，不需要大家手动操作。我们可以通过更改脚本达到希望的效果。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-813a13bf8f4d4748.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-8f684beda5070dac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>如下就是使用了SimpleLOD后的效果。该插件最大的特色即是对Skinned mesh动画角色网格提供了很好的支持。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-af3a898eab96df2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-fac58ad66908182a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>以上是我们今天推荐的插件，但愿能在资源优化中祝你一臂之力。今后我们将会结合以往的行业服务经验，为您推荐更多高效的开发利器，尽情关注！</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

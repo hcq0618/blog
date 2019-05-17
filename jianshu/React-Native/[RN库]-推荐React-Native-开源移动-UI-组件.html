@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[RN库] 推荐React Native 开源移动 UI 组件</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[RN库] 推荐React Native 开源移动 UI 组件</h1>
+        <div class="show-content">
+          <p>本文推荐 11 个非常棒的<a href="http://www.oschina.net/p/reactnative" target="_blank">React Native</a>开源组件，希望能给移动应用开发者提供帮助。</p><p>React Native 是近期 Facebook 基于 MIT 协议开源的原生移动应用开发框架，已经用于 Facebook 的生产环境。React Native 可以使用最近非常流行的<a href="http://www.oschina.net/p/facebook-react" target="_blank">React.js</a>库来开发 iOS 和 Android 原生 APP。</p><h1>iOS 表单处理控件 tcomb-form-native</h1><p><a href="http://www.oschina.net/p/tcomb-form-native" target="_blank">tcomb-form-native</a>是 React Native 强大的表单处理控件，支持 JSON 模式，可插拔的外观和感觉。在线演示：<a href="http://react.rocks/example/tcomb-form-native" target="_blank">http://react.rocks/example/tcomb-form-native</a>。</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-034b26f120c9450e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><h1>摄像机视图 react-native-camera</h1><p><a href="http://www.oschina.net/p/react-native-camera" target="_blank">react-native-camera</a>是 React Native 的摄像头 viewport。这个模块应用于开发的早期阶段，它支持摄像头的转换和基本图片捕捉。</p><p>使用示例：</p><blockquote>
+<p>var React = require('react-native');</p>
+<p>var {</p>
+<p>  AppRegistry,</p>
+<p>  StyleSheet,</p>
+<p>  Text,</p>
+<p>  View,</p>
+<p>} = React;</p>
+<p>var Camera = require('react-native-camera');</p>
+<p>var cameraApp = React.createClass({</p>
+<p>  render: function() {</p>
+<p>    return (</p>
+<p>      &lt;View&gt;</p>
+<p>        &lt;TouchableHighlight onPress={this._switchCamera}&gt;</p>
+<p>          &lt;View&gt;</p>
+<p>            &lt;Camera</p>
+<p>              ref="cam"</p>
+<p>              aspect="Stretch"</p>
+<p>              orientation="PortraitUpsideDown"</p>
+<p>              style={{height: 200, width: 200}}</p>
+<p>            /&gt;</p>
+<p>          &lt;/View&gt;</p>
+<p>        &lt;/TouchableHighlight&gt;</p>
+<p>      &lt;/View&gt;</p>
+<p>    );</p>
+<p>  },</p>
+<p>  _switchCamera: function() {</p>
+<p>    this.refs.cam.switch();</p>
+<p>  }</p>
+<p>});</p>
+<p>AppRegistry.registerComponent('cameraApp', () =&gt; cameraApp);</p>
+</blockquote><h1>react-native-video</h1><p><a href="http://www.oschina.net/p/react-native-video" target="_blank">react-native-video</a>是 &lt;Video&gt; 标签控件。</p><p>示例：</p><blockquote>
+<p>// Within your render function, assuming you have a file called</p>
+<p>// "background.mp4" in your project</p>
+<p>&lt;Video source={"background"} style={styles.backgroundVideo} repeat={true} /&gt;</p>
+<p>// Later on in your styles..</p>
+<p>var styles = Stylesheet.create({</p>
+<p>  backgroundVideo: {</p>
+<p>    resizeMode: 'cover', // stretch and contain also supported</p>
+<p>    position: 'absolute',</p>
+<p>    top: 0,</p>
+<p>    left: 0,</p>
+<p>    bottom: 0,</p>
+<p>    right: 0,</p>
+<p>  },</p>
+<p>});</p>
+</blockquote><h1>导航控件 react-native-navbar</h1><p><a href="http://www.oschina.net/p/react-native-navbar" target="_blank">react-native-navbar</a>是用于 React Native 上简单的定制化导航栏。</p><p>示例代码：</p><blockquote>
+<p>var NavigationBar = require('react-native-navbar');</p>
+<p>var ExampleProject = React.createClass({  </p>
+<p>  renderScene: function(route, navigator) {    </p>
+<p>    var Component = route.component;    </p>
+<p>    var navBar = route.navigationBar;    </p>
+<p>    if (navBar) {</p>
+<p>      navBar = React.addons.cloneWithProps(navBar, {navigator: navigator,</p>
+<p>        route: route</p>
+<p>      });</p>
+<p>    }    return (&lt;View style={styles.navigator}&gt;</p>
+<p>        {navBar}&lt;Component navigator={navigator} route={route} /&gt;</p>
+<p>      &lt;/View&gt;</p>
+<p>    );</p>
+<p>  },  render: function() {return (&lt;Navigator</p>
+<p>        style={styles.navigator}</p>
+<p>        renderScene={this.renderScene}</p>
+<p>        initialRoute={{</p>
+<p>          component: InitialView,</p>
+<p>          navigationBar: &lt;NavigationBar title="Initial View"/&gt;</p>
+<p>        }}</p>
+<p>      /&gt;</p>
+<p>    );</p>
+<p>  }</p>
+<p>});</p>
+</blockquote><h1>React Native 轮播控件 react-native-carousel</h1><p><a href="http://www.oschina.net/p/react-native-carousel" target="_blank">react-native-carousel</a>是一个简单的 React Native 轮播控件。</p><p>示例代码：</p><blockquote>
+<p>var Carousel = require('react-native-carousel');var ExampleProject = React.createClass({</p>
+<p>  render() {    </p>
+<p>   return (      </p>
+<p>        &lt;Carousel width={375} indicatorColor="#ffffff" inactiveIndicatorColor="#999999"&gt;</p>
+<p>        &lt;MyFirstPage /&gt;</p>
+<p>        &lt;MySecondPage /&gt;</p>
+<p>        &lt;MyThirdPage /&gt;</p>
+<p>      &lt;/Carousel&gt;</p>
+<p>    );</p>
+<p>  }</p>
+<p>});</p>
+</blockquote><h1>下拉刷新组件 react-native-refreshable-listview</h1><p><a href="http://www.oschina.net/p/react-native-refreshable-listview" target="_blank">react-native-refreshable-listview</a>是下拉刷新 ListView，当数据重载的时候显示加载提示。</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-69dea178605b6c57.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><h1>Modal 组件 react-native-modal</h1><p><a href="http://www.oschina.net/p/react-native-modal" target="_blank">react-native-modal</a>是 React Native 的 &lt;Modal&gt; 组件。</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-64142c5510173745.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><h1>文本解析控件 react-native-htmltext</h1><p><a href="http://www.oschina.net/p/react-native-htmltext" target="_blank">react-native-htmltext</a>可以用 HTML 像 markup 一样在 ReactNative 里创建出相应效果的样式文本。ReactNative 为那些样式文本提供一个文本元素，用于取代 NSAttributedString，你可以创建嵌套的文本：</p><blockquote>
+<p>&lt;Text style={{fontWeight: 'bold'}}&gt;</p>
+<p>  I am bold </p>
+<p>  &lt;Text style={{color: 'red'}}&gt; and red &lt;/Text&gt;</p>
+<p>&lt;/Text&gt;</p>
+</blockquote><h1>react-native-htmlview</h1><p><a href="http://www.oschina.net/p/react-native-htmlview" target="_blank">react-native-htmlview</a>是一个将 HTML 目录作为本地视图的控件，其风格可以定制。</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-7939ef617ef83e93.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><h1>LinearGradient 组件 react-native-linear-gradient</h1><p><a href="http://www.oschina.net/p/react-native-linear-gradient" target="_blank">react-native-linear-gradient</a>是一个 React Native 的 LinearGradient 组件。</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-2438e3c6c57ef076.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><h1>双向循环播放 react-native-looped-carousel</h1><p><a href="http://www.oschina.net/p/react-native-looped-carousel" target="_blank">react-native-looped-carousel</a>是基于 React Native 的双向循环播放控件。</p><p> 示例代码：</p><blockquote>
+<p>'use strict';var React = require('react-native');var Carousel = require('react-native-looped-carousel');var Dimensions = require('Dimensions');var {width, height} = Dimensions.get('window');var {</p>
+<p>  AppRegistry,</p>
+<p>  StyleSheet,  Text,</p>
+<p>  View</p>
+<p>} = React;var carouselTest = React.createClass({  render: function() {    return (      &lt;Carousel delay={500}&gt;</p>
+<p>          &lt;View style={{backgroundColor:'#BADA55',width:width,height:height}}/&gt;</p>
+<p>          &lt;View style={{backgroundColor:'red',width:width,height:height}}/&gt;</p>
+<p>          &lt;View style={{backgroundColor:'blue',width:width,height:height}}/&gt;</p>
+<p>      &lt;/Carousel&gt;</p>
+<p>    );</p>
+<p>  }</p>
+<p>});</p>
+<p>AppRegistry.registerComponent('carouselTest', () =&gt; carouselTest);</p>
+</blockquote><h1>Teaset</h1><p>React Native UI 组件库</p><p><a href="https://github.com/rilyu/teaset/blob/master/docs/cn/README.md" target="_blank">https://github.com/rilyu/teaset/blob/master/docs/cn/README.md</a></p><p>如果你知道其他 React Native 插件，在评论与大家分享一下吧～</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

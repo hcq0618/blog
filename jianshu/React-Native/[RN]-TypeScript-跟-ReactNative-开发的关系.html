@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[RN] TypeScript 跟 ReactNative 开发的关系</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[RN] TypeScript 跟 ReactNative 开发的关系</h1>
+        <div class="show-content">
+          <p>你用 TypeScript 语法写的 .ts .tsx 等后缀的程序是不能直接运行的，而是会被 tsconfig.json 配置中的 “target”: “es6”, 这项配置转换为 es6 语法的 .js 文件。 </p><p>TypeScript 中的 import 只会加载 .ts .tsx 后缀的文件，而 Javascript 中的 import 只能加载 .js 等后缀的文件， </p><p>所以，当 ReactNative 启动时，首先加载入口文件，如 index.android.js ,代码如下：</p><blockquote>
+<p>import{ AppRegistry } from'react-native';</p>
+<p>importIndexNavigator from'./application/src/controller/navigator/IndexNavigator';</p>
+<p>AppRegistry.registerComponent('mogudan', () =&gt; IndexNavigator);</p>
+</blockquote><p>其中 import IndexNavigator from … 这一行加载的不是 IndexNavigator.ts 而是编译后生成的 IndexNavigator.js 文件，下面对比两个文件的差异：</p><blockquote>
+<p>IndexNavigator.ts</p>
+<p>/**</p>
+<p>* Created by ZHOUZ on 2016-08-26.</p>
+<p>*/</p>
+<p>import* as React from'react';</p>
+<p>import{Navigator}  from'react-native';</p>
+<p>importIndexPage from'../page/IndexPage'</p>
+<p>exportdefaultclassIndexNavigatorextendsReact.Component&lt;any,any&gt; {</p>
+<p>    render() {</p>
+<p>        let defaultName ='IndexPage3311113';</p>
+<p>        let defaultComponent = IndexPage;</p>
+<p>       return(</p>
+<p>            &lt;Navigator</p>
+<p>                initialRoute={{ name: defaultName, component: defaultComponent }}</p>
+<p>                configureScene={(route) =&gt; Navigator.SceneConfigs.VerticalDownSwipeJump }</p>
+<p>                renderScene={(route: any, navigator) =&gt; {</p>
+<p>let Component =<a href="http://route.component%3B/" target="_blank">route.component;</a></p>
+<p>                   return&lt;Component {...route.params} navigator={navigator} /&gt;</p>
+<p>                }}</p>
+<p>            /&gt;</p>
+<p>        );</p>
+<p>    }</p>
+<p>}</p>
+</blockquote><p>IndexNavigator.js </p><p>为自动编译后生成的es6语法的 javascript 代码</p><blockquote>
+<p>"use strict";</p>
+<p>var__assign = (this&amp;&amp;this.__assign) ||Object.assign ||function(t){</p>
+<p>   for(vars, i =1, n =arguments.length; i &lt; n; i++) {</p>
+<p>        s =arguments[i];</p>
+<p>       for(varpins)if(Object.prototype.hasOwnProperty.call(s, p))</p>
+<p>            t[p] = s[p];</p>
+<p>    }</p>
+<p>   returnt;</p>
+<p>};</p>
+<p>/**</p>
+<p>* Created by ZHOUZ on 2016-08-26.</p>
+<p>*/</p>
+<p>constReact =require('react');</p>
+<p>constreact_native_1 =require('react-native');</p>
+<p>constIndexPage_1 =require('../page/IndexPage');</p>
+<p>classIndexNavigator extends<a href="http://react.component/" target="_blank">React.Component</a>{</p>
+<p>    render() {</p>
+<p>       letdefaultName ='IndexPage3311113';</p>
+<p>       letdefaultComponent = IndexPage_1.default;</p>
+<p>       return(React.createElement(react_native_1.Navigator, {initialRoute: { name: defaultName, component: defaultComponent }, configureScene: (route) =&gt; react_native_1.Navigator.SceneConfigs.VerticalDownSwipeJump, renderScene: (route, navigator) =&gt; {</p>
+<p>           letComponent =<a href="http://route.component%3B/" target="_blank">route.component;</a></p>
+<p>           returnReact.createElement(Component, __assign({}, route.params, {navigator: navigator}));</p>
+<p>        }}));</p>
+<p>    }</p>
+<p>}</p>
+<p>Object.defineProperty(exports,"__esModule", { value:true});</p>
+<p>exports.default = IndexNavigator;</p>
+</blockquote>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

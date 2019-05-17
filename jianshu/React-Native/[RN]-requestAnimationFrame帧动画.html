@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[RN] requestAnimationFrame帧动画</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[RN] requestAnimationFrame帧动画</h1>
+        <div class="show-content">
+          <h1>前言<br>
+</h1><p>动画是移动应用中的一个相当重要的组成部分，一个用户体验良好的应用通常都具有流畅、有意义的动画。类似原生平台，React Native也为我们提供了丰富的动画API：requestAnimationFrame、LayoutAnimation、Animated。</p><p>requestAnimationFrame:帧动画，是最容易实现的一种动画，通过不断改变组件的state值，从而在视觉上产生一种动画的效果，类似于gif动画的方式。</p><p>LayoutAnimation:布局动画，当布局发生改变时的动画模块，允许在全局范围内创建和更新动画，这些动画会在下一次渲染或布局周期运行，实现单个动画非常简洁，体验和性能良好。</p><p>Animated:用于创建更精细的交互控制的动画，可进行多个动画的组合动画，具备极高的性能，是功能最强大的动画API。</p><p>本节我们先介绍requestAnimationFrame。</p><h1>requestAnimationFrame帧动画的实现</h1><p>requestAnimationFrame实现帧动画的原理非常粗暴简洁，即通过修改state值来不断得改变视图上的样式，从而在视觉上产生一种动画的效果。</p><blockquote>
+<p>import React, { Component } from'react';</p>
+<p>import {</p>
+<p>AppRegistry,</p>
+<p>StyleSheet,</p>
+<p>Text,</p>
+<p>View,</p>
+<p>TouchableOpacity,</p>
+<p>Platform,</p>
+<p>} from'react-native';</p>
+<p>exportdefaultclassFrameAnimationDemo extends Component {</p>
+<p>constructor(props){</p>
+<p>super(props);</p>
+<p>this.state = {</p>
+<p>width:200,</p>
+<p>height:20,</p>
+<p>};</p>
+<p>}</p>
+<p>_onPress() {</p>
+<p>//每按一次增加近30宽高</p>
+<p>varcount =0;</p>
+<p>while(++count&lt;30){</p>
+<p>requestAnimationFrame(()=&gt;{</p>
+<p>this.setState({</p>
+<p>width:this.state.width +1,</p>
+<p>height:this.state.height +1</p>
+<p>});</p>
+<p>})</p>
+<p>}</p>
+<p>}</p>
+<p>render() {</p>
+<p>return(</p>
+<p>&lt;Viewstyle={styles.container}&gt;</p>
+<p>&lt;Viewstyle={[styles.content,{width:this.state.width,height:this.state.height}]}&gt;</p>
+<p>&lt;Textstyle={[{textAlign:'center'}]}&gt;Hello World!&lt;/Text&gt;</p>
+<p>&lt;/View&gt;</p>
+<p>&lt;TouchableOpacitystyle={styles.content}onPress={this._onPress.bind(this)}&gt;</p>
+<p>&lt;Viewstyle={styles.button}&gt;</p>
+<p>&lt;Textstyle={styles.buttonText}&gt;Press me!&lt;/Text&gt;</p>
+<p>&lt;/View&gt;</p>
+<p>&lt;/TouchableOpacity&gt;</p>
+<p>&lt;/View&gt;</p>
+<p>);</p>
+<p>}</p>
+<p>}</p>
+<p>const styles = StyleSheet.create({</p>
+<p>container: {</p>
+<p>marginTop:25,</p>
+<p>flex: 1,</p>
+<p>},</p>
+<p>content: {</p>
+<p>backgroundColor: 'rgba(200, 230, 255, 0.8)',</p>
+<p>marginBottom:10,</p>
+<p>justifyContent:"center",</p>
+<p>alignSelf:"center",</p>
+<p>},</p>
+<p>button: Platform.select({</p>
+<p>ios: {},</p>
+<p>android: {</p>
+<p>elevation: 4,</p>
+<p>// Material design blue from https://material.google.com/style/color.html#color-color-palette</p>
+<p>backgroundColor: '#2196F3',</p>
+<p>borderRadius: 2,</p>
+<p>width:100,</p>
+<p>height:30,</p>
+<p>},</p>
+<p>justifyContent:"center",</p>
+<p>alignSelf:"center",</p>
+<p>}),</p>
+<p>buttonText: {</p>
+<p>alignSelf:"center",</p>
+<p>}</p>
+<p>});</p>
+</blockquote><p>从效果上看动画有种一顿一顿的感觉。这是由于通过修改state值，导致频繁地销毁、重绘视图，内存开销大，从而使得动画卡顿明显。另外对于帧动画而言，如果帧数较少，动画的效果会比较生硬，帧数过多又会引发性能问题。</p><h1>优化</h1><p>如果帧动画的方式更符合当前对动画的控制方式，我们可以对上述方法做一点优化，在requestAnimationFrame中采用setNativeProps直接修改组件的属性并触发局部刷新，不会导致重绘组件，因此在性能上优于直接修改state的方法。</p><p>修改_onPress方法，将对this.setState的直接修改改为对”Hello World”按钮的属性修改this.refs.view1.setNativeProps。</p><blockquote>
+<p>_onPress() {</p>
+<p>varcount =0;</p>
+<p>while(++count&lt;30){</p>
+<p>requestAnimationFrame(()=&gt;{</p>
+<p>this.refs.view1.setNativeProps({</p>
+<p>style: {</p>
+<p>width:this.state.width++,</p>
+<p>height:this.state.height++</p>
+<p>}</p>
+<p>});</p>
+<p>});</p>
+<p>}</p>
+<p>}</p>
+</blockquote><p>this.refs.view1指向的是”Hello World”文字的父视图。</p><blockquote>
+<p>&lt;View ref="view1"style={[styles.content, {width:this.state.width, height:this.state.height}]}&gt;</p>
+<p>&lt;Textstyle={[{textAlign:'center'}]}&gt;Hello World!&lt;/Text&gt;</p>
+<p>&lt;/View&gt;</p>
+</blockquote><p>通过对比可以看出流畅顺滑多了。</p><p>每个动画API都有其适应和不适应的场景，如果要实现“弹性动画”，“缓入缓出”等效果，使用requestAnimationFrame还是比较难的，需要辅助各种函数。下一节将介绍另一种动画API——LayoutAnimation。</p><p><a href="https://github.com/mronion0603/ReactNativeExercise/blob/master/src/13_animation/FrameAnimationDemo.js" target="_blank">GitHub地址</a></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

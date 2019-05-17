@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Unity] Unity中Avatar换装实现</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[Unity] Unity中Avatar换装实现</h1>
+        <div class="show-content">
+          <h1>
+<b>资源准备</b><br>
+</h1><p>1.每一套装备模型必须使用同一套骨骼，并单独将骨骼数据保存成一个Prefab。红色部分为武器挂节点（也可以把武器做成一个SkinnedMesh，不采用挂接点的形式），骨骼数据在Unity中的展示形式就是Transform。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-129c61772bf10714.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>2.将模型拆分成多个部分，将每一个部分单独保存成Prefab，武器也单独保存为一个Prefab。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-94f504546d1f5cab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-63ff518d5462cf39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>每一个Prefab都含有自身的SkinnedMeshRenderer。</p><p><b><br></b></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-504330a2a6642f0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><h1><b>实现过程</b></h1><p>1.创建骨骼GameObject，所有装备的蒙皮数据会最终合成到这个Prefab中。</p><p>2.创建装备GameObject，用于搜集其中蒙皮数据以生成新的SkinnedMeshRenderer到骨骼Prefab中。</p><p>3.public void CombineObject(GameObject skeleton, SkinnedMeshRenderer[] meshes, bool combine = false)传入骨骼的GameObject和蒙皮数据。</p><p>4.搜集装备蒙皮数据中的有效信息。</p><blockquote>
+<p>// Collect information from meshes</p>
+<p>        for (int i = 0; i &lt; meshes.Length; i ++)</p>
+<p>        {</p>
+<p>            SkinnedMeshRenderer smr = meshes[i];</p>
+<p>            materials.AddRange(smr.materials); // Collect materials</p>
+<p>            // Collect meshes</p>
+<p>            for (int sub = 0; sub &lt; smr.sharedMesh.subMeshCount; sub++)</p>
+<p>            {</p>
+<p>                CombineInstance ci = new CombineInstance();</p>
+<p>                ci.mesh = smr.sharedMesh;</p>
+<p>                ci.subMeshIndex = sub;</p>
+<p>                combineInstances.Add(ci);</p>
+<p>            }</p>
+<p>            // Collect bones</p>
+<p>            for (int j = 0 ; j &lt; smr.bones.Length; j ++)</p>
+<p>            {</p>
+<p>                int tBase = 0;</p>
+<p>                for (tBase = 0; tBase &lt; transforms.Count; tBase ++)</p>
+<p>                {</p>
+<p>                    if (smr.bones[j].name.Equals(transforms[tBase].name))</p>
+<p>                    {</p>
+<p>                        bones.Add(transforms[tBase]);</p>
+<p>                        break;</p>
+<p>                    }</p>
+<p>                }</p>
+<p>            }</p>
+<p>        }</p>
+</blockquote><p>5.为骨骼GameObject生成新的SkinnedMeshRenderer。</p><blockquote>
+<p>// Create a new SkinnedMeshRenderer</p>
+<p>SkinnedMeshRenderer oldSKinned = skeleton.GetComponent&lt;SkinnedMeshRenderer&gt; ();</p>
+<p>    if (oldSKinned != null) {</p>
+<p>    GameObject.DestroyImmediate (oldSKinned);</p>
+<p>    }</p>
+<p>SkinnedMeshRenderer r = skeleton.AddComponent&lt;SkinnedMeshRenderer&gt;();</p>
+<p>r.sharedMesh = new Mesh();</p>
+<p>r.sharedMesh.CombineMeshes(combineInstances.ToArray(), false, false);// Combine meshes</p>
+<p>r.bones = bones.ToArray();// Use new bones</p>
+</blockquote><p>6.挂接武器。</p><blockquote>
+<p>Transform[] transforms = Instance.GetComponentsInChildren&lt;Transform&gt;();</p>
+<p>foreach (Transform joint in transforms) {</p>
+<p>if (joint.name == "weapon_hand_r")</p>
+<p>{// find the joint (need the support of art designer)</p>
+<p>        WeaponInstance.transform.parent = joint.gameObject.transform;</p>
+<p>        break;</p>
+<p>    } </p>
+<p>    }</p>
+</blockquote><p>其中WeaponInstance为武器实例GameObject，Instance为骨骼实例GameObject。</p><p><b>合成后的效果</b></p><p><b><br></b></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-134a7438bc50b8cb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><h1><b>如何优化</b></h1><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-cd754741009b285c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>合成之后的模型拥有4个独立材质，加上独立的对象武器，也就是会产生5个Draw Call；如果将在骨骼中的这4个材质合并成一个，那么就能将Draw Call减少到2个。</p><p><b>其中实现过程如下：</b></p><p>优化CombineObject方法，其中Combine为bool类型，用于标识是否合并材质。</p><blockquote>
+<p>// merge materials</p>
+<p>if (combine)</p>
+<p>{</p>
+<p>    newMaterial = new Material (Shader.Find ("Mobile/Diffuse"));</p>
+<p>    oldUV = new List&lt;Vector2[]&gt;();</p>
+<p>    // merge the texture</p>
+<p>    List&lt;Texture2D&gt; Textures = new List&lt;Texture2D&gt;();</p>
+<p>    for (int i = 0; i &lt; materials.Count; i++)</p>
+<p>    {</p>
+<p>        Textures.Add(materials[i].GetTexture(COMBINE_DIFFUSE_TEXTURE) as Texture2D);</p>
+<p>    }</p>
+<p>    newDiffuseTex = new Texture2D(COMBINE_TEXTURE_MAX, COMBINE_TEXTURE_MAX, TextureFormat.RGBA32, true);</p>
+<p>    Rect[] uvs = newDiffuseTex.PackTextures(Textures.ToArray(), 0);</p>
+<p>    newMaterial.mainTexture = newDiffuseTex;</p>
+<p>// reset uv</p>
+<p>    Vector2[] uva, uvb;</p>
+<p>    for (int j = 0; j &lt; combineInstances.Count; j++)</p>
+<p>    {</p>
+<p>        uva = (Vector2[])(combineInstances[j].mesh.uv);</p>
+<p>        uvb = new Vector2[uva.Length];</p>
+<p>        for (int k = 0; k &lt; uva.Length; k++)</p>
+<p>        {</p>
+<p>            uvb[k] = new Vector2((uva[k].x * uvs[j].width) + uvs[j].x, (uva[k].y * uvs[j].height) + uvs[j].y);</p>
+<p>        }</p>
+<p>        oldUV.Add(combineInstances[j].mesh.uv);</p>
+<p>        combineInstances[j].mesh.uv = uvb;</p>
+<p>    }</p>
+<p>    }</p>
+</blockquote><p>生成新的SkinnedMeshRenderer时略有区别：</p><p><b><br></b></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-730fcfde74913194.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><b>最终效果如下：</b></p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-7849bf813428bb2a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>可以看出，新的SkinnedMeshRenderer只有一个材质，Draw Call自然也就降低了。</p><p><b>示例工程</b></p><p>GitHub：<a href="https://github.com/zouchunyi/UnityAvater" target="_blank">https://github.com/zouchunyi/UnityAvater</a></p><p>感兴趣的朋友可以下载。工程中代码大家可以直接使用，但是美术资源不得用于任何商业用途。</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-1a40c01330296f8a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

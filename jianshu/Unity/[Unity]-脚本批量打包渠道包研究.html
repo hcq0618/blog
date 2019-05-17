@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Unity] 脚本批量打包渠道包研究</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[Unity] 脚本批量打包渠道包研究</h1>
+        <div class="show-content">
+          <p> 最近在研究Unity3D脚本批量打包，比如在Android平台下各种不同分辨率和不同内存大小的机器，可能还有不同的渠道包，不同渠道可能用的SDK都不一样，这一切的一切都表明你的代码无法做到自适应的，除非批量打包提供各个平台的预定义标签#define 。</p><p>Unity默认提供了一些预定义标签如：</p><p>UNITY_EDITOR  : 编辑器模式下。</p><p>UNITY_STANDALONE：PC Mac Linux模型下。</p><p>UNITY_IPHONE：IOS模式下。</p><p>UNITY_ANDROID：ANDROID模式下。</p><p>还有很多预定义标签、大家可以在这里看到：http://docs.unity3d.com/Documentation/Manual/PlatformDependentCompilation.html          </p><p>官方提供的标签属于比较大的范围标签，比如我希望在UNITY_ANDROID下面在写一些自定义的标签、类似 QQ UC CMCC这样的渠道标签该如何呢？如下图所示，ProjectSetting打包界面每个平台都会有Scripting Define Symbols这个选项，可以在这里添加每个平台下对应的自定义标签（多个标签用“;”号隔开），这里我设置的是Android平台，如果IOS也需要打这样的渠道标签那么也要在IOS页面Scripting Define Symbols选项处添加对应的标签。
+</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-8cd2f4f20fecaf37.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>标签做出来了就好办了，然后在代码中我们可以这样来写。如果在Scripting Define Symbols中没有出现的标签默认是不启用的，就像 #define Test 一样，会自动被注释掉。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-bb2b668491c4ee83.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>然后我们看看如何实现脚本批量打包。</p><blockquote>
+<p>using UnityEngine;</p>
+<p>using UnityEditor;</p>
+<p>using System.Collections;</p>
+<p>using System.Collections.Generic;</p>
+<p>using System;</p>
+<p>using System.IO;</p>
+<p><br></p>
+<p>public class MyEditorScript  </p>
+<p>{</p>
+<p>	    //得到工程中所有场景名称</p>
+<p>        static string[] SCENES = FindEnabledEditorScenes();</p>
+<p>        //一系列批量build的操作</p>
+<p>        [MenuItem ("Custom/Build Android QQ")]</p>
+<p>        static void PerformAndroidQQBuild ()</p>
+<p>        {  </p>
+<p>		   	  BulidTarget("QQ","Android");</p>
+<p>        }</p>
+<p><br></p>
+<p>		[MenuItem ("Custom/Build Android UC")]</p>
+<p>        static void PerformAndroidUCBuild ()</p>
+<p>        {  </p>
+<p>		   	  BulidTarget("UC","Android");</p>
+<p>        }</p>
+<p><br></p>
+<p>		[MenuItem ("Custom/Build Android CMCC")]</p>
+<p>        static void PerformAndroidCMCCBuild ()</p>
+<p>        {  </p>
+<p>		   	  BulidTarget("CMCC","Android");</p>
+<p>        }</p>
+<p><br></p>
+<p>		[MenuItem ("Custom/Build Android ALL")]</p>
+<p>        static void PerformAndroidALLBuild ()</p>
+<p>        {  </p>
+<p>			  BulidTarget("QQ","Android");</p>
+<p>		   	  BulidTarget("UC","Android");</p>
+<p>			  BulidTarget("CMCC","Android");</p>
+<p>        }</p>
+<p>	    [MenuItem ("Custom/Build iPhone QQ")]</p>
+<p>	   static void PerformiPhoneQQBuild ()</p>
+<p>        {  </p>
+<p>			 	BulidTarget("QQ","IOS");</p>
+<p>        }</p>
+<p><br></p>
+<p>	    [MenuItem ("Custom/Build iPhone QQ")]</p>
+<p>	   static void PerformiPhoneUCBuild ()</p>
+<p>        {  </p>
+<p>			 	BulidTarget("UC","IOS");</p>
+<p>        }</p>
+<p><br></p>
+<p>	   [MenuItem ("Custom/Build iPhone CMCC")]</p>
+<p>	   static void PerformiPhoneCMCCBuild ()</p>
+<p>        {  </p>
+<p>			 	BulidTarget("CMCC","IOS");</p>
+<p>        }</p>
+<p><br></p>
+<p>		[MenuItem ("Custom/Build iPhone ALL")]</p>
+<p>        static void PerformiPhoneALLBuild ()</p>
+<p>        {  </p>
+<p>			  BulidTarget("QQ","IOS");</p>
+<p>		   	  BulidTarget("UC","IOS");</p>
+<p>			  BulidTarget("CMCC","IOS");</p>
+<p>        }</p>
+<p><br></p>
+<p>	    //这里封装了一个简单的通用方法。</p>
+<p>		static void BulidTarget(string name,string target)</p>
+<p>		{</p>
+<p>			   string app_name = name;</p>
+<p>		       string target_dir = Application.dataPath + "/TargetAndroid";</p>
+<p>			   string target_name = app_name + ".apk";</p>
+<p>		       BuildTargetGroup targetGroup = BuildTargetGroup.Android;</p>
+<p>			   BuildTarget buildTarget = BuildTarget.Android;</p>
+<p>			   string applicationPath = 	Application.dataPath.Replace("/Assets","");</p>
+<p><br></p>
+<p>				if(target == "Android")</p>
+<p>				{</p>
+<p>					 target_dir = applicationPath + "/TargetAndroid";</p>
+<p>					 target_name = app_name + ".apk";</p>
+<p>				     targetGroup = BuildTargetGroup.Android;</p>
+<p>				}</p>
+<p>				if(target == "IOS")</p>
+<p>				{</p>
+<p>					 target_dir = applicationPath + "/TargetIOS";</p>
+<p>					 target_name = app_name;</p>
+<p>					 targetGroup = BuildTargetGroup.iPhone;</p>
+<p>					 buildTarget = BuildTarget.iPhone;</p>
+<p>				}</p>
+<p><br></p>
+<p>		        //每次build删除之前的残留</p>
+<p>				if(Directory.Exists(target_dir))</p>
+<p>   		  		{</p>
+<p>						  if (File.Exists(target_name))</p>
+<p>               			  {</p>
+<p>                  			  File.Delete(target_name);</p>
+<p>                 		  }</p>
+<p>       		    }else</p>
+<p>				{</p>
+<p>					Directory.CreateDirectory(target_dir);</p>
+<p>				}</p>
+<p><br></p>
+<p>			    //==================这里是比较重要的东西=======================</p>
+<p>				switch(name)</p>
+<p>				{</p>
+<p>				case "QQ":</p>
+<p>					    PlayerSettings.bundleIdentifier = "com.game.qq";</p>
+<p>						PlayerSettings.bundleVersion = "v0.0.1";</p>
+<p>		        		PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup,"QQ");  </p>
+<p>					break;</p>
+<p>				case "UC":</p>
+<p>					    PlayerSettings.bundleIdentifier = "com.game.uc";</p>
+<p>						PlayerSettings.bundleVersion = "v0.0.1";</p>
+<p>		        		PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup,"UC");        </p>
+<p>					break;</p>
+<p>				case "CMCC":</p>
+<p>					    PlayerSettings.bundleIdentifier = "com.game.cmcc";</p>
+<p>						PlayerSettings.bundleVersion = "v0.0.1";</p>
+<p>		        		PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup,"CMCC");        </p>
+<p>					break;</p>
+<p>				}</p>
+<p><br></p>
+<p>				//==================这里是比较重要的东西=======================</p>
+<p><br></p>
+<p>				 //开始Build场景，等待吧～</p>
+<p>                 GenericBuild(SCENES, target_dir + "/" + target_name, buildTarget,BuildOptions.None);</p>
+<p><br></p>
+<p>		}</p>
+<p><br></p>
+<p>	private static string[] FindEnabledEditorScenes() {</p>
+<p>		List&lt;string&gt; EditorScenes = new List&lt;string&gt;();</p>
+<p>		foreach(EditorBuildSettingsScene scene in EditorBuildSettings.scenes) {</p>
+<p>			if (!scene.enabled) continue;</p>
+<p>			EditorScenes.Add(scene.path);</p>
+<p>		}</p>
+<p>		return EditorScenes.ToArray();</p>
+<p>	}</p>
+<p><br></p>
+<p>        static void GenericBuild(string[] scenes, string target_dir, BuildTarget build_target, BuildOptions build_options)</p>
+<p>        {  </p>
+<p>                EditorUserBuildSettings.SwitchActiveBuildTarget(build_target);</p>
+<p>                string res = BuildPipeline.BuildPlayer(scenes,target_dir,build_target,build_options);</p>
+<p><br></p>
+<p>                if (res.Length &gt; 0) {</p>
+<p>                        throw new Exception("BuildPlayer failure: " + res);</p>
+<p>                }</p>
+<p>        }</p>
+<p><br></p>
+<p>}</p>
+</blockquote><p>这里面忘说了一点，如果我们希望在性能高的手机上用一套好的资源，在性能低的手机上用一套差一点的资源该怎么办？那么首先我们先搞清楚Unity会把什么资源打包，什么资源不打包？</p><p>1.Resources文件夹 </p><p>Resources文件夹是一个只读的文件夹，通过Resources.Load()来读取对象。因为这个文件夹下的所有资源都可以运行时来加载，所以Resources文件夹下的所有东西都会被无条件的打到发布包中。建议这个文件夹下只放Prefab或者一些Object对象，因为Prefab会自动过滤掉对象上不需要的资源。举个例子我把模型文件还有贴图文件都放在了Resources文件夹下，但是我有两张贴图是没有在模型上用的，那么此时这两张没用的贴图也会被打包到发布包中。假如这里我用Prefab，那么Prefab会自动过滤到这两张不被用的贴图，这样发布包就会小一些了。 </p><p>2.StreamingAssets</p><p>StreamingAssets文件夹也是一个只读的文件夹，但是它和Resources有点区别，Resources文件夹下的资源会进行一次压缩，而且也会加密，不使用点特殊办法是拿不到原始资源的。但是StreamingAssets文件夹就不一样了，它下面的所有资源不会被加密，然后是原封不动的打包到发布包中，这样很容易就拿到里面的文件。所以StreamingAssets适合放一些二进制文件，而Resources更适合放一些GameObject和Object文件。StreamingAssets 只能用过www类来读取！！</p><p>3. 最后凡是在Hierarchy视图对象引用过的资源文件也会被无条件打包到发布包中。如果有一部分文件可能没有在Resources文件夹下也没有在StreamingAssets文件夹下，也没有被Hierarchy视图游戏对象引用，那么这类资源是不会被打包到发布包中的。</p><p>OK！搞清楚这一点就好办了！在处理不同包对应不同资源包的时候，尽量让可配置的资源放在Resources 或StreamingAssets文件夹下，运行的时候程序动态的来读取它们，最后显示在游戏中就可以了。在批量打包前，在Project视图下创建不同包的资源文件夹， 然后脚本 AssetDatabase 动态的将资源拷贝至Resources或StreamingAssets 文件夹中，</p><p><a href="http://docs.unity3d.com/Documentation/Manual/StreamingAssets.html" target="_blank">http://docs.unity3d.com/Documentation/Manual/StreamingAssets.html</a></p><blockquote>
+<p> [MenuItem ("Custom/Build Android QQ")]</p>
+<p>        static void PerformAndroidQQBuild ()</p>
+<p>        {  </p>
+<p>                         //先把资源拷贝到Resources或者StreamingAssets</p>
+<p>			AssetDatabase.CopyAsset("path","newPath");</p>
+<p>                         //然后开始编译版本</p>
+<p>		   	 BulidTarget("QQ","Android");</p>
+<p>        }</p>
+</blockquote><p>代码中说到还有一个重要的东西就是PlayerSettings类。因为在Build的时候不同平台下可能会有一些PlatformSettings是不一样的，所以需要在脚本里面动态的设置它，强大的参数列表在这里：<a href="http://docs.unity3d.com/Documentation/ScriptReference/PlayerSettings.html" target="_blank">http://docs.unity3d.com/Documentation/ScriptReference/PlayerSettings.html</a>。根据情况来批量构建自己的工程吧～</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-0acf00c4fa7faf49.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p></p><p>另外，由于IOS工程比较特殊，使用这样的方法我们只能生成出来多个IOS的工程文件，但是这并不是最终发布的版本。如果想一键生成.ipa文件的话。</p><p>1.通过命令行来Build IOS<a href="http://docs.unity3d.com/Documentation/Manual/CommandLineArguments.html" target="_blank">http://docs.unity3d.com/Documentation/Manual/CommandLineArguments.html</a></p><p>2.通过shell来自动打包 1生成的xcode工程，最终生成渠道包。</p><p>这两种方法我已经在网上找到了答案，今天太晚了就不在研究了，下一篇的时候我在补上。 祝大家学习愉快！！不早了，晚安！欢迎大家一起来讨论与学习，嘿嘿！！！</p><p>代码下载地址：<a href="http://vdisk.weibo.com/s/HUf2W" target="_blank">http://vdisk.weibo.com/s/HUf2W</a></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

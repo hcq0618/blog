@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Unity] 从Android读取Unity assets下的图片并保存为Bitmap格式</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[Unity] 从Android读取Unity assets下的图片并保存为Bitmap格式</h1>
+        <div class="show-content">
+          <p>在unity工程下，建立文件夹“Plugins/Android/assets”，然后把需要的图片放在这个文件夹下，并取一个好用的名字</p><p>（"Logo.png"），这个名字在Android这边是需要用到的，unity的工作做完之后，在Android这边写代码：</p><blockquote>
+<p> AssetManager asm = getAssets();  </p>
+<p>InputStream inputStream =null;  </p>
+<p>try {  </p>
+<p>    inputStream = asm.open("Logo.png");  </p>
+<p>}catch (IOException e) {  </p>
+<p>    // TODO Auto-generated catch block  </p>
+<p>    e.printStackTrace();  </p>
+<p>}  </p>
+<p>Drawable d =Drawable.createFromStream(inputStream,null);  </p>
+<p>Bitmap B = ((BitmapDrawable) d).getBitmap();  </p>
+</blockquote><p>这样就完成了unity图片的读取与转化Bitmap。</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

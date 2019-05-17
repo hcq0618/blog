@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Unity插件] 2D Toolkit</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[Unity插件] 2D Toolkit</h1>
+        <div class="show-content">
+          <p>2D Toolkit插件在2D中的地位，犹如UI中NGUI对Unity GUI一样：虽然官方原生的2D还不错，但这是最近1年新版本才有的功能，2年前Unity 2D的王道还是得用插件的，故《2D Toolkit》就成了目前商业不错的选择。</p><p>在上周刚开始看的时候，就给自己提了3个问题 (1周后，自己给自己尝试做了回答)：</p><p><b>2D Toolkit是类似NGUI的东西吗？</b></p><p>答：是的，类似NGUI；2D toolkit是第三方插件，广泛用于2D的游戏开发；其还包括了UI，可不用NGUI就能进行不错的UI开发。</p><p><b>对比Unity Native 2D，2D Toolkit是否优势已经丧失；或者是类似UGUI和NGUI关系？</b></p><p>答：这个目前不得知。 粗浅的看，Unity Native 2D比较简单，开发起来便捷，毕竟和Unity无缝集成的，且原生，另外还省钱；但是2D Toolkit都演变到2.5.2版本了，商用应该比较成熟，如其tk2dCamera简直无敌了–能自适应各种屏幕、大大节约了编码。</p><p><b>2D Toolkit能够和Unity Native 2D同存否？</b></p><p>答：目前不知道。应该可以吧，2D toolkit已经于2015.5.24 发布2.5.2版本，声明支持Unity 5了。</p><p>2D ToolKit简历</p><p>2D ToolKit是第三方2D插件，能处理图集打包(Atlas Package)、精灵渲染(Sprite)、2D动画(Sprite Animator)、2D UI，目前中文资料少得可怜。</p><p>2D Toolkit简称为TK2D，其功能据说是2D下最强大的，assetstore的下载点评竟然超过1200个，这个数据非常惊人，要知道售价价格要75美金呢。其插件提供了C#代码，源码之内，了无秘密。</p><p>TK2D的厂家是Unikron Software Ltd，官方网站为<a href="http://unikronsoftware.com/" target="_blank">http://unikronsoftware.com</a></p><p>TK2D在assetstore的”编辑器扩充/2D与图片管理”分类下，<a href="https://www.assetstore.unity3d.com/cn/#!/category/142/sortby/popularity" target="_blank">排名第一</a>。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-9f774a895d945669.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>我摘录了部分官方官网assetStore点评：</p><p>low draw calls</p><p>pixel perfect camera：Unity 4.6 pro sprite package</p><p>get a response with 24 hours</p><p>manages multiple resolutions of sprite images (1x, 2x, 4x)</p><p>Very nice package</p><p>greatly sped up my animating process.</p><p>really streamlined my workflow.</p><p>organise all your sprites how you like in collections.</p><p>It’s fast at updating and rendering too.– opitimization</p><p>The best support、comunity</p><p>other：spline、NGUI</p><p>其点评大多集中在以下几个方便</p><p>降低了DC</p><p>正版的售后服务好</p><p>图集打包很爽</p><p>2D下效率高</p><p>正文开始–本文就官方教程《<a href="http://unikronsoftware.com/2dtoolkit/docs/2.4/tutorial/whack_a_mole/index.html" target="_blank">Whack a Mole</a>》进行小结：</p><p>注：因为官方问答截图、文字描写清楚，我这里为节约大家时间，不会写的很细，请先预览一下官方教程。</p><p>官方提供的Whack a Mole 材质<a href="http://www.2dtoolkit.com/docs_extras/wam_tutorial21/whackamole_assets_part1.zip" target="_blank">下载地址</a></p><p>步骤1：了解官方文档对TK2D做的系统概括：</p><p>Tk2D在编辑期间生成脚本–Assets目录</p><p>Tk2D运行脚本生成对象–场景</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-fcca5d8d2408a45d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>上面这张图包含了TK2D的7个知识点 (术语) 的6个（除了Tilemaps外）</p><p>Sprite Collections: 精灵(2D下的图片)集合，用于组织图片，一般同z轴值的放在一起，效率高。</p><p>Sprites：精灵，任何需要在Scene显示的均需要精灵组件，目前包含4种Sprite</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-706cb971c52e1521.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>Static Sprite Batcher：静态化精灵–不参与碰撞的，可明显减少DC</p><p>Sprite Animations：动画精灵</p><p>Fonts：字体</p><p>Text Meshes:显示文本</p><p>Tilemaps</p><p>步骤2：tk2d camera 自动布局的摄像机 删除新建Unity 2D工程的Main Camera，添加tk2dCamera，并设置tag为“Main Camera”。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-ddfddc16cc2465f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>修改tk2dCamera参数如下：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-bdf2aeba64cb93aa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>Native Resolution ：1024*768</p><p>Projection：Orthographic</p><p>Type：Pixels Per Meter</p><p>Pixels Per Meter：1</p><p>Origin：Bottom Left</p><p>pixel per meter – so 100×100 world units = 100×100 pixels from the bottom left</p><p>tk2dCamera实际上是对Unity的Camera进行了扩展， <a href="http://unikronsoftware.com/2dtoolkit/docs/2.4/tutorial/choosing_camera.html" target="_blank">这里</a>有详细的对比说明和tip技巧。</p><p>步骤3：精灵集合(Sprite Collections)、精灵(Sprite )、静态精灵批处理(Static Sprite Batcher) 要使用图片，则需要首先添加Sprite Collections，它有3个作用：</p><p>1 把图片组织管理起来–如果你有上百个图片就会发现它的价值。</p><p>2 同z轴的组织起来，方便Unity引擎优化降低DC</p><p>3 自动进行图集打包–减少图片占用空间 为什么要用Sprite Collection？ 我认为比Unity Native 2D的默认能生成精灵而言，多了2个步骤。</p><p>要添加精灵，需要先Check out–如我这里使用Perforce源码管理。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-56daa4592ecdef1f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>添加精灵很简单，选择、拖放即可：</p><p>针对当前Sprite Collection，进行Settings，然后一定要记得Commit：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-93cf6f7faf434675.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>注意：这里的Size和Pixels Per Meter，需要和上面的tk2DCamera保障一致。 Settings最下面有Platforms的设置，这个我没有看明白：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-71d5d557a25f7d51.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>网上搜了一段代码，好像是为了适应不同屏幕的全局设置：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-49accf5156fe0705.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>点击Commit后，就生成1了文件夹，包含3个文件：*.prefab 、*.png、*.mat。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-959ab98c668701f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>使用Sprite就简单多了，添加Tk2D Sprite对象或者添加TK2D Sprite组件，选择Collection和Sprite即可： 如果有n个Sprite，需要组织管理起来，默认会想到空的对象(EGO), 如果不参与碰撞等动态监测，可使用Static Sprite Batcher。 选择需要静态化的Sprite，拖放为Batcher的子物体，在Inspator视图点击Commit，即可完成处理。 有2点 <b>神奇</b>之处：</p><p>1 原来n个Sprite变为1个了，即仅仅是Static Sprite Batcher可见，其子物体消失了(点击Edit即可编辑)</p><p>2 明显的减少了DC。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-2abc8a1e42aa4268.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-126d0f1fa320777f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>步骤4： 代码实现 Clipped Sprite</p><p>Clipped Sprite是Sprite的一种，可动态实现隐藏、可见。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-fef5e35d3d4037a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>通过动态设置Clipped Sprite的ClipRect的y值（y值范围0.0~1.0f之间） 同时调整其localPostion的y轴，可模拟图片的隐藏、显示效果。 另外，这个思想也挺有趣的，使用n个return null代替waitforSecond.</p><blockquote>
+<p>private IEnumerator WaitForHit()</p>
+<p>{</p>
+<p>float time = 0.0f;</p>
+<p>while (!whacked &amp;&amp; time &lt; timeLimit)</p>
+<p>{</p>
+<p>time += Time.deltaTime;</p>
+<p>yield return null;</p>
+<p>}</p>
+<p>}</p>
+</blockquote><p>步骤5：精灵动画（Sprite Animation）</p><p>Sprite Animation也是基于Sprite Collection的。</p><p>显示动画，需要用Sprite With Animator组件，下面这张图一览无余：</p><p><a href="http://www.xifarm.com/wp-content/uploads/2015/05/image52.png" target="_blank">本文的整理到这里就结束了，完整的请参阅官方教程–《</a><a href="http://unikronsoftware.com/2dtoolkit/docs/2.4/tutorial/whack_a_mole/index.html" target="_blank">Whack a Mole</a>》</p><p>注，本文使用的开发环境：</p><p>Unity 4.6.3</p><p>2D toolkit 2.4.0</p><p>转载请注明转自《 <a href="http://www.xifarm.com/tk2d_whackamole/" target="_blank">C#程序员整理的Unity 3D笔记（二十）：2D Toolkit之官方教程《Whack a Mole》</a>》</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

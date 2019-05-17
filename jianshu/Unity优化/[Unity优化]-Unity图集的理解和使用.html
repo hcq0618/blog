@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Unity优化] Unity图集的理解和使用</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[Unity优化] Unity图集的理解和使用</h1>
+        <div class="show-content">
+          <p>图集的好处：</p><p>1.减少draw call: 多张图片需要多次draw call，合成了一张大图则只需要一次draw call。</p><p>2.减少内存占用：OpenGL ES中每张贴图都需要设置成2的n次方才能使用。比如你有一张宽高为100x100和一张宽高为10x10的图片,如果不合成大贴图,那么需要使用128x128和16x16的两张图片(分别是2的7次方和2的4次方),但如果使用一张大图的话，可以把100x100和10x10的图片放到128x128的大图中,这样就用一张图片。</p><p>UGUI的图集打包与工作原理，整整看了一天多，终于看明白了～晕～还是记录一下我研究的成果，也希望大家在下面给我留言我们一起讨论一下。</p><p>先说说UGUI的Atlas和NGUI的Atlas的区别，NGUI是必须先打出图集然后才能开始做界面。这一点很烦，因为始终都要去考虑你的UI图集。比如图集会不会超1024 ，图集该如何来规划等等。而UGUI的原理则是，让开发者彻底模糊图集的概念，让开发者不要去关心自己的图集。做界面的时候只用小图，而在最终打包的时候unity才会把你的小图和并在一张大的图集里面。然而这一切一切都是自动完成的，开发者不需要去care它。</p><p>如下图所示，Editor-&gt;Project Settings 下面有sprite packer的模式。Disabled表示不启用它，Enabled For Builds 表示只有打包的时候才会启用它，Always Enabled 表示永远启用它。 这里的启用它就表示是否将小图自动打成图集。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-ce5db986bb1a13ad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>我的选项是Always Enabled 。因为开发的时候我们需要清楚的看到现在是几个Draw Call，从而才能优化小图。在最终打包的时候unity会自动构建大的图集，可是我开发的时候就想看图集会占几个Draw Call，这怎么办呢？如下图所示，首先将你的图片拖入unity中，将同一图集的所有图片的packing tag设置成一个名子即可。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-dc922416b373d48a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p></p><p>注意你的图片不能放在Resources文件夹下面，Resources文件夹下的资源将不会被打入图集，切记（也就是在这里混淆了我很久）。然后在Windows-&gt;Sprite Packer 里，点击packer 在这里你就可以预览到你的图集信息。图集的大小还有图集的格式等等很多参数我们都是可以控制的，也可以通过脚本来设置。我在下一篇文章里详细说这个（请期待嘿嘿）。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-1a44840b1d9ef060.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p></p><p>图集的预览紧紧是让你看看你的图集大概张什么样子。那么我们的图集的这张图片保存在了哪里呢？它保存在和Assets文件夹同级的目录，Libary/AtlasCache里面。你不用管它，也不要删除它，就算你删除了也没用因为只要你打包，它就会生成并且会打到包中。</p><p>此时在Hierarchy视图中创建两个Image对象。如下图所示，我们可以清楚的看到此时我的draw call已经被合并成了1 。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-0ffe79cd589f1ada.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p></p><p>这两个图片是我是在Editor模式下预先拖入Hierarchy视图中的，可是如果我想运行时根据图片的名子来动态创建精灵该如何？可是unity根本没有提供加载图集的方法，也没有提供加载图集上某个图片的方法。 因为UGUI就不像让开发者有图集的这个概念，可是我们肯定是要实现这个需求的。。怎么办呢？</p><p>第一个设想，先把散＝小图打包成图集，然后再把所有散图拷贝在Resources文件夹下，这样运行时就能用Resources.load了。</p><p>第二个设想，还是先把小图打成图集，然后把所有小图关联在prefab上，拷贝在Resources文件夹下，这样运行时也能用Resources.load了。到底那个靠谱呢？ 给大家看一个图大家就知道答案了。</p><p>如下图所示，打成图集的图片如果在放在Resources那么资源就变成双份了。。 所以我们只能把小图关联在Prefab上，把所有的Prefab放在Resources下面，这样就不占用多余的空间了。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-192071356a4488e1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p></p><p>好了，现在方法我们已经掌握，那么就开始写工具吧。如下图所示可以按文件夹分，每一个文件夹就是一个图集。然后每一张小图创建一个Prefab，Prefab的名子就起小图的名子，文件关联在Resources下面。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-29752791f390e6ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption">、</div>
+</div><p>代码比较简单，我就不注释了。</p><blockquote>
+<p>[MenuItem ("MyMenu/AtlasMaker")]</p>
+<p>	static private void MakeAtlas()</p>
+<p>	{</p>
+<p>		string spriteDir = Application.dataPath +"/Resources/Sprite";</p>
+<p>		if(!Directory.Exists(spriteDir)){</p>
+<p>			Directory.CreateDirectory(spriteDir);</p>
+<p>		}</p>
+<p><br></p>
+<p>		DirectoryInfo rootDirInfo = new DirectoryInfo (Application.dataPath +"/Atlas");</p>
+<p>		foreach (DirectoryInfo dirInfo in rootDirInfo.GetDirectories()) {</p>
+<p>			foreach (FileInfo pngFile in dirInfo.GetFiles("*.png",SearchOption.AllDirectories)) {</p>
+<p>				string allPath = pngFile.FullName;</p>
+<p>				string assetPath = allPath.Substring(allPath.IndexOf("Assets"));</p>
+<p>				Sprite sprite = Resources.LoadAssetAtPath&lt;Sprite&gt;(assetPath);</p>
+<p>				GameObject go = new GameObject(sprite.name);</p>
+<p>				go.AddComponent&lt;SpriteRenderer&gt;().sprite = sprite;</p>
+<p>				 allPath = spriteDir+"/"+sprite.name+".prefab";</p>
+<p>				string prefabPath = allPath.Substring(allPath.IndexOf("Assets"));</p>
+<p>				PrefabUtility.CreatePrefab(prefabPath,go);</p>
+<p>				GameObject.DestroyImmediate(go);</p>
+<p>			}</p>
+<p>		}</p>
+<p>	}</p>
+</blockquote><p>然后是运行时的代码。</p><blockquote>
+<p>using UnityEngine;</p>
+<p>using System.Collections;</p>
+<p>using UnityEngine.UI;</p>
+<p><br></p>
+<p>public class UIMain : MonoBehaviour {</p>
+<p><br></p>
+<p>	void Start ()</p>
+<p>	{</p>
+<p>		CreatImage(loadSprite("image0"));</p>
+<p>		CreatImage(loadSprite("image1"));</p>
+<p>	}</p>
+<p><br></p>
+<p>	private void CreatImage(Sprite sprite ){</p>
+<p>		GameObject go = new GameObject(sprite.name);</p>
+<p>		go.layer = LayerMask.NameToLayer("UI");</p>
+<p>		go.transform.parent = transform;</p>
+<p>		go.transform.localScale= Vector3.one;</p>
+<p>		Image image = go.AddComponent&lt;Image&gt;();</p>
+<p>		image.sprite = sprite;</p>
+<p>		image.SetNativeSize();</p>
+<p>	}</p>
+<p><br></p>
+<p>	private Sprite loadSprite(string spriteName){</p>
+<p>		return Resources.Load&lt;GameObject&gt;("Sprite/" + spriteName).GetComponent&lt;SpriteRenderer&gt;().sprite;</p>
+<p>	}</p>
+<p>}</p>
+</blockquote><p>因为这两个图是在同一个图集上，所以drawcall就是1了。这样我们就可以根据图片的名子来运行时加载图片了。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-352f1ddadc200796.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>接下来就是Assetbundle了，如果我们的图集需要在线更新那该怎么办呢？ 其实Assetbundle比Resources要更简单一些，无论如何我们要先开始打图集。</p><blockquote>
+<p>[MenuItem ("MyMenu/Build Assetbundle")]</p>
+<p>	static private void BuildAssetBundle()</p>
+<p>	{</p>
+<p>		string dir = Application.dataPath +"/StreamingAssets";</p>
+<p><br></p>
+<p>		if(!Directory.Exists(dir)){</p>
+<p>			Directory.CreateDirectory(dir);</p>
+<p>		}</p>
+<p>		DirectoryInfo rootDirInfo = new DirectoryInfo (Application.dataPath +"/Atlas");</p>
+<p>		foreach (DirectoryInfo dirInfo in rootDirInfo.GetDirectories()) {</p>
+<p>			List&lt;Sprite&gt; assets = new List&lt;Sprite&gt;();</p>
+<p>			string path = dir +"/"+dirInfo.Name+".assetbundle";</p>
+<p>			foreach (FileInfo pngFile in dirInfo.GetFiles("*.png",SearchOption.AllDirectories))</p>
+<p>			{</p>
+<p>				string allPath = pngFile.FullName;</p>
+<p>				string assetPath = allPath.Substring(allPath.IndexOf("Assets"));</p>
+<p>				assets.Add(Resources.LoadAssetAtPath&lt;Sprite&gt;(assetPath));</p>
+<p>			}</p>
+<p>			if(BuildPipeline.BuildAssetBundle(null, assets.ToArray(), path,BuildAssetBundleOptions.UncompressedAssetBundle| BuildAssetBundleOptions.CollectDependencies, GetBuildTarget())){</p>
+<p>			}</p>
+<p>		}</p>
+<p>	}</p>
+<p>		static private BuildTarget GetBuildTarget()</p>
+<p>		{</p>
+<p>			BuildTarget target = BuildTarget.WebPlayer;</p>
+<p>#if UNITY_STANDALONE</p>
+<p>			target = BuildTarget.StandaloneWindows;</p>
+<p>#elif UNITY_IPHONE</p>
+<p>			target = BuildTarget.iPhone;</p>
+<p>#elif UNITY_ANDROID</p>
+<p>			target = BuildTarget.Android;</p>
+<p>#endif</p>
+<p>			return target;</p>
+<p>		}</p>
+</blockquote><p>如下图所示，我的assetbundle已经打出来了。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-a157c0bfa10e43ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>然后把UIMain.cs在改一改。</p><blockquote>
+<p>using UnityEngine;</p>
+<p>using System.Collections;</p>
+<p>using UnityEngine.UI;</p>
+<p><br></p>
+<p>public class UIMain : MonoBehaviour {</p>
+<p><br></p>
+<p>	AssetBundle assetbundle = null;</p>
+<p>	void Start ()</p>
+<p>	{</p>
+<p>		CreatImage(loadSprite("image0"));</p>
+<p>		CreatImage(loadSprite("image1"));</p>
+<p>	}</p>
+<p><br></p>
+<p>	private void CreatImage(Sprite sprite ){</p>
+<p>		GameObject go = new GameObject(sprite.name);</p>
+<p>		go.layer = LayerMask.NameToLayer("UI");</p>
+<p>		go.transform.parent = transform;</p>
+<p>		go.transform.localScale= Vector3.one;</p>
+<p>		Image image = go.AddComponent&lt;Image&gt;();</p>
+<p>		image.sprite = sprite;</p>
+<p>		image.SetNativeSize();</p>
+<p>	}</p>
+<p><br></p>
+<p>	private Sprite loadSprite(string spriteName){</p>
+<p>#if USE_ASSETBUNDLE</p>
+<p>		if(assetbundle == null)</p>
+<p>			assetbundle = AssetBundle.CreateFromFile(Application.streamingAssetsPath +"/Main.assetbundle");</p>
+<p>				return assetbundle.Load(spriteName) as Sprite;</p>
+<p>#else</p>
+<p>		return Resources.Load&lt;GameObject&gt;("Sprite/" + spriteName).GetComponent&lt;SpriteRenderer&gt;().sprite;</p>
+<p>#endif</p>
+<p>	}</p>
+<p>}</p>
+</blockquote><p>如下图所示，依然还是一个drawcall。</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-6b3672bdc9a57aa0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>衷心希望有经验的朋友在留言处给我提提意见， 或者大家一起讨论讨论。。 我们共同为把NGUI干掉的目标而奋斗，嘻嘻。</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

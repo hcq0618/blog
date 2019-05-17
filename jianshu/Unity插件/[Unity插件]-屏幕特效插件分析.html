@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Unity插件] 屏幕特效插件分析</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[Unity插件] 屏幕特效插件分析</h1>
+        <div class="show-content">
+          <h1>FxPro: Bloom&amp;DOF, Mobile-Ready<br>
+</h1><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-d65d79038d4e074b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>FxPro是一款历史比较悠久的特效插件，从大部分开发者的反馈来看为当前功能较全、性能较好Unity屏幕特效插件之一。FxPro支持多种常见的屏幕特效，例如Bloom、景深（Depth-of-Field）、色差效果（Chromatic Aberration）、镜头形变等。</p><p>FxPro的使用是通过Component-&gt;Image Effects-&gt;FxPro为需要的摄像机添加FxPro组件。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-a63b5ea100df93fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>FxPro集众多特效于一身，具有非常多的可调参数。我们这里选取一些重要的设置选项和某些特效的参数进行简单说明：</p><p><b>1. Quality</b></p><p>FxPro允许我们为不同的目标平台设置不同等级的画面质量，支持High、Normal、Fast、Fastest四种等级。</p><p><b>2. Half Resolution</b></p><p>当我们选择了Fast或Fastest等级时，就会出现该选项。如果在移动设备上仍然有性能问题，可以选择开启该选项来降低计算特效使用的分辨率，进一步提高效率。</p><p><b>3. Bloom</b></p><p>Visualize：调试模式，勾选该选项可以让我们看到场景中的哪些部分会被Bloom。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-93a47be19c6e7a33.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>Bloom Tint：Bloom时使用的颜色。</p><p>Bloom Threshold：设置计算Bloom时的阈值，当屏幕像素的亮度超过该值时就会把该像素加入到Bloom的计算中。因此该值越小，屏幕看起来就越“梦幻”。</p><p>Bloom Intensity：Bloom的强度。注意，不同设备上的真实强度会有所不同，我们可能需要根据当前设备在脚本里手动设置该值的大小。</p><p>Bloom Softness：调整Bloom效果的渐变程度。该值越高，模糊程度越大。</p><p><b>4. Depth-of-Field</b></p><p>Visualize：调试模式，勾选该选项可以让我们看到会聚焦到场景的有哪些部分。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-552e4accd680a546.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>Blur COC：在物体的边界处增强效果。</p><p>Auto-Focus：让摄像机自动对焦到屏幕中央的物体。需要注意的是，我们需要为可以对焦的物体添加碰撞体（Collider），否则自动对焦功能无法实现。当勾选了自动对焦后，还可以设置对焦时的Layer和对焦速度。</p><p>Target：当没有开启自动对焦时，可以把需要对焦的物体拖拽到该选项上。</p><p>Focal Length Multiplier：设置焦距长度的系数。</p><p>Depth Compression：压缩深度缓冲。</p><p>DOF Strength：调整景深模糊的半径大小。该值越高，非对焦区域的模糊程度越大。</p><p>Double Intensity：让景深效果更加明显。该选项在开启时对性能会有影响。</p><h1><b>真机测试</b></h1><p>手机：三星 Galaxy S4, iPhone 6</p><p>测试场景：如下图，Quality选择最低等级Fastest，并勾选Half Resolution降低分辨率。我们测试了单独开启Bloom和景深效果时的真机性能。</p><p><b><br></b></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-de03f0e0bd6d92bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><b>下图是三星 Galaxy S4上只开启Bloom特效时的Profiler截图：</b></p><p><b><br></b></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-af7378d9ee7cbd6a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><b><br></b></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-f335468ee332aa98.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><b>下图是iPhone 6上只开启Bloom特效前后的GPU Report：</b></p><p><b>使用前</b></p><p><b><br></b></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-85071efcc46eb970.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><b>使用后</b></p><p><b><br></b></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-0181cb731c6cadd4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><b>下图是三星 Galaxy S4上只开启景深效果时的Profiler截图：</b></p><p><b><br></b></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-be15a195c49bebcf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><b><br></b></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-57fbe5d6aa90574a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><b>下图是iPhone 6上只开启景深效果前后的GPU Report：</b></p><p><b>使用前</b></p><p><b><br></b></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-fc17ad8ea3203060.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><b>使用后</b></p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-4587f0e5f39979ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>可以看出，分辨率对性能的影响非常重要。开启了Half Resolution的两种特效在真机上表现都还不错，可以考虑在中高端设备上选择开启部分特效。</p><h1><b>Beautify</b></h1><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-85b31bb16de27a44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>Beautify是一个轻量级的屏幕特效插件，它的主要功能是加强细节表现（原理是在深度纹理上进行边缘检测后进行锐化操作），此外还提供了对饱和度、对比度和亮度的调节功能。</p><p>该插件的使用方法非常简单，直接在Camera上添加Beautify组件即可：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-dedc8a70767af7b6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>Beautify提供的参数有：</p><p><b>1. Quality</b></p><p>共两种选项，Mobile和Desktop，区别是Desktop会采样每个像素周围4个额外的像素点（上下左右），而Mobile只会采样额外两个（上下）。因此Mobile在性能上要比Desktop更高。</p><p><b>2. Preset</b></p><p>Preset中提供了4个提前调好效果的参数设置集合：Soft、Medium、Strong和Exaggerated。我们可以在此基础上自定义（Custom）参数或关闭效果（Disable）。</p><p><b>3. Sharpen</b></p><p>画面细节的锐化程度。Beautify提供了4个参数来进一步调整锐化效果：</p><p>Min/Max Depth：定义了效果作用的深度范围，任何不在该深度范围内的像素都不会受到锐化效果的影响。这个范围允许我们实现一些类似于景深的效果，即只在特定物体周围加强细节。</p><p>Depth Threshold：当某个像素周围的深度差超过这个值时，锐化效果会减弱。</p><p>Luminance Relax：类似上面的Depth Threshold，当某个像素周围的保护度差超过这个值时，锐化效果会减弱，从而保护那些具有较高饱和度的像素不会被过分锐化。</p><p>Clamp：定义像素颜色的调整范围。</p><p><b>4. Dither</b></p><p>控制Dither程度，Dither可以用于移除由于渐变产生的一些明显的渐变带问题。</p><p>Min Depth：只会移除深度值超过该值的像素产生的渐变带。比如当我们只想移除天空盒子上的渐变带问题时，可以把该值设置0.99。</p><p><b>5. Saturate</b> 调整画面饱和度。</p><p><b>6. Contrast</b> 调整画面对比度。</p><p><b>7. Brightness</b> 调整画面亮度。</p><h1><b>真机测试</b></h1><p>手机：三星 Galaxy S4，iPhone 6</p><p>测试场景：和之前相同的测试场景，Quality选择最低等级Mobile。</p><p>三星 Galaxy S4使用插件后的Profiler截图：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-bda8b6347fa42094.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-5898b599847820ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>iPhone 6使用插件前后的GPU Report（Xcode） </p><p><b>使用前</b></p><p><b><br></b></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-b7fc534b799a3cc3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><b>使用后</b></p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-dad76df9304a794e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>根据如上真机测试，目前我们建议只考虑在高端iOS机上选择使用该插件，而不在Android机上使用。</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

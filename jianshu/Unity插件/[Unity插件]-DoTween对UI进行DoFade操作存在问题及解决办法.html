@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Unity插件] DoTween对UI进行DoFade操作存在问题及解决办法</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[Unity插件] DoTween对UI进行DoFade操作存在问题及解决办法</h1>
+        <div class="show-content">
+          <p>Unity版本：5.2, 5.4</p><p>当使用this.GetComponent&lt;Image&gt;().material.DOFade(0, 2).SetEase(Ease.InBounce);来对UGUI的Image进行褪色操作的时候本质是对UI的Graphic对象（Text，Image等都为Graphic的子类）的material进行操作,下例是对Text组件进行褪色操作：Transform.GetComponent().material.DoFade(0,1)。虽然脚本只挂在一个Text组件的物体上，但1秒之后发现，整个UI界面全部变为透明。 </p><p>（我也很纳闷，cube01.GetComponent&lt;Renderer&gt; ().material.color = Color.black;这样的代码照理说是这样执行的（<a href="http://www.jianshu.com/p/ababf547d992" target="_blank">http://www.jianshu.com/p/ababf547d992</a>）：</p><blockquote>
+<p>Material lastMat = cube01.GetComponent&lt;Renderer&gt; ().material</p>
+<p>Material m = Instantiate(lastMat) as Material</p>
+<p>cube01.GetComponent&lt;Renderer&gt; ().material = m</p>
+<p>m.color = Color.black</p>
+</blockquote><p>应该是最自己持有的material进行操做。。。 </p><p>）</p><p>经测试发现，所有使用缺省material的组件都是使用的默认的material，而这个material只存在一份，所有UI组件使用的默认material都只是该material的引用，在DoTween对其进行褪色操作之后，该material的alpha值保持为0不变，且游戏重新开始也不会将其alpha值重置为1。</p><p>解决办法:</p><p>导入DoTween后请确保Setup DoTween， Tools/DoTween Utility Panel/Setup DoTween…。导入后就可以使用Image.DoFade了。</p><p>使用Unity自带的Graphic.CrossFadeAlpha(float alpha, float duration, bool ignoreTimeScale)函数来操作</p><p>自己扩展DoTween的方法，下面是我扩展的一个例子,可以参考DoTwen官网的<a href="http://dotween.demigiant.com/examples.php" target="_blank">Creating custom plugins example</a></p><blockquote>
+<p>/  DoFadeTest.cs</p>
+<p>/  Project: GUITest</p>
+<p>/  Created by zhiheng.shao</p>
+<p>/  Copyright  2016年 zhiheng.shao. All rights reserved.</p>
+<p>/  Description</p>
+<p>using UnityEngine;</p>
+<p>using System.Collections;</p>
+<p>using DG.Tweening;</p>
+<p>using UnityEngine.UI;</p>
+<p>using DG.Tweening.RickExtension;</p>
+<p>public class DoFadeTest : MonoBehaviour</p>
+<p>{</p>
+<p>    // Use this for initialization</p>
+<p>     Start()</p>
+<p>    {</p>
+<p>        .GetComponent&lt;Image&gt;().DOFade(, ).SetEase(Ease.InBounce);</p>
+<p>    }</p>
+<p>}</p>
+<p>namespace DG.Tweening.RickExtension</p>
+<p>{</p>
+<p>    public static class DOTweenExteion</p>
+<p>    {</p>
+<p>        public static Tweener DOFade( Image image, float endValue, float duration)</p>
+<p>        {</p>
+<p>            Debug.Log("CustomDoFade");</p>
+<p>            return DOTween.To(image.AlphaGetter, image.AlphaSetter, endValue, duration);</p>
+<p>        }</p>
+<p>        private static float AlphaGetter( Image image)</p>
+<p>        {</p>
+<p>            return image.color.a;</p>
+<p>        }</p>
+<p>        private static  AlphaSetter( Image image, float alpha)</p>
+<p>        {</p>
+<p>            Color oldColor = image.color;</p>
+<p>            oldColor.a = alpha;</p>
+<p>            image.color = oldColor;</p>
+<p>        }</p>
+<p>    }</p>
+<p>}</p>
+</blockquote><p>附：<a href="http://dotween.demigiant.com/index.php" target="_blank">DoTween官网</a></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Unity优化] 详解Unity Profiler内存分析问题</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[Unity优化] 详解Unity Profiler内存分析问题</h1>
+        <div class="show-content">
+          <blockquote><p>在使用Unity开发游戏的过程中，借助Profiler来分析内存使用状况是至关重要的。但许多开发者可能还对Profiler中各项数据表示的含义不甚明确，今天我们Unity官方的技术工程师柳振东，将针对Profiler内存分析相关的问题及解答，与大家进行分享。</p></blockquote><p>要想完全发挥Profiler内存分析的威力，首先要做的就是了解Profiler展示的数据所表达的含义，以及到底哪些模块所使用的内存才会被统计到Unity的Profiler中。Profiler涉及到的知识点还有很多，今天先从中挑选一些大家常有的疑问来作解答。</p><blockquote><p>在Unity的Profiler中看到的总内存使用和我使用其它工具看到的系统内存占用不太一样，这是为什么呢？</p></blockquote><p>Profiler中看到的内存是通过Unity自身引擎的内存分配，凡是引擎分配和释放的内存，引擎均有记录，所以我们可以给出确切的引擎内存占用信息。但是，仍有其他内存我们是无法获知的。</p><p>比如，如果引擎使用了第三方库，那么库分配的内存我们是无法进行统计的。另外，在移动设备上大家看到的内存，其实都要比Profiler大很多，这是因为不管是通过Xcode的Instrument还是通过Android的USS，其记录的真实物理内存都包括两部分，一个是真实使用（Used）的物理内存，另一个则是缓存的（Cached）的物理内存。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-585afccfa8441599.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>这是由系统所决定的，Android和iOS系统在资源不使用时均不会立即将其进行回收，而是将其放在缓存的物理内存中，以便下次再用时，可以快速地加载。当系统发现App的内存不够用时，才会在底层调用一个Memory Killer线程来轮询缓存物理内存，进而为App清理内存。</p><p>而Unity Profiler记录的则是目前真实使用的物理内存，即上述所说的第一部分。因此，当游戏运行时间越长，Profiler分配内存和通过其他软件获得的系统内存差距会越大。</p><p>因此，只要所使用的第三方库不存在内存泄露问题，我们一般都建议只需要查看Profiler即可，只要Profiler中的内存可以保证正常升高和回落，那么引擎这边分配的内存就是没有问题的。</p><blockquote><p>我们做项目的时候发现有时Profiler中System.ExecutableAndDlls这项占用很多，有什么解决办法吗？</p></blockquote><p>“System.ExecutableAndDlls”该项显示的是执行文件和所调用的库（物理、渲染、IO等系统库）的总和。请不用担心该选项的数值，因为很多Application均在共用这些库，并且它对于真实游戏的内存压力非常小，而且也不会导致系统因为该内存来Kill掉游戏。</p><p><br></p><blockquote><p>为什么在Profiler中的Simple模式下，Used Total的数值不等于其右边各项Unity, Mono, GfxDriver, FMOD与Profiler总和呢？</p></blockquote><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-3aade69a4045c945.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>其实在Unity中，Used Total的计算公式为Used Total = Unity + Mono + GfxDriver + Profiler + additionalUsedMemory。公式中的additionalUsedMemory项在Profiler中并没有显示，因为这一项一般情况下都为0，只在某些特殊发布平台下才会有数值（一般Android，PC和IOS都为0）。因此一般情况下Used Total的值就是除FMOD之外各项的总和了。当然，这个规则对于Reserved Total是同样适用的。</p><blockquote><p>我们项目的资源主要使用AssetBundle动态加载资源，发现Profiler中Detailed模式下PersistentManager.Remapper一项占用时多时少，这一项主要是做什么的呢？</p></blockquote><p>Remapper主要提供文件的持久化存储，包括各种序列化的Asset，项目的设置文件等，维护文件系统的中的文件与内存中数据的对应关系。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-40a4619a0eb44a02.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>那么如果项目大量使用AssetBundle的话，在对AssetBundle进行Unload之前都会需要占用Remapper的内存的。而Remapper本身的实现使用内存池，其数值只会增大，那么为了使Remapper占用的内存保持在一个稳定的数值上，我们需要每次在加载一定数量的AssetBundle之后进行Unload操作，而不要一次性把所有AssetBundle都加载后才调用Unload。（这样的操作对维持整个Mono Heap的大小也是至关重要的，因为Mono Heap本身也是只增大不减小的。）</p><blockquote><p>我们在Editor中调试项目的时候发现纹理的内存大小是其本身大小的两倍，是因为Unity把内存和显存的大小都计算进去了吗？</p></blockquote><p>其实并不是这个原因，因为Editor本身会保有纹理的一份内存，在Editor下进行Profiler会把Editor本身所使用的纹理大小也计算进去，因此会有内存变为两倍的情况。我们官方并不建议在Editor下对项目进行性能调试，而是务必要在真机上跑编译好的项目，然后连接Profiler进行调试，只有这样才能得到真正精确的测试数据。</p><p><br></p><p><b>总结</b>：一般情况下只需Unity Profiler在手，就能窥测到游戏中各项内存使用状况，当然前提是需要对Profiler各项数据所表达的含义了然于心。并且尽量使用真机调试结合Profiler，这样才能了解到游戏运行的真实内存占用数据。</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Unity] 截图的实现</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[Unity] 截图的实现</h1>
+        <div class="show-content">
+          <p>下面是我总结的、在u3d中的，三种截屏方法：</p><p>1、使用Application类下的CaptureScreenshot方法。</p><blockquote>
+<p><b>void </b>CaptureScreen()</p>
+<p>    Application.CaptureScreenshot("Screenshot.png", 0);  </p>
+</blockquote><p>这个方法，截取的是某一帧时整个游戏的画面，或者说是全屏截图吧。</p><p>a、不能针对某一个相机（camera）的画面，进行截图。</p><p>b、对局部画面截图，实现起来不方便，效率也低，不建议在项目中使用：</p><p>虽然CaptureScreenshot这个方法呢，本身是不要做到这一点的。但是我们可以走曲线救国的路线来实现它。思路是这样的：你可以先用这个方法截图一个全屏，然后通过路径获取到这个截图；接下来就通过相关的图形类来，取得这个截图的局部区域并保存下来，这样就能得到一个局部截图了。在这里我就不实现它了，不过有兴趣的可以试试，肯定是可以实现的。</p><p>2、这第二个截图的方法是，使用Texture2d类下的相关方法，也可实现截图功能。</p><blockquote>
+<p>/// &lt;summary&gt;  </p>
+<p>/// Captures the screenshot2.  </p>
+<p>/// &lt;/summary&gt;  </p>
+<p>/// &lt;returns&gt;The screenshot2.&lt;/returns&gt;  </p>
+<p>/// &lt;param name="rect"&gt;Rect.截图的区域，左下角为o点&lt;/param&gt;  </p>
+<p>Texture2D CaptureScreenshot2(Rect rect)   </p>
+<p>    // 先创建一个的空纹理，大小可根据实现需要来设置  </p>
+<p>Texture2D screenShot =<b>new</b>Texture2D((<b>int</b>)rect.width, (<b>int</b>)rect.height, TextureFormat.RGB24,<b>false</b>);</p>
+<p>    // 读取屏幕像素信息并存储为纹理数据，  </p>
+<p>    screenShot.ReadPixels(rect, 0, 0);  </p>
+<p>    screenShot.Apply();  </p>
+<p>    // 然后将这些纹理数据，成一个png图片文件  </p>
+<p><b>byte</b>[] bytes = screenShot.EncodeToPNG();</p>
+<p><b>string</b>filename = Application.dataPath + "/Screenshot.png";</p>
+<p>    System.IO.File.WriteAllBytes(filename, bytes);  </p>
+<p>Debug.Log(<b>string</b>.Format("截屏了一张图片: {0}", filename));</p>
+<p>    // 最后，我返回这个Texture2d对象，这样我们直接，所这个截图图示在游戏中，当然这个根据自己的需求的。  </p>
+<p><b>return</b>screenShot;</p>
+</blockquote><p>截全屏： </p><blockquote><p>CaptureScreenshot2( new Rect( Screen.width*0f, Screen.height*0f, Screen.width*1f, Screen.height*1f));</p></blockquote><p>截中间4分之1:</p><blockquote><p>CaptureScreenshot2( new Rect( Screen.width*0.25f, Screen.height*0.25f, Screen.width*0.5f, Screen.height*0.5f));</p></blockquote><p>这里使用了几个<a href="http://docs.unity3d.com/Documentation/ScriptReference/Texture2D.html" target="_blank">Texture2d</a>类的方法，使用上也有一些要注意的地方，自己看吧。</p><p>当然，这个方法也不要到实现针对某个相机的截图的功能。不过关键接口已经出现了，它就是Texture2d.ReadPixels()，这段就不说了，接着往下看吧！</p><p>3、这第三个方法，最牛了，可以针对某个相机进行截图。</p><p>这样的话，我就可截下，我的Avatar在游戏中场景中所看的画面了，UI界面（用一个专门的camera显示）什么的是不应该有的。要做到这一点，我们应该将分出一个camera来专门显示ui界面，用另一个camera相机来场景显示场景画面。然后，我们只对场景相机进行截屏就是了。所以这关键点就是：如何实现对某个相机进行截屏了。这里用到一个新的类是RenderTexture。</p><p>代码如下：</p><blockquote>
+<p>/// &lt;summary&gt;  </p>
+<p>/// 对相机截图。   </p>
+<p>/// &lt;/summary&gt;  </p>
+<p>/// &lt;returns&gt;The screenshot2.&lt;/returns&gt;  </p>
+<p>/// &lt;param name="camera"&gt;Camera.要被截屏的相机&lt;/param&gt;  </p>
+<p>/// &lt;param name="rect"&gt;Rect.截屏的区域&lt;/param&gt;  </p>
+<p>Texture2D CaptureCamera(Camera camera, Rect rect)   </p>
+<p>    // 创建一个RenderTexture对象  </p>
+<p>RenderTexture rt =<b>new</b>RenderTexture((<b>int</b>)rect.width, (<b>int</b>)rect.height, 0);</p>
+<p>    // 临时设置相关相机的targetTexture为rt, 并手动渲染相关相机  </p>
+<p>    camera.targetTexture = rt;  </p>
+<p>    camera.Render();  </p>
+<p>        //ps: --- 如果这样加上第二个相机，可以实现只截图某几个指定的相机一起看到的图像。  </p>
+<p>        //ps: camera2.targetTexture = rt;  </p>
+<p>        //ps: camera2.Render();  </p>
+<p>        //ps: -------------------------------------------------------------------  </p>
+<p>    // 激活这个rt, 并从中中读取像素。  </p>
+<p>    RenderTexture.active = rt;  </p>
+<p>Texture2D screenShot = <b>new </b>Texture2D((<b>int</b>)rect.width, (<b>int</b>)rect.height, TextureFormat.RGB24,<b>false</b>);</p>
+<p>    screenShot.ReadPixels(rect, 0, 0);// 注：这个时候，它是从RenderTexture.active中读取像素  </p>
+<p>    screenShot.Apply();  </p>
+<p>    // 重置相关参数，以使用camera继续在屏幕上显示  </p>
+<p>camera.targetTexture =<b>null</b>;</p>
+<p>        //ps: camera2.targetTexture = null;  </p>
+<p>RenderTexture.active =<b>null</b>; // JC: added to avoid errors</p>
+<p>    GameObject.Destroy(rt);  </p>
+<p>    // 最后将这些纹理数据，成一个png图片文件  </p>
+<p><b>byte</b>[] bytes = screenShot.EncodeToPNG();</p>
+<p><b>string </b>filename = Application.dataPath + "/Screenshot.png";</p>
+<p>    System.IO.File.WriteAllBytes(filename, bytes);  </p>
+<p>Debug.Log(<b>string</b>.Format("截屏了一张照片: {0}", filename));</p>
+<p><b>return </b>screenShot;</p>
+</blockquote><p>多的我就不说了，相关知识自己去找资料吧，因为我也不懂！</p><p>直接上图了。</p><p>无ui的全屏图：</p><p>只有ui的全屏图：</p><p>有ui有场景的全屏图（只指定这两个相机哦，相关提示在代码的“//ps”中）：</p><p>转载请在文首注明出处：<a href="http://blog.csdn.net/anyuanlzh/article/details/17008909" target="_blank">http://blog.csdn.net/anyuanlzh/article/details/17008909</a></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

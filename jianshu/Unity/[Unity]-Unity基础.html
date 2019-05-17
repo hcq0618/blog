@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Unity] Unity基础</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[Unity] Unity基础</h1>
+        <div class="show-content">
+          <h1>第三方插件及使用</h1><p><br></p><p><b>BestHttp</b>: 功能主要有连接池 缓存 超时 代理 重定向 gzip 大文件上传下载 断点续传 socket 已经封装了一个类HttpUtils</p><p>文档<a href="https://docs.google.com/document/d/181l8SggPrVF1qRoPMEwobN_1Fn7NXOu-VtfjE6wvokg/edit?pref=2&amp;pli=1" target="_blank">https://docs.google.com/document/d/181l8SggPrVF1qRoPMEwobN_1Fn7NXOu-VtfjE6wvokg/edit?pref=2&amp;pli=1#</a></p><p>pro版提供源码<a href="https://www.assetstore.unity3d.com/en/#!/content/10872" target="_blank">https://www.assetstore.unity3d.com/en/#!/content/10872</a></p><p>1.9.8版本下载<a href="http://www.seedpeer.eu/details/10707104/Unity-Asset---Best-HTTP-Pro-Edition-v1.9.8%5BAKD%5D%5BCTRC%5D.html" target="_blank">http://www.seedpeer.eu/details/10707104/Unity-Asset---Best-HTTP-Pro-Edition-v1.9.8%5BAKD%5D%5BCTRC%5D.html</a></p><p><b>LitJson</b>: 支持ORM对象关系映射 对象和json互转 和gson一样 官网<a href="http://lbv.github.io/litjson/" target="_blank">http://lbv.github.io/litjson/</a></p><p><b>PoolManager</b>: 对象缓存池 用法参考<a href="http://blog.csdn.net/henren555/article/details/42100881" target="_blank">http://blog.csdn.net/henren555/article/details/42100881</a><a href="http://www.xuanyusong.com/archives/2974" target="_blank">http://www.xuanyusong.com/archives/2974</a></p><h1><b>工程文件的作用</b></h1><p>Assembly-CSharp-vs.csproj 和 Assembly-CSharp.csproj ：Visual Studio（带有-vs后缀）和MonoDevelop为C#脚本生成的项目文件。</p><p>Assembly-UnityScript-vs.unityproj 和 Assembly-UnityScript.unityproj：相同的项目文件，只不过是为JavaScript脚本。</p><p>testproject.sln 和 testproject-csharp.sln：IDE的解决方案文件，第一个包括所有的C#、JavaScript和Boo脚本；而第二个只包括C#脚本，被设计用来在Visual Studio中打开，因为VS不知道如何处理JavaScript和Boo项目。</p><p>testproject.userprefs 和 testproject-csharp.userprefs：MonoDevelop用来存储当前打开文件、断点、观测等的配置文件。</p><p>Assets：存储所有游戏资源的文件夹，包括脚本、纹理、声音、编辑器定制等。当然是项目中最重要的文件夹。</p><p>ProjectSettings：在这个文件夹中Unity存储所有的项目设置，如物理、标签、角色设置等。或者说，所有你从 Edit → Project 的菜单中设置的都在这个文件夹中。</p><p>Library：被导入资源的本地缓存，当使用外部版本控制系统时应当被完全忽略。</p><p>obj 和 Temp：存储构建时产生的临时文件的文件夹，第一个用于MonoDevelop，第二个用于Unity。</p><p><br></p><p>看完了以上的内容就可以知道，我们只需要将Assets和ProjectSettings两个文件夹纳入版本控制即可。但在编写.gitignore文件前，还需要以下几个步骤，将设置以文本形式存储以利于版本控制：</p><p>在 Edit-&gt;Project Settings-&gt;Editor-&gt;Version Control Mode 中选择 Visible Meta files。</p><p>表示以meta文件来记录资源版本。 默认为Disabled，这样在无Library目录情况下会出现各种问题（后面会讲到Library不会提到版本库）。</p><p>在 Edit-&gt;Project Settings-&gt;Editor-&gt;Asset Serialization Mode 中选择 Force Text。</p><p>表示以纯文本形式保存unity文件。 Mixed和Force Binary都是二进制，不利于版本管理。</p><p>将Assets、ProjectSettings目录传到SVN、GIT或其它版本库</p><p>别人CheckOut这两目录后，第一次在Unity Editor中Open Project…后会自动生成Library目录，所以Library无需纳入版本管理</p><h1><b>特殊文件夹及作用</b></h1><p><a href="http://www.xuanyusong.com/archives/3229" target="_blank">http://www.xuanyusong.com/archives/3229</a></p><h1><b>渲染顺序和层级关系</b></h1><p></p><p><a href="http://blog.csdn.net/kingsea168/article/details/50252733" target="_blank">http://blog.csdn.net/kingsea168/article/details/50252733</a></p><p>1.Unity3d中的渲染顺序如下：</p><p>不同的Camera的Depth</p><p>相同Camera下的不同SortingLayer</p><p>相同SortingLayer下的不同Z轴/Order in Layer</p><p>2.改变控件之间的层级关系</p><p>(1)同一canvas下：</p><p>改变控件transform的SiblingIndex,</p><blockquote>
+<p>transform.GetSiblingIndex();</p>
+<p>transform.SetSiblingIndex(int index); //index值越大，越后渲染，层级越大，越显示在前面</p>
+</blockquote><p>(2)不同Canvas下：</p><p>设置Canvas下的Sort Order //Sort Order值越大，越后渲染，层级越大，越显示在前面</p><p><br></p><h1><b>属性面板定制化</b></h1><p><a href="http://blog.sina.com.cn/s/blog_5b6cb9500101857b.html" target="_blank">http://blog.sina.com.cn/s/blog_5b6cb9500101857b.html</a></p><p><a href="http://www.360doc.com/content/15/1205/14/25502502_518083734.shtml" target="_blank">http://www.360doc.com/content/15/1205/14/25502502_518083734.shtml</a></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

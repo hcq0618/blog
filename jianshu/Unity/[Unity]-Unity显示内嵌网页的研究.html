@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Unity] Unity显示内嵌网页的研究</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[Unity] Unity显示内嵌网页的研究</h1>
+        <div class="show-content">
+          <p>最近由于有需要在Unity程序运行在iOS或Android手机上显示内嵌网页。所以遍从网上搜集了一下相关的资料。整理如下：</p><p><b>UnityWebCore</b></p><p>从搜索中先看到了这个，下载下来了以后发现这个的原理好像是通过调用浏览器内核，然后将网页渲染到mesh的方式完成的。但遗憾的是只支持windows桌面版本。但还是发出来大家如果有需要可以下载</p><p>下载地址： http://pan.baidu.com/s/1nt3FVkd</p><p><b>unity-webview</b></p><p>这个是在github上找到的。是一个keijiro的日本人编写。</p><p>https://github.com/keijiro/unity-webview-integration</p><p>就是根据手机平台在手机上调用相应的WebView组件显示，比如IOS上就是调用UIWebView。同时自己定义了与JavaScript交互的格式，可以在unity的c#代码中相应javascript的调用。需要的朋友可以试试。需要在ios和android上才能看到效果。</p><p>根据keijiro编写的项目，在github上你还可以搜索到其他人fork后修改的项目，应该是进行了一些封装和修改，但都是基于keijiro的。</p><p>https://github.com/Kogarasi/Unity-Webview</p><p>https://github.com/gree/unity-webview</p><p><b>UniWebView</b></p><p>这个是一个中国人编写的组件，也是根据手机平台调用相应的WebView上组件来显示，也可以支持和javascript的交互。工程很完善。在mac os以及手机的系统上直接可以看到运行效果，并且效果很不错。推荐使用的，但是我就不能提供下载地址了。因为这个插件是收费的。为了支持作者还请大家自行购买。</p><p><b>另外还有pc上的插件Awesomium</b></p><p><a href="http://www.awesomium.com/" target="_blank">http://www.awesomium.com/</a></p><p><a href="http://labs.awesomium.com/unity3d-integration-tutorial-part-1/" target="_blank">http://labs.awesomium.com/unity3d-integration-tutorial-part-1/</a></p><p><a href="http://www.ceeger.com/forum/read.php?tid=13526&amp;page=1" target="_blank">http://www.ceeger.com/forum/read.php?tid=13526&amp;page=1</a></p><p>腾讯浏览内核</p><p><a href="http://x5.tencent.com/tbs/" target="_blank">http://x5.tencent.com/tbs/</a></p><p><a href="https://vr.baidu.com/" target="_blank">百度 VR 浏览器</a>com.baidu.vrbrowser</p><p>基于<a href="https://github.com/googlevr/gvr-unity-sdk/" target="_blank">Google VR SDK for Unity</a>开发</p><p><a href="http://libaudioplugingvrunity.so/" target="_blank">libaudioplugingvrunity.so</a> <a href="http://libgvrunity.so/" target="_blank">libgvrunity.so</a> md5 与 GoogleVR 中的文件一致</p><p>Java C# 均未混淆</p><p>网页使用<a href="https://www.assetstore.unity3d.com/cn/#!/content/29346" target="_blank">EasyWebviewTexture</a></p><p>目前<a href="https://www.assetstore.unity3d.com/cn/#!/content/29346" target="_blank">EasyWebviewTexture</a>已经停止购买/下载</p><p>Java层使用 ijkPlayer; Unity层使用<a href="https://www.assetstore.unity3d.com/cn/#!/content/10032" target="_blank">EasyMovieTexture</a></p><p>浏览器内核使用crosswalk</p><p><a href="http://git.devops.letv.com/LvrBrowser/VR-Browser-Decompile#%E4%B8%89%E6%98%9F-gear-vr-%E6%B5%8F%E8%A7%88%E5%99%A8-comsecandroidappsvrbrowser" target="_blank">三星 Gear VR 浏览器 com.sec.android.app.svrbrowser</a></p><p><a href="http://git.devops.letv.com/LvrBrowser/VR-Browser-Decompile#%E4%B8%89%E6%98%9F-gear-vr-%E6%B5%8F%E8%A7%88%E5%99%A8-comsecandroidappsvrbrowser" target="_blank">基于 Unity 开发</a></p><p><a href="http://git.devops.letv.com/LvrBrowser/VR-Browser-Decompile#%E4%B8%89%E6%98%9F-gear-vr-%E6%B5%8F%E8%A7%88%E5%99%A8-comsecandroidappsvrbrowser" target="_blank">Java C# 均未混淆</a></p><p><a href="http://git.devops.letv.com/LvrBrowser/VR-Browser-Decompile#%E4%B8%89%E6%98%9F-gear-vr-%E6%B5%8F%E8%A7%88%E5%99%A8-comsecandroidappsvrbrowser" target="_blank">网页使用 </a><a href="https://www.assetstore.unity3d.com/cn/#!/content/29346" target="_blank">EasyWebviewTexture</a></p><p>浏览器内核使用Chromium</p><p><a href="http://git.devops.letv.com/LvrBrowser/VR-Browser-Decompile#%E5%A4%A7%E6%9C%8B-vr-%E6%B5%8F%E8%A7%88%E5%99%A8" target="_blank">大朋 VR 浏览器</a></p><p><a href="http://git.devops.letv.com/LvrBrowser/VR-Browser-Decompile#%E5%A4%A7%E6%9C%8B-vr-%E6%B5%8F%E8%A7%88%E5%99%A8" target="_blank">普通原生浏览器， 开启了强制横屏</a></p><p><a href="http://git.devops.letv.com/LvrBrowser/VR-Browser-Decompile#%E5%A4%A7%E6%9C%8B-vr-%E6%B5%8F%E8%A7%88%E5%99%A8" target="_blank">下载 </a><a href="http://git.devops.letv.com/liuwencai/DeepoonVR-App/blob/master/com.android.browser.apk" target="_blank">com.android.browser</a>; 需要先<a href="http://android.stackexchange.com/a/96479" target="_blank">卸载系统的浏览器</a></p><p><a href="http://git.devops.letv.com/LvrBrowser/VR-Browser-Decompile#easywebviewtexture" target="_blank"><b>关于crosswalk</b></a></p><p><a href="http://git.devops.letv.com/LvrBrowser/VR-Browser-Decompile#easywebviewtexture" target="_blank">基于chrome内核解析网页 可以兼容android4.0以下的系统<b> </b></a><b><a href="https://crosswalk-project.org/" target="_blank">https://crosswalk-project.org/</a></b></p><p>Android4.4版本以下webView是基于webkit，4.4以上是基于chromium。国内浏览器都是基于chromium，除了遨游是基于webkit，而safari也是基于webkit。chromium其实也是基于webkit。</p><p><b>浏览器引擎分类</b></p><p>浏览器的内核引擎，基本上是四分天下：</p><p>Trident: IE 以Trident 作为内核引擎;</p><p>Gecko: Firefox 是基于 Gecko 开发;</p><p>WebKit: Safari, Google Chrome,傲游3,猎豹浏览器,百度浏览器 opera浏览器 基于 Webkit 开发。</p><p>Presto: Opera的内核，但由于市场选择问题，主要应用在手机平台--Opera mini</p><p>注：2013年2月Opera宣布转向WebKit引擎</p><p>注：2013年4月Opera宣布放弃WEBKIT，跟随GOOGLE的新开发的<a href="http://baike.baidu.com/view/10399127.htm" target="_blank">blink引擎</a></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

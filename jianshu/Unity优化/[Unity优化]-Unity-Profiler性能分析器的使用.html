@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Unity优化] Unity Profiler性能分析器的使用</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[Unity优化] Unity Profiler性能分析器的使用</h1>
+        <div class="show-content">
+          <p>长话短说，我整理了一下mac版Unity3D pro下的Profiler连接Android的使用。注意是专业版的Unity3D。在Window下会有Profiler</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-9eb4cfdebc873de1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>这个工具的意义是，游戏在客户端跑然后UnityProfile测试一些参数</p><p>连接手机有两种方式。</p><p>1.wifi：让手机和电脑痛处于同一局域网内。</p><p>2.数据线连接（下好各种驱动），一般只要Unity中 Build And Run 时游戏能在客户端跑  就基本连接没问题</p><p>1.File-&gt;Build Setting</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-6a6264a5921acf6c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>注意勾选 Development  Build</p><p>点击 Player Settings  找到ProductName 记录下来</p><p>2.数据线连接手机，File-&gt;Build And Run</p><p>3.打开终端，找到adb的文件</p><p>cd /Applications/android/adt-bundle-mac-x86_64-20140702/sdk/platform-tools</p><p>每个mac  不一样</p><p>./adb forward tcp:54999 localabstract:Unity-&lt;包名&gt;</p><p>4.window-&gt;profiler 同时手机运行游戏</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-2247239bbaf353df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>如果用wifi连接 先Enter IP 输入手机在局域网中ip即会成为2</p><p>如果是数据线 直接选一</p><p>ok，随玩游戏随测，数据线连接的话 ，注意不要断开连接。</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

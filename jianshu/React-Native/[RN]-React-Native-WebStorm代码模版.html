@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[RN] React Native WebStorm代码模版</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[RN] React Native WebStorm代码模版</h1>
+        <div class="show-content">
+          <p>在React-Native日常开发中，新建文件或者组件是最常用的操作。可是，在我们新建不同的文件或者组件时，一些代码固定不变，此时，需要重新写一遍就费事费力了，而最常用的操作就是复制，粘贴，修改，重复而无趣。若是不想重复如此无聊的机械动作，又想快速高效的来完成任务，编写代码，那怎么办呢？此时，解决方案出现了。--File and Code Templates</p><p>使用此配置，可减省重复无用的劳动力，真正提升效率。</p><p>如果你觉得有用，请点个赞，或者分享给其他朋友。</p><p>一：配置有两种方式(以mac配置为例)：</p><p>一：</p><p>1-： 选择Preferences;</p><p>2-：搜索框输入Templates;</p><p>3-：点击File and Code Templates</p><p>4-：选中JavaScript File</p><p>5-：删除里面的代码，把以下代码复制进去(此代码可以自定义)：</p><blockquote>
+<p>import React, { Component } from 'react';</p>
+<p>import {</p>
+<p>  StyleSheet,</p>
+<p>  Text,</p>
+<p>  View,</p>
+<p>  Image,</p>
+<p>} from 'react-native';</p>
+<p>export default class  ${NAME}  extends Component {</p>
+<p>  render() {</p>
+<p>    return (</p>
+<p>      &lt;View style={styles.container}&gt;</p>
+<p><br></p>
+<p>      &lt;/View&gt;</p>
+<p>    );</p>
+<p>  }</p>
+<p>}</p>
+<p>const styles = StyleSheet.create({</p>
+<p>  container: {</p>
+<p>    flex: 1,</p>
+<p>  },</p>
+<p>});</p>
+</blockquote><p>6-：点击Apply</p><p>示例图如下：</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-91437388bdd87219.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>二：</p><p>1-： 选择Preferences;</p><p>2-：搜索框输入Templates;</p><p>3-：点击File and Code Templates</p><p>4-：点击左上角“+”号按钮</p><p>示例图如下：</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-4358c33572afed2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>注意点：</p><p>1-：注意新建文件的名字，本例子中取名为:React-Native;</p><p>2-：注意Extension的输入框填写为js;</p><p>三：使用方式：</p><p>分为两种，与上面配置方式一一对应：</p><p>一：</p><p>1-：点击New ，选择Java Script File；</p><p>2-：输入新建文件的名字，并点击OK；</p><p>3-：查看新建文件内容为填写的模版内容</p><p>二：</p><p>1-：点击New ，选择React-Native文件类型(与使用第二中配置方式时新建的名字一一对应)；</p><p>2-：输入新建文件的名字，并点击OK；</p><p>3-：查看新建文件内容为填写的模版内容</p><p>四：使用效果截图：</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-9f3800c81f917277.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Unity插件] FingerGestures</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[Unity插件] FingerGestures</h1>
+        <div class="show-content">
+          <p>FingerGestures是一款强大的手势识别插件，支持鼠标和触控。跨平台，最新的3.0版本支持自定义手势识别。 </p><p>其中CustomGestures的识别还是挺准的。测试画个一笔五角星，能被容易的识别。</p><p>直接解压包，里面还有samples和对playerMaker拓展 2个子包。</p><h1>二.导入Sample包</h1><p>在搜索栏里输入 t:scene,  然后全选场景并拖入Build Setting里的Scenes in Build</p><p>把'Sample Browser'场景调整到第一个场景</p><p>也可在player setting里把屏幕设置为600x400</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-15840cd3f641eccb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><h1><a href="http://photo.blog.sina.com.cn/showpic.html#blogid=471132920101hlwt&amp;url=http://s14.sinaimg.cn/orignal/47113292gd94359d9fddd" target="_blank">三.基本识别  GestureRecognizers(检测用户输入并发送事件)</a></h1><p>场景里必须只有一个FingerGestures组件示例。它相当于Manager。</p><p>(1)直接新建GameObject起名Manager，并加FingerGestures脚本</p><p>(2)直接新建GameObject起名Gestures，并加TapRecognizer脚本</p><p>直接新建TapTutorial.cs 并放到Gestures上</p><p>Gestures里TapRecognizer面板下，点"Copy Event To Clipboard" 把对应代码拷贝到粘贴板上，并在TapTutorial脚本里粘贴代码。</p><p>当recognizer检测对应输入到后， 会在obj上发对应的SendMessage消息。但是SendMessage开销大，可以自己实现开销更小的delegate-based events.</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-9fbab1de22861328.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>(5)打输出debug信息的代码</p><blockquote>
+<p>using UnityEngine;</p>
+<p>using System.Collections;</p>
+<p>publicclass TapTutorial : MonoBehaviour</p>
+<p> OnTap(TapGesture gesture)</p>
+<p>  Debug.Log( "Tap gesture detected at " + gesture.Position + </p>
+<p>            ". It was sent by " + gesture.Recognizer.name );</p>
+</blockquote><p>识别单击物体</p><p>(1)创建球，确保有collider或者trigger,位置(0,1,0),缩放(4,4,4)</p><p>(2)Gesture物体上加 <b>ScreenRaycaster</b></p><p>当Ray Thickness为0时  可以是collider或者trigger，</p><p>当Ray Thickness不为0时  必须是collider， 可以模拟厚手指的操作。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-717d287f0070d2c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>(2)  脚本变为</p><blockquote>
+<p>using UnityEngine;</p>
+<p>using System.Collections;</p>
+<p>public class TapTutorial : MonoBehaviour</p>
+<p>OnTap( TapGesture gesture ) </p>
+<p>    ( gesture.Selection )</p>
+<p>        Debug.Log( "Tapped object: " + gesture.Selection.name );</p>
+<p>        Debug.Log( "No object was tapped at " + gesture.Position );</p>
+</blockquote><p>之后就能检测到点击物体了，并且被点击的圆球同样的收到同名事件</p><p>识别2手指Tap3下</p><p>设置 Required Finger Count为2</p><p>设置 Required Taps为3</p><p>如果是电脑运行，用鼠标左右键同时按模拟</p><p>四.FingerEventDetector</p><p>检测单手指的按下 松开 经过 移动 静止，与GesturesRecognizers类似，发消息，用ScreenRaycaster与物体互动。</p><p>FingerEventDetector是抽象类，各种finger event detectors继承自它。</p><p>也可以提供finger index跟踪某指定手指。</p><p>(1)新场景，加FingerGestures管理</p><p>(2)新物体起名FingerEvent，并加FingerDownDetector</p><p>(3)新建脚本FingerEventTutor.cs, 并从FingerDownDetector拷贝粘贴脚本</p><blockquote>
+<p>using UnityEngine;</p>
+<p>using System.Collections;</p>
+<p>public class FingerEventTutor : MonoBehaviour</p>
+<p>OnFingerDown(FingerDownEvent e) </p>
+<p>Debug.Log( e.Finger + " Down at " + e.Position + " on object:" + e.Selection );</p>
+</blockquote><p>点击运行，即可检测任何手指按下的事件。</p><p>每个手指事件都要添加对应的detector</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-da96ac7817738bca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><blockquote>
+<p>using UnityEngine;</p>
+<p>using System.Collections;</p>
+<p>public class FingerEventTutor : MonoBehaviour</p>
+<p>OnFingerDown(FingerDownEvent e) </p>
+<p>Debug.Log( e.Finger + " Down at " + e.Position + " on object:" + e.Selection );</p>
+<p>OnFingerUp( FingerUpEvent e ) </p>
+<p>// time the finger has been held down before being released</p>
+<p>    float elapsedTime = e.TimeHeldDown;</p>
+<p>Debug.Log( e.Finger + " Up at " + e.Position + " on object:" + e.Selection );</p>
+</blockquote><h1>五.自定义手势识别</h1><p>3.0后可以用PointCloudRecognizer来识别自定义手势。算法使用的是$P recognizer. 现在只支持single-stroke(单手指单次画)，将会支持multi-strokes. </p><p>PointCloudRecognizer将会对比一些gesture模板并返回最接近的 匹配图形，并返回分数和距离值。</p><p>PointCloud gestures手势，和缩放以及画的方向无关。但是图形的旋转必须是固定的，例如一个正着摆放的三角形你必须画正的，你画一个倒着摆放的三角形它是不能被识别的。</p><p>绘制PointCloud</p><p>(1)在Assets栏下，创建 PointCloud Gesture Template,起名MyPCGesture</p><p>(2)点击Edit,绘制图形，然后Apply</p><p>使用PointCloud</p><p>(1)新场景，加FingerGestures管理</p><p>(2)创建新的物体起名Gestures</p><p>Gestures加 <b>PointCloudRecognizer 组件。</b></p><p>Max Match Distance 用户画的图形distance必须在该值之下， 设定得越小，画得就必须越精确。</p><p>Sampling Distance  两个连续手指位置的最小间距。越小表示越精确，但更多的采样</p><p>Gesture Template List  要去匹配的图形库</p><p>MyPCGesture加至 Gesture Template List</p><p>(5) 创建PointCloudTutorial.cs脚本并添加至Gestures物体下</p><blockquote>
+<p>using UnityEngine;</p>
+<p>using System.Collections;</p>
+<p>public class PointCloudTutorial : MonoBehaviour</p>
+<p>     OnCustomGesture( PointCloudGesture gesture ) </p>
+<p>        Debug.Log( "Recognized custom gesture: " + gesture.RecognizedTemplate.name + </p>
+<p>            ", match score: " + gesture.MatchScore + </p>
+<p>            ", match distance: " + gesture.MatchDistance );</p>
+</blockquote><p>PointCloudGesture. RecognizedTemplate 对应画出的图形模板</p><p>PointCloudGesture. MatchScore 匹配百分比，1代表完美匹配</p><p>PointCloudGesture. MatchDistance 与图形有多接近</p><p>当然也可以从代码绘制PointCloudGestureTemplate </p><blockquote>
+<p>Awake()</p>
+<p>    PointCloudGestureTemplate triangle = ScriptableObject.CreateInstance&lt;PointCloudGestureTemplate&gt;();</p>
+<p>    triangle.name = "Triangle Gesture Template"</p>
+<p>    triangle.BeginPoints();</p>
+<p>    triangle.AddPoint( , , );</p>
+<p>    triangle.AddPoint( , , );</p>
+<p>    triangle.AddPoint( , , );</p>
+<p>    triangle.AddPoint( , , );</p>
+<p>    triangle.EndPoints();</p>
+<p>    PointCloudGestureTemplate square = ScriptableObject.CreateInstance&lt;PointCloudGestureTemplate&gt;();</p>
+<p>    square.name = "Square Gesture Template"</p>
+<p>    square.BeginPoints();</p>
+<p>    square.AddPoint( , , );</p>
+<p>    square.AddPoint( , , );</p>
+<p>    square.AddPoint( , , );</p>
+<p>    square.AddPoint( , , );</p>
+<p>    square.AddPoint( , , );</p>
+<p>    square.EndPoints();</p>
+<p>    PointCloudRegognizer recognizer = gameObject.AddComponent&lt;PointCloudRegognizer&gt;();</p>
+<p>    recognizer.AddTemplate( triangle );</p>
+<p>    recognizer.AddTemplate( square );</p>
+</blockquote><p>AddPoint的第一个参数代表第几画，但是现在只支持一笔画出来的图形，所以该值只填0。当EndPoints()被调用的时候，所有点都会被单位化至(0,1)的范围。</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

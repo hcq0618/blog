@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[RN库] React Native国际化多语言</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[RN库] React Native国际化多语言</h1>
+        <div class="show-content">
+          <h1>库属性介绍<br>
+</h1><p>项目地址：<a href="https://github.com/AlexanderZaytsev/react-native-i18n" target="_blank">https://github.com/AlexanderZaytsev/react-native-i18n</a></p><p>属性                                                            解释</p><p>支持RN版本                                            所有版本</p><p>支持平台                                                iOS+Android</p><p>是否需要NativeModule                                是</p><p>是否可移植                                                    是</p><p>是否含有jni模块                                            否</p><h1>使用</h1><p>1.install（略，git里都写着了，就是npm那些事）</p><p>2.项目中使用</p><p>因为是一些静态属性引用，所以你用redux做储存替换也可以，直接做饮用也可以(本文拿en,zh为例)。</p><p>首先是建英文版本的配置文件，en/index.js</p><blockquote>
+<p>exportdefault{</p>
+<p>home:{</p>
+<p>greeting:'Greeting in en',</p>
+<p>tab_home:'Home',</p>
+<p>tab_donate:'Donate',</p>
+<p>tab_demo:'Demo',</p>
+<p>language:'language',</p>
+<p>live_demo:'Live Demo',</p>
+<p>buy_me_coffee:'Buy me a coffee',</p>
+<p>gitee:'Gitee',</p>
+<p>star_me:'Star me',</p>
+<p>donate:'donate',</p>
+<p>exit:'exit?',</p>
+<p>},</p>
+<p>donate:{</p>
+<p>donate:'donate us~~~',</p>
+<p>donate_desc:'© 2017 Pactera Technology International Limited. All rights reserved.',</p>
+<p>},</p>
+<p>demo:{</p>
+<p>dialog:'dialog',</p>
+<p>button:'button',</p>
+<p>switch:'switch',</p>
+<p>action_sheet:'Action Sheet',</p>
+<p>}</p>
+<p>};</p>
+</blockquote><p>然后是中文的zh/index.js</p><blockquote>
+<p>exportdefault{</p>
+<p>home:{</p>
+<p>greeting:'Greeting in zh',</p>
+<p>tab_home:'首页',</p>
+<p>tab_donate:'捐赠',</p>
+<p>tab_demo:'例子',</p>
+<p>language:'语言',</p>
+<p>live_demo:'例子',</p>
+<p>buy_me_coffee:'请我一杯coffee',</p>
+<p>gitee:'Gitee',</p>
+<p>star_me:'关注我',</p>
+<p>donate:'贡献',</p>
+<p>exit:'是否退出?',</p>
+<p>},</p>
+<p>donate:{</p>
+<p>donate:'支持我们～~',</p>
+<p>donate_desc:'© 2017 Pactera Technology International Limited. All rights reserved.',</p>
+<p>},</p>
+<p>demo:{</p>
+<p>dialog:'提示框',</p>
+<p>button:'按钮',</p>
+<p>switch:'开关',</p>
+<p>action_sheet:'',</p>
+<p>}</p>
+<p>};</p>
+</blockquote><p>属性名，结构是一致的只是属性不同，当然这里是静态的2个文件，如果场景需要可以服务端下发json,那就是完全动态的了，这部分看业务需求了。</p><h2>默认的语言环境</h2><p>我们在上面写了2种语言配置，那么哪种作为初始化的呢？在业务层调用前，我们可以先进行预设</p><p>i18n/index.js</p><blockquote>
+<p>import i18nfrom'react-native-i18n';</p>
+<p>import enfrom'./en';</p>
+<p>import zhfrom'./zh';</p>
+<p>i18n.defaultLocale ='en';</p>
+<p>i18n.fallbacks = true;</p>
+<p>i18n.translations = {</p>
+<p>en,</p>
+<p>zh,</p>
+<p>};</p>
+<p>export {i18n};</p>
+</blockquote><p>这边进行了一些预设，默认语境为en，允许fallbacks状态（为true时，顺序向下遍历翻译），预设转换的文件就2个，一个en一个zh，这个你也可以自行后续添加根据需求而定。</p><h2>业务层调用</h2><p>先是倒包</p><blockquote><p>import {i18n} from '你预设的index的目录';</p></blockquote><p>调用(拿一个Toast做个例子)</p><blockquote><p>ToastAndroid.show(i18n.t('home.exit'),ToastAndroid.SHORT);</p></blockquote><p><br></p><h1>源码分析</h1><p>这个库的实现分为2部分，一部分是Native的版本判断等功能以及js部分的核心实现fnando/i18n-js</p><p>i18n-js是一个轻量级的js翻译库，他支持各种格式和内容的换算和语言内容的切换，地址如下：<a href="https://github.com/fnando/i18n-js" target="_blank">https://github.com/fnando/i18n-js</a></p><p>那么翻译转换这块是 I18n.js做的那么Native做了些啥呢？我们来一探究竟(以安卓为例，苹果看不懂，抱歉)</p><p>Native代码就两个类，所以我之前说你直接把Native代码copy走然后项目依赖I18n.js也能达到这个效果</p><p>RNI18nPackage是一个普通的Package类，它的作用就是把我们的module加到主应用的getPackages()方法中的列表里，然后一起打进包里而已。</p><p>具体功能都在RNI18nModule里</p><blockquote>
+<p>publicclassRNI18nModuleextendsReactContextBaseJavaModule{</p>
+<p>publicRNI18nModule(ReactApplicationContext reactContext) {</p>
+<p>super(reactContext);</p>
+<p>}</p>
+<p>//RN调用的控件名</p>
+<p>@Override</p>
+<p>publicStringgetName() {</p>
+<p>return"RNI18n";</p>
+<p>}</p>
+<p>//对取出的Locale列表进行格式化的方法</p>
+<p>privateStringtoLanguageTag(Locale locale) {</p>
+<p>if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) {</p>
+<p>returnlocale.toLanguageTag();</p>
+<p>}</p>
+<p>StringBuilder builder =newStringBuilder();</p>
+<p>builder.append(locale.getLanguage());</p>
+<p>if(locale.getCountry() !=null) {</p>
+<p>builder.append("-");</p>
+<p>builder.append(locale.getCountry());</p>
+<p>}</p>
+<p>returnbuilder.toString();</p>
+<p>}</p>
+<p>privateWritableArraygetLocaleList() {</p>
+<p>WritableArray array = Arguments.createArray();</p>
+<p>if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.N) {</p>
+<p>//获取区域设置列表。这是获取区域的首选方法。</p>
+<p>LocaleList locales = getReactApplicationContext()</p>
+<p>.getResources().getConfiguration().getLocales();</p>
+<p>for(inti =0; i &lt; locales.size(); i++) {</p>
+<p>array.pushString(this.toLanguageTag(locales.get(i)));</p>
+<p>}</p>
+<p>}else{</p>
+<p>array.pushString(this.toLanguageTag(getReactApplicationContext()</p>
+<p>.getResources().getConfiguration().locale));</p>
+<p>}</p>
+<p>returnarray;</p>
+<p>}</p>
+<p>//js端可获取属性的列表</p>
+<p>@Override</p>
+<p>publicMap&lt;String, Object&gt;getConstants() {</p>
+<p>HashMap&lt;String, Object&gt; constants =newHashMap&lt;String,Object&gt;();</p>
+<p>constants.put("languages",this.getLocaleList());</p>
+<p>returnconstants;</p>
+<p>}</p>
+<p>//提供给js端调用的方法，用来获取默认的语言环境，回调方式用的是promise</p>
+<p>@ReactMethod</p>
+<p>publicvoidgetLanguages(Promise promise) {</p>
+<p>try{</p>
+<p>promise.resolve(this.getLocaleList());</p>
+<p>}catch(Exception e) {</p>
+<p>promise.reject(e);</p>
+<p>}</p>
+<p>}</p>
+<p>}</p>
+</blockquote><p>加一个toast看下locale会出现什么</p><blockquote><p>Toast.makeText(getReactApplicationContext(),"locales.get(i) "+locales.get(i),Toast.LENGTH_LONG).show();</p></blockquote><p>本想一探究竟内部的实现，结果是个不公开的类</p><h1>总结</h1><p>首先Native那里获取本手机的LocaleList然后格式化取第一个元素交由I18n.js处理，然后I18n.js根据key选用一套有效的语言规则，再之后流程就和使用时候的顺序一样了。</p><p>整个库集成难度较低，使用起来比较简便，使用下来没碰到大坑，配合redux更美味。</p><h1>准备阶段</h1><p><a href="https://github.com/AlexanderZaytsev/react-native-i18n" target="_blank">react-native-i18n</a>第三方多语言库</p><p>安装:yarn add react-native-i18n</p><p><a href="https://www.jianshu.com/p/%5Bhttps://github.com/rebeccahughes/react-native-device-info%5D(https://github.com/rebeccahughes/react-native-device-info)" target="_blank">react-native-device-info</a>用户获取系统本地语言环境</p><p>安装:yarn add react-native-device-infoandreact-native link react-native-device-info</p><p>实践阶段：</p><p>在项目中创建zh.js、en.js、I18n.js三个js文件，DataRepository.js是一个我自定义的数据持久化类，在这个demo中的作用是存取用户改变后的语言环境，直接拷贝过去就可以用(不是必须的)。</p><p>代码分别为：</p><p>zh.js</p><blockquote>
+<p>exportdefault{</p>
+<p>english:'英文',</p>
+<p>chinese:'中文',</p>
+<p>changeToEnglish:'切换到英文',</p>
+<p>changeToChinese:'切换到中文',</p>
+<p>changeToSystem:'切换到系统语言',</p>
+<p>}</p>
+</blockquote><p>en.js</p><blockquote>
+<p>exportdefault{</p>
+<p>english:'english',</p>
+<p>chinese:'chinese',</p>
+<p>changeToEnglish:'change to english',</p>
+<p>changeToChinese:'change to chinese',</p>
+<p>changeToSystem:'change to System',</p>
+<p>}</p>
+</blockquote><p>I18n.js</p><blockquote>
+<p>importI18n,{ getLanguages }from'react-native-i18n'</p>
+<p>importDeviceInfofrom'react-native-device-info'</p>
+<p>importDataRepositoryfrom'../dao/DataRepository'</p>
+<p>importenfrom'./en'</p>
+<p>importzhfrom'./zh'</p>
+<p>I18n.defaultLocale ='en';</p>
+<p>I18n.fallbacks =true;</p>
+<p>I18n.translations = {</p>
+<p>en,</p>
+<p>zh,</p>
+<p>};</p>
+<p>I18n.localeLanguage =()=&gt;{</p>
+<p>newDataRepository().fetchLocalRepository('localLanguage')</p>
+<p>.then((res)=&gt;{</p>
+<p>I18n.locale = res;</p>
+<p>})</p>
+<p>.catch((error)=&gt;{</p>
+<p>I18n.locale = DeviceInfo.getDeviceLocale();</p>
+<p>});</p>
+<p>returnI18n.locale;</p>
+<p>};</p>
+<p>export{ I18n, getLanguages };</p>
+</blockquote><p>重点方法、属性讲解</p><p>I18n.t(): 使用频率是最高的，举个栗子：</p><blockquote>
+<p>&lt;Textstyle={styles.welcome}&gt;</p>
+<p>{I18n.t('english')}</p>
+<p>&lt;/Text&gt;</p>
+</blockquote><p>以上I18n.t('english')中的english参数就是在zh.js、en.js文件中的语言配置项</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-bff22bd8361f8dbd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-d3a0ae910943a8c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>具体显示内容会随着语言环境调用相应的语言配置文件，呈现给用户相应的语言内容。</p><p>I18n.getLanguages获取用户首选的语言环境</p><p>I18n.locale: 设置本地语言环境。</p><p>I18n.defaultLocale首选默认语言</p><p>I18n.fallbacks: 看文档说明我理解的意思是：如果获取到的系统语言类似en_USen-GB这样的，插件初始化的时候发现没有en_US.jsen-GB.js，这个时候如果设置了I18n.fallbacks = true;系统就会按这样的（en_USen.js）顺序去查找文件，就会去找有一个en.js这样的文件， 官方建议使用I18n.fallbacks = true;</p><p>更多关于i18n-js的属性和方法请<a href="https://github.com/fnando/i18n-js#setting-up" target="_blank">点击这里查看</a></p><h1>ios需要配置语言环境</h1><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-bff44df987d83437.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>使用过程中发现一个刷新的问题：</p><p>我在使用过程中发现调用了I18n.locale=‘我设置的语言’后，当前的界面语言并没有改变，而其他界面的语言已经改变了，就比如说我上面截图的侧滑菜单，当我在侧滑菜单切换语言后发现侧滑菜单里面的语言并没有发现变化，而首页的语言环境已经改变了，我不知道为什么，摸索最后找到了一种解决方案（可能不是最佳方案，但是解决了刷新当前界面语言的问题，如果有更好的方法欢迎分享），解决方案：调用一下setState（无论设置的这个state属性在render中有没有被使用，都有效）。 具体代码看App.js，我项目中有使用localeLanguage所以我把改变后的语言存到state中</p><blockquote>
+<p>this.setState({</p>
+<p>localeLanguage: I18n.locale</p>
+<p>});</p>
+</blockquote><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-867fa9db46b8b45f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-92d2154acd865e3e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>请注意，js的名字最好都是语言的缩写，下面提供参考：</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-3593a655a97142fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>突然有个想法看看没有支持的语言会变成什么：看来如果没有支持某种语言就会默认使用英语，我曾经试过分别调换这两个的引入顺序发现结果还是英语</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

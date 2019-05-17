@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Unity插件] 虚拟摇杆EasyTouch</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[Unity插件] 虚拟摇杆EasyTouch</h1>
+        <div class="show-content">
+          <p>对于移动平台上的RPG类的游戏，我们常用虚拟摇杆来控制人物角色的行走和一些行为，相信我们对它并不陌生，之前尝试了EasyTouch2.5，发现并没有最新版的3.1好用，2.5版本的对于自适应没有做的很好，而最新版的已经解决了这一问题。当然unity也自带了摇杆Joystick，用起来也简单，但存在不少局限，不会满足普通mmo游戏的需求，比如指定显示区域或者是更改一些素材等等，而这些EasyTouch插件都已经帮你实现，不得不佩服插件的原作者，能做出这么炫酷好用的插件，当然这估计是老外开发的，关于插件的下载，你可以在AssetStore上购买，当然也可以使用free版。</p><p>我这里也提供一个3.1版本的插件下载地址： <a href="http://download.csdn.net/detail/s10141303/6962919" target="_blank">http://download.csdn.net/detail/s10141303/6962919</a></p><h1><b>一、效果图</b></h1><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-f9f6499d5185f13a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-fbe8d10aa2e67ea8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>感觉很酷有木有！接下来就看一下创建的过程吧！</p><h1>二、操作步骤</h1><h2>1.官方文档上的步骤</h2><p>Quick Start (C#)</p><p>1-Import EasyTouch Package. </p><p>2-Create an empty gameObject, and name it EasyTouch.(You can choose another name) </p><p>Step 1 &amp; 2 can be replace by the option menu</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-7399514313146199.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>3-Add the EasyTouch.cs script on the EasyTouch gameObject that you just created. </p><p>4-Select the EasyTouch gameobject, and verifies that Broadcast messages is set to FALSE in the inspector.</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-9dc3ee3597dd9b52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>5-Create a new C# script MyFirstTouch </p><p>6-Add these methods</p><blockquote>
+<p>// Subscribe to events  </p>
+<p>void OnEnable(){  </p>
+<p>EasyTouch.On_TouchStart += On_TouchStart;  </p>
+<p>}  </p>
+<p>// Unsubscribe  </p>
+<p>void OnDisable(){  </p>
+<p>EasyTouch.On_TouchStart -= On_TouchStart;  </p>
+<p>}  </p>
+<p>// Unsubscribe  </p>
+<p>void OnDestroy(){  </p>
+<p>EasyTouch.On_TouchStart -= On_TouchStart;  </p>
+<p>}  </p>
+<p>// Touch start event  </p>
+<p>public void On_TouchStart(Gesture gesture){  </p>
+<p>Debug.Log( "Touch in " + gesture.position);  </p>
+<p>}  </p>
+</blockquote><p>7-Create an empty gameObject, and name it Receiver. </p><p>8- Add MyFirstTouch script to the gameObject Receiver. </p><p>9- Run it in editor, and click on the screen</p><h2>2.翻译一下以上的步骤</h2><p>1.import“EasyTouch”资源包</p><p>2.创建空物体，命名为EasyTouch(当然你也可以改成其他名字)</p><p>3.添加EasyTouch.cs脚本在刚刚创建的空物体（EasyTouch）上</p><p>4.选择改物体但不要将BroadcastMessages勾选</p><p>5.创建一个新的C#脚本，命名MyFirstTouch</p><p>6.添加这些方法</p><p>7.再创建一个空物体，命名为Receiver</p><p>8.将MyFirstTouch脚本添加到空物体Receiver上</p><p>9.运行并且点击遥感，会发现控制台打印了当前按下的坐标</p><h2>3.根据官方的这些提示，自己来做一个属于自己的人物遥感控制</h2><p>1.导入EasyTouch3资源包</p><p>2.做好前期准备，包括人物模型、地形的创建</p><p>3.添加JoyStick实例：Hedgehog Team-&gt;Easy Touch-&gt;Extensions-&gt;Add a new Joystick。此时就会在左下角创建了虚拟遥感的实例。</p><p>4.设置遥感的相关参数</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-d63f7a1741d0a440.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>.创建脚本MoveController.cs用来接收遥感事件控制角色的移动</p><blockquote>
+<p>using UnityEngine;  </p>
+<p>using System.Collections;  </p>
+<p>public class MoveController : MonoBehaviour {  </p>
+<p>    void OnEnable()  </p>
+<p>    {  </p>
+<p>        EasyJoystick.On_JoystickMove += OnJoystickMove;  </p>
+<p>        EasyJoystick.On_JoystickMoveEnd += OnJoystickMoveEnd;  </p>
+<p>    }  </p>
+<p>    //移动摇杆结束  </p>
+<p>    void OnJoystickMoveEnd(MovingJoystick move)  </p>
+<p>    {  </p>
+<p>        //停止时，角色恢复idle  </p>
+<p>        if (move.joystickName == "MoveJoystick")  </p>
+<p>        {  </p>
+<p>            animation.CrossFade("idle");  </p>
+<p>        }  </p>
+<p>    }  </p>
+<p>    //移动摇杆中  </p>
+<p>    void OnJoystickMove(MovingJoystick move)  </p>
+<p>    {  </p>
+<p>        if (move.joystickName != "MoveJoystick")  </p>
+<p>        {  </p>
+<p>            return;  </p>
+<p>        }  </p>
+<p>        //获取摇杆中心偏移的坐标  </p>
+<p>        float joyPositionX = move.joystickAxis.x;  </p>
+<p>        float joyPositionY = move.joystickAxis.y;  </p>
+<p>        if (joyPositionY != 0 || joyPositionX != 0)  </p>
+<p>        {  </p>
+<p>            //设置角色的朝向（朝向当前坐标+摇杆偏移量）  </p>
+<p>           transform.LookAt(new Vector3(transform.position.x + joyPositionX, transform.position.y, transform.position.z + joyPositionY));  </p>
+<p>            //移动玩家的位置（按朝向位置移动）  </p>
+<p>            transform.Translate(Vector3.forward * Time.deltaTime * 5);  </p>
+<p>            //播放奔跑动画  </p>
+<p>            animation.CrossFade("run");  </p>
+<p>        }  </p>
+<p>    }  </p>
+<p>}  </p>
+</blockquote><p>几个函数的执行顺序：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-bc66eae1984685ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>6.效果图</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-338cbbe5e1d99bf7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>7.创建点击按钮</p><p>点击HedgehogTeam-&gt;EasyTouch-&gt;Extensions-&gt;Create a new Button,会在屏幕右下角创建一个button</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-75d36b726eb6a798.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>如何让有下角的按钮点击能做出我们想要的效果呢？</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-821fa06a97c0dbfe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>jump方法：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-87d670465948f1b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>然后点击一下按钮，人物就会跳跃动作！</p><p>其他教程：</p><p><a href="http://blog.csdn.net/janeky/article/details/17364903" target="_blank">http://blog.csdn.net/janeky/article/details/17364903</a></p><p><a href="http://www.newbieol.com/information/564.html" target="_blank">http://www.newbieol.com/information/564.html</a></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

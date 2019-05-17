@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[C#] 通过C#使用Advanced CSharp Messenger</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[C#] 通过C#使用Advanced CSharp Messenger</h1>
+        <div class="show-content">
+          <p><b>Advanced CSharp Messenger 属于C#事件的一种。 维基百科中由详细的说明<a href="http://wiki.unity3d.com/index.php?title=Advanced_CSharp_Messenger" target="_blank">http://wiki.unity3d.com/index.php?title=Advanced_CSharp_Messenger</a>上周的一天刚巧有朋友问到我这一块的知识，那么我研究出来将它贴在博客中，帮助了他也帮助我自己！哇咔咔。</b></p><p><b>Advanced CSharp Messenger的特点可以将游戏对象做为参数发送。到底Advanced CSharp Messenger有什么用呢？先创建一个立方体对象，然后把Script脚本绑定在这个对象中。脚本中有一个方法叫DoSomething()。</b><b>写一段简单的代码，通常我们在调用方法的时候需要这样来写。</b></p><p>C#</p><blockquote>
+<p>	private Script script;</p>
+<p>	void Awake()</p>
+<p>	{</p>
+<p>		GameObject cube = GameObject.Find("Cube");</p>
+<p>		script = cube.GetComponent&lt;Script&gt;();</p>
+<p>	}</p>
+<p><br></p>
+<p>	void Update()</p>
+<p>	{</p>
+<p>		if(Input.GetMouseButtonDown(0))</p>
+<p>		{</p>
+<p>			script.DoSomething();</p>
+<p>		}</p>
+<p>	}</p>
+</blockquote><p><br></p><p><b>代码比较简单，我就不注释了。 原理就是先获取游戏对象，接着获取脚本组件对象，最后通过脚本组件对象去调用对应脚本中的方法，这样的调用方法我们称之为直接调用。</b></p><p><b>这个例子中我只调用了一个对象的方法，如果说有成千上万个对象，那么这样调用是不是感觉自己的代码非常的丑？因为你需要一个一个的获取对象然后获取脚本组件然后在调用方法。。。。。 （想想都恐怖！！）</b></p><p><b>下面我们在用Advanced CSharp Messenger来实现事件的调用。按照维基百科中首先把Message.cs 和Callback.cs拷贝在你的工程中。</b></p><p><b>CallBack.cs</b></p><p>C#</p><blockquote>
+<p>public delegate void Callback();</p>
+<p>public delegate void Callback&lt;T&gt;(T arg1);</p>
+<p>public delegate void Callback&lt;T, U&gt;(T arg1, U arg2);</p>
+<p>public delegate void Callback&lt;T, U, V&gt;(T arg1, U arg2, V arg3);</p>
+</blockquote><p><b> Message.cs</b></p><p>C#</p><blockquote>
+<p>/*</p>
+<p> * Advanced C# messenger by Ilya Suzdalnitski. V1.0</p>
+<p> *</p>
+<p> * Based on Rod Hyde's "CSharpMessenger" and Magnus Wolffelt's "CSharpMessenger Extended".</p>
+<p> *</p>
+<p> * Features:</p>
+<p> 	* Prevents a MissingReferenceException because of a reference to a destroyed message handler.</p>
+<p> 	* Option to log all messages</p>
+<p> 	* Extensive error detection, preventing silent bugs</p>
+<p> *</p>
+<p> * Usage examples:</p>
+<p> 	1. Messenger.AddListener&lt;GameObject&gt;("prop collected", PropCollected);</p>
+<p> 	   Messenger.Broadcast&lt;GameObject&gt;("prop collected", prop);</p>
+<p> 	2. Messenger.AddListener&lt;float&gt;("speed changed", SpeedChanged);</p>
+<p> 	   Messenger.Broadcast&lt;float&gt;("speed changed", 0.5f);</p>
+<p> *</p>
+<p> * Messenger cleans up its evenTable automatically upon loading of a new level.</p>
+<p> *</p>
+<p> * Don't forget that the messages that should survive the cleanup, should be marked with Messenger.MarkAsPermanent(string)</p>
+<p> *</p>
+<p> */</p>
+<p><br></p>
+<p>//#define LOG_ALL_MESSAGES</p>
+<p>//#define LOG_ADD_LISTENER</p>
+<p>//#define LOG_BROADCAST_MESSAGE</p>
+<p>#define REQUIRE_LISTENER</p>
+<p><br></p>
+<p>using System;</p>
+<p>using System.Collections.Generic;</p>
+<p>using UnityEngine;</p>
+<p><br></p>
+<p>static internal class Messenger {</p>
+<p>	#region Internal variables</p>
+<p><br></p>
+<p>	//Disable the unused variable warning</p>
+<p>#pragma warning disable 0414</p>
+<p>	//Ensures that the MessengerHelper will be created automatically upon start of the game.</p>
+<p>	static private MessengerHelper messengerHelper = ( new GameObject("MessengerHelper") ).AddComponent&lt; MessengerHelper &gt;();</p>
+<p>#pragma warning restore 0414</p>
+<p><br></p>
+<p>	static public Dictionary&lt;string, Delegate&gt; eventTable = new Dictionary&lt;string, Delegate&gt;();</p>
+<p><br></p>
+<p>	//Message handlers that should never be removed, regardless of calling Cleanup</p>
+<p>	static public List&lt; string &gt; permanentMessages = new List&lt; string &gt; ();</p>
+<p>	#endregion</p>
+<p>	#region Helper methods</p>
+<p>	//Marks a certain message as permanent.</p>
+<p>	static public void MarkAsPermanent(string eventType) {</p>
+<p>#if LOG_ALL_MESSAGES</p>
+<p>		Debug.Log("Messenger MarkAsPermanent \t\"" + eventType + "\"");</p>
+<p>#endif</p>
+<p><br></p>
+<p>		permanentMessages.Add( eventType );</p>
+<p>	}</p>
+<p><br></p>
+<p>	static public void Cleanup()</p>
+<p>	{</p>
+<p>#if LOG_ALL_MESSAGES</p>
+<p>		Debug.Log("MESSENGER Cleanup. Make sure that none of necessary listeners are removed.");</p>
+<p>#endif</p>
+<p><br></p>
+<p>		List&lt; string &gt; messagesToRemove = new List&lt;string&gt;();</p>
+<p><br></p>
+<p>		foreach (KeyValuePair&lt;string, Delegate&gt; pair in eventTable) {</p>
+<p>			bool wasFound = false;</p>
+<p><br></p>
+<p>			foreach (string message in permanentMessages) {</p>
+<p>				if (pair.Key == message) {</p>
+<p>					wasFound = true;</p>
+<p>					break;</p>
+<p>				}</p>
+<p>			}</p>
+<p><br></p>
+<p>			if (!wasFound)</p>
+<p>				messagesToRemove.Add( pair.Key );</p>
+<p>		}</p>
+<p><br></p>
+<p>		foreach (string message in messagesToRemove) {</p>
+<p>			eventTable.Remove( message );</p>
+<p>		}</p>
+<p>	}</p>
+<p><br></p>
+<p>	static public void PrintEventTable()</p>
+<p>	{</p>
+<p>		Debug.Log("\t\t\t=== MESSENGER PrintEventTable ===");</p>
+<p><br></p>
+<p>		foreach (KeyValuePair&lt;string, Delegate&gt; pair in eventTable) {</p>
+<p>			Debug.Log("\t\t\t" + pair.Key + "\t\t" + pair.Value);</p>
+<p>		}</p>
+<p><br></p>
+<p>		Debug.Log("\n");</p>
+<p>	}</p>
+<p>	#endregion</p>
+<p><br></p>
+<p>	#region Message logging and exception throwing</p>
+<p>    static public void OnListenerAdding(string eventType, Delegate listenerBeingAdded) {</p>
+<p>#if LOG_ALL_MESSAGES || LOG_ADD_LISTENER</p>
+<p>		Debug.Log("MESSENGER OnListenerAdding \t\"" + eventType + "\"\t{" + listenerBeingAdded.Target + " -&gt; " + listenerBeingAdded.Method + "}");</p>
+<p>#endif</p>
+<p><br></p>
+<p>        if (!eventTable.ContainsKey(eventType)) {</p>
+<p>            eventTable.Add(eventType, null );</p>
+<p>        }</p>
+<p><br></p>
+<p>        Delegate d = eventTable[eventType];</p>
+<p>        if (d != null &amp;&amp; d.GetType() != listenerBeingAdded.GetType()) {</p>
+<p>            throw new ListenerException(string.Format("Attempting to add listener with inconsistent signature for event type {0}. Current listeners have type {1} and listener being added has type {2}", eventType, d.GetType().Name, listenerBeingAdded.GetType().Name));</p>
+<p>        }</p>
+<p>    }</p>
+<p><br></p>
+<p>    static public void OnListenerRemoving(string eventType, Delegate listenerBeingRemoved) {</p>
+<p>#if LOG_ALL_MESSAGES</p>
+<p>		Debug.Log("MESSENGER OnListenerRemoving \t\"" + eventType + "\"\t{" + listenerBeingRemoved.Target + " -&gt; " + listenerBeingRemoved.Method + "}");</p>
+<p>#endif</p>
+<p><br></p>
+<p>        if (eventTable.ContainsKey(eventType)) {</p>
+<p>            Delegate d = eventTable[eventType];</p>
+<p><br></p>
+<p>            if (d == null) {</p>
+<p>                throw new ListenerException(string.Format("Attempting to remove listener with for event type \"{0}\" but current listener is null.", eventType));</p>
+<p>            } else if (d.GetType() != listenerBeingRemoved.GetType()) {</p>
+<p>                throw new ListenerException(string.Format("Attempting to remove listener with inconsistent signature for event type {0}. Current listeners have type {1} and listener being removed has type {2}", eventType, d.GetType().Name, listenerBeingRemoved.GetType().Name));</p>
+<p>            }</p>
+<p>        } else {</p>
+<p>            throw new ListenerException(string.Format("Attempting to remove listener for type \"{0}\" but Messenger doesn't know about this event type.", eventType));</p>
+<p>        }</p>
+<p>    }</p>
+<p><br></p>
+<p>    static public void OnListenerRemoved(string eventType) {</p>
+<p>        if (eventTable[eventType] == null) {</p>
+<p>            eventTable.Remove(eventType);</p>
+<p>        }</p>
+<p>    }</p>
+<p><br></p>
+<p>    static public void OnBroadcasting(string eventType) {</p>
+<p>#if REQUIRE_LISTENER</p>
+<p>        if (!eventTable.ContainsKey(eventType)) {</p>
+<p>            throw new BroadcastException(string.Format("Broadcasting message \"{0}\" but no listener found. Try marking the message with Messenger.MarkAsPermanent.", eventType));</p>
+<p>        }</p>
+<p>#endif</p>
+<p>    }</p>
+<p><br></p>
+<p>    static public BroadcastException CreateBroadcastSignatureException(string eventType) {</p>
+<p>        return new BroadcastException(string.Format("Broadcasting message \"{0}\" but listeners have a different signature than the broadcaster.", eventType));</p>
+<p>    }</p>
+<p><br></p>
+<p>    public class BroadcastException : Exception {</p>
+<p>        public BroadcastException(string msg)</p>
+<p>            : base(msg) {</p>
+<p>        }</p>
+<p>    }</p>
+<p><br></p>
+<p>    public class ListenerException : Exception {</p>
+<p>        public ListenerException(string msg)</p>
+<p>            : base(msg) {</p>
+<p>        }</p>
+<p>    }</p>
+<p>	#endregion</p>
+<p><br></p>
+<p>	#region AddListener</p>
+<p>	//No parameters</p>
+<p>    static public void AddListener(string eventType, Callback handler) {</p>
+<p>        OnListenerAdding(eventType, handler);</p>
+<p>        eventTable[eventType] = (Callback)eventTable[eventType] + handler;</p>
+<p>    }</p>
+<p><br></p>
+<p>	//Single parameter</p>
+<p>	static public void AddListener&lt;T&gt;(string eventType, Callback&lt;T&gt; handler) {</p>
+<p>        OnListenerAdding(eventType, handler);</p>
+<p>        eventTable[eventType] = (Callback&lt;T&gt;)eventTable[eventType] + handler;</p>
+<p>    }</p>
+<p><br></p>
+<p>	//Two parameters</p>
+<p>	static public void AddListener&lt;T, U&gt;(string eventType, Callback&lt;T, U&gt; handler) {</p>
+<p>        OnListenerAdding(eventType, handler);</p>
+<p>        eventTable[eventType] = (Callback&lt;T, U&gt;)eventTable[eventType] + handler;</p>
+<p>    }</p>
+<p><br></p>
+<p>	//Three parameters</p>
+<p>	static public void AddListener&lt;T, U, V&gt;(string eventType, Callback&lt;T, U, V&gt; handler) {</p>
+<p>        OnListenerAdding(eventType, handler);</p>
+<p>        eventTable[eventType] = (Callback&lt;T, U, V&gt;)eventTable[eventType] + handler;</p>
+<p>    }</p>
+<p>	#endregion</p>
+<p><br></p>
+<p>	#region RemoveListener</p>
+<p>	//No parameters</p>
+<p>    static public void RemoveListener(string eventType, Callback handler) {</p>
+<p>        OnListenerRemoving(eventType, handler);  </p>
+<p>        eventTable[eventType] = (Callback)eventTable[eventType] - handler;</p>
+<p>        OnListenerRemoved(eventType);</p>
+<p>    }</p>
+<p><br></p>
+<p>	//Single parameter</p>
+<p>	static public void RemoveListener&lt;T&gt;(string eventType, Callback&lt;T&gt; handler) {</p>
+<p>        OnListenerRemoving(eventType, handler);</p>
+<p>        eventTable[eventType] = (Callback&lt;T&gt;)eventTable[eventType] - handler;</p>
+<p>        OnListenerRemoved(eventType);</p>
+<p>    }</p>
+<p><br></p>
+<p>	//Two parameters</p>
+<p>	static public void RemoveListener&lt;T, U&gt;(string eventType, Callback&lt;T, U&gt; handler) {</p>
+<p>        OnListenerRemoving(eventType, handler);</p>
+<p>        eventTable[eventType] = (Callback&lt;T, U&gt;)eventTable[eventType] - handler;</p>
+<p>        OnListenerRemoved(eventType);</p>
+<p>    }</p>
+<p><br></p>
+<p>	//Three parameters</p>
+<p>	static public void RemoveListener&lt;T, U, V&gt;(string eventType, Callback&lt;T, U, V&gt; handler) {</p>
+<p>        OnListenerRemoving(eventType, handler);</p>
+<p>        eventTable[eventType] = (Callback&lt;T, U, V&gt;)eventTable[eventType] - handler;</p>
+<p>        OnListenerRemoved(eventType);</p>
+<p>    }</p>
+<p>	#endregion</p>
+<p><br></p>
+<p>	#region Broadcast</p>
+<p>	//No parameters</p>
+<p>    static public void Broadcast(string eventType) {</p>
+<p>#if LOG_ALL_MESSAGES || LOG_BROADCAST_MESSAGE</p>
+<p>		Debug.Log("MESSENGER\t" + System.DateTime.Now.ToString("hh:mm:ss.fff") + "\t\t\tInvoking \t\"" + eventType + "\"");</p>
+<p>#endif</p>
+<p>        OnBroadcasting(eventType);</p>
+<p><br></p>
+<p>        Delegate d;</p>
+<p>        if (eventTable.TryGetValue(eventType, out d)) {</p>
+<p>            Callback callback = d as Callback;</p>
+<p><br></p>
+<p>            if (callback != null) {</p>
+<p>                callback();</p>
+<p>            } else {</p>
+<p>                throw CreateBroadcastSignatureException(eventType);</p>
+<p>            }</p>
+<p>        }</p>
+<p>    }</p>
+<p><br></p>
+<p>	//Single parameter</p>
+<p>    static public void Broadcast&lt;T&gt;(string eventType, T arg1) {</p>
+<p>#if LOG_ALL_MESSAGES || LOG_BROADCAST_MESSAGE</p>
+<p>		Debug.Log("MESSENGER\t" + System.DateTime.Now.ToString("hh:mm:ss.fff") + "\t\t\tInvoking \t\"" + eventType + "\"");</p>
+<p>#endif</p>
+<p>        OnBroadcasting(eventType);</p>
+<p><br></p>
+<p>        Delegate d;</p>
+<p>        if (eventTable.TryGetValue(eventType, out d)) {</p>
+<p>            Callback&lt;T&gt; callback = d as Callback&lt;T&gt;;</p>
+<p><br></p>
+<p>            if (callback != null) {</p>
+<p>                callback(arg1);</p>
+<p>            } else {</p>
+<p>                throw CreateBroadcastSignatureException(eventType);</p>
+<p>            }</p>
+<p>        }</p>
+<p>	}</p>
+<p><br></p>
+<p>	//Two parameters</p>
+<p>    static public void Broadcast&lt;T, U&gt;(string eventType, T arg1, U arg2) {</p>
+<p>#if LOG_ALL_MESSAGES || LOG_BROADCAST_MESSAGE</p>
+<p>		Debug.Log("MESSENGER\t" + System.DateTime.Now.ToString("hh:mm:ss.fff") + "\t\t\tInvoking \t\"" + eventType + "\"");</p>
+<p>#endif</p>
+<p>        OnBroadcasting(eventType);</p>
+<p><br></p>
+<p>        Delegate d;</p>
+<p>        if (eventTable.TryGetValue(eventType, out d)) {</p>
+<p>            Callback&lt;T, U&gt; callback = d as Callback&lt;T, U&gt;;</p>
+<p><br></p>
+<p>            if (callback != null) {</p>
+<p>                callback(arg1, arg2);</p>
+<p>            } else {</p>
+<p>                throw CreateBroadcastSignatureException(eventType);</p>
+<p>            }</p>
+<p>        }</p>
+<p>    }</p>
+<p><br></p>
+<p>	//Three parameters</p>
+<p>    static public void Broadcast&lt;T, U, V&gt;(string eventType, T arg1, U arg2, V arg3) {</p>
+<p>#if LOG_ALL_MESSAGES || LOG_BROADCAST_MESSAGE</p>
+<p>		Debug.Log("MESSENGER\t" + System.DateTime.Now.ToString("hh:mm:ss.fff") + "\t\t\tInvoking \t\"" + eventType + "\"");</p>
+<p>#endif</p>
+<p>        OnBroadcasting(eventType);</p>
+<p><br></p>
+<p>        Delegate d;</p>
+<p>        if (eventTable.TryGetValue(eventType, out d)) {</p>
+<p>            Callback&lt;T, U, V&gt; callback = d as Callback&lt;T, U, V&gt;;</p>
+<p><br></p>
+<p>            if (callback != null) {</p>
+<p>                callback(arg1, arg2, arg3);</p>
+<p>            } else {</p>
+<p>                throw CreateBroadcastSignatureException(eventType);</p>
+<p>            }</p>
+<p>        }</p>
+<p>    }</p>
+<p>	#endregion</p>
+<p>}</p>
+<p><br></p>
+<p>//This manager will ensure that the messenger's eventTable will be cleaned up upon loading of a new level.</p>
+<p>public sealed class MessengerHelper : MonoBehaviour {</p>
+<p>	void Awake ()</p>
+<p>	{</p>
+<p>		DontDestroyOnLoad(gameObject);</p>
+<p>	}</p>
+<p><br></p>
+<p>	//Clean up eventTable every time a new level loads.</p>
+<p>	public void OnDisable() {</p>
+<p>		Messenger.Cleanup();</p>
+<p>	}</p>
+<p>}</p>
+</blockquote><p><b> 然后就可以开始使用了，Messager.Broadcast()这样就好比我们发送了一条广播。</b></p><p>C#</p><blockquote>
+<p>	void Update()</p>
+<p>	{</p>
+<p>		if(Input.GetMouseButtonDown(0))</p>
+<p>		{</p>
+<p>			Messenger.Broadcast("Send");</p>
+<p>		}</p>
+<p>	}</p>
+</blockquote><p><b> 在需要这条广播的类中来接受它，同样是刚刚说的Script类。接受广播的标志是 Messager.AddListener()参数1表示广播的名称，参数2表示广播所调用的方法。</b></p><p>C#</p><blockquote>
+<p>using UnityEngine;</p>
+<p>using System.Collections;</p>
+<p><br></p>
+<p>public class Script : MonoBehaviour {</p>
+<p><br></p>
+<p>	void Awake()</p>
+<p>	{</p>
+<p>		Messenger.AddListener( "Send", DoSomething );</p>
+<p>	}</p>
+<p>	public void DoSomething()</p>
+<p>	{</p>
+<p>		Debug.Log("DoSomething");</p>
+<p>	}</p>
+<p>}</p>
+</blockquote><p><b> 这样一来，只要发送名称为”Send”的方法，就可以在别的类中接收它了。</b></p><p><b>我们在说说如何通过广播来传递参数,这也是那天那个哥们主要问我的问题。（其实是维基百科上写的不是特别特别的清楚，那哥们误解了）在Callback中可以看出参数最多可以是三个，参数的类型是任意类型，也就是说我们不仅能传递 int float bool 还能传递gameObject类型。</b></p><p><b>如下所示，发送广播的时候传递了两个参数，参数1是一个游戏对象，参数2是一个int数值。</b></p><p>C#</p><blockquote>
+<p>void Update()</p>
+<p>	{</p>
+<p>		if(Input.GetMouseButtonDown(0))</p>
+<p>		{</p>
+<p>			GameObject cube = GameObject.Find("Cube");</p>
+<p>			Messenger.Broadcast&lt;GameObject,int&gt;("Send",cube,1980);</p>
+<p>		}</p>
+<p>	}</p>
+</blockquote><p><b> 然后是接受的地方 参数用&lt;&gt;存在一起。游戏对象也可以完美的传递。</b></p><p>C#</p><blockquote>
+<p>using UnityEngine;</p>
+<p>using System.Collections;</p>
+<p><br></p>
+<p>public class Script : MonoBehaviour {</p>
+<p><br></p>
+<p>	void Awake()</p>
+<p>	{</p>
+<p>		Messenger.AddListener&lt;GameObject,int&gt;( "Send", DoSomething );</p>
+<p>	}</p>
+<p>	public void DoSomething(GameObject obj,int i)</p>
+<p>	{</p>
+<p>		Debug.Log("name " + obj.name + " id =" + i);</p>
+<p>	}</p>
+<p>}</p>
+</blockquote><p><b>如果传递一个参数&lt;T&gt;</b></p><p><b>两个参数&lt;T,T&gt;</b></p><p><b>三个参数&lt;T,T,T&gt;   </b></p><p><b>怎么样使用起来还是挺简单的吧？</b></p><p><b>我觉得项目中最好不要大量的使用代理事件这类的方法（根据需求而定），虽然可以让你的代码非常的简洁，但是它的效率不高大概比直接调用慢5-倍左右吧，就好比美好的东西一定都有瑕疵一样。 还记得Unity自身也提供了一种发送消息的方法吗？，用过的都知道效率也非常低下，虽然我们看不到它具体实现的源码是如何实现的，但是我觉得原理可能也是这样的。 欢迎和大家一起讨论与学习。</b></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

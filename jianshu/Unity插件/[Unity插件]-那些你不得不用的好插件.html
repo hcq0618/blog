@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Unity插件] 那些你不得不用的好插件</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">[Unity插件] 那些你不得不用的好插件</h1>
+        <div class="show-content">
+          <div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-0e4ab2105ff37a8c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>在手机上插入电影已经是当下非常普及的需求了，在比较了各种视频集成插件后，我们认为Mobile Movie Texture能实现非常不错的效果。它的特点在于：</p><p>功能比较丰富，支持播放、暂停，播放点拖动等操作。</p><p>性能非常高效。如下图，在红米2只要1.16ms即可完成整个函数的调用，非常快速。</p><p><b><br></b></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-51d99a9d15c5e737.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><b>支持透明区域分离</b>。在如下的爆炸视频中，Mobile Movie Texture将Alpha通道剔除，使得视频本身能更好地和背景融合。该剔除总耗时1.86ms，即使在每帧都有个decode的情况下，总耗时基本上依然不会超过2ms。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-b9f710fd8fde4157.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-436c098b4ba6a7de.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>虽然该插件目前仅支持Ogg和Ogv格式，但是我们可以通过工具把其他格式转换成Ogv格式导入Unity使用。</p><p><b>注意</b>：和所有视频插件一样，Mobile Movie Texture也不支持URL播放，如优酷的URL是不支持的。</p><h1><b>Dynamic Bone</b></h1><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-139f2146827859b4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>为了增加角色运动的真实代入感，我们常常需要某些主体的附属物能跟随主体的运动自然地发生变化，如头发、衣服的运动等，这时候Dynamic Bone就能满足我们的需求，从而避免了美术设计师费时费力地重复工作，并且性能表现非常高效。该插件是源码开放的，适合移动设备。</p><p>如下图，该插件的使用非常简单，开发者只需要在此设置一些根节点等相关参数。原理也不难理解：对于每个附属物体，获取骨骼根节点和控制节点的Transform信息。根据这两个结点信息，根据设定参数将运动传播出去。</p><p><b><br></b></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-80b3c95af822acec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><b><br></b></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-cbb0ab9ccf9d76bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><h1><b>Magic Splitscreen</b></h1><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-7f5d600a2ef1264a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>随着电视游戏走入寻常百姓家，两人甚至多人同屏游戏的需求已经相当普遍，如赛车、枪战类等游戏。这时候我们就希望游戏能达到自动分屏的效果，Magic Splitscreen恰能满足这点。</p><p>该插件支持多个Player分屏（图例是两个），开发者只要选定分屏的Camera、主camera以及设定Trigger Distance（距离多远的时候分屏）等参数，即可达到分屏效果。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/17266280-c7a151f5271fd7ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>该插件的工作原理：当镜头拉远的时候，去创建一个Camera去渲染另一个物体，比如创建了一个分相机并调整它的透视矩阵，该矩阵根据距离的远近选择合适的角度去切这个场景，将得到的结果以Mask的形式贴到原来的主Camera上，从而实现这样的效果。</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
