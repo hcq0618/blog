@@ -67,45 +67,25 @@ tags: [Unity]
 
 首先创建一个非常简单的接口，让所有需要随时间变化的脚本都实现这个接口：
 
-> _public interface ITimeChanging_
-
->
-
-> _{_
-
->
-
-> _void AddTime(float dt);_
-
->
-
-> _}_
+```
+public interface ITimeChanging
+{
+    void AddTime(float dt);
+}
+```
 
 **定义时间操控实体**
 
 这个时间操控实体可以为一组实现了ITimeChanging接口的对象调用这些方法。 实体接口如下：
 
-> _public class TimeManager_
-
->
-
-> _{_
-
->
-
-> _float Time{get; set;}_
-
->
-
-> _IEnumerable <ITimeChanging> TimeDependants { get; set; }_
-
->
-
-> _void SetTimeBruteForce(float time);_
-
->
-
-> _}_
+```
+public class TimeManager
+{
+    float Time { get; set; }
+    IEnumerable<ITimeChanging> TimeDependants { get; set; }
+    void SetTimeBruteForce(float time);
+}
+```
 
 在编辑器模式中，有一个可以让用户直接在运行模式下控制时间的脚本。如下图所示，你可以看到关卡控制器通过它的Update()来增加时间。
 
@@ -122,43 +102,22 @@ https://github.com/alexander91/timelineExample
 我们设置了一个时间轴管理器，允许跳转到不同的时刻。
 以及几个带有线性运动（LineMovement）脚本的立方体，LineMovement脚本继承自ITimeChaning，并监听TimeManager中的时间改变（AddTime），可以在监视器面板设置这个立方体以给定速度朝预定方向移动，代码如下：
 
-> _public class LineMovement : MonoBehaviour, ITimeChanging {_
+```
+public class LineMovement : MonoBehaviour, ITimeChanging
+{
 
->
+    [SerializeField]
+    Vector3 direction = Vector3.up;
 
-> _[SerializeField]_
+    [SerializeField]
+    float speed = 0.2f;
 
->
-
-> _Vector3 direction = Vector3.up;_
-
->
-
-> _[SerializeField]_
-
->
-
-> _float speed = 0.2f;_
-
->
-
-> _public void AddTime(float dt)_
-
->
-
-> _{_
-
->
-
-> _transform.position += dt * speed * direction.normalized;_
-
->
-
-> _}_
-
->
-
-> _}_
+    public void AddTime(float dt)
+    {
+        transform.position += dt * speed * direction.normalized;
+    }
+}
+```
 
 综上所述，编辑器自定义时间控制工具非常适用于确定性的游戏，这将让整个工作流程分外轻松。 另外，如果游戏中的动作很简单，也可以很容易在编辑器中提供各种选项。
 
@@ -174,8 +133,6 @@ https://github.com/alexander91/timelineExample
 
 但有人担心这样做会让屏幕变得混乱，或者让玩家容易重复之前的行为而不去思考新的方式，降低了游戏的趣味性。为了解决这个问题，我们发现利用时间轴复用功能进行提示似乎是个不错的选择。因为每次游戏失败之后，在玩家点击“重新开始”按钮后，以相反的方向显示之前的游戏经历，如下图所示：
 
- _  
-_
 
 ![](http://upload-images.jianshu.io/upload_images/17266280-95c8da7ee1a5ea26.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
 
@@ -189,111 +146,48 @@ _从失败那一刻开始，呈现最有可能导致失败的片段_
 
 虽然用之前已经实现的后退操作就能完成敌人和水晶的运动。但是关卡中的其它事件是由玩家或者玩家动作触发的。对于这种情况，需要为TimeManager添加新的接口：
 
-> _public delegate void ReversingTimeActionDelegate();_
-
->
-
-> _public class TimeManager_
-
->
-
-> _{_
-
->
-
-> _class ReversingActionWithTime_
-
->
-
-> _{_
-
->
-
-> _public float Time {get; set;}_
-
->
-
-> _public ReversingTimeActionDelegate ActionToCarryOut {get; set;}_
-
->
-
-> _}_
-
->
-
-> __
-
->
-
-> _public void RememberAction(ReversingTimeActionDelegate action)_
-
->
-
-> _}_
+```
+public delegate void ReversingTimeActionDelegate();
+public class TimeManager
+{
+    class ReversingActionWithTime
+    {
+        public float Time { get; set; }
+        public ReversingTimeActionDelegate ActionToCarryOut { get; set; }
+    }
+    public void RememberAction(ReversingTimeActionDelegate action)
+ }
+```
 
 我们引入了ReversingActionWithTime这个类来记录动作的时间以及一个函数，它可以执行反向动作，这个逻辑与编程中的命令模式相似，但它是通过与时间绑定而不是点击ctrl+Z或其他类似的组合键来触发执行的。当关卡运行且动作发生时，只需要把RememberAction反向函数添加到这一时刻，如果想让时间倒退就可以调用这个函数。
 
 例如当有敌人碰到屏障且消失时，就添加这个函数。在之后点击重新开始后，就可以回放到这一时间点了。
 这个函数会自动用于再次激活敌人的TimeManager调用，使敌人出现在屏幕上：
 
-> _public class Enemy{_
+```
+public class Enemy
+{
+    void onCollisionWithBarrier()
+    {
+        timeManager.RememberAction(Activate);
+        Deactivate();
+    }
 
->
-
-> _void onCollisionWithBarrier()_
-
->
-
-> _{_
-
->
-
-> _timeManager.RememberAction(Activate);_
-
->
-
-> _Deactivate();_
-
->
-
-> _}_
-
->
-
-> __
-
->
-
-> _void Activate()_
-
->
-
-> _{_
-
->
-
-> _// 进行激活相关的操作_
-
->
-
-> _}_
-
->
-
-> _//.. 剩下的实现_
-
->
-
-> _}_
+    void Activate()
+    {
+        // 进行激活相关的操作
+    }
+    //.. 剩下的实现
+}
+```
 
 在时间倒退模式中，我们并不关心碰撞，因为这些碰撞已经在游戏正常运行的时候发生了。只需要倒退游戏状态以更快的速度跳过一些帧即可，
 这里不需要太强大的设备，因为倒退可以按照正常速度的20倍进行，并且关卡倒退完成就相当于重置所有对象的位置。
 
-  
+
 
 但是在某些情况下，也需要将一些变量的值存储在函数中。例如下图中黄色的搬运者敌人，一种在被消灭后会产生细小敌人的角色，它的确切运动需要记录下来，是因为生成的小敌人的运动轨迹会有1秒或2秒的随机延迟。
 
-  
 
 ![](http://upload-images.jianshu.io/upload_images/17266280-3af11a7f940de8e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
 
@@ -313,47 +207,20 @@ _从失败那一刻开始，呈现最有可能导致失败的片段_
 
 另外，如果想要将这个效果应用到相机而非单独的物体中，我们可以将着色器赋给某个材质，并将下面脚本绑定到相机中：
 
-> _using UnityEngine;_
+```
+using UnityEngine;
+public class BasicPostEffect : MonoBehaviour
+{
 
->
+    [SerializeField]
+    Material mat;
 
-> _public class BasicPostEffect : MonoBehaviour_
-
->
-
-> _{_
-
->
-
-> _[SerializeField]_
-
->
-
-> _Material mat;_
-
->
-
-> __
-
->
-
-> _void OnRenderImage(RenderTexture src, RenderTexture dst)_
-
->
-
-> _{_
-
->
-
-> _Graphics.Blit(src, dst, mat);_
-
->
-
-> _}_
-
->
-
-> _}_
+    void OnRenderImage(RenderTexture src, RenderTexture dst)
+    {
+        Graphics.Blit(src, dst, mat);
+    }
+}
+```
 
 接着，将新材质赋给相机对应的字段。有趣的事情是添加了这个效果之后，玩家最终可以直观的知道发生了什么事情，并且不再点击屏幕创建屏障了。同样有趣的是，有部分玩家观察到有一个倒退回放只会在十次重新开始后出现，但对这个回放丝毫没有印象。
 

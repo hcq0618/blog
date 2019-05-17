@@ -11,63 +11,63 @@ tags: [Unity优化]
 
 可以在Assets/下添加link.xml文件来手动排除不被剖离的类。
 
-> <linker>
+ ```
+<linker>
 
->
 
->       <assembly fullname="mscorlib">
 
->
+       <assembly fullname="mscorlib">
 
->                 < fullname="System.Reflection" preserve="all"/>
 
->
 
->                 < fullname="System.Security.Cryptography" preserve="all"/>
+                 < fullname="System.Reflection" preserve="all"/>
 
->
 
->                 < fullname="System.Runtime.CompilerServices"
-preserve="all"/>
 
->
+                 < fullname="System.Security.Cryptography" preserve="all"/>
 
->                 < fullname="System.Runtime.InteropServices" preserve="all"/>
 
->
 
->                 < fullname="System.Diagnostics" preserve="all"/>
+                 < fullname="System.Runtime.CompilerServices">
+preserve="all"/
 
->
 
->                 < fullname="System.Security" preserve="all"/>
 
->
+                 < fullname="System.Runtime.InteropServices" preserve="all"/>
 
->                 < fullname="System.Security.Permissions" preserve="all"/>
 
->
 
->       </assembly>
+                 < fullname="System.Diagnostics" preserve="all"/>
 
->
 
-> </linker>
+
+                 < fullname="System.Security" preserve="all"/>
+
+
+
+                 < fullname="System.Security.Permissions" preserve="all"/>
+
+
+
+       </assembly>
+
+
+
+ </linker>
+```
 
 如上我们保持link.xml里面的格式这样既可
 assembly其实就是dll库名，我们要排除这个dll库里面的1：整个命名空间；2：某个命名空间里面的某个具体类
 
 补充针对排除整个命名空间可以这样加：
 
-> <assembly fullname="JsonDotNet">
+ ```
+<assembly fullname="JsonDotNet">
 
->
+                 <namespace fullname="Newtonsoft.Json" preserve="all"/>
 
->                 <namespace fullname="Newtonsoft.Json" preserve="all"/>
-
->
-
-> </assembly>
+ </assembly>
+```
 
 关于查看dll库可以用默认的mono编辑器或者vs点进目录文件分类的dll就能看见了。
 

@@ -212,39 +212,41 @@ Clipped Sprite是Sprite的一种，可动态实现隐藏、可见。
 同时调整其localPostion的y轴，可模拟图片的隐藏、显示效果。 另外，这个思想也挺有趣的，使用n个return
 null代替waitforSecond.
 
-> private IEnumerator WaitForHit()
+ ```
+private IEnumerator WaitForHit()
 
->
 
-> {
 
->
+ {
 
-> float time = 0.0f;
 
->
 
-> while (!whacked && time < timeLimit)
+ float time = 0.0f;
 
->
 
-> {
 
->
+ while (!whacked && time < timeLimit)
 
-> time += Time.deltaTime;
 
->
 
-> yield return null;
+ {
 
->
 
-> }
 
->
+ time += Time.deltaTime;
 
-> }
+
+
+ yield return null;
+
+
+
+ }
+
+
+
+ }
+```
 
 步骤5：精灵动画（Sprite Animation）
 

@@ -56,55 +56,57 @@ LoopScrollRect要解决的核心问题是：如何计算每个元素的大小。
 Element来控制每个cell的长宽，因此对于GridLayout直接取高度，否则取Preferred
 Height。需要注意的是，除了元素本身的大小之外，我们还要将padding考虑进去。
 
-> protected override float GetSize(RectTransform item)
+```
+ protected override float GetSize(RectTransform item)
 
->
 
-> {
 
->
+ {
 
->     float size = contentSpacing;
 
->
 
->     if (m_GridLayout != null)
+     float size = contentSpacing;
 
->
 
->     {
 
->
+     if (m_GridLayout != null)
 
->         size += m_GridLayout.cellSize.y;
 
->
 
->     }
+     {
 
->
 
->     else
 
->
+         size += m_GridLayout.cellSize.y;
 
->     {
 
->
 
->         size += LayoutUtility.GetPreferredHeight(item);
+     }
 
->
 
->     }
 
->
+     else
 
->     return size;
 
->
 
-> }
+     {
+
+
+
+         size += LayoutUtility.GetPreferredHeight(item);
+
+
+
+     }
+
+
+
+     return size;
+
+
+
+ }
+```
 
 这个其实也是最核心的一个地方：在能够准确计算格子大小的基础上，后续工作就好实现了。
 
@@ -114,271 +116,275 @@ Height。需要注意的是，除了元素本身的大小之外，我们还要�
 
 NewItemAtStart函数实现了在头部增加一个(或一行，针对GridLayout)元素，并返回这些元素的高度；DeleteItemAtStart代表删除头部的一个元素。需要注意的是，在修改头部元素之后要及时修改content的anchoredPosition，这样才能保证整个内容区域不会因为多了或者少了一行而产生跳变。
 
-> protected float NewItemAtStart()
+ ```
+protected float NewItemAtStart()
 
->
 
-> {
 
->
+ {
 
->     float size = 0;
 
->
 
->     for (int i = 0; i < contentConstraintCount; i++)
+     float size = 0;
 
->
 
->     {
 
->
+     for (int i = 0; i < contentConstraintCount; i++)
 
->         // Get Element from ObjectPool
 
->
 
->     }
+     {
 
->
 
->     if (!reverseDirection)
 
->
+         // Get Element from ObjectPool
 
->     {
 
->
 
->         // Modify content.anchoredPosition
+     }
 
->
 
->     }
 
->
+     if (!reverseDirection)
 
->     return size;
 
->
 
-> }
+     {
 
->
 
-> protected float DeleteItemAtStart()
 
->
+         // Modify content.anchoredPosition
 
-> {
 
->
 
->     float size = 0;
+     }
 
->
 
->     for (int i = 0; i < contentConstraintCount; i++)
 
->
+     return size;
 
->     {
 
->
 
->         // Return Element to ObjectPool
+ }
 
->
 
->     }
 
->
+ protected float DeleteItemAtStart()
 
->     if (!reverseDirection)
 
->
 
->     {
+ {
 
->
 
->         // Modify content.anchoredPosition
 
->
+     float size = 0;
 
->     }
 
->
 
->     return size;
+     for (int i = 0; i < contentConstraintCount; i++)
 
->
 
-> }
+
+     {
+
+
+
+         // Return Element to ObjectPool
+
+
+
+     }
+
+
+
+     if (!reverseDirection)
+
+
+
+     {
+
+
+
+         // Modify content.anchoredPosition
+
+
+
+     }
+
+
+
+     return size;
+
+
+
+ }
+```
 
 **3\. 何时需要增删元素**
 
 这里需要有两个概念viewBounds和contentBounds：前者是指ScrollRect本身的大小，一般也对应Mask；后者是指ScrollRect里所有cell组成的内容部分的大小。在这个基础上就简单了：如果contentBounds的最上面比viewBounds的最上面要低，那么尝试在顶部增加元素；如果contentBounds的最上面比viewBounds的最上面高很多，那么尝试删除元素。
 
-> protected override bool UpdateItems(Bounds viewBounds, Bounds contentBounds)
+ ```
+protected override bool UpdateItems(Bounds viewBounds, Bounds contentBounds)
 
->
 
-> {
 
->
+ {
 
->     bool changed = false;
 
->
 
->     // cases for NewItemAtEnd/DeleteItemAtEnd
+     bool changed = false;
 
->
 
->     if (viewBounds.max.y > contentBounds.max.y - 1)
 
->
+     // cases for NewItemAtEnd/DeleteItemAtEnd
 
->     {
 
->
 
->         float size = NewItemAtStart();
+     if (viewBounds.max.y  contentBounds.max.y - 1)
 
->
 
->         if (size > 0)
 
->
+     {
 
->         {
 
->
 
->             changed = true;
+         float size = NewItemAtStart();
 
->
 
->         }
 
->
+         if (size  0)
 
->     }
 
->
 
->     else if (viewBounds.max.y < contentBounds.max.y - threshold)
+         {
 
->
 
->     {
 
->
+             changed = true;
 
->         float size = DeleteItemAtStart();
 
->
 
->         if (size > 0)
+         }
 
->
 
->         {
 
->
+     }
 
->             changed = true;
 
->
 
->         }
+     else if (viewBounds.max.y < contentBounds.max.y - threshold)
 
->
 
->     }
 
->
+     {
 
->     return changed;
 
->
 
-> }
+         float size = DeleteItemAtStart();
 
->
 
-> **4\. 对象池交互**
+
+         if (size  0)
+
+
+
+         {
+
+
+
+             changed = true;
+
+
+
+         }
+
+
+
+     }
+
+
+
+     return changed;
+
+
+
+ }
+```
+
+
+
+ **4\. 对象池交互**
 
 在新建cell和销毁cell的时候，使用对象池来避免内存碎片；同时这里使用了SendMessage来向每个cell发送必须的信息，保证数据的正确性。
 
-> private void SendMessageToNewObject(Transform go, int idx)
+ private void SendMessageToNewObject(Transform go, int idx)
 
->
 
-> {
 
->
+ {
 
->     go.SendMessage("ScrollCellIndex", idx);
 
->
 
-> }
+     go.SendMessage("ScrollCellIndex", idx);
 
->
 
-> private void ReturnObjectAndSendMessage(Transform go)
 
->
+ }
 
-> {
 
->
 
->     go.SendMessage("ScrollCellReturn",
+ private void ReturnObjectAndSendMessage(Transform go)
+
+
+
+ {
+
+
+
+     go.SendMessage("ScrollCellReturn",
 SendMessageOptions.DontRequireReceiver);
 
->
 
->     prefabPool.ReturnObjectToPool(go.gameObject);
 
->
+     prefabPool.ReturnObjectToPool(go.gameObject);
 
-> }
 
->
 
-> private RectTransform InstantiateNextItem(int itemIdx)
+ }
 
->
 
-> {
 
->
+ private RectTransform InstantiateNextItem(int itemIdx)
 
->     RectTransform nextItem =
-prefabPool.GetObjectFromPool(prefabPoolName).GetComponent<RectTransform>();
 
->
 
->     nextItem.transform.SetParent(content, false);
+ {
 
->
 
->     nextItem.gameObject.SetActive(true);
 
->
+     RectTransform nextItem =
+prefabPool.GetObjectFromPool(prefabPoolName).GetComponent<RectTransform();
 
->     SendMessageToNewObject(nextItem, itemIdx);
 
->
 
->     return nextItem;
+     nextItem.transform.SetParent(content, false);
 
->
 
-> }
+
+     nextItem.gameObject.SetActive(true);
+
+
+
+     SendMessageToNewObject(nextItem, itemIdx);
+
+
+
+     return nextItem;
+
+
+
+ }
 
 **5\. 滚动条相关**
 
@@ -439,7 +445,7 @@ Rect即可。** 使用Component菜单里的也是一样的。
  **其他参考**
 
 后来搜了下，发现网上也有人提到过UGUI ScrollRect
-优化（<http://blog.csdn.net/subsystemp/article/details/46912479>），不过他的策略是监听ScrollRect的value，然后禁用范围外的cell。最后作者也提到改成动态加载策略。这种基于value的做法我不太确认在在滚动前动态添加新元素的时候是否会出现问题。
+优化（<http://blog.csdn.net/subsystemp/article/details/46912479），不过他的策略是监听ScrollRect的value，然后禁用范围外的cell。最后作者也提到改成动态加载策略。这种基于value的做法我不太确认在在滚动前动态添加新元素的时候是否会出现问题。
 
 文末，再次感谢钱康来的分享，如果您有任何独到的见解或者发现也欢迎联系我们，一起探讨。（QQ群465082844）。
 

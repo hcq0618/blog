@@ -197,23 +197,17 @@ height 是最小单位，那么Layout Group就不知道怎么来算居中了。�
 
 如果运行时实例化后的gameObject 直接放在 Layout Group下面即可。Layout Group会自动计算布局，真的是非常方便。
 
-> for(int i =0 ;i <10;i++){
+ ```
+for(int i =0 ;i <10;i++){
 
->
+ GameObject go = (GameObject)Instantiate(Resources.Load<GameObject>(“item”));
 
-> GameObject go = (GameObject)Instantiate(Resources.Load<GameObject>(“item”));
+ go.transform.parent = transform;
 
->
+ go.transform.localScale = Vector3.one;
 
-> go.transform.parent = transform;
-
->
-
-> go.transform.localScale = Vector3.one;
-
->
-
-> }
+ }
+```
 
 还有个问题就是隐藏，比如把其中的一个cell setActive = false ，为了不计算隐藏的cell 所以要先把 IngonreLaytout =
 true 再 setActivity = false  这一切都可以在代码里面来设置。

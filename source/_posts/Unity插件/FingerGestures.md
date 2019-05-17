@@ -46,27 +46,29 @@ Gestures里TapRecognizer面板下，点"Copy Event To Clipboard"
 
 (5)打输出debug信息的代码
 
-> using UnityEngine;
+ ```
+using UnityEngine;
 
->
 
-> using System.Collections;
 
->
+ using System.Collections;
 
-> publicclass TapTutorial : MonoBehaviour
 
->
 
->  OnTap(TapGesture gesture)
+ publicclass TapTutorial : MonoBehaviour
 
->
 
->   Debug.Log( "Tap gesture detected at " + gesture.Position +
 
->
+  OnTap(TapGesture gesture)
 
->             ". It was sent by " + gesture.Recognizer.name );
+
+
+   Debug.Log( "Tap gesture detected at " + gesture.Position +
+
+
+
+             ". It was sent by " + gesture.Recognizer.name );
+```
 
 识别单击物体
 
@@ -84,32 +86,34 @@ Gestures里TapRecognizer面板下，点"Copy Event To Clipboard"
 
 (2)  脚本变为
 
-> using UnityEngine;
+ ```
+using UnityEngine;
 
->
 
-> using System.Collections;
 
->
+ using System.Collections;
 
-> public class TapTutorial : MonoBehaviour
 
->
 
-> OnTap( TapGesture gesture )
+ public class TapTutorial : MonoBehaviour
 
->
 
->     ( gesture.Selection )
 
->
+ OnTap( TapGesture gesture )
 
->         Debug.Log( "Tapped object: " + gesture.Selection.name );
 
->
 
->         Debug.Log( "No object was tapped at " + gesture.Position );
+     ( gesture.Selection )
 
+
+
+         Debug.Log( "Tapped object: " + gesture.Selection.name );
+
+
+
+         Debug.Log( "No object was tapped at " + gesture.Position );
+
+```
 之后就能检测到点击物体了，并且被点击的圆球同样的收到同名事件
 
 识别2手指Tap3下
@@ -134,24 +138,26 @@ FingerEventDetector是抽象类，各种finger event detectors继承自它。
 
 (3)新建脚本FingerEventTutor.cs, 并从FingerDownDetector拷贝粘贴脚本
 
-> using UnityEngine;
+ ```
+using UnityEngine;
 
->
 
-> using System.Collections;
 
->
+ using System.Collections;
 
-> public class FingerEventTutor : MonoBehaviour
 
->
 
-> OnFingerDown(FingerDownEvent e)
+ public class FingerEventTutor : MonoBehaviour
 
->
 
-> Debug.Log( e.Finger + " Down at " + e.Position + " on object:" + e.Selection
+
+ OnFingerDown(FingerDownEvent e)
+
+
+
+ Debug.Log( e.Finger + " Down at " + e.Position + " on object:" + e.Selection
 );
+```
 
 点击运行，即可检测任何手指按下的事件。
 
@@ -161,42 +167,44 @@ FingerEventDetector是抽象类，各种finger event detectors继承自它。
 
 ![](http://upload-images.jianshu.io/upload_images/17266280-da96ac7817738bca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
 
-> using UnityEngine;
+ ```
+using UnityEngine;
 
->
 
-> using System.Collections;
 
->
+ using System.Collections;
 
-> public class FingerEventTutor : MonoBehaviour
 
->
 
-> OnFingerDown(FingerDownEvent e)
+ public class FingerEventTutor : MonoBehaviour
 
->
 
-> Debug.Log( e.Finger + " Down at " + e.Position + " on object:" + e.Selection
+
+ OnFingerDown(FingerDownEvent e)
+
+
+
+ Debug.Log( e.Finger + " Down at " + e.Position + " on object:" + e.Selection
 );
 
->
 
-> OnFingerUp( FingerUpEvent e )
 
->
+ OnFingerUp( FingerUpEvent e )
 
-> // time the finger has been held down before being released
 
->
 
->     float elapsedTime = e.TimeHeldDown;
+ // time the finger has been held down before being released
 
->
 
-> Debug.Log( e.Finger + " Up at " + e.Position + " on object:" + e.Selection
+
+     float elapsedTime = e.TimeHeldDown;
+
+
+
+ Debug.Log( e.Finger + " Up at " + e.Position + " on object:" + e.Selection
 );
 
+```
 # 五.自定义手势识别
 
 3.0后可以用PointCloudRecognizer来识别自定义手势。算法使用的是$P recognizer. 现在只支持single-
@@ -231,32 +239,34 @@ MyPCGesture加至 Gesture Template List
 
 (5) 创建PointCloudTutorial.cs脚本并添加至Gestures物体下
 
-> using UnityEngine;
+```
+ using UnityEngine;
 
->
 
-> using System.Collections;
 
->
+ using System.Collections;
 
-> public class PointCloudTutorial : MonoBehaviour
 
->
 
->      OnCustomGesture( PointCloudGesture gesture )
+ public class PointCloudTutorial : MonoBehaviour
 
->
 
->         Debug.Log( "Recognized custom gesture: " +
+
+      OnCustomGesture( PointCloudGesture gesture )
+
+
+
+         Debug.Log( "Recognized custom gesture: " +
 gesture.RecognizedTemplate.name +
 
->
 
->             ", match score: " + gesture.MatchScore +
 
->
+             ", match score: " + gesture.MatchScore +
 
->             ", match distance: " + gesture.MatchDistance );
+
+
+             ", match distance: " + gesture.MatchDistance );
+```
 
 PointCloudGesture. RecognizedTemplate 对应画出的图形模板
 
@@ -266,90 +276,92 @@ PointCloudGesture. MatchDistance 与图形有多接近
 
 当然也可以从代码绘制PointCloudGestureTemplate
 
-> Awake()
+```
+ Awake()
 
->
 
->     PointCloudGestureTemplate triangle =
-ScriptableObject.CreateInstance<PointCloudGestureTemplate>();
 
->
+     PointCloudGestureTemplate triangle =
+ScriptableObject.CreateInstance<PointCloudGestureTemplate();
 
->     triangle.name = "Triangle Gesture Template"
 
->
 
->     triangle.BeginPoints();
+     triangle.name = "Triangle Gesture Template"
 
->
 
->     triangle.AddPoint( , , );
 
->
+     triangle.BeginPoints();
 
->     triangle.AddPoint( , , );
 
->
 
->     triangle.AddPoint( , , );
+     triangle.AddPoint( , , );
 
->
 
->     triangle.AddPoint( , , );
 
->
+     triangle.AddPoint( , , );
 
->     triangle.EndPoints();
 
->
 
->     PointCloudGestureTemplate square =
-ScriptableObject.CreateInstance<PointCloudGestureTemplate>();
+     triangle.AddPoint( , , );
 
->
 
->     square.name = "Square Gesture Template"
 
->
+     triangle.AddPoint( , , );
 
->     square.BeginPoints();
 
->
 
->     square.AddPoint( , , );
+     triangle.EndPoints();
 
->
 
->     square.AddPoint( , , );
 
->
+     PointCloudGestureTemplate square =
+ScriptableObject.CreateInstance<PointCloudGestureTemplate();
 
->     square.AddPoint( , , );
 
->
 
->     square.AddPoint( , , );
+     square.name = "Square Gesture Template"
 
->
 
->     square.AddPoint( , , );
 
->
+     square.BeginPoints();
 
->     square.EndPoints();
 
->
 
->     PointCloudRegognizer recognizer =
-gameObject.AddComponent<PointCloudRegognizer>();
+     square.AddPoint( , , );
 
->
 
->     recognizer.AddTemplate( triangle );
 
->
+     square.AddPoint( , , );
 
->     recognizer.AddTemplate( square );
+
+
+     square.AddPoint( , , );
+
+
+
+     square.AddPoint( , , );
+
+
+
+     square.AddPoint( , , );
+
+
+
+     square.EndPoints();
+
+
+
+     PointCloudRegognizer recognizer =
+gameObject.AddComponent<PointCloudRegognizer();
+
+
+
+     recognizer.AddTemplate( triangle );
+
+
+
+     recognizer.AddTemplate( square );
+```
 
 AddPoint的第一个参数代表第几画，但是现在只支持一笔画出来的图形，所以该值只填0。当EndPoints()被调用的时候，所有点都会被单位化至(0,1)的范围。
 

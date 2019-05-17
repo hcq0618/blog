@@ -23,9 +23,6 @@ tags: [Unity]
 
 每一个Prefab都含有自身的SkinnedMeshRenderer。
 
- **  
-**
-
 ![](http://upload-images.jianshu.io/upload_images/17266280-504330a2a6642f0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
 
 # **实现过程**
@@ -38,189 +35,155 @@ tags: [Unity]
 bool combine = false)传入骨骼的GameObject和蒙皮数据。
 
 4.搜集装备蒙皮数据中的有效信息。
+```
+// Collect information from meshes
 
-> // Collect information from meshes
 
->
 
->         for (int i = 0; i < meshes.Length; i ++)
+         for (int i = 0; i < meshes.Length; i ++)
 
->
 
->         {
 
->
+         {
 
->             SkinnedMeshRenderer smr = meshes[i];
 
->
 
->             materials.AddRange(smr.materials); // Collect materials
+             SkinnedMeshRenderer smr = meshes[i];
 
->
 
->             // Collect meshes
 
->
+             materials.AddRange(smr.materials); // Collect materials
 
->             for (int sub = 0; sub < smr.sharedMesh.subMeshCount; sub++)
 
->
 
->             {
+             // Collect meshes
 
->
 
->                 CombineInstance ci = new CombineInstance();
 
->
+             for (int sub = 0; sub < smr.sharedMesh.subMeshCount; sub++)
 
->                 ci.mesh = smr.sharedMesh;
 
->
 
->                 ci.subMeshIndex = sub;
+             {
 
->
 
->                 combineInstances.Add(ci);
 
->
+                 CombineInstance ci = new CombineInstance();
 
->             }
 
->
 
->             // Collect bones
+                 ci.mesh = smr.sharedMesh;
 
->
 
->             for (int j = 0 ; j < smr.bones.Length; j ++)
 
->
+                 ci.subMeshIndex = sub;
 
->             {
 
->
 
->                 int tBase = 0;
+                 combineInstances.Add(ci);
 
->
 
->                 for (tBase = 0; tBase < transforms.Count; tBase ++)
 
->
+             }
 
->                 {
 
->
 
->                     if (smr.bones[j].name.Equals(transforms[tBase].name))
+             // Collect bones
 
->
 
->                     {
 
->
+             for (int j = 0 ; j < smr.bones.Length; j ++)
 
->                         bones.Add(transforms[tBase]);
 
->
 
->                         break;
+             {
 
->
 
->                     }
 
->
+                 int tBase = 0;
 
->                 }
 
->
 
->             }
+                 for (tBase = 0; tBase < transforms.Count; tBase ++)
 
->
 
->         }
+
+                 {
+
+
+
+                     if (smr.bones[j].name.Equals(transforms[tBase].name))
+
+
+
+                     {
+
+
+
+                         bones.Add(transforms[tBase]);
+
+
+
+                         break;
+
+
+
+                     }
+
+
+
+                 }
+
+
+
+             }
+
+
+
+```
 
 5.为骨骼GameObject生成新的SkinnedMeshRenderer。
 
-> // Create a new SkinnedMeshRenderer
+```
+// Create a new SkinnedMeshRenderer
+SkinnedMeshRenderer oldSKinned = skeleton.GetComponent<SkinnedMeshRenderer>();
+     if (oldSKinned != null) {
 
->
+     GameObject.DestroyImmediate(oldSKinned);
+     }
 
-> SkinnedMeshRenderer oldSKinned = skeleton.GetComponent<SkinnedMeshRenderer>
-();
 
->
 
->     if (oldSKinned != null) {
+ SkinnedMeshRenderer r = skeleton.AddComponent < SkinnedMeshRenderer();
+r.sharedMesh = new Mesh();
 
->
 
->     GameObject.DestroyImmediate (oldSKinned);
 
->
-
->     }
-
->
-
-> SkinnedMeshRenderer r = skeleton.AddComponent<SkinnedMeshRenderer>();
-
->
-
-> r.sharedMesh = new Mesh();
-
->
-
-> r.sharedMesh.CombineMeshes(combineInstances.ToArray(), false, false);//
+r.sharedMesh.CombineMeshes(combineInstances.ToArray(), false, false);//
 Combine meshes
 
->
-
-> r.bones = bones.ToArray();// Use new bones
+ r.bones = bones.ToArray();// Use new bones
+```
 
 6.挂接武器。
 
-> Transform[] transforms = Instance.GetComponentsInChildren<Transform>();
+```
+Transform[] transforms = Instance.GetComponentsInChildren<Transform();
 
->
+ foreach (Transform joint in transforms) {
 
-> foreach (Transform joint in transforms) {
+ if (joint.name == "weapon_hand_r")
+ {// find the joint (need the support of art designer)
+         WeaponInstance.transform.parent = joint.gameObject.transform;
+         break;
+     }
+     }
+```
 
->
-
-> if (joint.name == "weapon_hand_r")
-
->
-
-> {// find the joint (need the support of art designer)
-
->
-
->         WeaponInstance.transform.parent = joint.gameObject.transform;
-
->
-
->         break;
-
->
-
->     }
-
->
-
->     }
 
 其中WeaponInstance为武器实例GameObject，Instance为骨骼实例GameObject。
 
  **合成后的效果**
-
- **  
-**
 
 ![](http://upload-images.jianshu.io/upload_images/17266280-134a7438bc50b8cb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
 
@@ -235,123 +198,123 @@ Call减少到2个。
 
 优化CombineObject方法，其中Combine为bool类型，用于标识是否合并材质。
 
-> // merge materials
+```
+// merge materials
 
->
 
-> if (combine)
 
->
+ if (combine)
 
-> {
 
->
 
->     newMaterial = new Material (Shader.Find ("Mobile/Diffuse"));
+ {
 
->
 
->     oldUV = new List<Vector2[]>();
 
->
+     newMaterial = new Material (Shader.Find ("Mobile/Diffuse"));
 
->     // merge the texture
 
->
 
->     List<Texture2D> Textures = new List<Texture2D>();
+     oldUV = new List<Vector2[]();
 
->
 
->     for (int i = 0; i < materials.Count; i++)
 
->
+     // merge the texture
 
->     {
 
->
 
->         Textures.Add(materials[i].GetTexture(COMBINE_DIFFUSE_TEXTURE) as
+     List<Texture2D Textures = new List<Texture2D();
+
+
+
+     for (int i = 0; i < materials.Count; i++)
+
+
+
+     {
+
+
+
+         Textures.Add(materials[i].GetTexture(COMBINE_DIFFUSE_TEXTURE) as
 Texture2D);
 
->
 
->     }
 
->
+     }
 
->     newDiffuseTex = new Texture2D(COMBINE_TEXTURE_MAX, COMBINE_TEXTURE_MAX,
+
+
+     newDiffuseTex = new Texture2D(COMBINE_TEXTURE_MAX, COMBINE_TEXTURE_MAX,
 TextureFormat.RGBA32, true);
 
->
 
->     Rect[] uvs = newDiffuseTex.PackTextures(Textures.ToArray(), 0);
 
->
+     Rect[] uvs = newDiffuseTex.PackTextures(Textures.ToArray(), 0);
 
->     newMaterial.mainTexture = newDiffuseTex;
 
->
 
-> // reset uv
+     newMaterial.mainTexture = newDiffuseTex;
 
->
 
->     Vector2[] uva, uvb;
 
->
+ // reset uv
 
->     for (int j = 0; j < combineInstances.Count; j++)
 
->
 
->     {
+     Vector2[] uva, uvb;
 
->
 
->         uva = (Vector2[])(combineInstances[j].mesh.uv);
 
->
+     for (int j = 0; j < combineInstances.Count; j++)
 
->         uvb = new Vector2[uva.Length];
 
->
 
->         for (int k = 0; k < uva.Length; k++)
+     {
 
->
 
->         {
 
->
+         uva = (Vector2[])(combineInstances[j].mesh.uv);
 
->             uvb[k] = new Vector2((uva[k].x * uvs[j].width) + uvs[j].x,
+
+
+         uvb = new Vector2[uva.Length];
+
+
+
+         for (int k = 0; k < uva.Length; k++)
+
+
+
+         {
+
+
+
+             uvb[k] = new Vector2((uva[k].x * uvs[j].width) + uvs[j].x,
 (uva[k].y * uvs[j].height) + uvs[j].y);
 
->
 
->         }
 
->
+         }
 
->         oldUV.Add(combineInstances[j].mesh.uv);
 
->
 
->         combineInstances[j].mesh.uv = uvb;
+         oldUV.Add(combineInstances[j].mesh.uv);
 
->
 
->     }
 
->
+         combineInstances[j].mesh.uv = uvb;
 
->     }
+
+
+     }
+
+
+
+     }
+```
 
 生成新的SkinnedMeshRenderer时略有区别：
 
- **  
-**
 
 ![](http://upload-images.jianshu.io/upload_images/17266280-730fcfde74913194.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
 

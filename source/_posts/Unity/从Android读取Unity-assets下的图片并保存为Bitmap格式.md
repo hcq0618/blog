@@ -9,43 +9,25 @@ tags: [Unity]
 
 （"Logo.png"），这个名字在Android这边是需要用到的，unity的工作做完之后，在Android这边写代码：
 
->  AssetManager asm = getAssets();
+```
+AssetManager asm = getAssets();
 
->
+InputStream inputStream =null;
 
-> InputStream inputStream =null;
+ try {
 
->
+     inputStream = asm.open("Logo.png");
 
-> try {
+ }catch (IOException e) {
+     // TODO Auto-generated catch block
 
->
+    e.printStackTrace();
+}
 
->     inputStream = asm.open("Logo.png");
+Drawable d =Drawable.createFromStream(inputStream,null);
 
->
-
-> }catch (IOException e) {
-
->
-
->     // TODO Auto-generated catch block
-
->
-
->     e.printStackTrace();
-
->
-
-> }
-
->
-
-> Drawable d =Drawable.createFromStream(inputStream,null);
-
->
-
-> Bitmap B = ((BitmapDrawable) d).getBitmap();
+Bitmap B = ((BitmapDrawable) d).getBitmap();
+```
 
 这样就完成了unity图片的读取与转化Bitmap。
 

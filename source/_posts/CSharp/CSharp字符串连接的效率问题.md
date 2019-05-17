@@ -9,211 +9,209 @@ C#字符串连接常用的四种方式：StringBuilder、+、string.Format、Lis
 
 # 1.+的方式
 
-> string sql = "update tableName set int1=" + int1.ToString() + ",int2=" +
+```
+string sql = "update tableName set int1=" + int1.ToString() + ",int2=" +
 int2.ToString() + ",int3=" + int3.ToString() + " where id=" + id.ToString();
+```
 
 编译器会优化为：
 
-> string sql = string.Concat(new string[] { "update tableName set int1=",
+```
+string sql = string.Concat(new string[] { "update tableName set int1=",
 int1.ToString(), ",int2=", int2.ToString(), ",int3=", int3.ToString(), " where
 id=", id.ToString() });
+```
 
 下面是string.Concat的实现：
 
-> public static string Concat(params string[] values)
+```
+public static string Concat(params string[] values)
 
->
+{
 
-> {
+    int totalLength = 0;
 
->
 
->     int totalLength = 0;
 
->
+    if (values == null)
 
->     if (values == null)
 
->
 
->     {
+    {
 
->
 
->         throw new ArgumentNullException("values");
 
->
+        throw new ArgumentNullException("values");
 
->     }
 
->
 
->     string[] strArray = new string[values.Length];
+    }
 
->
 
->     for (int i = 0; i < values.Length; i++)
 
->
+    string[] strArray = new string[values.Length];
 
->     {
 
->
 
->         string str = values[i];
+    for (int i = 0; i < values.Length; i++)
 
->
 
->         strArray[i] = (str == null) ? Empty : str;
 
->
+    {
 
->         totalLength += strArray[i].Length;
 
->
 
->         if (totalLength < 0)
+        string str = values[i];
 
->
 
->         {
 
->
+        strArray[i] = (str == null) ? Empty : str;
 
->             throw new OutOfMemoryException();
 
->
 
->         }
+        totalLength += strArray[i].Length;
 
->
 
->     }
 
->
+        if (totalLength < 0)
 
->     return ConcatArray(strArray, totalLength);
 
->
 
-> }
+        {
 
->
 
-> private static string ConcatArray(string[] values, int totalLength)
 
->
+            throw new OutOfMemoryException();
 
-> {
 
->
 
->     string dest = FastAllocateString(totalLength);
+        }
 
->
 
->     int destPos = 0;
 
->
+    }
 
->     for (int i = 0; i < values.Length; i++)
 
->
 
->     {
+    return ConcatArray(strArray, totalLength);
 
->
 
->         FillStringChecked(dest, destPos, values[i]);
 
->
+}
 
->         destPos += values[i].Length;
 
->
 
->     }
+private static string ConcatArray(string[] values, int totalLength)
 
->
 
->     return dest;
 
->
+{
 
-> }
 
->
 
-> private static unsafe void FillStringChecked(string dest, int destPos,
-string src)
+    string dest = FastAllocateString(totalLength);
 
->
 
-> {
 
->
+    int destPos = 0;
 
->     int length = src.Length;
 
->
 
->     if (length > (dest.Length - destPos))
+    for (int i = 0; i < values.Length; i++)
 
->
 
->     {
 
->
+    {
 
->         throw new IndexOutOfRangeException();
 
->
 
->     }
+        FillStringChecked(dest, destPos, values[i]);
 
->
 
->     fixed (char* chRef = &dest.m_firstChar)
 
->
+        destPos += values[i].Length;
 
->     {
 
->
 
->         fixed (char* chRef2 = &src.m_firstChar)
+    }
 
->
 
->         {
 
->
+    return dest;
 
->             wstrcpy(chRef + destPos, chRef2, length);
 
->
 
->         }
+}
 
->
 
->     }
 
->
+private static unsafe void FillStringChecked(string dest, int destPos,
+string src)
 
-> }
+
+
+{
+
+
+
+    int length = src.Length;
+
+
+
+    if (length(dest.Length - destPos))
+
+
+
+    {
+
+
+
+        throw new IndexOutOfRangeException();
+
+
+
+    }
+
+
+
+    fixed (char* chRef = &dest.m_firstChar)
+
+
+
+    {
+
+
+
+        fixed (char* chRef2 = &src.m_firstChar)
+
+
+
+        {
+
+
+
+            wstrcpy(chRef + destPos, chRef2, length);
+
+
+
+        }
+
+
+
+    }
+
+
+
+}
+```
 
 先计算目标字符串的长度，然后申请相应的空间，最后逐一复制，时间复杂度为o(n)，常数为1。固定数量的字符串连接效率最高的是+。但是字符串的连+不要拆成多条语句，比如：
 
-> string sql = "update tableName set int1=";
-
->
-
-> sql += int1.ToString();
-
->
-
-> sql += ...
+```
+string sql = "update tableName set int1=";
+sql += int1.ToString();
+sql += ...
+```
 
 这样的代码，不会被优化为string.Concat，就变成了性能杀手，因为第i个字符串需要复制n-i次，时间复杂度就成了o(n^2)。
 

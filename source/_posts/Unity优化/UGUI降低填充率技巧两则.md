@@ -14,7 +14,7 @@ Rate(填充率)是指显卡每帧每秒能够渲染的像素数。在每帧绘�
 
 作者博客：[http://qiankanglai.me](http://qiankanglai.me/)
 
-知乎专栏：<https://zhuanlan.zhihu.com/soulgame>
+知乎专栏：<https://zhuanlan.zhihu.com/soulgame
 
 在Unity中，与能直接看到的Verts/Tris/Batches数据不同，填充率并不能被直接统计到，但是我们可以通过查看OverDraw来大致查看：
 
@@ -30,67 +30,69 @@ Rate(填充率)是指显卡每帧每秒能够渲染的像素数。在每帧绘�
 
 通过工具很方便的就定位到了瓶颈在于FillRate爆了，最后发现新手教学部分用了很多“不可见”的Image作为交互响应的控件；但这些东西虽然画上去没有效果，依然占用了显卡资源，特别是有很多大块的区域...找到问题之后就解决起来很方便：实现一个只在逻辑上响应Raycast但是不参与绘制的组件即可，改完之后帧率瞬间正常。
 
-> using UnityEngine;
+ ```
+using UnityEngine;
 
->
 
-> using System.Collections;
 
->
+ using System.Collections;
 
-> namespace UnityEngine.UI
 
->
 
-> {
+ namespace UnityEngine.UI
 
->
 
->     public class Empty4Raycast : MaskableGraphic
 
->
+ {
 
->     {
 
->
 
->         protected Empty4Raycast()
+     public class Empty4Raycast : MaskableGraphic
 
->
 
->         {
 
->
+     {
 
->             useLegacyMeshGeneration = false;
 
->
 
->         }
+         protected Empty4Raycast()
 
->
 
->         protected override void OnPopulateMesh(VertexHelper toFill)
 
->
+         {
 
->         {
 
->
 
->             toFill.Clear();
+             useLegacyMeshGeneration = false;
 
->
 
->         }
 
->
+         }
 
->     }
 
->
 
-> }
+         protected override void OnPopulateMesh(VertexHelper toFill)
+
+
+
+         {
+
+
+
+             toFill.Clear();
+
+
+
+         }
+
+
+
+     }
+
+
+
+ }
+```
 
 这里顺便提一句，显卡资源消耗在没有到瓶颈的时候，大概是随着使用的增加正相关，但是到瓶颈之后很多时候是“崩盘”节奏。
 
@@ -113,285 +115,287 @@ polygon-sprites.390039/)，Texture Packer作者也表示很感兴趣~
 下面这个脚本是针对Image的扩展，使其支持Polygon Mode Sprite...不过精力有限，只支持了Simple而且没做Preserve
 Aspect，有兴趣的朋友如果实现了别的模式还望多多交流(主要是Filled和Sliced下要自己重新划分三角形，想想就麻烦...)
 
-> using System.Collections.Generic;
+ ```
+using System.Collections.Generic;
 
->
 
-> namespace UnityEngine.UI
 
->
+ namespace UnityEngine.UI
 
-> {
 
->
 
->     [AddComponentMenu("UI/Effects/PolygonImage", 16)]
+ {
 
->
 
->     [RequireComponent(typeof(Image))]
 
->
+     [AddComponentMenu("UI/Effects/PolygonImage", 16)]
 
->     public class PolygonImage : BaseMeshEffect
 
->
 
->     {
+     [RequireComponent(typeof(Image))]
 
->
 
->         protected PolygonImage()
 
->
+     public class PolygonImage : BaseMeshEffect
 
->         { }
 
->
 
->         // GC Friendly
+     {
 
->
 
->         private static Vector3[] fourCorners = new Vector3[4];
 
->
+         protected PolygonImage()
 
->         private static UIVertex vertice = new UIVertex();
 
->
 
->         private RectTransform rectTransform = null;
+         { }
 
->
 
->         private Image image = null;
 
->
+         // GC Friendly
 
->         public override void ModifyMesh(VertexHelper vh)
 
->
 
->         {
+         private static Vector3[] fourCorners = new Vector3[4];
 
->
 
->             if (!isActiveAndEnabled) return;
 
->
+         private static UIVertex vertice = new UIVertex();
 
->             if (rectTransform == null)
 
->
 
->             {
+         private RectTransform rectTransform = null;
 
->
 
->                 rectTransform = GetComponent<RectTransform>();
 
->
+         private Image image = null;
 
->             }
 
->
 
->             if (image == null)
+         public override void ModifyMesh(VertexHelper vh)
 
->
 
->             {
 
->
+         {
 
->                 image = GetComponent<Image>();
 
->
 
->             }
+             if (!isActiveAndEnabled) return;
 
->
 
->             if (image.type != Image.Type.Simple)
 
->
+             if (rectTransform == null)
 
->             {
 
->
 
->                 return;
+             {
 
->
 
->             }
 
->
+                 rectTransform = GetComponent<RectTransform();
 
->             Sprite sprite = image.overrideSprite;
 
->
 
->             if (sprite == null || sprite.triangles.Length == 6)
+             }
 
->
 
->             {
 
->
+             if (image == null)
 
->                 // only 2 triangles
 
->
 
->                 return;
+             {
 
->
 
->             }
 
->
+                 image = GetComponent<Image();
 
->             // Kanglai: at first I copy codes from
+
+
+             }
+
+
+
+             if (image.type != Image.Type.Simple)
+
+
+
+             {
+
+
+
+                 return;
+
+
+
+             }
+
+
+
+             Sprite sprite = image.overrideSprite;
+
+
+
+             if (sprite == null || sprite.triangles.Length == 6)
+
+
+
+             {
+
+
+
+                 // only 2 triangles
+
+
+
+                 return;
+
+
+
+             }
+
+
+
+             // Kanglai: at first I copy codes from
 Image.GetDrawingDimensions
 
->
 
->             // to calculate Image's dimensions. But now for easy to read, I
+
+             // to calculate Image's dimensions. But now for easy to read, I
 just take usage of corners.
 
->
 
->             if (vh.currentVertCount != 4)
 
->
+             if (vh.currentVertCount != 4)
 
->             {
 
->
 
->                 return;
+             {
 
->
 
->             }
 
->
+                 return;
 
->             rectTransform.GetLocalCorners(fourCorners);
 
->
 
->             // Kanglai: recalculate vertices from Sprite!
+             }
 
->
 
->             int len = sprite.vertices.Length;
 
->
+             rectTransform.GetLocalCorners(fourCorners);
 
->             var vertices = new List<UIVertex>(len);
 
->
 
->             Vector2 Center = sprite.bounds.center;
+             // Kanglai: recalculate vertices from Sprite!
 
->
 
->             Vector2 invExtend = new Vector2(1 / sprite.bounds.size.x, 1 /
+
+             int len = sprite.vertices.Length;
+
+
+
+             var vertices = new List<UIVertex(len);
+
+
+
+             Vector2 Center = sprite.bounds.center;
+
+
+
+             Vector2 invExtend = new Vector2(1 / sprite.bounds.size.x, 1 /
 sprite.bounds.size.y);
 
->
 
->             for (int i = 0; i < len; i++)
 
->
+             for (int i = 0; i < len; i++)
 
->             {
 
->
 
->                 // normalize
+             {
 
->
 
->                 float x = (sprite.vertices[i].x - Center.x) * invExtend.x +
+
+                 // normalize
+
+
+
+                 float x = (sprite.vertices[i].x - Center.x) * invExtend.x +
 0.5f;
 
->
 
->                 float y = (sprite.vertices[i].y - Center.y) * invExtend.y +
+
+                 float y = (sprite.vertices[i].y - Center.y) * invExtend.y +
 0.5f;
 
->
 
->                 // lerp to position
 
->
+                 // lerp to position
 
->                 vertice.position = new Vector2(Mathf.Lerp(fourCorners[0].x,
+
+
+                 vertice.position = new Vector2(Mathf.Lerp(fourCorners[0].x,
 fourCorners[2].x, x), Mathf.Lerp(fourCorners[0].y, fourCorners[2].y, y));
 
->
 
->                 vertice.color = image.color;
 
->
+                 vertice.color = image.color;
 
->                 vertice.uv0 = sprite.uv[i];
 
->
 
->                 vertices.Add(vertice);
+                 vertice.uv0 = sprite.uv[i];
 
->
 
->             }
 
->
+                 vertices.Add(vertice);
 
->             len = sprite.triangles.Length;
 
->
 
->             var triangles = new List<int>(len);
+             }
 
->
 
->             for (int i = 0; i < len; i++)
 
->
+             len = sprite.triangles.Length;
 
->             {
 
->
 
->                 triangles.Add(sprite.triangles[i]);
+             var triangles = new List<int(len);
 
->
 
->             }
 
->
+             for (int i = 0; i < len; i++)
 
->             vh.Clear();
 
->
 
->             vh.AddUIVertexStream(vertices, triangles);
+             {
 
->
 
->         }
 
->
+                 triangles.Add(sprite.triangles[i]);
 
->     }
 
->
 
-> }
+             }
+
+
+
+             vh.Clear();
+
+
+
+             vh.AddUIVertexStream(vertices, triangles);
+
+
+
+         }
+
+
+
+     }
+
+
+
+ }
+```
 
 这个做法是用顶点数来换填充率，具体是否这么干还要看项目本身的瓶颈。这一点在官方论坛的帖子里我也和别人讨论过，这里就不再赘述了。
 

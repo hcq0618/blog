@@ -19,48 +19,20 @@ tags: [Unity]
 我的方法是
 在网上下载一个常用汉字3500字的txt文档，将它导入到项目中，然后再启动游戏后首先使用这个文本向Font请求信息，这样便会在一开始就将Font内部的Texture设置的较大。
 
-> public static string generalCharacter = null;
-
->
-
-> public static void PreLoadGeneralText()
-
->
-
->         {
-
->
-
->             if (generalCharacter == null)
-
->
-
->             {
-
->
-
->                 TextAsset txt = LoadResource("Base/Font/generalText") as
+```
+public static string generalCharacter = null;
+public static void PreLoadGeneralText()
+{
+    if (generalCharacter == null)
+    {
+        TextAsset txt = LoadResource("Base/Font/generalText") as
 TextAsset;
-
->
-
->                 generalCharacter = txt.ToString();
-
->
-
->             }
-
->
-
->             Font font = GetDefaultFont().dynamicFont;
-
->
-
->             font.RequestCharactersInTexture(generalCharacter);
-
->
-
->         }
+        generalCharacter = txt.ToString();
+    }
+    Font font = GetDefaultFont().dynamicFont;
+    font.RequestCharactersInTexture(generalCharacter);
+}
+```
 
 其中LoadResource方法是封装的一个加载方法， 这里可以替换成 Resources.Load;
 

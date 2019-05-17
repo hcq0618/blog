@@ -12,62 +12,64 @@ tags: [Unity优化]
 
 ![](http://upload-images.jianshu.io/upload_images/17266280-cbac9b6a4fcf7076.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
 
-但是问题就来了，Unity默认在hierarchy窗口Create->UI->Image 、Text的时候就会自动帮我们勾选上RaycastTarget，
-一个复杂点的界面至少也300+个Image和Text， 总不能一个个取消吧。 所以我们可以重写Create->UI->Image的事件。
+但是问题就来了，Unity默认在hierarchy窗口Create-UI-Image 、Text的时候就会自动帮我们勾选上RaycastTarget，
+一个复杂点的界面至少也300+个Image和Text， 总不能一个个取消吧。 所以我们可以重写Create-UI-Image的事件。
 
   
 
 ![](http://upload-images.jianshu.io/upload_images/17266280-3d0147f90b0733ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
 
-> [MenuItem("GameObject/UI/Image")]
+ ```
+[MenuItem("GameObject/UI/Image")]
 
->
 
-> static void CreatImage()
 
->
+ static void CreatImage()
 
-> {
 
->
 
-> if(Selection.activeTransform)
+ {
 
->
 
-> {
 
->
+ if(Selection.activeTransform)
 
-> if(Selection.activeTransform.GetComponentInParent<Canvas>())
 
->
 
-> {
+ {
 
->
 
-> GameObject go = new GameObject("image",typeof(Image));
 
->
+ if(Selection.activeTransform.GetComponentInParent<Canvas())
 
-> go.GetComponent<Image>().raycastTarget = false;
 
->
 
-> go.transform.SetParent(Selection.activeTransform);
+ {
 
->
 
-> }
 
->
+ GameObject go = new GameObject("image",typeof(Image));
 
-> }
 
->
 
-> }
+ go.GetComponent<Image().raycastTarget = false;
+
+
+
+ go.transform.SetParent(Selection.activeTransform);
+
+
+
+ }
+
+
+
+ }
+
+
+
+ }
+```
 
  这样创建出来的Image就不带 RaycastTarget,Text组件原理同上。 Unity版本5.3.3
 

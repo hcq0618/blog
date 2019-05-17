@@ -89,11 +89,11 @@ Project…后会自动生成Library目录，所以Library无需纳入版本管�
 
 改变控件transform的SiblingIndex,
 
-> transform.GetSiblingIndex();
+```
+transform.GetSiblingIndex();
 
->
-
-> transform.SetSiblingIndex(int index); //index值越大，越后渲染，层级越大，越显示在前面
+transform.SetSiblingIndex(int index); //index值越大，越后渲染，层级越大，越显示在前面
+```
 
 (2)不同Canvas下：
 

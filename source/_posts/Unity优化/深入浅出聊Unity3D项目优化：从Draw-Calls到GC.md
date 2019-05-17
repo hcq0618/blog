@@ -26,7 +26,7 @@ batching是啥？都知道批处理是干嘛的吧？没错，将批处理之前
 
  **内存方面**
 
-所以，这篇文章也会按照CPU—->GPU—->内存的顺序进行。
+所以，这篇文章也会按照CPU—-GPU—-内存的顺序进行。
 
 CPU的方面的优化：
 
@@ -212,7 +212,7 @@ Bytes的垃圾。那么循环10次就是240Bytes。
 
 聊到代码这个话题，也许有人会觉得匹夫多此一举。因为代码质量因人而异，很难像上面提到的几点，有一个明确的评判标准。也是，公写公有理，婆写婆有理。但是匹夫这里要提到的所谓代码质量是基于一个前提的：Unity3D是用C++写的，而我们的代码是用C#作为脚本来写的，那么问题就来了~脚本和底层的交互开销是否需要考虑呢？也就是说，我们用Unity3D写游戏的“游戏脚本语言”，也就是C#是由mono运行时托管的。而功能是底层引擎的C++实现的，“游戏脚本”中的功能实现都离不开对底层代码的调用。那么这部分的开销，我们应该如何优化呢？
 
-1.以物体的Transform组件为例，我们应该只访问一次，之后就将它的引用保留，而非每次使用都去访问。这里有人做过一个小实验，就是对比通过方法GetComponent<Transform>()获取Transform组件,
+1.以物体的Transform组件为例，我们应该只访问一次，之后就将它的引用保留，而非每次使用都去访问。这里有人做过一个小实验，就是对比通过方法GetComponent<Transform()获取Transform组件,
 通过MonoBehavor的transform属性去取，以及保留引用之后再去访问所需要的时间：
 
 GetComponent = 619ms
@@ -345,69 +345,71 @@ GameObject和各种组件。
 
 以下载Assetbundle为例子，聊一下内存的分配。匹夫从官网的手册上找到了一个使用Assetbundle的情景如下：
 
-> IEnumerator DownloadAndCache
+ ```
+IEnumerator DownloadAndCache
 
->
 
-> // Wait for the Caching system to be ready
 
->
+ // Wait for the Caching system to be ready
 
-> whileCachingready
 
->
 
-> yield return
+ whileCachingready
 
->
 
-> // Load the AssetBundle file from Cache if it exists with the same version
+
+ yield return
+
+
+
+ // Load the AssetBundle file from Cache if it exists with the same version
 or download and store it in the cache
 
->
 
-> usingLoadFromCacheOrDownloadBundleURLversion
 
->
+ usingLoadFromCacheOrDownloadBundleURLversion
 
-> yield return//WWW是第1部分
 
->
 
-> error
+ yield return//WWW是第1部分
 
->
 
-> throwExceptiondownload errorerror
 
->
+ error
 
-> AssetBundle bundleassetBundle//AssetBundle是第2部分
 
->
 
-> AssetName
+ throwExceptiondownload errorerror
 
->
 
-> InstantiatebundlemainAsset//实例化是第3部分
 
->
+ AssetBundle bundleassetBundle//AssetBundle是第2部分
 
-> InstantiatebundleAssetName
 
->
 
-> // Unload the AssetBundles compressed contents to conserve memory
+ AssetName
 
->
 
-> bundleUnloadfalse
 
->
+ InstantiatebundlemainAsset//实例化是第3部分
 
-> // memory is freed from the web stream (www.Dispose() gets called
+
+
+ InstantiatebundleAssetName
+
+
+
+ // Unload the AssetBundles compressed contents to conserve memory
+
+
+
+ bundleUnloadfalse
+
+
+
+ // memory is freed from the web stream (www.Dispose() gets called
 implicitly)
+```
 
 内存分配的三个部分匹夫已经在代码中标识了出来：
 

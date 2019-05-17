@@ -44,585 +44,187 @@ res：下面就是安卓的一些图片，资源啊什么。
 Ok上脚本。。代码和上一篇文章的第一步差不多，我就不多余注释，，执行下面shell脚本将自动打开unity，然后执行ProjectBuild.BuidForAndroid方法。。
 project-$1 就是传入的参数。。
 
-> #!/bin/sh
+```
+#!/bin/sh
 
->
+#参数判断
+if [ $# != 1 ];then
 
-> #参数判断
 
->
+echo "需要一个参数。 参数是游戏包的名子"
+exit
 
-> if [ $# != 1 ];then
+fi
 
->
+#UNITY程序的路径#
 
->     echo "需要一个参数。 参数是游戏包的名子"
+UNITY_PATH=/Applications/Unity/Unity.app/Contents/MacOS/Unity
 
->
+#游戏程序路径#
 
->     exit
+PROJECT_PATH=/Users/MOMO/commond
 
->
+#在Unity中构建apk#
 
-> fi
-
->
-
-> #UNITY程序的路径#
-
->
-
-> UNITY_PATH=/Applications/Unity/Unity.app/Contents/MacOS/Unity
-
->
-
-> #游戏程序路径#
-
->
-
-> PROJECT_PATH=/Users/MOMO/commond
-
->
-
-> #在Unity中构建apk#
-
->
-
-> $UNITY_PATH -projectPath $PROJECT_PATH -executeMethod
+$UNITY_PATH -projectPath $PROJECT_PATH -executeMethod
 ProjectBuild.BuildForAndroid project-$1 -quit
 
->
-
-> echo "Apk生成完毕"
+echo "Apk生成完毕"
+```
 
 在关闭unity的情况下运行。在命令行里面执行这一条脚本， 参数一个参数 91。
 
-![](http://upload-images.jianshu.io/upload_images/17266280-7a4cc479b9e26605.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
-
-> using System.Collections;
-
->
-
-> using System.IO;
-
->
-
-> using UnityEditor;
-
->
-
-> using UnityEngine;
-
->
-
-> using System.Collections.Generic;
-
->
-
-> using System;
-
->
-
->  
->
-
->
-
-> class ProjectBuild : Editor{
-
->
-
->  
->
-
->
-
-> //在这里找出你当前工程所有的场景文件，假设你只想把部分的scene文件打包 那么这里可以写你的条件判断 总之返回一个字符串数组。
-
->
-
-> static string[] GetBuildScenes()
-
->
-
-> {
-
->
-
-> List<string> names = new List<string>();
-
->
-
-> foreach(EditorBuildSettingsScene e in EditorBuildSettings.scenes)
-
->
-
-> {
-
->
-
-> if(e==null)
-
->
-
-> continue;
-
->
-
-> if(e.enabled)
-
->
-
-> names.Add(e.path);
-
->
-
-> }
-
->
-
-> return names.ToArray();
-
->
-
-> }
-
->
-
->  
->
-
->
-
-> static void BuildForAndroid()
-
->
-
-> {
-
->
-
-> Function.DeleteFolder(Application.dataPath+"/Plugins/Android");
-
->
-
->  
->
-
->
-
-> if(Function.projectName == "91")
-
->
-
-> {
-
->
-
->
-Function.CopyDirectory(Application.dataPath+"/91",Application.dataPath+"/Plugins/Android");
-
->
-
-> PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android,
-"USE_SHARE");
-
->
-
-> }
-
->
-
-> string path = Application.dataPath +"/" + Function.projectName+".apk";
-
->
-
-> BuildPipeline.BuildPlayer(GetBuildScenes(), path, BuildTarget.Android,
-BuildOptions.None);
-
->
-
-> }
-
->
-
-> }
-
+![](http://upload-images.jianshu.io/upload_images/17266280-7a4cc479b9e26605.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+```
+using System.Collections;
+using System.IO;
+using UnityEditor;
+using UnityEngine;
+using System.Collections.Generic;
+using System;
+
+class ProjectBuild : Editor
+{
+    //在这里找出你当前工程所有的场景文件，假设你只想把部分的scene文件打包 那么这里可以写你的条件判断 总之返回一个字符串数组。
+    static string[] GetBuildScenes()
+    {
+        List<string> names = new List<string>();
+        foreach (EditorBuildSettingsScene e in EditorBuildSettings.scenes)
+        {
+            if (e == null)
+                continue;
+            if (e.enabled)
+                names.Add(e.path);
+        }
+        return names.ToArray();
+    }
+
+    static void BuildForAndroid()
+    {
+        Function.DeleteFolder(Application.dataPath + "/Plugins/Android");
+        if (Function.projectName == "91")
+        {
+            Function.CopyDirectory(Application.dataPath + "/91", Application.dataPath + "/Plugins/Android");
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android,
+           "USE_SHARE");
+        }
+
+        string path = Application.dataPath + "/" + Function.projectName + ".apk";
+        BuildPipeline.BuildPlayer(GetBuildScenes(), path, BuildTarget.Android,
+       BuildOptions.None);
+    }
+}
+
+```
 程序会执行BuildForAndroid的方法，这里我把shell传入的参数取出来。根据传入的不同参数来初始化打包的一些设置。。
 
 最终BuildPlayr就开始构建apk，第二个参数就是打包出apk保存的路径。 在打包之前你可以处理一些 游戏包名， 游戏icon
 等等一些平台之间的特殊性 ，也可以设置一些 预定义标签，。
 
-> using UnityEngine;
+```
+using UnityEngine;
 
->
 
->  
->
+#if UNITY_EDITOR
+ using UnityEditor;
+ using UnityEditor.Callbacks;
+ using UnityEditor.XCodeEditor;
+ using System.Xml;
+#endif
 
->
-
-> #if UNITY_EDITOR
-
->
-
-> using UnityEditor;
-
->
-
-> using UnityEditor.Callbacks;
-
->
-
-> using UnityEditor.XCodeEditor;
-
->
-
-> using System.Xml;
-
->
-
-> #endif
-
->
-
-> using System.IO;
-
->
-
->  
->
-
->
-
-> public static class XCodePostProcess
-
->
-
-> {
-
->
-
->     #if UNITY_EDITOR
-
->
-
->     [PostProcessBuild (100)]
-
->
-
->     public static void OnPostProcessBuild (BuildTarget target, string
+using System.IO;
+public static class XCodePostProcess
+{
+#if UNITY_EDITOR
+     [PostProcessBuild (100)]
+     public static void OnPostProcessBuild (BuildTarget target, string
 pathToBuiltProject)
-
->
-
->     {
-
->
-
-> if (target == BuildTarget.Android)
-
->
-
-> {
-
->
-
-> Function.DeleteFolder(Application.dataPath+"/Plugins/Android");
-
->
-
-> if(Function.projectName== "91")
-
->
-
->      {
-
->
-
->              //当我们在打91包的时候 这里面做一些 操作。
-
->
-
->  
->
-
->
-
-> }
-
->
-
-> }
-
->
-
->     }
-
->
-
->     #endif
-
->
-
-> }
+     {
+    if (target == BuildTarget.Android)
+    {
+    Function.DeleteFolder(Application.dataPath+"/Plugins/Android");
+    if(Function.projectName== "91") {
+              //当我们在打91包的时候 这里面做一些 操作。
+        }
+    }
+  }
+#endif
+}
+```
 
 **** 在回到XUPortr里面，当Android打包完毕后，这里我们清空Plugins/Android文件夹。。或者你也可以做一些操作。。
 
 Function.cs 用到的一个工具类
 
-> using UnityEngine;
-
->
-
-> using System.Collections;
-
->
-
-> using System.IO;
-
->
-
-> public class Function  {
-
->
-
->  
->
-
->
-
-> //得到项目的名称
-
->
-
-> public static string projectName
-
->
-
-> {
-
->
-
-> get
-
->
-
-> {
-
->
-
-> //在这里分析shell传入的参数， 还记得上面我们说的哪个 project-$1 这个参数吗？
-
->
-
-> //这里遍历所有参数，找到 project开头的参数， 然后把-符号 后面的字符串返回，
-
->
-
-> //这个字符串就是 91 了。。
-
->
-
-> foreach(string arg in System.Environment.GetCommandLineArgs()) {
-
->
-
-> if(arg.StartsWith("project"))
-
->
-
-> {
-
->
-
-> return arg.Split("-"[0])[1];
-
->
-
-> }
-
->
-
-> }
-
->
-
-> return "test";
-
->
-
-> }
-
->
-
-> }
-
->
-
->  
->
-
->
-
-> public static void DeleteFolder(string dir)
-
->
-
-> {
-
->
-
-> foreach (string d in Directory.GetFileSystemEntries(dir))
-
->
-
-> {
-
->
-
-> if (File.Exists(d))
-
->
-
-> {
-
->
-
-> FileInfo fi = new FileInfo(d);
-
->
-
-> if (fi.Attributes.ToString().IndexOf("ReadOnly") != -1)
-
->
-
-> fi.Attributes = FileAttributes.Normal;
-
->
-
-> File.Delete(d);
-
->
-
-> }
-
->
-
-> else
-
->
-
-> {
-
->
-
-> DirectoryInfo d1 = new DirectoryInfo(d);
-
->
-
-> if (d1.GetFiles().Length != 0)
-
->
-
-> {
-
->
-
-> DeleteFolder(d1.FullName);////递归删除子文件夹
-
->
-
-> }
-
->
-
-> Directory.Delete(d);
-
->
-
-> }
-
->
-
-> }
-
->
-
-> }
-
->
-
->  
->
-
->
-
-> public static void CopyDirectory(string sourcePath, string destinationPath)
-
->
-
-> {
-
->
-
-> DirectoryInfo info = new DirectoryInfo(sourcePath);
-
->
-
-> Directory.CreateDirectory(destinationPath);
-
->
-
-> foreach (FileSystemInfo fsi in info.GetFileSystemInfos())
-
->
-
-> {
-
->
-
-> string destName = Path.Combine(destinationPath, fsi.Name);
-
->
-
-> if (fsi is System.IO.FileInfo)
-
->
-
-> File.Copy(fsi.FullName, destName);
-
->
-
-> else
-
->
-
-> {
-
->
-
-> Directory.CreateDirectory(destName);
-
->
-
-> CopyDirectory(fsi.FullName, destName);
-
->
-
-> }
-
->
-
-> }
-
->
-
-> }
-
->
-
-> }
+```
+using UnityEngine;
+using System.Collections;
+using System.IO;
+public class Function
+{
+    //得到项目的名称
+    public static string projectName
+    {
+        get
+        {
+            //在这里分析shell传入的参数， 还记得上面我们说的哪个 project-$1 这个参数吗？
+            //这里遍历所有参数，找到 project开头的参数， 然后把-符号 后面的字符串返回，
+            //这个字符串就是 91 了。。
+            foreach (string arg in System.Environment.GetCommandLineArgs())
+            {
+                if (arg.StartsWith("project"))
+                {
+                    return arg.Split("-"[0])[1];
+                }
+            }
+            return "test";
+        }
+    }
+
+
+    public static void DeleteFolder(string dir)
+    {
+        foreach (string d in Directory.GetFileSystemEntries(dir))
+        {
+            if (File.Exists(d))
+            {
+                FileInfo fi = new FileInfo(d);
+                if (fi.Attributes.ToString().IndexOf("ReadOnly") != -1)
+                    fi.Attributes = FileAttributes.Normal;
+                File.Delete(d);
+            }
+            else
+            {
+                DirectoryInfo d1 = new DirectoryInfo(d);
+                if (d1.GetFiles().Length != 0)
+                {
+                    DeleteFolder(d1.FullName);////递归删除子文件夹
+                }
+                Directory.Delete(d);
+            }
+        }
+    }
+
+
+    public static void CopyDirectory(string sourcePath, string destinationPath)
+    {
+        DirectoryInfo info = new DirectoryInfo(sourcePath);
+        Directory.CreateDirectory(destinationPath);
+        foreach (FileSystemInfo fsi in info.GetFileSystemInfos())
+        {
+            string destName = Path.Combine(destinationPath, fsi.Name);
+            if (fsi is System.IO.FileInfo)
+                File.Copy(fsi.FullName, destName);
+            else
+            {
+                Directory.CreateDirectory(destName);
+                CopyDirectory(fsi.FullName, destName);
+            }
+        }
+    }
+}
+```
 
 如下图所示，脚本运行完毕，你打包的APK就静静的放在了这里，怎么样？简单吧？嘿嘿。。
 

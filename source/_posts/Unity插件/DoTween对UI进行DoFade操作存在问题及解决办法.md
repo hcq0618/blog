@@ -7,25 +7,25 @@ tags: [Unity插件]
 
 Unity版本：5.2, 5.4
 
-当使用this.GetComponent<Image>().material.DOFade(0,
+当使用this.GetComponent<Image().material.DOFade(0,
 2).SetEase(Ease.InBounce);来对UGUI的Image进行褪色操作的时候本质是对UI的Graphic对象（Text，Image等都为Graphic的子类）的material进行操作,下例是对Text组件进行褪色操作：Transform.GetComponent().material.DoFade(0,1)。虽然脚本只挂在一个Text组件的物体上，但1秒之后发现，整个UI界面全部变为透明。
 
-（我也很纳闷，cube01.GetComponent<Renderer> ().material.color =
-Color.black;这样的代码照理说是这样执行的（<http://www.jianshu.com/p/ababf547d992>）：
+（我也很纳闷，cube01.GetComponent<Renderer ().material.color =
+Color.black;这样的代码照理说是这样执行的（<http://www.jianshu.com/p/ababf547d992）：
 
-> Material lastMat = cube01.GetComponent<Renderer> ().material
+ Material lastMat = cube01.GetComponent<Renderer ().material
 
->
 
-> Material m = Instantiate(lastMat) as Material
 
->
+ Material m = Instantiate(lastMat) as Material
 
-> cube01.GetComponent<Renderer> ().material = m
 
->
 
-> m.color = Color.black
+ cube01.GetComponent<Renderer ().material = m
+
+
+
+ m.color = Color.black
 
 应该是最自己持有的material进行操做。。。
 
@@ -44,161 +44,163 @@ ignoreTimeScale)函数来操作
 自己扩展DoTween的方法，下面是我扩展的一个例子,可以参考DoTwen官网的[Creating custom plugins
 example](http://dotween.demigiant.com/examples.php)
 
-> /  DoFadeTest.cs
+ ```
+/  DoFadeTest.cs
 
->
 
-> /  Project: GUITest
 
->
+ /  Project: GUITest
 
-> /  Created by zhiheng.shao
 
->
 
-> /  Copyright  2016年 zhiheng.shao. All rights reserved.
+ /  Created by zhiheng.shao
 
->
 
-> /  Description
 
->
+ /  Copyright  2016年 zhiheng.shao. All rights reserved.
 
-> using UnityEngine;
 
->
 
-> using System.Collections;
+ /  Description
 
->
 
-> using DG.Tweening;
 
->
+ using UnityEngine;
 
-> using UnityEngine.UI;
 
->
 
-> using DG.Tweening.RickExtension;
+ using System.Collections;
 
->
 
-> public class DoFadeTest : MonoBehaviour
 
->
+ using DG.Tweening;
 
-> {
 
->
 
->     // Use this for initialization
+ using UnityEngine.UI;
 
->
 
->     Start()
 
->
+ using DG.Tweening.RickExtension;
 
->     {
 
->
 
->         .GetComponent<Image>().DOFade(, ).SetEase(Ease.InBounce);
+ public class DoFadeTest : MonoBehaviour
 
->
 
->     }
 
->
+ {
 
-> }
 
->
 
-> namespace DG.Tweening.RickExtension
+     // Use this for initialization
 
->
 
-> {
 
->
+     Start()
 
->     public static class DOTweenExteion
 
->
 
->     {
+     {
 
->
 
->         public static Tweener DOFade( Image image, float endValue, float
+
+         .GetComponent<Image().DOFade(, ).SetEase(Ease.InBounce);
+
+
+
+     }
+
+
+
+ }
+
+
+
+ namespace DG.Tweening.RickExtension
+
+
+
+ {
+
+
+
+     public static class DOTweenExteion
+
+
+
+     {
+
+
+
+         public static Tweener DOFade( Image image, float endValue, float
 duration)
 
->
 
->         {
 
->
+         {
 
->             Debug.Log("CustomDoFade");
 
->
 
->             return DOTween.To(image.AlphaGetter, image.AlphaSetter,
+             Debug.Log("CustomDoFade");
+
+
+
+             return DOTween.To(image.AlphaGetter, image.AlphaSetter,
 endValue, duration);
 
->
 
->         }
 
->
+         }
 
->         private static float AlphaGetter( Image image)
 
->
 
->         {
+         private static float AlphaGetter( Image image)
 
->
 
->             return image.color.a;
 
->
+         {
 
->         }
 
->
 
->         private static  AlphaSetter( Image image, float alpha)
+             return image.color.a;
 
->
 
->         {
 
->
+         }
 
->             Color oldColor = image.color;
 
->
 
->             oldColor.a = alpha;
+         private static  AlphaSetter( Image image, float alpha)
 
->
 
->             image.color = oldColor;
 
->
+         {
 
->         }
 
->
 
->     }
+             Color oldColor = image.color;
 
->
 
-> }
+
+             oldColor.a = alpha;
+
+
+
+             image.color = oldColor;
+
+
+
+         }
+
+
+
+     }
+
+
+
+ }
+```
 
 附：[DoTween官网](http://dotween.demigiant.com/index.php)
 
