@@ -7,6 +7,8 @@ import sys
 import html2text
 from bs4 import BeautifulSoup
 
+# import urllib
+
 reload(sys)
 sys.setdefaultencoding('utf8')
 
@@ -22,7 +24,13 @@ def convert(file_path, _for_hexo):
     html_output = ""
     for line in lines:
         html_output += line
-
+    # convert local image path
+    soup = BeautifulSoup(html_output, 'html.parser', from_encoding='utf-8')
+    imgs = soup.find_all({'img'})
+    for img in imgs:
+        src = img.get('src')
+        if not (src.startswith('http://') or src.startswith('https://')):
+            html_output = html_output.replace(src, src[src.rindex(os.sep) + 1:])
     # print(html_output)
 
     h = html2text.HTML2Text()
@@ -42,13 +50,14 @@ def convert(file_path, _for_hexo):
 
         # get thumbnail from content
         thumbnail = ''
-        soup = BeautifulSoup(html_output, 'html.parser', from_encoding='utf-8')
-        if soup.find('img'):
-            thumbnail = soup.img['src']
+        # soup = BeautifulSoup(html_output, 'html.parser', from_encoding='utf-8')
+        # if soup.find('img'):
+        #     thumbnail = urllib.unquote(str(soup.img['src']))
 
         # get categories from parent dir name
         categories_last_split = file_path.rindex(os.sep)
-        categories_pre_split = len(os.path.dirname(os.path.dirname(file_path))) + 1
+        categories_pre_split = len(
+            os.path.dirname(os.path.dirname(file_path))) + 1
         categories = file_path[categories_pre_split:categories_last_split]
         categories = convert_keyword(categories)
 
@@ -63,7 +72,7 @@ def convert(file_path, _for_hexo):
         tags = convert_keyword(tags)
 
         # print(title)
-        print(thumbnail)
+        # print(thumbnail)
         # print(categories)
         # print(tags)
 
@@ -82,7 +91,8 @@ def convert(file_path, _for_hexo):
 
     # remove prefix before '-' in file name
     if "-" in file_name:
-        file_name = file_name.replace(file_name[0:file_name.index("-") + 1], "")
+        file_name = file_name.replace(
+            file_name[0:file_name.index("-") + 1], "")
 
     # need to url encode file name
     with io.open(file_dir + os.sep + file_name + ".md", 'w', encoding='utf-8') as f:
