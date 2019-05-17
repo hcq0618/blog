@@ -1,0 +1,78 @@
+---
+title: unity性能优化规范
+thumbnail: 
+categories: Unity优化
+tags: [Unity优化]
+---
+
+和java不同 能用for就不用foreach,因为foreach会使用迭代器并会产生额外几kb的gc。
+
+和findViewById一样 GameObject.Find和Transform.Find尽量少调用 在Awake和Start只获取一次对象或组件。
+
+与java不同 函数名首字母大写。
+
+工具类声明为 static class 静态类。
+
+开启monoDevelop的代码分析功能 并根据提示尽量优化代码。使用Profile工具进行性能分析测试。
+
+有光照的情况下，烘焙场景和物体可以节约计算资源 你把物体模型放进了场景里之后， 引擎会计算光线，光线照到你的物体的表面形成反光和阴影。 如果不烘焙，
+游戏运行的时候，这些反光和阴影都是由显卡和CPU计算出来的。你烘焙之后，这些反光和阴影都记录到了你的模型里，变成了新的贴图了，运行的时候，显卡和CPU不需要进行对环境光效果的运算了，节约CPU资源
+。
+
+字符串连接用StringBuilder 。
+
+不要直接访问gameobject的tag属性。比如if (go.tag == “human”)最好换成if (go.CompareTag
+(“human”))。因为访问物体的tag属性会在堆上额外的分配空间 。
+
+对比通过方法GetComponent()获取Transform组件,
+通过MonoBehavor的transform属性去取，后者更快，但GetComponent又快于Find 。
+
+善于使用OnBecameVisible()和OnBecameInVisible来控制物体的update()函数的执行以减少开销。
+
+使用内建的数组，比如用Vector3.zero而不是new Vector(0, 0, 0)。
+
+在c#里面List速度优于ArrayList 而且类型安全。
+
+资源及代码都尽量继承和复用framework下的。
+
+尝试使用IL2CPP。
+
+设置贴图压缩格式以优化安装包大小及运行效率：iOS上尽量使用PVRTC，Android上使用ETC 或者
+选择自动压缩，但需要在显示质量和性能进行权衡，每家的GPU支持不同的压缩格式，但他们都兼容ETC格式，对于透明贴图，我们只能选择RGBA 16bit
+或者RGBA 32bit。如果不调用SetPixels或GetPixels函数，最好关闭Read/Write
+enable开关，否则会复制一份贴图到内存中，内存占用会大两倍，这个属性的实质是决定了这个贴图的存放位置，是在内存上还是在显存上。（虽说在移动设备上显存和内存是共用的，但数据不直接互通）
+如果可读写，那么这个贴图既在显存上，又在内存上，而且还必须得是非压缩的格式（ARGB32，ARGB4444之类）。用getPixel(s)，setPixel(s)之类的方法，读取或设置的数据，都是内存上的数据，但其他属性不区分内存还是显存。Apply方法的作用是把这个贴图在内存上的传给显存。Apply方法的第二个参数，决定了这个这个贴图是否还可读写，换种说法就是内存上这部分数据在执行完这个方法之后还要不要。
+
+代码能加namespace的尽量都加namespace。
+
+ 在ProjectSetting->
+Quality中的，关闭垂直同步。可以考虑降低FPS，降低FPS的好处：1）省电，减少手机发热的情况；2）能都稳定游戏FPS，减少出现卡顿的情况。当我们设置了FPS后，再调整下Fixed
+timestep这个参数，这个参数在ProjectSetting->Time中，目的是减少物理计算的次数，来提高游戏性能。可以考虑待机时，调整游戏的FPS为1（手动设置帧率可以用Application.targetFrameRate），节省电量。
+
+尽量少使用Update LateUpdate
+FixedUpdate，这样也可以提升性能和节省电量。多使用事件（不是SendMessage，使用自己写的，或者C#中的事件委托）。
+
+把大部分图片打成图集减少draw
+call，可以用unity自带的工具打[http://](http://www.xuanyusong.com/archives/3304)[www.xuanyusong.com/archives/3304](http://www.xuanyusong.com/archives/3304)也可以用TexturePackerGUI。图集大小最好不要高于1024，否则游戏安装之后、低端机直接崩溃、原因是手机系统版本低于2.2、超过1000的图集无法读取、导致。2.2
+以上没有遇见这个情况。注意手机的RAM 与 ROM、小于 512M的手机、直接放弃机型适配。
+
+RectMask2D性能好于Mask。
+
+考虑使用Occlusion Culling遮挡剔除技术，减少绘制。
+
+对象最好复用同一个材质，并且保证缩放一致，unity会自动进行动态批处理，减少draw
+call。Lightmap对象由于多了光照烘焙材质，以及有阴影的对象，不会被批处理。对静止的物体勾选static，就会自动静态批处理，比动态批处理更节约资源。但无论是动态批处理还是静态批处理，都是空间换时间的操作，所以会更占内存，需要权衡利弊。
+
+避免使用顶点过多的对象，减少计算量。
+
+避免使用过于复杂的数学函数，且整形类型计算优于浮点型。
+
+使用有规则的碰撞体，比如长方形，球形，胶囊形，效率高于网格碰撞体。
+
+Image组件的RaycastTarget勾选以后会消耗一些效率，为了节省效率就不要勾选它了，不仅Image组件Text组件也有这样的问题。
+一般UI里也就是按钮才需要接收响应事件，那么大部分image和text是是不需要开RaycastTarget的。<http://www.xuanyusong.com/archives/4006>
+
+按界面分离canvas，减少界面刷新，按静态和动态物体分离canvas，减少界面刷新。
+
+若使用了AndroidJavaXXX类则需要使用using语句或者Dispose函数来确保资源会被释放回收
+

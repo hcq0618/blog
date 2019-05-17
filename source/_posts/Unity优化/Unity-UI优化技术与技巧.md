@@ -1,0 +1,57 @@
+---
+title: Unity-UI优化技术与技巧
+thumbnail: http://upload-images.jianshu.io/upload_images/17266280-0903f2a5cd4f4484.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240
+categories: Unity优化
+tags: [Unity优化]
+---
+
+优化UI有时候并没有什么很简洁的方式。本文介绍了一些可能对UI性能提升有帮助的建议，有些建议是针对结构上“不清晰”，或难于维护，或者效果很差。另一些则可能对开发初期的UI用户界面简化有所帮助，但也相对更容易产生一些性能问题。
+
+# 基于RectTransform的布局
+
+Layout组件的性能开销相当大，因为每次当它们被标记为Dirty时，都必须重新计算所有子节点的坐标和尺寸。如果在给定的Layout内有一些相对较小的固定数量的元素，并且布局的结构也相对简单，那么就有可能将Layout替换为基于矩形变换的布局
+（RectTransform-based layout）。
+
+  
+
+![](http://upload-images.jianshu.io/upload_images/17266280-0903f2a5cd4f4484.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
+
+通过设置RectTransform的锚点（Anchors），RectTransform的坐标和大小会根据父节点进行缩放。例如，一个简单的两列布局可以用两个RectTransform实现:
+
+左列的锚点应该是X: (0, 0.5) 以及 Y: (0, 1)
+
+右列的锚点应该是X: (0.5, 1) 以及 Y: (0, 1)
+
+对于RectTransform坐标和大小的计算会由Transform系统自身的源代码进行驱动。通常情况下这比Luyout系统更高效。也可以通过MonoBehaviours来实现基于RectTransform的Layout。然而，这是一个相对复杂的任务，不在本文中描述。
+
+# 禁用Canvas渲染器
+
+当显示或者隐藏UI的某个部分时，通常是激活（Enable）或者禁用（Disable）UI根节点的GameObject。这会导致被禁用UI下的所有组件都将不再接收输入或者Unity回调。
+
+然而，这也会导致Canvas丢弃它的VBO（Vertex Buffer
+Objects，顶点缓存对象）数据。重新激活Canvas需要Canvas（以及它的子Canvas）执行重新构建（Rebuild）
+以及重新批处理（Rebatch）操作。如果这种情况非常频繁，那么CPU使用率的增加就会导致应用程序帧率的卡顿。
+
+一个可行但有风险的解决方案是让将那些需要切换显示或隐藏的UI放在单独的Canvas或子Canvas中，然后仅仅激活/禁用附加在Canvas上的Canvas渲染组件（Canvas
+Renderer）。
+
+这会导致UI的网格不被绘制，但它们会一直存在于内存中，并且原始的批处理信息（Batching）也会被保留。此外，UI层级结构（Hierarchy）下的OnEnable
+或者 OnDisable回调将不会执行。
+
+注意，这并不会将UI图形从图形记录（GraphicRegistry）中消除，所以它们依然会出现在组件列表中，可以被光线投射（Raycast）检测到。隐藏UI也不会禁用任何的MonoBehaviour，所以那些MonoBehaviour依然会接受Unity生命周期相关的回调，比如Update函数。
+
+隐藏UI的MonoBehaviour脚本不直接实现那些Unity生命周期相关的回调函数，而是从UI根节点上的“回调管理器”MonoBehaviour中接收回调，可以避免出现这样的问题。这个“回调管理器”无论UI是否显示都可以访问，并且保证了生命周期事件按需发送。
+
+# 分配事件相机
+
+如果使用了Unity内置的输入管理器，并将Canvas的渲染模式设为世界空间（World Space）或者屏幕空间相机（Screen Space –
+Camera）渲染，有一点很重要，就是分别设置Event Camera和Render
+Camera的属性。这可以在脚本中访问Canvas的worldCamera属性进行设置。
+
+如果没有设置worldCamera属性，那么Unity UI会查找标签为Main
+Camera的GameObject上附加的Camera脚本来搜索主相机。这个查询会在世界空间（World Space）和相机空间（Camera
+Space）的Canvas中都至少分别执行一次。由于GameObject.FindWithTag非常缓慢，Unity强烈建议大家在设计或初始化所有的世界空间（World
+Space）和相机空间（Camera Space）的Canvas时，就分配好各自的相机属性。
+
+这个问题不会在渲染模式为Overlay的Canvas中出现。
+

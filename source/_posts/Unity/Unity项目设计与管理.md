@@ -1,0 +1,377 @@
+---
+title: Unity项目设计与管理
+thumbnail: http://upload-images.jianshu.io/upload_images/17266280-125b52c52ec3eadb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240
+categories: Unity
+tags: [Unity]
+---
+
+>
+不论是对于Unity初学者还是极有经验的开发者来说，项目设计与管理都是迟早需要接触并掌握的知识点。本文将由Unity技术支持工程师田彪，为大家详细全面地介绍Unity项目设计与管理的系统知识。全文分为五大块，今天先为大家介绍上篇策划及美术部分的内容。
+
+在制作游戏时，游戏内容各型各色，但使用Unity设计游戏项目通常大致包括以下几部分：
+
+项目简述
+
+策划文案
+
+美术资源
+
+程序逻辑
+
+性能优化
+
+  
+
+我们会详细介绍游戏制作过程中的每一步工作，便于Unity开发者以及潜在的开发者对Unity游戏开发有更深的认识，帮助开发者在开发过程中少走弯路。
+
+  
+
+# 项目简述
+
+想要制作成功的游戏，前期调研工作必不可少，作为开发者，需要了解玩家的喜好，聆听玩家的声音。在游戏完全推向玩家那一刻，该游戏就不再属于项目组，而属于该游戏的受众。游戏项目在启动具体内容开发时，需要确立以下几点：
+
+## 项目方向
+
+市场上存在各种类型的游戏，为了避免游戏过于同质化，项目组的相关负责人需要确定，该项目是定位于何种类型，是RPG还是FPS又或者是Sport类。
+
+## 时间计划
+
+任何项目组制作的游戏最终都需要推向市场，只有得到玩家的支持，游戏才能走得更远。项目启动初期，必定会存在游戏开发的大致时间计划，是8个月还是1年，又或者是18个月
+?
+
+## 人员配置
+
+游戏项目开发必定存在经费预算，预算包括研发预算和推广预算两部分，项目组的人员配置通常取决于游戏复杂度和项目经费预算。在游戏总体内容固定前提下，人员数量与开发时间大致成反比，但是如果组内人员管理不善，也会存在不协调。所以在项目人员总数确定的情况下，还需明确项目组内具体分配，策划，美术，程序各多少人。
+
+## 游戏大纲
+
+游戏大纲可以让所有项目组开发成员在没有接触游戏前能对将要开发的游戏有一个大致认识，同时也能激发项目组成员的想象力，对游戏内容提出更好的建议。
+
+游戏大纲是目前手游开发过程中被大多项目组忽略的重要一步。
+
+# 策划文案
+
+“兵马未动，粮草先行~~”，优秀的策划文案是项目良好的开端。文案的内容相同，而排版不同，其效果必定也不同。设计文档应该逻辑清晰，排版干净，简单易懂，最好是图文并茂。比如可以是这样的
+
+  
+
+![](http://upload-images.jianshu.io/upload_images/17266280-125b52c52ec3eadb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
+
+也可以是这样的(>_<)
+
+  
+
+![](http://upload-images.jianshu.io/upload_images/17266280-3407d8ab1616c683.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
+
+# 美术资源
+
+美术是游戏的脸，玩家对游戏的第一印象是美术风格，美术直接决定了玩家是否会在游戏中停留超过十分钟。美术人员在制作相关美术资源时，具体涉及到以下几个部分。
+
+## 标准 - Standard
+
+预先制定完整的美术标准后，在整个项目开发中，美术资源反复修改的频率降低了，美术人员所做的无用工作定然也大大降低。美术资源的标准规范大致涵盖以下几点：
+
+材质数量
+
+模型三角面
+
+纹理尺寸
+
+粒子数量
+
+动画帧频
+
+## 标准 - Standard模型 - Model
+
+当美术人员把模型文件导入Unity编辑器时，若导入设置的各选项设置合理，对游戏性能有着良性影响，导入时需要注意以下事项。
+
+  
+
+![](http://upload-images.jianshu.io/upload_images/17266280-faaaa660d7149370.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
+
+若勾选上图中”Read/Write Enabled”将会使该模型在内存中存在一份拷贝，用于在脚本中对模型进行修改。若该模型不会在脚本中进行修改，则不勾选。
+
+Optimize Mesh 必须勾选，便于引擎底层对Mesh进行优化处理。
+
+Normals & Tangents 中的Normals选项若设置为非Import项，可以降低Memory，并减少ipa/apk包体容量。
+
+## 着色器 - Shader
+
+Unity引擎在导入Shader到编辑器时，不会对Shader进行编译，而是在开发者发布到具体平台时再编译Shader。在Shader的查看面板可以查询具体信息，如下所示：
+
+  
+
+![](http://upload-images.jianshu.io/upload_images/17266280-9bebfa8d9084b901.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
+
+如果当前Shader为固定管线模式，点击上图中的Show generated code 按钮，可以查看对应的Vertex/fragment模式代码。
+
+点击上图中的Compile and show code可以生成对应的汇编代码或者GLSL代码。
+
+在工程文件夹的Library/ShaderCache文件下，可以查看所有的Shader缓存文件。
+
+Shader性能分心工具 — AMD GPU ShaderAnalyzer / PVRShaderEditor。
+
+## 贴图 - Texture
+
+Unity支持目前主流的各种图片格式，包括PSD，TGA，PNG，GIF，BMP，JPG，TIFF，PICT等。引擎在导入图片时，会生成引擎自身所使用的贴图数据，在图片导入设置中，需要合理设置各选项。
+
+  
+
+![](http://upload-images.jianshu.io/upload_images/17266280-9f86777aba9bd9d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
+
+若勾选上图中”Read/Write Enabled”将会使该贴图在内存中存在一份拷贝，用于在脚本中对其进行修改。若该贴图不会在脚本中进行修改，则不勾选。
+
+若图片尺寸不是2的指数，其所占用内存的大小略大于原始尺寸，并且GPU对其进行读取的速度也有可能会略微偏慢。
+
+若勾选Generate Mip Maps，改贴图所占用内存会变大33%，但对整体性能有很大提升。
+
+  
+
+在编辑器的Scene窗口下，选择Mipmaps可查看各贴图是否存在精度过剩，若有贴图精度过剩，可通过缩减对应贴图尺寸以节省空间。
+
+## 光照 - Lighting
+
+Unity 5使用了全新的光照系统，更优的光照算法，有助于美术人员制作优美的场景，但是使用光照时，除了考虑到场景精美度时，还需要考虑到玩家设备的兼容性。
+
+  
+
+![](http://upload-images.jianshu.io/upload_images/17266280-2ed0e1416c4f9815.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
+
+移动平台推荐使用Baked或 Mixed，避免使用RealTime模式的关照。
+
+Render Mode 不推荐使用Important。
+
+使用Baked模式时，在菜单Window->Lighting的Object标签页，可通过设置Scale In
+Lightmap的值，以变更lightmap中有多少像素值用于该GameObject的光照计算。
+
+## 动画 - Animation/Animator
+
+Unity目前支持Animation和Animator两种动画播放形式。Animation是老式动画系统，Animator作为新的动画系统，有其特有的优势。在使用Animator时，理解如下信息，有助于更好的使用的Animator。
+
+  
+
+![](http://upload-images.jianshu.io/upload_images/17266280-99f94b303fde3152.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
+
+勾选Apply Root Motion表示动画可以更改根节点的位置，如果不勾选，则根节点的位置信息无法通过动画更改，即便在动画帧里有关于根节点的位置信息。
+
+State 表示具体的动画状态信息，若要实现状态切换，通过Transition完成。
+
+Blend Tree 用于多个动画的平滑混合，并且可设置每个动画各自的权重值。
+
+在菜单Window->Animator窗口中可执行具体操作。
+
+## 音效 - Audio
+
+声音是游戏中不可或缺的部分，好的音乐效果对提升游戏品质有着重大意义，Unity支持主流的各种音乐格式，包括mp3，ogg，wav，aif等。但是，如果音乐格式设置不当，也会降低游戏性能。
+
+  
+
+![](http://upload-images.jianshu.io/upload_images/17266280-58e74229c7724ec2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
+
+基于Vorbis编码的音乐文件（比如ogg）解压后占用10倍于其磁盘大小的内存。
+
+PCM音质高但是压缩率很低。
+
+Mp3格式音乐在iOS设备上有硬件解码器。
+
+Load Type 中的Decompress On Load 选项不推荐用于大文件。大文件推荐使用 Compressed In Memory选项。
+
+Load In Background 如果勾选表示该音频文件将在后台加载，而不会造成主线程阻塞。
+
+>
+之前为大家介绍了项目设计与管理的[策划与美术篇](http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651037506&idx=1&sn=477ba3337342fb49da01646fe0b102af&scene=21#wechat_redirect)，今天这篇文章将继续为大家分享程序与优化相关的内容。
+
+# 程序逻辑
+
+游戏不单是美术资源的展现，存在着频繁的玩家交互行为，所有交互均通过程序脚本实现。在编写程序时，不仅要实现功能，同时也应该考虑到功能的扩展，以及当前功能实现方式对游戏中其他逻辑模块的影响。其主要涉及以下几方面:
+
+## 逻辑架构
+
+在设计程序框架时，建议模块化设计各功能，保持各模块的独立性和封装性，同时单个模块满足“即插即用”。比如，整个游戏逻辑可分为；场景模块，角色模块，UI模块，网络通信模块，战斗模块等。
+
+模块化设计不仅游戏逻辑树简单易懂，便于代码审查，而且也有益于项目后期做性能优化以及Bug检查。比如，调试Bug时，如果禁用某一个模块，游戏正常运行，并且Bug不再出现，则Bug由该模块引擎的概率很高。同理，在做优化处理是，如果禁用某一个模块，发现CPU负载下降很多，则该模块造成性能瓶颈的概率也很高。
+
+  
+
+## 脚本应用
+
+Unity的脚本使用托管机制，如果某脚本需要挂载到场景GameObject上，则该脚本需要继承于MonoBehaviour。在菜单Edit->
+Project Settings -> Script
+Execution下，可更改各类脚本的执行顺序。同时，MonoBehaviour的执行并非使用系统反射机制，而是基于队列存储形式。
+
+Unity引擎本身是由C++代码编写实现，但是游戏开发者编写的代码通常为C#，所以从底层引擎的C++代码到逻辑层的C#之间定然存在托管开销。如果你在Unity
+Profiler里发现诸如”Overhead”之类的字眼，其中便包括代码的托管开销部分（但不仅限于代码托管开销）。
+
+为了减少代码托管开销，在设计具体脚本时可以做一些优化处理。比如，有一个类ClassA，继承于MonoBehaviour，在其Update函数里会执行具体逻辑。若该类有30个实例同时存在，则会存在30次托管开销，遇到此类情况，建议删除ClassA中的Update函数，转而由自定义的UpdateEx函数替代。同时，额外编写一个ClassAManager类，其缓存一个ClassA的数组或者队列，每次Update时遍历该队列，执行每个实例的UpdateEx函数。
+
+  
+
+## Asset管理
+
+Unity中的Asset序列化支持二进制、文本模式、混合模式三种，具体可以在菜单Editor Settings –> Asset Serialization
+下进行设置，文本模式采用YAML格式，增加可读性。其中每一个资源文件都可以生成一个对应的meta文件。
+
+在制作场景时，建议把场景中的具体GameObject制作成Prefab，而不是直接使用FBX格式，这样便于引擎底层做资源管理。
+
+Unity引擎中各种美术资源都可以编译成AssetBundle，包括纹理，模型，Prefab，AnimationClip，AudioClip等。同时，AssetBundle支持压缩与非压缩格式，开发者可根据项目实际情况进行设置。
+
+  
+
+## 动态更新
+
+通常动态更新包括美术资源与脚本的更新，美术资源建议使用AssetBundle，脚本更新在Android平台上可使用dll反射实现（仅限Anadroid平台），或者通过其它第三方非官方模式。
+
+  
+
+# 性能优化
+
+性能优化，是每个游戏项目不可或缺的部分，而且没有一劳永逸的办法，只能一点一滴的实现。在此，我们主要介绍性能优化中必须处理的模块；包括图形，物理，程序，文件等，以及一些用于性能优化的工具。
+
+## 图形优化 - Graphics
+
+要实现图形优化，首先需要熟悉图形学整个渲染管线流程，在此对其作简要介绍：
+
+应用程序 (Application) -> 几何体 (Geometry) -> 光栅化 (Rasterizer)。
+
+其中，几何体阶段具体包括：模型变换(Model & View Transform) -> 顶点着色(Vertex Shading) ->
+投影变换(Projection) -> 裁切(Clipping) -> 屏幕映射(Screen Mapping)。
+
+光栅化阶段包括： 三角设置(Triangle Setup) -> 三角遍历(Triangle Traversal) -> 像素作色(Pixel
+Shading) - > 合并(Merging)。
+
+  
+
+进行图形优化时，首要步骤即为定位瓶颈在何处，CPU还是GPU？如果瓶颈在GPU，转而对CPU进行优化，是得不偿失的方法，犹如木桶原则，决定木桶能装多少水的是最短的那一块镶板。
+
+  
+
+如果渲染瓶颈发生在CPU，通常对CPU进行的图形相关优化主要涉及以下几点：
+
+ **合并模型** （美术人员手动合并或者使用引擎的Batching技术）
+
+在合并模型时，如果被合并的模型并未使用同一材质，那么该合并操作并不会提升性能。同理，如果被合并的模型使用了多重材质，而并不共用贴图，合并操作也不会提升性能。
+
+减少材质的使用数量，尽量 **材质共用**
+
+ **纹理拼接** ，把多张小尺寸纹理拼接到同一张大尺寸纹理中
+
+ **避免使用多重渲染** ，比如反射，阴影，像素光照等
+
+ **动画优化** ，包括减少骨骼数量，降低动画帧率等
+
+  
+
+CPU在图形渲染中所承载的计算量没有GPU那么高（前提是设备同时具备GPU和CPU），所以在进行图形优化时，更多是针对GPU端，其具体包括：
+
+ **模型对象**
+
+调整模型三角面是优化美术资源的基本步骤，如果一个角色模型1500面能达到要求，那为何要使用1600面呢。
+
+当场景中某些对象被标记为Static时，禁止在脚本中对其进行位置，朝向，缩放更改，也就是如果需要更改一个对象的Transform属性值，则改对象不应该被标记为Static。
+
+在设计模型时，尽量减少UV映射缝隙和硬边的数量。
+
+ **光照设计**
+
+在移动设备上，尽量使用light map代替实时光照，即便美术人员需要很炫的光照效果，也可以预先由美术人员调节好实时光照效果后再进行light map烘焙。
+
+在某些特定情况下，美术人员可能需要一些特定对象呈现出酷炫的效果，建议使用Shader实现，而非采用增加额外的光源。
+
+减少像素光的数量，不仅可以降低CPU负载，也可以减少GPU消耗。如果场景中某像素光照作用的两个模型对象距离相隔较远，建议不要对该模型对象进行合并操作。
+
+ **Shader性能**
+
+Unity引擎为开发者提供了大量的内置Shader，基本满足开发者的项目需求。如果某些特殊效果需要自定义Shader，在编写Shader程序时，需要注意一些具体细节。
+
+在Shader程序中减少使用或者不使用条件语句。GPU在硬件层面上与CPU有着极大差异，GPU以ALU（逻辑运算单元）著称，而CPU则存在着大量的控制器。
+
+定义变量时，应考虑变量需要的精度位宽（Float
+为32位，half为16位，fixed为10位），比如定义的变量用于UV坐标，则类型通常选择half即可，如果选择float，则会造成带宽浪费以及计算消耗增加。
+
+避免使用复杂的数学计算函数，比如sin，tan，pow，exp，log等，如果实在需要，建议单个Shader程序里该类复杂函数的使用次数不超过一次。
+
+移动平台避免使用Alpha Test和Alpha Blend指令，如果不可避免，建议使用Alpha Blend，而非Alpha Test。
+
+ **纹理压缩**
+
+压缩纹理不仅可以节省内存，同时也节省运算带宽。同时，建议3D模型贴图都应生成对应的Mipmaps，如果选择生成Mipmaps，则该纹理对应的内存大小相对原先会变大33%左右，但如果不选择生成Mipmaps，则在整体性能上会有很大损失。
+
+ **LOD使用**
+
+Unity中关于LOD的使用有LOD Group和Camera.layerCullDistances两种方式。其中LOD
+Group主要用于大型模型对象，而Camera.layerCullDistances主要用于碎片化的模型对象。
+
+  
+
+## 物理优化 - Physics
+
+Unity引擎中物理计算更新在FixedUpdate中完成，根据具体的游戏项目，如果游戏物理更新频率不需要太高，可以在菜单Project Settings
+-> Time 下更改Fixed TimeStep的值。
+
+使用物理碰撞体时，在满足设计要求前提下，建议使用Sphere Collider 或者 Box Collider代替Mesh Collider。Mesh
+Collider和wheel Collider其计算较为复杂，能避免使用则避免之。
+
+被标记为Static的碰撞体，禁止对其移动位置。
+
+如果对象不需要Rigidbody组件，一律删除。
+
+在脚本中如果通过Physics.RaycastAll类似的接口获取固定对象，缓存所得到的对象，禁止通过程序中每帧调用该类接口去获取一个固定的对象。
+
+  
+
+## 程序优化 - Scripts
+
+程序优化的根本在于设计，在于程序员在编写程序时是否有细心思考。尽管Unity引擎本身由C++编写，但上层逻辑脚本基于Mono体系，内存管理使用GC机制。
+
+GC机制在内存管理存在实时性欠缺，而Mono内存基于内存池，即Mono所申请内存不会得到释放（只有在内存池中内存不够使用时，Mono才会申请新的内存），只会返回内存池。
+
+基于以上机制限制，应禁止频繁申请内存，尽量使用对象池管理对象，比如在Update函数里每帧都new
+一个数组或者队列，这样极有可能造成GC还未回收先前的内存，内存池中内存不足，又重复申请新的内存，最终Mono内存池越来越大，这是很多开发者都曾遇到的问题。
+
+在Unity引擎层面，可以通过使用IL2CPP技术，使脚本运行速度更快，同时，也可以在Script Call
+Optimization中设置忽略异常处理。针对具体脚本中负载瓶颈的定位，建议多使用引擎的Profiler工具。
+
+  
+
+## 文件优化 - Files
+
+如果要降低整体文件大小，首先得知道整个项目中每类资源文件具体大小。在Unity完成相关编译后，选择Console -> Open Editor
+Log选项，会得到如下图所示的信息:
+
+  
+
+![](http://upload-images.jianshu.io/upload_images/17266280-11efc57b1f105778.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
+
+其包括了具体各类资源的总大小，开发者可按照文件大小建立优化顺序。其中，具体在设计到脚本大小优化时，根据项目组具体情况，可以考虑选择.Net 2.0
+Subset，在iOS平台也可使用Stripping方法。
+
+同时，建议把Resources文件夹下不曾使用的资源删除，需要使用的资源用AssetBundle代替。Resources文件夹下文件太多会严重影响程序的启动时间。
+
+## 工具 - Tools
+
+在执行性能优化时，有很多工具可以方便开发者快速定位到具体问题，包括引擎自身携带工具以及第三方工具，比如:
+
+Profiler
+
+Memory Profiler
+
+Frame Debugger
+
+Test Runner
+
+Mac OS -> Instruments
+
+Allocations, Time Profiler
+
+  
+
+最后，Unity的官方手册是Unity开发者执行性能优化的葵花宝典，在你素手无策时，不妨尝试如下步骤：
+
+  
+
+![](http://upload-images.jianshu.io/upload_images/17266280-ad7be069869393dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
+
+  
+
+![](http://upload-images.jianshu.io/upload_images/17266280-3210346f296288c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
+
