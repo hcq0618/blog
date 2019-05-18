@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Hcq0618&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="A blog for bookmarking and recording technology">
+<meta name="keywords" content="Android,Flutter,Kotlin,ReactNative,VR,Unity,Python,C#,Backend,NodeJs,Javascript,TypeScript,Hexo,Framework,Architecture,Java">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hcq0618&#39;s Blog">
+<meta property="og:url" content="https://hcq0618.github.io/blog/page/21/index.html">
+<meta property="og:site_name" content="Hcq0618&#39;s Blog">
+<meta property="og:description" content="A blog for bookmarking and recording technology">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://hcq0618.github.io/blog/images/og_image.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hcq0618&#39;s Blog">
+<meta name="twitter:description" content="A blog for bookmarking and recording technology">
+<meta name="twitter:image" content="https://hcq0618.github.io/blog/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/blog/images/logo.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/blog/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?844bc0c79484177c3822e7a30257f8a3";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/blog/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/blog/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/blog/">
+            
+                <img src="/blog/images/logo.svg" alt="Hcq0618&#39;s Blog" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/blog/">主页</a>
+                
+                <a class="navbar-item" href="/blog/archives">文章</a>
+                
+                <a class="navbar-item" href="/blog/categories">分类</a>
+                
+                <a class="navbar-item" href="/blog/tags">标签</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/hcq0618/blog/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.036Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    2 分钟 读完 (大约 249 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/Prefab里面的Prefab关联问题/">Prefab里面的Prefab关联问题</a>
+            
+        </h1>
+        <div class="content">
+            <p>最近造了个轮子可以批量替换prefab里的prefab，欢迎大家测试～&lt;<a href="https://bitbucket.org/xuanyusong/prefab-" target="_blank" rel="noopener">https://bitbucket.org/xuanyusong/prefab-</a><br>replace&gt;</p>
+<p>最近在做UI部分中遇到了这样的问题，就是Prefab里面预制了Prefab。可是在Unity里面一旦Prefab预制了Prefab那么内部的Prefab就失去关联。导致与如果要改内部的Prefab需要把所有引用的地方全部改一遍。今天在逛国外网站看到了一个老外的思路，原文在这里&lt;<a href="http://framebunker.com/blog" target="_blank" rel="noopener">http://framebunker.com/blog</a><br>/poor-mans-nested-prefabs/&gt;</p>
+<p>下面直接上代码</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">#if UNITY_EDITOR</span><br><span class="line"> using UnityEditor;</span><br><span class="line"> using UnityEditor.Callbacks;</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">using System.Collections.Generic;</span><br><span class="line"></span><br><span class="line">[ExecuteInEditMode]</span><br><span class="line">public class PrefabInstance : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    public GameObject prefab;</span><br><span class="line"></span><br><span class="line">#if UNITY_EDITOR</span><br><span class="line"> // Struct of all components. Used for edit-time visualization and gizmo drawing</span><br><span class="line"> public struct Thingy &#123;</span><br><span class="line"> public Mesh mesh;</span><br><span class="line"> public Matrix4x4 matrix;</span><br><span class="line"> public List&lt;Material materials;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> [System.NonSerializedAttribute] public List&lt;Thingy things = new</span><br><span class="line">List&lt;Thingy ();</span><br><span class="line"></span><br><span class="line"> void OnValidate () &#123;</span><br><span class="line"></span><br><span class="line"> things.Clear();</span><br><span class="line"></span><br><span class="line"> if (enabled)</span><br><span class="line"> Rebuild (prefab, Matrix4x4.identity);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> void OnEnable () &#123;</span><br><span class="line"> things.Clear();</span><br><span class="line"> if (enabled)</span><br><span class="line"> Rebuild (prefab, Matrix4x4.identity);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> void Rebuild (GameObject source, Matrix4x4 inMatrix) &#123;</span><br><span class="line"></span><br><span class="line"> if (!source)</span><br><span class="line"> return;</span><br><span class="line"></span><br><span class="line"> Matrix4x4 baseMat = inMatrix * Matrix4x4.TRS (-source.transform.position,</span><br><span class="line">Quaternion.identity, Vector3.one);</span><br><span class="line"> foreach (MeshRenderer mr in source.GetComponentsInChildren(typeof</span><br><span class="line">(Renderer), true))</span><br><span class="line"> &#123;</span><br><span class="line"></span><br><span class="line"> things.Add(new Thingy () &#123;</span><br><span class="line"> mesh = mr.GetComponent&lt;MeshFilter().sharedMesh,</span><br><span class="line"> matrix = baseMat * mr.transform.localToWorldMatrix,</span><br><span class="line"> materials = new List&lt;Material (mr.sharedMaterials)</span><br><span class="line"> &#125;);</span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> foreach (PrefabInstance pi in source.GetComponentsInChildren(typeof</span><br><span class="line">(PrefabInstance), true))</span><br><span class="line"> &#123;</span><br><span class="line"> if (pi.enabled &amp;&amp; pi.gameObject.activeSelf)</span><br><span class="line"> Rebuild (pi.prefab, baseMat * pi.transform.localToWorldMatrix);</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> // Editor-time-only update: Draw the meshes so we can see the objects in the</span><br><span class="line">scene view</span><br><span class="line"> void Update () &#123;</span><br><span class="line"> if (EditorApplication.isPlaying)</span><br><span class="line"> return;</span><br><span class="line"> Matrix4x4 mat = transform.localToWorldMatrix;</span><br><span class="line"> foreach (Thingy t in things)</span><br><span class="line"> for (int i = 0; i &lt; t.materials.Count; i++)</span><br><span class="line"> Graphics.DrawMesh (t.mesh, mat * t.matrix, t.materials[i], gameObject.layer,</span><br><span class="line">null, i);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> // Picking logic: Since we don&apos;t have gizmos.drawmesh, draw a bounding cube</span><br><span class="line">around each thingy</span><br><span class="line"> void OnDrawGizmos () &#123; DrawGizmos (new Color (0,0,0,0)); &#125;</span><br><span class="line"> void OnDrawGizmosSelected () &#123; DrawGizmos (new Color (0,0,1,.2f)); &#125;</span><br><span class="line"> void DrawGizmos (Color col) &#123;</span><br><span class="line"></span><br><span class="line"> if (EditorApplication.isPlaying)</span><br><span class="line"> return;</span><br><span class="line"></span><br><span class="line"> Gizmos.color = col;</span><br><span class="line"> Matrix4x4 mat = transform.localToWorldMatrix;</span><br><span class="line"> foreach (Thingy t in things)</span><br><span class="line"> &#123;</span><br><span class="line"> Gizmos.matrix = mat * t.matrix;</span><br><span class="line"> Gizmos.DrawCube(t.mesh.bounds.center, t.mesh.bounds.size);</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> // Baking stuff: Copy in all the referenced objects into the scene on play</span><br><span class="line">or build</span><br><span class="line"> [PostProcessScene(-2)]</span><br><span class="line"> public static void OnPostprocessScene() &#123;</span><br><span class="line"> foreach (PrefabInstance pi in UnityEngine.Object.FindObjectsOfType (typeof</span><br><span class="line">(PrefabInstance)))</span><br><span class="line">      BakeInstance (pi);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> public static void BakeInstance (PrefabInstance pi) &#123;</span><br><span class="line"> if(!pi.prefab || !pi.enabled)</span><br><span class="line"> return;</span><br><span class="line"></span><br><span class="line"> pi.enabled = false;</span><br><span class="line"> GameObject go = PrefabUtility.InstantiatePrefab(pi.prefab) as GameObject;</span><br><span class="line"> Quaternion rot = go.transform.localRotation;</span><br><span class="line"> Vector3 scale = go.transform.localScale;</span><br><span class="line"> go.transform.parent = pi.transform;</span><br><span class="line"> go.transform.localPosition = Vector3.zero;</span><br><span class="line"> go.transform.localScale = scale;</span><br><span class="line"> go.transform.localRotation = rot;</span><br><span class="line"> pi.prefab = null;</span><br><span class="line"></span><br><span class="line"> foreach (PrefabInstance childPi in</span><br><span class="line">go.GetComponentsInChildren&lt;PrefabInstance())</span><br><span class="line"> BakeInstance (childPi);</span><br><span class="line"> &#125;</span><br><span class="line">#endif</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用法比较简单，比如我有两个Prefab，inside嵌入在Big里面。如下图所示，把PrefabInstance脚本挂在Big上，然后把inside拖入下方。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-96725fd31f44b3f7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>OK 无论怎么修改inside这个Prefab，当实例化Big的时候都能得到最新修改的Inside这个Prefab。</p>
+<p>持续思考：</p>
+<p>界面预览问题，就是我在布界面的时候，我需要把子集Prefab界面控件拖进来预览效果。如果用上述思路UI的Prefab就必须通过脚本自动生成。一份是预览用的也就是不需要脚本的，一份是只带脚本运行时动态生成的。在处理自动生成UIPrefab的时候可以利用tag<br>比如像这种需要内嵌的Prefab标记一个特殊的tag，在Editor下完成Prefab的导出。另外布界面的时候不需要绑定脚本，而上述脚本的绑定也应该由Editor导出Prefab的时候完成。</p>
+<p>总之一切布界面的时候只操作Prefab不操作脚本。</p>
+<p>最近造了个轮子可以批量替换prefab里的prefab，欢迎大家测试～&lt;<a href="https://bitbucket.org/xuanyusong/prefab-" target="_blank" rel="noopener">https://bitbucket.org/xuanyusong/prefab-</a><br>replace&gt;</p>
+<p>如果有更好的方法欢迎各位朋友在下面给我留言，谢谢。</p>
+<p>本文固定链接: <a href="https://www.xuanyusong.com/archives/3042" target="_blank" rel="noopener">https://www.xuanyusong.com/archives/3042</a></p>
+<p>转载请注明: <a href="https://www.xuanyusong.com/archives/author/xuanyusong" target="_blank" rel="noopener">雨松MOMO</a><br>2014年07月31日 于 <a href="https://www.xuanyusong.com/" target="_blank" rel="noopener">雨松MOMO程序研究院</a> 发表</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.015Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 分钟 读完 (大约 627 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/Canvas/">Canvas</a>
+            
+        </h1>
+        <div class="content">
+            <p>每个UI元素都必须处于一个Canvas的子级中；</p>
+<p>一个场景中可以存在多个Canvas；</p>
+<p>render mode 渲染模式</p>
+<p>Render Mode-Screen Overlay</p>
+<p>画布总会铺满整个屏幕，总是渲染在所有元素的最上层</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a90d6e33192f545a?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-f277612a083a438b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>，画布的RectTransform的大小有屏幕决定；</p>
+<p>Pixel Perfect选项会让UI边缘锐利；</p>
+<p>Render Mode-Camera</p>
+<p>在没有指定摄像机的时候，和Sreen<br>Overlay效果完全一样。指定了摄像机以后，画布会自动调整到相机可视范围内，比Canvas更靠近相机的3Dobject会被渲染在前面，比Canvas远离相机的3dObject会被遮挡</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-09e01122123aae22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7f674c8e88edbcba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-32bd755b18812652.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-10edc5778fa5329a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>画布全权交由这个摄像机来渲染，多个相机的渲染次序，相机类型等都会对该画布的元素有影响。此模式下画布的RectTransform完全受到相机的ViewPort<br>Rect影响；</p>
+<p>Pixel Perfect和Screen Overlay模式下的作用一样；</p>
+<p>Plane Distance 决定Canvas与渲染相机的距离；</p>
+<p>该模式可能有如下场景应用：</p>
+<h4 id="1-如果渲染Canvas的相机是透视的，可以调整Canvas内某些元素的旋转角度，产生透视和深度效果；"><a href="#1-如果渲染Canvas的相机是透视的，可以调整Canvas内某些元素的旋转角度，产生透视和深度效果；" class="headerlink" title="1.如果渲染Canvas的相机是透视的，可以调整Canvas内某些元素的旋转角度，产生透视和深度效果；"></a>1.如果渲染Canvas的相机是透视的，可以调整Canvas内某些元素的旋转角度，产生透视和深度效果；</h4><p><img src="http://upload-images.jianshu.io/upload_images/17266280-5e73315232471dc3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<h4 id="2-可以通过不同相机的sorting-layer和渲染的图层来实线UI上方的粒子特效等。"><a href="#2-可以通过不同相机的sorting-layer和渲染的图层来实线UI上方的粒子特效等。" class="headerlink" title="2.可以通过不同相机的sorting layer和渲染的图层来实线UI上方的粒子特效等。"></a>2.可以通过不同相机的sorting layer和渲染的图层来实线UI上方的粒子特效等。</h4><p>Render Mode-World Space</p>
+<p>画布的Rect Transform完全自由，不受任何约束，可以自行设置大小、位置；</p>
+<p>可以放置于物体的子级，常用作气泡、对话框等；</p>
+<p>EventCamera 该选项决定该UI接受哪个相机的事件，如果该项为None，则默认接受主相机的事件。如果指定某个相机，则只接受该相机的事件。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-777fdce8d0f4214a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4fd33b946b8efdb2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c99766f1318214e1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.006Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    7 分钟 读完 (大约 984 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/5分钟使用Unity制作AR应用/">5分钟使用Unity制作AR应用</a>
+            
+        </h1>
+        <div class="content">
+            <p>今天这篇课程将为大家介绍使用Unity结合Vuforia<br>SDK制作AR应用的过程，非常简单且容易上手，适合Unity初学者。最后效果是制作出向上跳跃的Unity酱。</p>
+<p>注意：本文教程使用Unity 5.3.4制作，Unity编辑器及Android设备测试通过。</p>
+<hr>
+<h1 id="第一步-注册Vuforia"><a href="#第一步-注册Vuforia" class="headerlink" title="第一步 注册Vuforia"></a>第一步 注册Vuforia</h1><p>首先需要到Vuforia官网进行注册，注册成功后跳转至License Manager页面。</p>
+<p>然后点击“Add License<br>Key”按钮创建许可证，创建过程中需要输入应用名称、设备及许可证类型。这里应用名称任意填写，设备选择Mobile，许可证类型使用免费版即可。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-e77a8ae9ad1efdd7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>点击下一步并同意条款后再点击“Confirm”按钮确认注册应用。成功注册后点击应用会显示License Key，后面会用到。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-656cd94bac3044c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<hr>
+<h1 id="第二步-下载SDK并导入Unity"><a href="#第二步-下载SDK并导入Unity" class="headerlink" title="第二步 下载SDK并导入Unity"></a>第二步 下载SDK并导入Unity</h1><p>在Vuforia官网的下载页面找到Download for<br>Unity下载供Unity使用的SDK，本文使用最新版5.5.9。下载完成后双击打开文件，点击“Import”按钮将下载的SDK导入Unity项目。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4a29799e8090fc87.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<hr>
+<h1 id="第三步-添加并设置ARCamera"><a href="#第三步-添加并设置ARCamera" class="headerlink" title="第三步 添加并设置ARCamera"></a>第三步 添加并设置ARCamera</h1><p>新建场景并将Prefabs文件夹下的ARCamera预设体拖拽至场景，如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-d2ac62c821ffc83d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>将Vuforia网页上的License Key信息复制到Vuforia Behaviour脚本的App License Key字段，如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-291a0fcaa659cef6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<hr>
+<h1 id="第四步-添加识别标记"><a href="#第四步-添加识别标记" class="headerlink" title="第四步 添加识别标记"></a>第四步 添加识别标记</h1><p>首先挑一张分辨率高且比较有特点（尽量少有重复）的图。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-2cc047cb5a8b9c73.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>然后打开Vuforia网页的Target Manager网页点击“Add<br>Database”按钮，随意填写名称并选择类型为“Device”。点击新创建的Database名称，会出现Add Target界面，设置如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-b8cd556bbd06b99c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>将Width设为1并随意命名后点击“Add”按钮。回到列表页会发现Database中多了个5星级的识别标记。</p>
+<p>点击页面上的“Download Dataset(All)”按钮，选择开发平台为Unity Editor后下载该资源。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-31151350cc7717a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>将下载的资源导入Unity项目，然后选中层级视图中的ARCamera，勾选Database Load Behaviour脚本下的“Load XX<br>Database”与“Active”。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-443e52a50ea29fa8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>将Prefabs文件夹下的ImageTarget预设体拖拽至场景，然后点击Image Target<br>Behaviour脚本下的“Type”下拉列表，将类型设为“Predefined”，分别在“Database”和“ImageTarget”下拉列表中选择之前创建的Database和识别标记。此时场景示意图如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-12750fa48fe1413d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<hr>
+<h1 id="第五步-添加目标物体"><a href="#第五步-添加目标物体" class="headerlink" title="第五步 添加目标物体"></a>第五步 添加目标物体</h1><p>接下来将UnityChan的模型作为目标物体添加为ImageTarget的子对象，可以按照自己的喜好调整UnityChan的位置及旋转角度或添加动画等。UnityChan的模型资源可在Asset<br>Store中免费下载，添加UnityChan后的场景如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6d5ac48f38520b3c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>到此就大功告成了，接下来打包运行，最终效果如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-52b85dc0dc2a21f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+    
+<div class="card card-transparent">
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        <div class="pagination-previous">
+            <a class="is-flex-grow has-text-black-ter" href="/blog/page/20/">上一页</a>
+        </div>
+        <div class="pagination-next">
+            <a class="is-flex-grow has-text-black-ter" href="/blog/page/22/">下一页</a>
+        </div>
+        <ul class="pagination-list is-hidden-mobile">
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/">1</a></li>
+            
+            <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/20/">20</a></li>
+            
+            <li><a class="pagination-link is-current" href="/blog/page/21/">21</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/22/">22</a></li>
+            
+            <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/37/">37</a></li>
+            
+        </ul>
+    </nav>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/blog/images/avatar.jpeg" alt="hcq0618">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        hcq0618
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Grab
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Beijing</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        110
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        10
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        18
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/hcq0618" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/hcq0618">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/blog/categories/AR/">
+            <span class="level-start">
+                <span class="level-item">AR</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/C/">
+            <span class="level-start">
+                <span class="level-item">C#</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity/">
+            <span class="level-start">
+                <span class="level-item">Unity</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">31</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity优化/">
+            <span class="level-start">
+                <span class="level-item">Unity优化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">24</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity插件/">
+            <span class="level-start">
+                <span class="level-item">Unity插件</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">26</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/VR/">
+            <span class="level-start">
+                <span class="level-item">VR</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/其他/">
+            <span class="level-start">
+                <span class="level-item">其他</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/后端/">
+            <span class="level-start">
+                <span class="level-item">后端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/小程序/">
+            <span class="level-start">
+                <span class="level-item">小程序</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/网络/">
+            <span class="level-start">
+                <span class="level-item">网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13.75px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11.25px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 17.5px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 18.75px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11.25px;">VR</a> <a href="/blog/tags/后端/" style="font-size: 15px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11.25px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11.25px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11.25px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16.25px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12.5px;">网络安全</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen is-sticky">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/blog/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">110</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/AR/">
+                        <span class="tag">AR</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C/">
+                        <span class="tag">C#</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C-优化/">
+                        <span class="tag">C#优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Google/">
+                        <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/UML/">
+                        <span class="tag">UML</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity/">
+                        <span class="tag">Unity</span>
+                        <span class="tag is-grey">31</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity优化/">
+                        <span class="tag">Unity优化</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity插件/">
+                        <span class="tag">Unity插件</span>
+                        <span class="tag is-grey">26</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/VR/">
+                        <span class="tag">VR</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/后端/">
+                        <span class="tag">后端</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/小程序/">
+                        <span class="tag">小程序</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/开源/">
+                        <span class="tag">开源</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/数据库/">
+                        <span class="tag">数据库</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/移动支付/">
+                        <span class="tag">移动支付</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络/">
+                        <span class="tag">网络</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络安全/">
+                        <span class="tag">网络安全</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/blog/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">110</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/AR/">
+                        <span class="tag">AR</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C/">
+                        <span class="tag">C#</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C-优化/">
+                        <span class="tag">C#优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Google/">
+                        <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/UML/">
+                        <span class="tag">UML</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity/">
+                        <span class="tag">Unity</span>
+                        <span class="tag is-grey">31</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity优化/">
+                        <span class="tag">Unity优化</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity插件/">
+                        <span class="tag">Unity插件</span>
+                        <span class="tag is-grey">26</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/VR/">
+                        <span class="tag">VR</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/后端/">
+                        <span class="tag">后端</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/小程序/">
+                        <span class="tag">小程序</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/开源/">
+                        <span class="tag">开源</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/数据库/">
+                        <span class="tag">数据库</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/移动支付/">
+                        <span class="tag">移动支付</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络/">
+                        <span class="tag">网络</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络安全/">
+                        <span class="tag">网络安全</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/blog/">
+                
+                    <img src="/blog/images/logo.svg" alt="Hcq0618&#39;s Blog" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Hcq0618&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/hcq0618/blog/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/blog/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/blog/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/blog/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/blog/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/blog/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/blog/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/blog/js/insight.js" defer></script>
+<link rel="stylesheet" href="/blog/css/search.css">
+<link rel="stylesheet" href="/blog/css/insight.css">
+    
+</body>
+</html>

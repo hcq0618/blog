@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Hcq0618&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="A blog for bookmarking and recording technology">
+<meta name="keywords" content="Android,Flutter,Kotlin,ReactNative,VR,Unity,Python,C#,Backend,NodeJs,Javascript,TypeScript,Hexo,Framework,Architecture,Java">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hcq0618&#39;s Blog">
+<meta property="og:url" content="https://hcq0618.github.io/blog/page/2/index.html">
+<meta property="og:site_name" content="Hcq0618&#39;s Blog">
+<meta property="og:description" content="A blog for bookmarking and recording technology">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://hcq0618.github.io/blog/images/og_image.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hcq0618&#39;s Blog">
+<meta name="twitter:description" content="A blog for bookmarking and recording technology">
+<meta name="twitter:image" content="https://hcq0618.github.io/blog/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/blog/images/logo.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/blog/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?844bc0c79484177c3822e7a30257f8a3";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/blog/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/blog/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/blog/">
+            
+                <img src="/blog/images/logo.svg" alt="Hcq0618&#39;s Blog" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/blog/">主页</a>
+                
+                <a class="navbar-item" href="/blog/archives">文章</a>
+                
+                <a class="navbar-item" href="/blog/categories">分类</a>
+                
+                <a class="navbar-item" href="/blog/tags">标签</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/hcq0618/blog/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    15 分钟 读完 (大约 2194 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+            
+        </h1>
+        <div class="content">
+            <p>用支付宝时发现没开网络也能付款成功，原理是什么呢？有没有被破解的可能？</p>
+<p>事实上支付宝和微信的“当面付”产品，是一款联机在线支付产品，所以不允许双方均离线的场景下支付（这一点和公交卡圈存支付不一样，公交卡的近场支付事实上允许双方脱机）。</p>
+<p>题目中所知的支付宝和微信没有网络，指的都是消费者客户端没有网络，而不是双方都没有网络。</p>
+<p>严格来说，当面付产品（特指商户主动扫消费者钱包客户端上的 token 码进行支付的形态）必须要商户在线方可进行联机交易，原因有以下两点：</p>
+<ol>
+<li><p>支付公司为了保证资金安全必须要确保每笔用户的支付行为背后都真正发生了资金扣款，所以在线联机确保支付成功是必要的。（这里解释了为什么不允许双方脱机）</p>
+</li>
+<li><p>商户为了确保用户的支付结果可信赖，必须要自己的终端或者系统从支付公司获得支付结果，而不能以消费者的支付结果凭证作为结论。以传统 POS 业务举例，你可以认为你的刷卡信息等同于支付宝的当面付码，商户必须要看到 POS 机打出支付成功单据后才认为支付有效，如果 POS 支付超时没有回执，光凭客户手中的银行短信通知是不会让客户走的，而是会冲正掉上一笔交易让客户重新刷一笔。（这里解释了为什么要选择商户必须联机的方案）</p>
+</li>
+</ol>
+<p>那么，我们来看看一个标准的当面付产品的信息流是什么样的（原谅我草草画了一下）：</p>
+<p><img src="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/v2-17cfb693061bc9171bb42e941c85920f_b.jpg" alt>  </p>
+<p>我们可以看到在这个图里红色圈圈部分，商户系统和支付宝系统是对接上的，所以商户系统是联机的——而用户的手机，在展示 code<br>的时候，我并未强调是否和支付宝服务端联机。</p>
+<p>事实上，不论是微信还是支付宝都支持两种用户码生成模式，即在线码和离线码。</p>
+<p>在线码其实很容易理解，用户目前是登录钱包的状态，只要点击【付款】按钮，客户端就向支付宝的服务端申请一个针对这个客户账户的支付凭证码并展现到客户手机上。</p>
+<p>这个支付凭证码在支付宝的服务端会有一组数据库记录其与真实客户账户之间的关联，并且这份关联的有效期为<br>60S，超过时效即便商户上送这个码，支付宝也会认为这是作废码而不予处理。</p>
+<p>用户每次点开【付款】、等待超过 60S、主动刷新付款码，都会触发客户端向服务器申请一个新码的请求。</p>
+<p>这个方案的好处是：</p>
+<ul>
+<li><p>相对安全，每次码都是服务端生成。</p>
+</li>
+<li><p>业务灵活，即便对码的安全算法等进行较大的调整，也不用升级客户端，因为是服务端发码。</p>
+</li>
+</ul>
+<p>这个方案的坏处也显而易见：</p>
+<ul>
+<li><p>用户的手机客户端必须在线联网，如果没有网络则无法获取付款码</p>
+</li>
+<li><p>用户即便在线，如果网络连接不好，也会出现点了付款等好久才看到码的情况，体验会不可控。</p>
+</li>
+</ul>
+<p>为了解决在线码方案的问题，离线码方案就出现了。</p>
+<p>离线码的基本技术原理其实也不复杂，可以参考 @反方向的钟 的回答，比较简单的实现方式是：</p>
+<p>用户登录后，服务端通过可信网络向用户客户端发送一个种子数据（每个客户的种子数据唯一，换用户登录后销毁原种子，重新下载种子）本地保存，当用户点击【付款】时，客户端利用这个种子数据</p>
+<ul>
+<li>时间戳 + 一套安全算法可以生成一串数字，即离线码。</li>
+</ul>
+<p>当用户使用离线码支付时，服务端通过一定算法校验这个码的确是来自于这个用户，随即确认用户授权完成支付。</p>
+<p>离线码的好处不言而喻：</p>
+<ul>
+<li><p>用户无需在线，就算在地下室等没有网络的场景一样可以使用</p>
+</li>
+<li><p>由于不依赖网络，所有码本地生成，所以客户体验很好，一点付款码就能出来</p>
+</li>
+</ul>
+<p>那离线码的劣势呢，我们看看：</p>
+<ul>
+<li>用户 root/ 越狱手机后，保密存储的种子数据有可能被不法分子利用恶意程序获取到，导致离线码被随意生成用于消费。</li>
+</ul>
+<p>恩……怎么说呢，毕竟现在不是发烧友主动 root 越狱的用户并不多，这是其一。</p>
+<p>即便是 root 越狱，如果用户使用手机的习惯良好，被恶意程序攻击手机的概率也很低，这是其二。</p>
+<p>每家公司都有自己的安全团队去保障自己客户端的数据安全，并不是说 root 的用户就只能坐以待毙了，否则微信和支付宝早被搞破产了，这是其三。</p>
+<p>当然从我个人的角度来说，普通用户我都不建议去 root 或者越狱。</p>
+<p>这个问题最粗暴的方案就跟反方向的钟所说的一样，监测到系统被 root 了就对用户限权（很多银行的客户端方案都是这么搞的）。</p>
+<p>作为直接面向消费者市场且充分竞争的产品，微信支付和支付宝断然不会采用上面那个方案的。</p>
+<p>怎么能又开放离线码给用户，又能确保用户支付安全，本身也是支付公司安全竞争力的一部分，这里就省略几万字了。</p>
+<ul>
+<li>数据碰撞可能导致 A 用户的码扣到 B 用户的账户</li>
+</ul>
+<p>恩，这里涉及一些算法问题，业务上就是碰了巧了 A 用户码算出来和 B 用户码一模一样且都有效（两个客户端都没作弊）。</p>
+<p>在线码之所以可以避免这个问题是因为在线码是服务端发的，可以控幂等。</p>
+<p>离线码是客户端自己根据算法生成的，所以没法控。</p>
+<p>其实原因和哈希算法的数据碰撞类似，是个小概率的纯技术问题，就不展开赘述了。</p>
+<p>解决方案：优化算法（确保碰撞概率低到一定程度甚至杜绝），如果真的出现就认栽给客户赔钱（赔多了技术部门老大就肯定痛定思痛优化算法了）。</p>
+<p>事实上这个问题发生的概率极低极低，所以可以忽略不计。</p>
+<ul>
+<li>算法调整不如在线码灵活</li>
+</ul>
+<p>因为离线码生成逻辑都在客户端，所以通常来说安全算法升级会导致客户端升级，比在线码升级更影响用户一些。</p>
+<p>分析到上面这层，各位产品经理相信应该就知道如何做方案选型了。（装个逼，事实上我觉得了解到上面那个层面是支付行业产品经理的基本素质）</p>
+<p>后话：</p>
+<p>我在写这个答案的时候其实都在刻意回避公司实现这些业务的具体逻辑和算法。而我个人并非当面付产品的产品经理，所以大家放心，这篇文章不算泄密。</p>
+<p>写这个答案的目的是希望能尽量站在产品和业务角度还原业务原理，希望更多的非行业内的知友知其然，也知其所以然。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    16 分钟 读完 (大约 2372 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/18/其他/渐进式加载/">渐进式加载</a>
+            
+        </h1>
+        <div class="content">
+            <p>#####<br>我们在PC端用浏览器看图片的时候,经常是先看到一张模糊图,然后再渐渐的变得清晰,这种情况在看漫画的时候尤其常见(模糊图如下),这种效果就叫做渐进式加载.渐进式加载能够大大的提升体验感,我们先来了解一下渐进式加载的原理.</p>
+<p><img src="/blog/2019/05/18/其他/渐进式加载/20170313095152120" alt>  </p>
+<p>(图片来自网络)</p>
+<h1 id="1-JPEG"><a href="#1-JPEG" class="headerlink" title="1.JPEG"></a>1.JPEG</h1><h5 id="要做到渐进式加载-我们的图片需要是JPEG格式-而JPEG格式的图片又分为两种-我们要做到渐进式加载的话-需要的是Progressive"><a href="#要做到渐进式加载-我们的图片需要是JPEG格式-而JPEG格式的图片又分为两种-我们要做到渐进式加载的话-需要的是Progressive" class="headerlink" title="要做到渐进式加载,我们的图片需要是JPEG格式,而JPEG格式的图片又分为两种,我们要做到渐进式加载的话,需要的是Progressive"></a>要做到渐进式加载,我们的图片需要是JPEG格式,而JPEG格式的图片又分为两种,我们要做到渐进式加载的话,需要的是Progressive</h5><p>JPEG.</p>
+<h2 id="1-Baseline-JPEG（标准型）"><a href="#1-Baseline-JPEG（标准型）" class="headerlink" title="(1)Baseline JPEG（标准型）"></a>(1)Baseline JPEG（标准型）</h2><h5 id="这种格式的图片在保存信息的时候-是从上往下-将每一行的数据顺序的保存起来的-所以读一部分就展示的话-那么效果就会像是从上往下一点一点展示"><a href="#这种格式的图片在保存信息的时候-是从上往下-将每一行的数据顺序的保存起来的-所以读一部分就展示的话-那么效果就会像是从上往下一点一点展示" class="headerlink" title="这种格式的图片在保存信息的时候,是从上往下,将每一行的数据顺序的保存起来的,所以读一部分就展示的话,那么效果就会像是从上往下一点一点展示."></a>这种格式的图片在保存信息的时候,是从上往下,将每一行的数据顺序的保存起来的,所以读一部分就展示的话,那么效果就会像是从上往下一点一点展示.</h5><p><img src="/blog/2019/05/18/其他/渐进式加载/20170313100343394" alt>  </p>
+<p>(图片来自网络)</p>
+<h2 id="2-Progressive-JPEG（渐进式）"><a href="#2-Progressive-JPEG（渐进式）" class="headerlink" title="(2)Progressive JPEG（渐进式）"></a>(2)Progressive JPEG（渐进式）</h2><h5 id="这种格式的图片在保存信息的时候-是一帧一帧的存储的-如果逐帧逐帧的读的话-就会先看到模糊图-然后一点一点变清晰"><a href="#这种格式的图片在保存信息的时候-是一帧一帧的存储的-如果逐帧逐帧的读的话-就会先看到模糊图-然后一点一点变清晰" class="headerlink" title="这种格式的图片在保存信息的时候,是一帧一帧的存储的,如果逐帧逐帧的读的话,就会先看到模糊图,然后一点一点变清晰"></a>这种格式的图片在保存信息的时候,是一帧一帧的存储的,如果逐帧逐帧的读的话,就会先看到模糊图,然后一点一点变清晰</h5><p><img src="/blog/2019/05/18/其他/渐进式加载/20170313100326754" alt>  </p>
+<p>(图片来自网络)</p>
+<hr>
+<p><img src="/blog/2019/05/18/其他/渐进式加载/20170313101158851" alt>  </p>
+<p>(图片来自网络)</p>
+<h1 id="2-解码"><a href="#2-解码" class="headerlink" title="2.解码"></a>2.解码</h1><h5 id="如何判断是否JPEG格式的图片呢-下面引用一段Glide框架的代码"><a href="#如何判断是否JPEG格式的图片呢-下面引用一段Glide框架的代码" class="headerlink" title="如何判断是否JPEG格式的图片呢?下面引用一段Glide框架的代码"></a>如何判断是否JPEG格式的图片呢?下面引用一段Glide框架的代码</h5><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//ImageHeaderParser.java</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">private static final int EXIF_MAGIC_NUMBER = 0xFFD8;</span><br><span class="line"></span><br><span class="line">// JPEG.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if (firstTwoBytes == EXIF_MAGIC_NUMBER) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">return JPEG;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="我们可以看出-JPEG是以FFD8开头的"><a href="#我们可以看出-JPEG是以FFD8开头的" class="headerlink" title="我们可以看出,JPEG是以FFD8开头的"></a>我们可以看出,JPEG是以FFD8开头的</h5><h5 id="其实JPEG是以FFD8开头-FFD9结尾-FFDA代表一个帧的开头"><a href="#其实JPEG是以FFD8开头-FFD9结尾-FFDA代表一个帧的开头" class="headerlink" title="其实JPEG是以FFD8开头,FFD9结尾,FFDA代表一个帧的开头"></a>其实JPEG是以FFD8开头,FFD9结尾,FFDA代表一个帧的开头</h5><p>FFD8 … FFDA … FFDA … FFDA … FFD9</p>
+<p>1</p>
+<h5 id="Baseline-JPEG-里面只有一个FFDA"><a href="#Baseline-JPEG-里面只有一个FFDA" class="headerlink" title="Baseline JPEG 里面只有一个FFDA"></a>Baseline JPEG 里面只有一个FFDA</h5><h5 id="Progressive-JPEG-里面含有多个FFDA"><a href="#Progressive-JPEG-里面含有多个FFDA" class="headerlink" title="Progressive JPEG 里面含有多个FFDA"></a>Progressive JPEG 里面含有多个FFDA</h5><h4 id="比较完整的数据结构如下"><a href="#比较完整的数据结构如下" class="headerlink" title="比较完整的数据结构如下"></a>比较完整的数据结构如下</h4><p><img src="/blog/2019/05/18/其他/渐进式加载/SouthEast" alt>  </p>
+<p>(图片来自Wiki)</p>
+<p><a href="https://en.wikipedia.org/wiki/JPEG" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/JPEG</a></p>
+<h1 id="3-如何保存或者转换成JPEG"><a href="#3-如何保存或者转换成JPEG" class="headerlink" title="3.如何保存或者转换成JPEG"></a>3.如何保存或者转换成JPEG</h1><p>(以下转换方法来自网络,由于非<a href="http://lib.csdn.net/base/javase" title="Java
+SE知识库" target="_blank" rel="noopener">Java</a>代码,所以没有做验证,特此说明一下)</p>
+<h3 id="1、PhotoShop"><a href="#1、PhotoShop" class="headerlink" title="1、PhotoShop"></a>1、PhotoShop</h3><p>在photoshop中有“存储为web所用格式”，打开后选择“连续”就是渐进式JPEG。</p>
+<p><img src="/blog/2019/05/18/其他/渐进式加载/20170313101544419" alt>  </p>
+<p>据说，需要勾选那个转换为sRGB选项，在某些浏览器下，图像设置为CMYK会出现一些问题！</p>
+<p><img src="/blog/2019/05/18/其他/渐进式加载/E6AE6EF5-D9BF-4007-9EBE-8648688C6550.png" alt>  </p>
+<p>ps保存为png-24且勾选交错才能把图片保存为渐进式图片</p>
+<p>测试效果如下：</p>
+<p><img src="/blog/2019/05/18/其他/渐进式加载/164A38DA-811B-409A-95CB-6AC2D8403FEA.gif" alt>  </p>
+<h3 id="2、Linux"><a href="#2、Linux" class="headerlink" title="2、Linux"></a>2、Linux</h3><p>检测是否为progressive jpeg ： identify -verbose filename.jpg | grep Interlace（如果输出<br>None 说明不是progressive jpeg；如果输出 Plane 说明是 progressive jpeg。）</p>
+<p>将basic jpeg转换成progressive jpeg：&gt; convert infile.jpg -interlace Plane<br>outfile.jpg</p>
+<h3 id="3、PHP"><a href="#3、PHP" class="headerlink" title="3、PHP"></a>3、PHP</h3><p>使用imageinterlace和imagejpeg函数我们可以轻松解决转换问题。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">$im = imagecreatefromjpeg(&apos;pic.jpg&apos;);</span><br><span class="line"></span><br><span class="line">imageinterlace($im, 1);</span><br><span class="line"></span><br><span class="line">imagejpeg($im, &apos;./php_interlaced.jpg&apos;, 100);</span><br><span class="line"></span><br><span class="line">imagedestroy($im);</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="4、Python"><a href="#4、Python" class="headerlink" title="4、Python"></a>4、Python</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import PIL</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">from exceptions import IOError</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">img = PIL.Image.open(&quot;c:\\\users\\\biaodianfu\\\pictures\\\in.jpg&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">destination = &quot;c:\\\users\\\biaodianfu\\\pictures\\\test.jpeg&quot;</span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">img.save(destination, &quot;JPEG&quot;, quality=80, optimize=True, progressive=True)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">except IOError:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">PIL.ImageFile.MAXBLOCK = img.size[0] * img.size[1]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">img.save(destination, &quot;JPEG&quot;, quality=80, optimize=True, progressive=True)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="5、jpegtran"><a href="#5、jpegtran" class="headerlink" title="5、jpegtran"></a>5、jpegtran</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jpegtran -copy none -progressive &lt;inputfile&gt;&lt;outputfile&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="6、C"><a href="#6、C" class="headerlink" title="6、C"></a>6、C</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">using (Image source = Image.FromFile(@&quot;D:\temp\test2.jpg&quot;)) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ImageCodecInfo codec = ImageCodecInfo.GetImageEncoders().First(c =&gt; c.MimeType</span><br><span class="line">== &quot;image/jpeg&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">EncoderParameters parameters = new EncoderParameters(3);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">parameters.Param[0] = new</span><br><span class="line">EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 100L);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">parameters.Param[1] = new</span><br><span class="line">EncoderParameter(System.Drawing.Imaging.Encoder.ScanMethod,</span><br><span class="line">(int)EncoderValue.ScanMethodInterlaced);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">parameters.Param[2] = new</span><br><span class="line">EncoderParameter(System.Drawing.Imaging.Encoder.RenderMethod,</span><br><span class="line">(int)EncoderValue.RenderProgressive);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">source.Save(@&quot;D:\temp\saved.jpg&quot;, codec, parameters);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>7、C#转换</p>
+<p>据说是如下的代码：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">using (Image source = Image.FromFile(@&quot;D:\temp\test2.jpg&quot;)) &#123;</span><br><span class="line"></span><br><span class="line">ImageCodecInfo codec = ImageCodecInfo.GetImageEncoders().First(c =&gt; c.MimeType</span><br><span class="line">== &quot;image/jpeg&quot;);</span><br><span class="line"></span><br><span class="line">EncoderParameters parameters = new EncoderParameters(3);</span><br><span class="line"></span><br><span class="line">parameters.Param[0] = new</span><br><span class="line">EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 100L);</span><br><span class="line"></span><br><span class="line">parameters.Param[1] = new</span><br><span class="line">EncoderParameter(System.Drawing.Imaging.Encoder.ScanMethod,</span><br><span class="line">(int)EncoderValue.ScanMethodInterlaced);</span><br><span class="line"></span><br><span class="line">parameters.Param[2] = new</span><br><span class="line">EncoderParameter(System.Drawing.Imaging.Encoder.RenderMethod,</span><br><span class="line">(int)EncoderValue.RenderProgressive);</span><br><span class="line"></span><br><span class="line">source.Save(@&quot;D:\temp\saved.jpg&quot;, codec, parameters);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p> <strong>8、java</strong></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"></span><br><span class="line">* 转换图片为 流式加载</span><br><span class="line"></span><br><span class="line">* @author zhaosx</span><br><span class="line"></span><br><span class="line">*</span><br><span class="line"></span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">public class ProgressiveJPEG &#123;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws Exception &#123;</span><br><span class="line"></span><br><span class="line">        File file=new File(&quot;Z:/2.jpg&quot;);</span><br><span class="line"></span><br><span class="line">        BufferedImage image = ImageIO.read(file);</span><br><span class="line"></span><br><span class="line">        Iterator&lt;ImageWriter&gt; it =</span><br><span class="line">ImageIO.getImageWritersByFormatName(&quot;jpeg&quot;);</span><br><span class="line"></span><br><span class="line">        ImageWriter writer=null;</span><br><span class="line"></span><br><span class="line">        while(it.hasNext()) &#123;</span><br><span class="line"></span><br><span class="line">             writer=it.next();</span><br><span class="line"></span><br><span class="line">             break;</span><br><span class="line"></span><br><span class="line">             //System.out.println(it.next());</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if(writer!=null) &#123;</span><br><span class="line"></span><br><span class="line">             ImageWriteParam params = writer.getDefaultWriteParam();</span><br><span class="line"></span><br><span class="line">             params.setProgressiveMode(ImageWriteParam.MODE_DEFAULT);</span><br><span class="line"></span><br><span class="line">             //params.setCompressionQuality(0.8f);</span><br><span class="line"></span><br><span class="line">             ImageOutputStream output = ImageIO.createImageOutputStream(new</span><br><span class="line">File(&quot;Z:/22.jpg&quot;));</span><br><span class="line"></span><br><span class="line">             writer.setOutput(output);</span><br><span class="line"></span><br><span class="line">             writer.write(null,new IIOImage(image,null,null), params);</span><br><span class="line"></span><br><span class="line">             output.flush();</span><br><span class="line"></span><br><span class="line">             writer.dispose();</span><br><span class="line"></span><br><span class="line">             System.out.println(&quot;ok&quot;);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="4-效果"><a href="#4-效果" class="headerlink" title="4.效果"></a>4.效果</h1><h5 id="明白了渐进式加载的原理后-我们就能想办法在app端也做到渐进式加载的效果了"><a href="#明白了渐进式加载的原理后-我们就能想办法在app端也做到渐进式加载的效果了" class="headerlink" title="明白了渐进式加载的原理后,我们就能想办法在app端也做到渐进式加载的效果了."></a>明白了渐进式加载的原理后,我们就能想办法在app端也做到渐进式加载的效果了.</h5><p>(大概就是判断是否JPEG图片,然后根据每一帧的节点来判断并决定是否需要加载)</p>
+<h3 id="下面展示一下效果图"><a href="#下面展示一下效果图" class="headerlink" title="下面展示一下效果图"></a>下面展示一下效果图</h3><h3 id="1-原图"><a href="#1-原图" class="headerlink" title="(1)原图"></a>(1)原图</h3><p><img src="/blog/2019/05/18/其他/渐进式加载/20170313112448386" alt>  </p>
+<p>(Progressive JPEG的图一打水印就变成Baseline JPEG,应该是CSDN打水印保存的时候处理了)</p>
+<h3 id="2-解码到第一个FFDA与第二个FFDA的中间"><a href="#2-解码到第一个FFDA与第二个FFDA的中间" class="headerlink" title="(2)解码到第一个FFDA与第二个FFDA的中间"></a>(2)解码到第一个FFDA与第二个FFDA的中间</h3><p><img src="/blog/2019/05/18/其他/渐进式加载/20170313113048132" alt>  </p>
+<h3 id="3-刚好解码到第二个FFDA"><a href="#3-刚好解码到第二个FFDA" class="headerlink" title="(3)刚好解码到第二个FFDA"></a>(3)刚好解码到第二个FFDA</h3><p><img src="/blog/2019/05/18/其他/渐进式加载/20170313113257494" alt>  </p>
+<h3 id="4-解码到第五个FFDA"><a href="#4-解码到第五个FFDA" class="headerlink" title="(4)解码到第五个FFDA"></a>(4)解码到第五个FFDA</h3><p><img src="/blog/2019/05/18/其他/渐进式加载/20170313113406391" alt>  </p>
+<p>需要看图片二进制结构的,可以下载一些工具(如hex-editor-neo)</p>
+<p><a href="http://download.csdn.net/detail/yulyu/9779220" target="_blank" rel="noopener">hex-editor-neo下载</a></p>
+<hr>
+<p>图片的尺寸大小</p>
+<p>同一张jpg图片，如果保存为基本式和渐进式那个尺寸更小呢？</p>
+<p>根据我拿3终不同风格图片做测试，发现，百度百科中所说的渐进式图片的大小比基本式的小是不准确的。</p>
+<p>其中，两者大小关系基本上没有什么规律。下面是我的测试结果：</p>
+<p>图片品质59%及其以下时候，渐进JPEG图片更小；品质60%及其以上，基本JPEG更小<br>图片品质82%及其以上时候，渐进JPEG图片更小；品质81%及其以下，基本JPEG更小<br>无论图片品质多少，都是渐进JPEG图片更小 </p>
+<p>不过，个人臆测，从概率学上讲，大多数情况下，渐进式JPEG比基本式图片尺寸小一点。然而，其中的大小差异与原图尺寸相比，不值一提，因此，所谓图片大小不能作为两种图片选择的依据。</p>
+<p>下载呈现速度</p>
+<p>一个名叫<a href="http://htmlhive.com/" target="_blank" rel="noopener">Ann Robson</a>的人，最近对各个浏览器下渐进式图片呈现做了测试。</p>
+<p>下图为FireFox浏览器下呈现速度的对比图：</p>
+<p><img src="/blog/2019/05/18/其他/渐进式加载/02E49F0F-505A-45E8-9DAC-5A82ADB99ECE.jpg" alt></p>
+<p>当大图轮廓加载OK的时候，小图最后一个乳猪还没有出世面；而基本式乳猪图还没有开始加载！显然，罗伯森是想告诉我们，渐进JPEG下载更快。</p>
+<p>下表为其在各个浏览器下测试的结果：</p>
+<p>浏览器 (特定测试版本)                                      渐进jpeg前景渲染               渐进jpeg背景渲染<br>Chrome (v 25.0.1323.1 dev Mac, 23.0.1271.97 m Win)      渐进地 (相当快！)              渐进地 (相当快！)<br>Firefox (v 15.0.1 Mac, 12.0 Win)                        渐进地 (相当快！)             文件下载后立即地(慢)<br>Internet Explorer 8                                    文件下载后立即地(慢)            文件下载后立即地(慢)<br>Internet Explorer 9                                     渐进地 (相当快！)             文件下载后立即地(慢)<br>Safari (v 6.0 Desktop, v 6.0 Mobile)                   文件下载后立即地(慢)            文件下载后立即地(慢)<br>Opera (v 11.60)                                        文件下载后立即地(慢)               文件下载后立即</p>
+<p>结论很简单，Chrome + Firefox + IE9浏览器下，渐进式图片加载更快，而且是快很多，至于其他浏览器，与基本式图片的加载一致，至少不会拖后腿。</p>
+<p><a href="http://www.webmonkey.com/author/luxagraf/" target="_blank" rel="noopener">Scott Gilbertson</a>对渐进式图片有其他的补充：</p>
+<p>1. 你用永不知道基本式图片内容，除非他完全加载出来；</p>
+<p>2. 渐进式图片一开始大小框架就定好，不会像基本式图片一样，由于尺寸未设定而造成回流——提高的渲染性能；</p>
+<p>3. 渐进式图片也有不足，就是吃CPU吃内存。</p>
+<p>内容就是这些，权衡使用在你手。一般而言，大尺寸图片建议使用渐进式JPEG.</p>
+<hr>
+<p>另一种实现</p>
+<p>图片在加载过程中由模糊到清晰的一个加载过程，需要两张图片实现，一张体积比较小，一张为原图，体积比较小的图片会先加载成功，然后对其进行模糊化处理，直到原图加载成功后，用原图替代体积较小的图。</p>
+<p>css filter模糊处理：</p>
+<p>html</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;placeholder&quot; data-</span><br><span class="line">large=&quot;&lt;https://pic2.zhimg.com/50/v2-c5174d0b98facea9584e7766862decdd_400x224.jpg&gt;&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;img</span><br><span class="line">src=&quot;&lt;https://pic2.zhimg.com/50/v2-c5174d0b98facea9584e7766862decdd_60w.jpg&gt;&quot;</span><br><span class="line">class=&quot;img-small&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div style=&quot;padding-bottom: 66.6%;&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>css</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">.placeholder &#123;</span><br><span class="line"></span><br><span class="line">    width: 200px;</span><br><span class="line"></span><br><span class="line">    background-color: #f6f6f6;</span><br><span class="line"></span><br><span class="line">    background-size: cover;</span><br><span class="line"></span><br><span class="line">    background-repeat: no-repeat;</span><br><span class="line"></span><br><span class="line">    position: relative;</span><br><span class="line"></span><br><span class="line">    overflow: hidden;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">.placeholder img &#123;</span><br><span class="line"></span><br><span class="line">    position: absolute;</span><br><span class="line"></span><br><span class="line">    opacity: 0;</span><br><span class="line"></span><br><span class="line">    top: 0;</span><br><span class="line"></span><br><span class="line">    left: 0;</span><br><span class="line"></span><br><span class="line">    width: 100%;</span><br><span class="line"></span><br><span class="line">    transition: opacity 1s linear;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">.placeholder img.loaded &#123;</span><br><span class="line"></span><br><span class="line">    opacity: 1;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">.img-small &#123;</span><br><span class="line"></span><br><span class="line">    filter: blur(50px);</span><br><span class="line"></span><br><span class="line">    /* this is needed so Safari keeps sharp edges */</span><br><span class="line"></span><br><span class="line">    transform: scale(1);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>js</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">window.onload = function () &#123;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">    var placeholder = document.querySelector(&apos;.placeholder&apos;),</span><br><span class="line"></span><br><span class="line">    small = placeholder.querySelector(&apos;.img-small&apos;)</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">    // 1: load small image and show it</span><br><span class="line"></span><br><span class="line">    var img = new Image();</span><br><span class="line"></span><br><span class="line">    img.src = small.src;</span><br><span class="line"></span><br><span class="line">    img.onload = function () &#123;</span><br><span class="line"></span><br><span class="line">        small.classList.add(&apos;loaded&apos;);</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">    // 2: load large image</span><br><span class="line"></span><br><span class="line">    var imgLarge = new Image();</span><br><span class="line"></span><br><span class="line">    imgLarge.src = placeholder.dataset.large;</span><br><span class="line"></span><br><span class="line">    imgLarge.onload = function () &#123;</span><br><span class="line"></span><br><span class="line">        // small.classList.remove(&apos;loaded&apos;);</span><br><span class="line"></span><br><span class="line">        imgLarge.classList.add(&apos;loaded&apos;);</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    placeholder.appendChild(imgLarge);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>canvas模糊处理：</p>
+<p>html</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;figure&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div class=&quot;aspect-ratio-fill&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;img id=&quot;smallImg&quot; class=&quot;small-img&quot; crossorigin=&quot;anonymous&quot;</span><br><span class="line">src=&quot;&lt;https://pic2.zhimg.com/50/v2-c5174d0b98facea9584e7766862decdd_60w.jpg&gt;&quot;</span><br><span class="line"></span><br><span class="line">        alt=&quot;&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;canvas id=&quot;canvas&quot; class=&quot;canvas&quot;&gt;&lt;/canvas&gt;</span><br><span class="line"></span><br><span class="line">    &lt;img class=&quot;big-img&quot; data-</span><br><span class="line">src=&quot;&lt;https://pic2.zhimg.com/50/v2-c5174d0b98facea9584e7766862decdd_400x224.jpg&gt;&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>css</p>
+<p>.<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">figure &#123;</span><br><span class="line"></span><br><span class="line">    position: relative;</span><br><span class="line"></span><br><span class="line">    width: 200px;</span><br><span class="line"></span><br><span class="line">    overflow: hidden;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">.aspect-ratio-fill &#123;</span><br><span class="line"></span><br><span class="line">    padding-bottom: 66.67%;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">.figure img,</span><br><span class="line"></span><br><span class="line">.figure canvas &#123;</span><br><span class="line"></span><br><span class="line">    position: absolute;</span><br><span class="line"></span><br><span class="line">    top: 0;</span><br><span class="line"></span><br><span class="line">    left: 0;</span><br><span class="line"></span><br><span class="line">    width: 100% !important;</span><br><span class="line"></span><br><span class="line">    height: 100% !important;</span><br><span class="line"></span><br><span class="line">    opacity: 1;</span><br><span class="line"></span><br><span class="line">    transition: opacity 2s linear;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">.canvas.loaded &#123;</span><br><span class="line"></span><br><span class="line">    opacity: 0;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">.small-img &#123;</span><br><span class="line"></span><br><span class="line">    display: none;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>js</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">let smallImg = document.querySelector(&apos;.small-img&apos;),</span><br><span class="line"></span><br><span class="line">    canvas = document.querySelector(&apos;.canvas&apos;),</span><br><span class="line"></span><br><span class="line">    bigImg = document.querySelector(&apos;.big-img&apos;);</span><br><span class="line"></span><br><span class="line">ctx = canvas.getContext(&apos;2d&apos;);</span><br><span class="line"></span><br><span class="line">smallImg.onload = function () &#123;</span><br><span class="line"></span><br><span class="line">    StackBlur.image(smallImg, canvas, 20, true);</span><br><span class="line"></span><br><span class="line">    if (bigImg.getBoundingClientRect().top &gt; 0 &amp;&amp;</span><br><span class="line">bigImg.getBoundingClientRect().bottom &lt; window.innerHeight) &#123;</span><br><span class="line"></span><br><span class="line">        bigImg.setAttribute(&apos;src&apos;, bigImg.dataset.src);</span><br><span class="line"></span><br><span class="line">        bigImg.onload = function () &#123;</span><br><span class="line"></span><br><span class="line">            canvas.classList.add(&apos;loaded&apos;);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h1 id="Jpeg渐进式图像数据解析"><a href="#Jpeg渐进式图像数据解析" class="headerlink" title="Jpeg渐进式图像数据解析"></a>Jpeg渐进式图像数据解析</h1><p>为了更好的优化客户端体验，客户端在图像压缩的时候采用了渐进式Jpeg压缩。渐进式Jpeg的好处是，只需要很少的一部分数据包，就能够解码出一副完整的图像，随着数据的增加，图像会不断变清晰。渐进式图像还有一个好处是每一处SOS的Huffman编码都是优化编码，平均图像size会小一些。</p>
+<p><a href="https://blog.csdn.net/APIX_CN/article/details/49780397?utm_source=blogxgwz26" target="_blank" rel="noopener">https://blog.csdn.net/APIX_CN/article/details/49780397?utm_source=blogxgwz26</a></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-18T07:35:43.181Z">2019-05-18</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    1 分钟 读完 (大约 151 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/18/其他/一图了解Google工具栈/">一图了解Google工具栈</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="Google-一名前员工在-GitHub-1-上分享了他在-Google-工作时日常使用的工具列表，并详细列出了这些工具列表的外界对应的替代方案。"><a href="#Google-一名前员工在-GitHub-1-上分享了他在-Google-工作时日常使用的工具列表，并详细列出了这些工具列表的外界对应的替代方案。" class="headerlink" title="Google 一名前员工在 GitHub (1) 上分享了他在 Google 工作时日常使用的工具列表，并详细列出了这些工具列表的外界对应的替代方案。"></a>Google 一名前员工在 GitHub (1) 上分享了他在 Google 工作时日常使用的工具列表，并详细列出了这些工具列表的外界对应的替代方案。</h2><p>网友廖君结合现有的资料将学习笔记整理成脑图，并在原文基础上进行了一定的补充和翻译（xmind 源文件下载见链接2）。</p>
+<p><img src="/blog/2019/05/18/其他/一图了解Google工具栈/640.jpg" alt>  </p>
+<p>（点击图片可以全屏缩放）</p>
+<p>相关链接：</p>
+<ol>
+<li><p>github：<a href="https://github.com/jhuangtw-dev/xg2xg" target="_blank" rel="noopener">https://github.com/jhuangtw-dev/xg2xg</a></p>
+</li>
+<li><p>xmind 文件链接: <a href="https://pan.baidu.com/s/1iAEPf6OfC2YkG-k7TSyq8g" target="_blank" rel="noopener">https://pan.baidu.com/s/1iAEPf6OfC2YkG-k7TSyq8g</a> 提取码: 6n9m </p>
+</li>
+</ol>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+    
+<div class="card card-transparent">
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        <div class="pagination-previous">
+            <a class="is-flex-grow has-text-black-ter" href="/blog/">上一页</a>
+        </div>
+        <div class="pagination-next">
+            <a class="is-flex-grow has-text-black-ter" href="/blog/page/3/">下一页</a>
+        </div>
+        <ul class="pagination-list is-hidden-mobile">
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/">1</a></li>
+            
+            <li><a class="pagination-link is-current" href="/blog/page/2/">2</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/3/">3</a></li>
+            
+            <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/37/">37</a></li>
+            
+        </ul>
+    </nav>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/blog/images/avatar.jpeg" alt="hcq0618">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        hcq0618
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Grab
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Beijing</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        110
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        10
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        18
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/hcq0618" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/hcq0618">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/blog/categories/AR/">
+            <span class="level-start">
+                <span class="level-item">AR</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/C/">
+            <span class="level-start">
+                <span class="level-item">C#</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity/">
+            <span class="level-start">
+                <span class="level-item">Unity</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">31</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity优化/">
+            <span class="level-start">
+                <span class="level-item">Unity优化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">24</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity插件/">
+            <span class="level-start">
+                <span class="level-item">Unity插件</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">26</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/VR/">
+            <span class="level-start">
+                <span class="level-item">VR</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/其他/">
+            <span class="level-start">
+                <span class="level-item">其他</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/后端/">
+            <span class="level-start">
+                <span class="level-item">后端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/小程序/">
+            <span class="level-start">
+                <span class="level-item">小程序</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/网络/">
+            <span class="level-start">
+                <span class="level-item">网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13.75px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11.25px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 17.5px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 18.75px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11.25px;">VR</a> <a href="/blog/tags/后端/" style="font-size: 15px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11.25px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11.25px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11.25px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16.25px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12.5px;">网络安全</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen is-sticky">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/blog/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">110</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/AR/">
+                        <span class="tag">AR</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C/">
+                        <span class="tag">C#</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C-优化/">
+                        <span class="tag">C#优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Google/">
+                        <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/UML/">
+                        <span class="tag">UML</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity/">
+                        <span class="tag">Unity</span>
+                        <span class="tag is-grey">31</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity优化/">
+                        <span class="tag">Unity优化</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity插件/">
+                        <span class="tag">Unity插件</span>
+                        <span class="tag is-grey">26</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/VR/">
+                        <span class="tag">VR</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/后端/">
+                        <span class="tag">后端</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/小程序/">
+                        <span class="tag">小程序</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/开源/">
+                        <span class="tag">开源</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/数据库/">
+                        <span class="tag">数据库</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/移动支付/">
+                        <span class="tag">移动支付</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络/">
+                        <span class="tag">网络</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络安全/">
+                        <span class="tag">网络安全</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/blog/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">110</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/AR/">
+                        <span class="tag">AR</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C/">
+                        <span class="tag">C#</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C-优化/">
+                        <span class="tag">C#优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Google/">
+                        <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/UML/">
+                        <span class="tag">UML</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity/">
+                        <span class="tag">Unity</span>
+                        <span class="tag is-grey">31</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity优化/">
+                        <span class="tag">Unity优化</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity插件/">
+                        <span class="tag">Unity插件</span>
+                        <span class="tag is-grey">26</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/VR/">
+                        <span class="tag">VR</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/后端/">
+                        <span class="tag">后端</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/小程序/">
+                        <span class="tag">小程序</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/开源/">
+                        <span class="tag">开源</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/数据库/">
+                        <span class="tag">数据库</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/移动支付/">
+                        <span class="tag">移动支付</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络/">
+                        <span class="tag">网络</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络安全/">
+                        <span class="tag">网络安全</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/blog/">
+                
+                    <img src="/blog/images/logo.svg" alt="Hcq0618&#39;s Blog" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Hcq0618&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/hcq0618/blog/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/blog/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/blog/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/blog/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/blog/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/blog/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/blog/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/blog/js/insight.js" defer></script>
+<link rel="stylesheet" href="/blog/css/search.css">
+<link rel="stylesheet" href="/blog/css/insight.css">
+    
+</body>
+</html>

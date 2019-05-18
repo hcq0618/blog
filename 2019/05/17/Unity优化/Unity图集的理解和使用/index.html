@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Unity图集的理解和使用 - Hcq0618&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="图集的好处： 1.减少draw call: 多张图片需要多次draw call，合成了一张大图则只需要一次draw call。 2.减少内存占用：OpenGLES中每张贴图都需要设置成2的n次方才能使用。比如你有一张宽高为100x100和一张宽高为10x10的图片,如果不合成大贴图,那么需要使用128x128和16x16的两张图片(分别是2的7次方和2的4次方),但如果使用一张大图的话，可以把10">
+<meta name="keywords" content="Unity优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unity图集的理解和使用">
+<meta property="og:url" content="https://hcq0618.github.io/blog/2019/05/17/Unity优化/Unity图集的理解和使用/index.html">
+<meta property="og:site_name" content="Hcq0618&#39;s Blog">
+<meta property="og:description" content="图集的好处： 1.减少draw call: 多张图片需要多次draw call，合成了一张大图则只需要一次draw call。 2.减少内存占用：OpenGLES中每张贴图都需要设置成2的n次方才能使用。比如你有一张宽高为100x100和一张宽高为10x10的图片,如果不合成大贴图,那么需要使用128x128和16x16的两张图片(分别是2的7次方和2的4次方),但如果使用一张大图的话，可以把10">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://hcq0618.github.io/blog/images/og_image.png">
+<meta property="og:updated_time" content="2019-05-17T03:57:30.586Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Unity图集的理解和使用">
+<meta name="twitter:description" content="图集的好处： 1.减少draw call: 多张图片需要多次draw call，合成了一张大图则只需要一次draw call。 2.减少内存占用：OpenGLES中每张贴图都需要设置成2的n次方才能使用。比如你有一张宽高为100x100和一张宽高为10x10的图片,如果不合成大贴图,那么需要使用128x128和16x16的两张图片(分别是2的7次方和2的4次方),但如果使用一张大图的话，可以把10">
+<meta name="twitter:image" content="https://hcq0618.github.io/blog/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/blog/images/logo.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/blog/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?844bc0c79484177c3822e7a30257f8a3";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/blog/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/blog/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/blog/">
+            
+                <img src="/blog/images/logo.svg" alt="Unity图集的理解和使用" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/blog/">主页</a>
+                
+                <a class="navbar-item" href="/blog/archives">文章</a>
+                
+                <a class="navbar-item" href="/blog/categories">分类</a>
+                
+                <a class="navbar-item" href="/blog/tags">标签</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/hcq0618/blog/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.633Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity优化/">Unity优化</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    13 分钟 读完 (大约 2016 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Unity图集的理解和使用
+            
+        </h1>
+        <div class="content">
+            <p>图集的好处：</p>
+<p>1.减少draw call: 多张图片需要多次draw call，合成了一张大图则只需要一次draw call。</p>
+<p>2.减少内存占用：OpenGL<br>ES中每张贴图都需要设置成2的n次方才能使用。比如你有一张宽高为100x100和一张宽高为10x10的图片,如果不合成大贴图,那么需要使用128x128和16x16的两张图片(分别是2的7次方和2的4次方),但如果使用一张大图的话，可以把100x100和10x10的图片放到128x128的大图中,这样就用一张图片。</p>
+<p>UGUI的图集打包与工作原理，整整看了一天多，终于看明白了～晕～还是记录一下我研究的成果，也希望大家在下面给我留言我们一起讨论一下。</p>
+<p>先说说UGUI的Atlas和NGUI的Atlas的区别，NGUI是必须先打出图集然后才能开始做界面。这一点很烦，因为始终都要去考虑你的UI图集。比如图集会不会超1024<br>，图集该如何来规划等等。而UGUI的原理则是，让开发者彻底模糊图集的概念，让开发者不要去关心自己的图集。做界面的时候只用小图，而在最终打包的时候unity才会把你的小图和并在一张大的图集里面。然而这一切一切都是自动完成的，开发者不需要去care它。</p>
+<p>如下图所示，Editor-&gt;Project Settings 下面有sprite packer的模式。Disabled表示不启用它，Enabled For<br>Builds 表示只有打包的时候才会启用它，Always Enabled 表示永远启用它。 这里的启用它就表示是否将小图自动打成图集。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ce5db986bb1a13ad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>我的选项是Always Enabled 。因为开发的时候我们需要清楚的看到现在是几个Draw<br>Call，从而才能优化小图。在最终打包的时候unity会自动构建大的图集，可是我开发的时候就想看图集会占几个Draw<br>Call，这怎么办呢？如下图所示，首先将你的图片拖入unity中，将同一图集的所有图片的packing tag设置成一个名子即可。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-dc922416b373d48a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>注意你的图片不能放在Resources文件夹下面，Resources文件夹下的资源将不会被打入图集，切记（也就是在这里混淆了我很久）。然后在Windows-&gt;Sprite<br>Packer 里，点击packer<br>在这里你就可以预览到你的图集信息。图集的大小还有图集的格式等等很多参数我们都是可以控制的，也可以通过脚本来设置。我在下一篇文章里详细说这个（请期待嘿嘿）。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-1a44840b1d9ef060.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>图集的预览紧紧是让你看看你的图集大概张什么样子。那么我们的图集的这张图片保存在了哪里呢？它保存在和Assets文件夹同级的目录，Libary/AtlasCache里面。你不用管它，也不要删除它，就算你删除了也没用因为只要你打包，它就会生成并且会打到包中。</p>
+<p>此时在Hierarchy视图中创建两个Image对象。如下图所示，我们可以清楚的看到此时我的draw call已经被合并成了1 。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0ffe79cd589f1ada.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>这两个图片是我是在Editor模式下预先拖入Hierarchy视图中的，可是如果我想运行时根据图片的名子来动态创建精灵该如何？可是unity根本没有提供加载图集的方法，也没有提供加载图集上某个图片的方法。<br>因为UGUI就不像让开发者有图集的这个概念，可是我们肯定是要实现这个需求的。。怎么办呢？</p>
+<p>第一个设想，先把散＝小图打包成图集，然后再把所有散图拷贝在Resources文件夹下，这样运行时就能用Resources.load了。</p>
+<p>第二个设想，还是先把小图打成图集，然后把所有小图关联在prefab上，拷贝在Resources文件夹下，这样运行时也能用Resources.load了。到底那个靠谱呢？<br>给大家看一个图大家就知道答案了。</p>
+<p>如下图所示，打成图集的图片如果在放在Resources那么资源就变成双份了。。<br>所以我们只能把小图关联在Prefab上，把所有的Prefab放在Resources下面，这样就不占用多余的空间了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-192071356a4488e1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>好了，现在方法我们已经掌握，那么就开始写工具吧。如下图所示可以按文件夹分，每一个文件夹就是一个图集。然后每一张小图创建一个Prefab，Prefab的名子就起小图的名子，文件关联在Resources下面。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-29752791f390e6ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>、</p>
+<p>代码比较简单，我就不注释了。</p>
+<blockquote>
+<p>[MenuItem (“MyMenu/AtlasMaker”)]</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>static private void MakeAtlas()</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>{</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>string spriteDir = Application.dataPath +”/Resources/Sprite”;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>if(!Directory.Exists(spriteDir)){</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>Directory.CreateDirectory(spriteDir);</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>}</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>DirectoryInfo rootDirInfo = new DirectoryInfo (Application.dataPath<br>+”/Atlas”);</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>foreach (DirectoryInfo dirInfo in rootDirInfo.GetDirectories()) {</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>foreach (FileInfo pngFile in<br>dirInfo.GetFiles(“*.png”,SearchOption.AllDirectories)) {</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>string allPath = pngFile.FullName;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>string assetPath = allPath.Substring(allPath.IndexOf(“Assets”));</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>Sprite sprite = Resources.LoadAssetAtPath<sprite>(assetPath);</sprite></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>GameObject go = new GameObject(sprite.name);</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>go.AddComponent<spriterenderer>().sprite = sprite;</spriterenderer></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>allPath = spriteDir+”/“+sprite.name+”.prefab”;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>string prefabPath = allPath.Substring(allPath.IndexOf(“Assets”));</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>PrefabUtility.CreatePrefab(prefabPath,go);</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>GameObject.DestroyImmediate(go);</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>}</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>}</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>}</p>
+</blockquote>
+<p>然后是运行时的代码。</p>
+<blockquote>
+<p>using UnityEngine;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>using System.Collections;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>using UnityEngine.UI;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>public class UIMain : MonoBehaviour {</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>void Start ()</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>{</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>CreatImage(loadSprite(“image0”));</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>CreatImage(loadSprite(“image1”));</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>}</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>private void CreatImage(Sprite sprite ){</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>GameObject go = new GameObject(sprite.name);</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>go.layer = LayerMask.NameToLayer(“UI”);</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>go.transform.parent = transform;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>go.transform.localScale= Vector3.one;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>Image image = go.AddComponent<image>();</image></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>image.sprite = sprite;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>image.SetNativeSize();</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>}</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>private Sprite loadSprite(string spriteName){</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>return Resources.Load<gameobject>(“Sprite/“ +<br>spriteName).GetComponent<spriterenderer>().sprite;</spriterenderer></gameobject></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>}</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>}</p>
+</blockquote>
+<p>因为这两个图是在同一个图集上，所以drawcall就是1了。这样我们就可以根据图片的名子来运行时加载图片了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-352f1ddadc200796.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>接下来就是Assetbundle了，如果我们的图集需要在线更新那该怎么办呢？<br>其实Assetbundle比Resources要更简单一些，无论如何我们要先开始打图集。</p>
+<blockquote>
+<p>[MenuItem (“MyMenu/Build Assetbundle”)]</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>static private void BuildAssetBundle()</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>{</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>string dir = Application.dataPath +”/StreamingAssets”;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>if(!Directory.Exists(dir)){</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>Directory.CreateDirectory(dir);</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>}</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>DirectoryInfo rootDirInfo = new DirectoryInfo (Application.dataPath<br>+”/Atlas”);</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>foreach (DirectoryInfo dirInfo in rootDirInfo.GetDirectories()) {</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>List<sprite> assets = new List<sprite>();</sprite></sprite></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>string path = dir +”/“+dirInfo.Name+”.assetbundle”;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>foreach (FileInfo pngFile in<br>dirInfo.GetFiles(“*.png”,SearchOption.AllDirectories))</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>{</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>string allPath = pngFile.FullName;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>string assetPath = allPath.Substring(allPath.IndexOf(“Assets”));</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>assets.Add(Resources.LoadAssetAtPath<sprite>(assetPath));</sprite></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>}</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>if(BuildPipeline.BuildAssetBundle(null, assets.ToArray(),<br>path,BuildAssetBundleOptions.UncompressedAssetBundle|<br>BuildAssetBundleOptions.CollectDependencies, GetBuildTarget())){</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>}</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>}</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>}</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>static private BuildTarget GetBuildTarget()</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>{</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>BuildTarget target = BuildTarget.WebPlayer;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>#if UNITY_STANDALONE</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>target = BuildTarget.StandaloneWindows;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>#elif UNITY_IPHONE</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>target = BuildTarget.iPhone;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>#elif UNITY_ANDROID</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>target = BuildTarget.Android;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>#endif</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>return target;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>}</p>
+</blockquote>
+<p>如下图所示，我的assetbundle已经打出来了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a157c0bfa10e43ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>然后把UIMain.cs在改一改。</p>
+<blockquote>
+<p>using UnityEngine;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>using System.Collections;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>using UnityEngine.UI;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>public class UIMain : MonoBehaviour {</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>AssetBundle assetbundle = null;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>void Start ()</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>{</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>CreatImage(loadSprite(“image0”));</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>CreatImage(loadSprite(“image1”));</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>}</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>private void CreatImage(Sprite sprite ){</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>GameObject go = new GameObject(sprite.name);</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>go.layer = LayerMask.NameToLayer(“UI”);</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>go.transform.parent = transform;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>go.transform.localScale= Vector3.one;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>Image image = go.AddComponent<image>();</image></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>image.sprite = sprite;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>image.SetNativeSize();</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>}</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>private Sprite loadSprite(string spriteName){</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>#if USE_ASSETBUNDLE</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>if(assetbundle == null)</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>assetbundle = AssetBundle.CreateFromFile(Application.streamingAssetsPath<br>+”/Main.assetbundle”);</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>return assetbundle.Load(spriteName) as Sprite;</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>#else</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>return Resources.Load<gameobject>(“Sprite/“ +<br>spriteName).GetComponent<spriterenderer>().sprite;</spriterenderer></gameobject></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>#endif</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>}</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>}</p>
+</blockquote>
+<p>如下图所示，依然还是一个drawcall。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6b3672bdc9a57aa0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>衷心希望有经验的朋友在留言处给我提提意见， 或者大家一起讨论讨论。。 我们共同为把NGUI干掉的目标而奋斗，嘻嘻。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/blog/tags/Unity优化/">Unity优化</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/blog/images/qrcode_alipay.png" alt="支付宝"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/blog/2019/05/17/Unity优化/Unity-Profiler性能分析器的使用/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Unity-Profiler性能分析器的使用</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/blog/2019/05/17/Unity优化/unity性能优化内存篇/">
+                <span class="level-item">unity性能优化内存篇</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/blog/images/avatar.jpeg" alt="hcq0618">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        hcq0618
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Grab
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Beijing</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        110
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        10
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        18
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/hcq0618" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/hcq0618">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/blog/categories/AR/">
+            <span class="level-start">
+                <span class="level-item">AR</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/C/">
+            <span class="level-start">
+                <span class="level-item">C#</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity/">
+            <span class="level-start">
+                <span class="level-item">Unity</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">31</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity优化/">
+            <span class="level-start">
+                <span class="level-item">Unity优化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">24</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity插件/">
+            <span class="level-start">
+                <span class="level-item">Unity插件</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">26</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/VR/">
+            <span class="level-start">
+                <span class="level-item">VR</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/其他/">
+            <span class="level-start">
+                <span class="level-item">其他</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/后端/">
+            <span class="level-start">
+                <span class="level-item">后端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/小程序/">
+            <span class="level-start">
+                <span class="level-item">小程序</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/网络/">
+            <span class="level-start">
+                <span class="level-item">网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13.75px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11.25px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 17.5px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 18.75px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11.25px;">VR</a> <a href="/blog/tags/后端/" style="font-size: 15px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11.25px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11.25px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11.25px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16.25px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12.5px;">网络安全</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen is-sticky">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/blog/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">110</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/AR/">
+                        <span class="tag">AR</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C/">
+                        <span class="tag">C#</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C-优化/">
+                        <span class="tag">C#优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Google/">
+                        <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/UML/">
+                        <span class="tag">UML</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity/">
+                        <span class="tag">Unity</span>
+                        <span class="tag is-grey">31</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity优化/">
+                        <span class="tag">Unity优化</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity插件/">
+                        <span class="tag">Unity插件</span>
+                        <span class="tag is-grey">26</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/VR/">
+                        <span class="tag">VR</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/后端/">
+                        <span class="tag">后端</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/小程序/">
+                        <span class="tag">小程序</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/开源/">
+                        <span class="tag">开源</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/数据库/">
+                        <span class="tag">数据库</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/移动支付/">
+                        <span class="tag">移动支付</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络/">
+                        <span class="tag">网络</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络安全/">
+                        <span class="tag">网络安全</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/blog/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">110</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/AR/">
+                        <span class="tag">AR</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C/">
+                        <span class="tag">C#</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C-优化/">
+                        <span class="tag">C#优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Google/">
+                        <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/UML/">
+                        <span class="tag">UML</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity/">
+                        <span class="tag">Unity</span>
+                        <span class="tag is-grey">31</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity优化/">
+                        <span class="tag">Unity优化</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity插件/">
+                        <span class="tag">Unity插件</span>
+                        <span class="tag is-grey">26</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/VR/">
+                        <span class="tag">VR</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/后端/">
+                        <span class="tag">后端</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/小程序/">
+                        <span class="tag">小程序</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/开源/">
+                        <span class="tag">开源</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/数据库/">
+                        <span class="tag">数据库</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/移动支付/">
+                        <span class="tag">移动支付</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络/">
+                        <span class="tag">网络</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络安全/">
+                        <span class="tag">网络安全</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/blog/">
+                
+                    <img src="/blog/images/logo.svg" alt="Unity图集的理解和使用" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Hcq0618&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/hcq0618/blog/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/blog/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/blog/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/blog/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/blog/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/blog/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/blog/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/blog/js/insight.js" defer></script>
+<link rel="stylesheet" href="/blog/css/search.css">
+<link rel="stylesheet" href="/blog/css/insight.css">
+    
+</body>
+</html>

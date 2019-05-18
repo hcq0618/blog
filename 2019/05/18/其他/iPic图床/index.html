@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>图床及iPic - Hcq0618&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="有了图床神器 iPic，不论屏幕截图、还是复制图片，都可以自动上传、保存 Markdown 格式的链接，直接粘贴插入，够懒人吧？ 使用 Hexo | Heroku 或 WordPress 写博客、在公众号发文章、在知乎讨论、在豆瓣灌水、在论坛发帖、跨境做外贸电商 … iPic 带给你从未有过的插图体验。 当然，除了图片，你可以 上传普通文件，上传方式与图片完全相同。 上传方式图床工具 iP">
+<meta name="keywords" content="图像">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图床及iPic">
+<meta property="og:url" content="https://hcq0618.github.io/blog/2019/05/18/其他/iPic图床/index.html">
+<meta property="og:site_name" content="Hcq0618&#39;s Blog">
+<meta property="og:description" content="有了图床神器 iPic，不论屏幕截图、还是复制图片，都可以自动上传、保存 Markdown 格式的链接，直接粘贴插入，够懒人吧？ 使用 Hexo | Heroku 或 WordPress 写博客、在公众号发文章、在知乎讨论、在豆瓣灌水、在论坛发帖、跨境做外贸电商 … iPic 带给你从未有过的插图体验。 当然，除了图片，你可以 上传普通文件，上传方式与图片完全相同。 上传方式图床工具 iP">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://hcq0618.github.io/blog/images/og_image.png">
+<meta property="og:updated_time" content="2019-05-18T10:38:17.623Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="图床及iPic">
+<meta name="twitter:description" content="有了图床神器 iPic，不论屏幕截图、还是复制图片，都可以自动上传、保存 Markdown 格式的链接，直接粘贴插入，够懒人吧？ 使用 Hexo | Heroku 或 WordPress 写博客、在公众号发文章、在知乎讨论、在豆瓣灌水、在论坛发帖、跨境做外贸电商 … iPic 带给你从未有过的插图体验。 当然，除了图片，你可以 上传普通文件，上传方式与图片完全相同。 上传方式图床工具 iP">
+<meta name="twitter:image" content="https://hcq0618.github.io/blog/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/blog/images/logo.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/blog/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?844bc0c79484177c3822e7a30257f8a3";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/blog/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/blog/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/blog/">
+            
+                <img src="/blog/images/logo.svg" alt="图床及iPic" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/blog/">主页</a>
+                
+                <a class="navbar-item" href="/blog/archives">文章</a>
+                
+                <a class="navbar-item" href="/blog/categories">分类</a>
+                
+                <a class="navbar-item" href="/blog/tags">标签</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/hcq0618/blog/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    33 分钟 读完 (大约 4983 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                图床及iPic
+            
+        </h1>
+        <div class="content">
+            <p><a href="https://itunes.apple.com/cn/app/id1101244278?ls=1&mt=12&at=1000lv4R&ct=iPic_home" target="_blank" rel="noopener"><img src="/blog/2019/05/18/其他/iPic图床/ro6or.png" alt>  
+</a></p>
+<p>有了图床神器 iPic，不论屏幕截图、还是复制图片，都可以自动上传、保存 Markdown 格式的链接，直接粘贴插入，够懒人吧？</p>
+<p>使用 Hexo | Heroku 或 WordPress 写博客、在公众号发文章、在知乎讨论、在豆瓣灌水、在论坛发帖、跨境做外贸电商 …</p>
+<p>iPic 带给你从未有过的插图体验。</p>
+<p>当然，除了图片，你可以 上传普通文件，上传方式与图片完全相同。</p>
+<h1 id="上传方式"><a href="#上传方式" class="headerlink" title="上传方式"></a>上传方式</h1><p>图床工具 iPic 支持多种图片上传方式。下面我们来简单看下各个上传方式、以及分别适合在什么场景下使用。</p>
+<h2 id="1-拖拽图片上传"><a href="#1-拖拽图片上传" class="headerlink" title="1. 拖拽图片上传"></a>1. 拖拽图片上传</h2><p>拖动是比较好玩的一种上传方式。只要将图片拖到菜单栏的 iPic 图标上，松手后就可以自动上传。</p>
+<p><img src="/blog/2019/05/18/其他/iPic图床/006tKfTcgy1fewqw208xmg30j60aske8.gif" alt>  </p>
+<p>可以注意到，上传时菜单栏图标也会显示上传的进度。很简洁、却很实用，不再盲目等待。</p>
+<p><img src="/blog/2019/05/18/其他/iPic图床/006tKfTcgy1fewqweqbdrg3078014mxs.gif" alt>  </p>
+<p>使用这种方式，还可以一次性上传多张图片。图片上传后的顺序，和上传前选择的顺序一致。</p>
+<h2 id="2-使用服务上传图片"><a href="#2-使用服务上传图片" class="headerlink" title="2. 使用服务上传图片"></a>2. 使用服务上传图片</h2><p>在 Finder 中使用 服务 上传也是很高效的方式。只要在图片上右击、然后选择服务中的 使用 iPic 上传 即可。</p>
+<p><img src="/blog/2019/05/18/其他/iPic图床/006tKfTcgy1fewqvt4svyg30j60asay7.gif" alt>  </p>
+<p>除了使用菜单，更高效的方式是使用快捷键。只要选中图片，然后按下 Command + U 快捷键，即可自动上传。</p>
+<p>如果你觉得默认快捷键 Command + U 不方便，也可以在 系统偏好设置 &gt; 键盘 &gt; 快捷键 &gt; 服务 中修改 使用 iPic 上传<br>对应的快捷键。同样，如果你的 Mac 中安装了很多程序、菜单中有很多你不需要的服务，也可以在这里进行关闭。</p>
+<p><img src="/blog/2019/05/18/其他/iPic图床/ogb9y.png" alt>  </p>
+<p>使用服务上传还有其他便利之处：</p>
+<ul>
+<li><p>可以一次性上传多张图片</p>
+</li>
+<li><p>即使 iPic 并未运行，系统也会启动 iPic、并自动上传</p>
+</li>
+</ul>
+<p>注意：由于 macOS 系统更新机制的缘故，新安装 iPic 后上传服务可能未出现、或未翻译，可以等几分钟、甚至几小时后再试，iPic<br>上传服务就会正常显示；也可以在 终端 手动更新服务菜单：</p>
+<p>/System/Library/CoreServices/pbs -update</p>
+<h2 id="3-复制图片后上传"><a href="#3-复制图片后上传" class="headerlink" title="3. 复制图片后上传"></a>3. 复制图片后上传</h2><p>iPic 会自动监测剪切板的变化，当复制图片后，该图片会出现在 iPic 菜单中 待上传<br>区域。如果需要上传，点击菜单中该图片即可。手动上传比较适合临时上传少量图片。</p>
+<p><img src="/blog/2019/05/18/其他/iPic图床/006tKfTcgy1fewqvevds5g30j60as7rz.gif" alt>  </p>
+<p>除了手动点击菜单，还可以使用快捷键 Command + Shift + U 上传。当然，可以在偏好设置中修改此快捷键。</p>
+<p><img src="/blog/2019/05/18/其他/iPic图床/3wcje.jpg" alt>  </p>
+<h2 id="4-上传其他-App-中的图片"><a href="#4-上传其他-App-中的图片" class="headerlink" title="4. 上传其他 App 中的图片"></a>4. 上传其他 App 中的图片</h2><p>上述示例中主要介绍了图片文件的上传。另外，iPic 还支持支持其他程序中图片的上传。例如：</p>
+<p><img src="/blog/2019/05/18/其他/iPic图床/006tKfTcgy1fewra4cku6g30j60as7wh.gif" alt>  </p>
+<p>其中，对于图片格式，常见的 jpg、png、gif 等格式都是支持。</p>
+<h2 id="上传图片相关设置"><a href="#上传图片相关设置" class="headerlink" title="上传图片相关设置"></a>上传图片相关设置</h2><h3 id="上传前压缩图片"><a href="#上传前压缩图片" class="headerlink" title="上传前压缩图片"></a>上传前压缩图片</h3><p>可以在 iPic 的 偏好设置 中开启「上传前压缩图片」选项，目前支持压缩的图片格式：jpg、png、gif</p>
+<p>采用有损压缩，压缩后肉眼几乎无法看出区别，却可明显降低图片尺寸。使用压缩后的图片，既可以节省图片的存储空间，还可以加快图片加载速度、节省流量。</p>
+<h3 id="上传后不播放声音"><a href="#上传后不播放声音" class="headerlink" title="上传后不播放声音"></a>上传后不播放声音</h3><p>iPic 上传后会使用系统通知来提示。如果不喜欢该通知的声音，可进入 系统偏好设置 &gt; 通知，在左侧列表选择 iPic，然后在右侧取消「播放通知的声音」。</p>
+<p><img src="/blog/2019/05/18/其他/iPic图床/0a0rg.png" alt>  </p>
+<h1 id="图床"><a href="#图床" class="headerlink" title="图床"></a>图床</h1><p>图床也即你选择存放图片的云服务。可以在 iPic 的 偏好设置 中添加你的图床：</p>
+<p><img src="/blog/2019/05/18/其他/iPic图床/897l8.png" alt>  </p>
+<p>添加后，可以在 iPic 的菜单中选择当前使用的图床：</p>
+<p><img src="/blog/2019/05/18/其他/iPic图床/9cs4o.png" alt>  </p>
+<p>目前 iPic<br>支持下列图床：微博图床（即默认图床）、<a href="https://toolinbox.net/iPic/AddQiniuImageHost.html" target="_blank" rel="noopener">七牛云</a><br>、<a href="https://toolinbox.net/iPic/AddUpYunImageHost.html" target="_blank" rel="noopener">又拍云</a>、<a href="https://toolinbox.net/iPic/AddAliOSS.html" target="_blank" rel="noopener">阿里云<br>OSS</a> 、<a href="https://toolinbox.net/iPic/AddTencentCOS.html" target="_blank" rel="noopener">腾讯云<br>COS</a><br>、<a href="https://imgur.com/" target="_blank" rel="noopener">Imgur</a> 、<a href="https://www.flickr.com/" target="_blank" rel="noopener">Flickr</a> 、<a href="https://toolinbox.net/iPic/AddS3.html" target="_blank" rel="noopener">Amazon<br>S3</a></p>
+<h1 id="iPic-菜单"><a href="#iPic-菜单" class="headerlink" title="iPic 菜单"></a>iPic 菜单</h1><h2 id="Markdown-链接"><a href="#Markdown-链接" class="headerlink" title="Markdown 链接"></a>Markdown 链接</h2><p><img src="/blog/2019/05/18/其他/iPic图床/klqxf.png" alt>  </p>
+<p>这里有个很贴心的功能：切换普通链接、Markdown 格式链接时，如果粘贴板中有上一格式的内容，会转换后重新保存到粘贴板中。</p>
+<h2 id="图片上传记录"><a href="#图片上传记录" class="headerlink" title="图片上传记录"></a>图片上传记录</h2><p>iPic 会保存最近上传的 15 张图片，其中最后上传的 3 张图片会出现在一级菜单中，其他的则在 更多已上传图片 中。</p>
+<p><img src="/blog/2019/05/18/其他/iPic图床/trluz.png" alt>  </p>
+<p>点击已上传图片，则会复制该图片的链接。</p>
+<p>当然，可以在 更多 菜单中清空图片上传记录。</p>
+<h1 id="iPic-Mover"><a href="#iPic-Mover" class="headerlink" title="iPic Mover"></a>iPic Mover</h1><p><a href="https://itunes.apple.com/cn/app/id1183822957?ls=1&mt=12" target="_blank" rel="noopener">iPic Mover</a> 可以一键将已有<br>Markdown 文件中所有图片迁移至新图床。批量上传图片、图床搬家，从未如此简单。</p>
+<p><img src="/blog/2019/05/18/其他/iPic图床/006y8lVagw1fajaszqardg30ia0bc4cp.gif" alt>  </p>
+<p><a href="https://toolinbox.net/iPic/iPicMover.html" target="_blank" rel="noopener">iPic Mover 更多介绍</a></p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="媒体报道"><a href="#媒体报道" class="headerlink" title="媒体报道"></a>媒体报道</h2><h1 id="下载-iPic"><a href="#下载-iPic" class="headerlink" title="下载 iPic"></a>下载 iPic</h1><p>配合默认图床，可免费使用所有功能。如需使用其他图床，订阅 iPic 高级版即可。暂不支持 Windows.</p>
+<p>如果你觉得 iPic 还不错，欢迎 <a href="https://itunes.apple.com/cn/app/id1101244278?ls=1&mt=12&at=1000lv4R&ct=iPic_home" target="_blank" rel="noopener">到 Mac App Store 给个 5<br>星、写点评论</a>。当然，如果能分享给周围也需要<br>iPic 的朋友，那就太赞了 ^_^</p>
+<hr>
+<p>商家在选择图床的时候，请慎重选择免费图床，毕竟众多免费图床网站注册条款里有禁止商用这一条，哪天关闭了图片外链或者商用，势必给用户带来很大的麻烦，很多免费图床总是好景不长，为什么呢？其实很简单，做相册站是要投入的，比如服务器、带宽、人员、技术投资、市场宣传等等！完全免费了，这些小站可能自己都难存活，所以总是不能长久使用！</p>
+<p>国内：</p>
+<p>1、外链吧</p>
+<p>有免费和收费的，100M 永久免费，收费相对便宜。不限外链、流量图片支持外链到所有网站。图片搬家、原图替换、水印、防盗链功能免费使用。</p>
+<p>2、又拍网</p>
+<p>付费外链，按流量和空间付费。价格比较贵</p>
+<p>3、巴比豆</p>
+<p>付费外链，价格和淘宝图片空间相同。</p>
+<p>4、幻域图床</p>
+<p>国内轻量级图床，采用国内cdn进行加速，图片加载速度快！需要注册即可上传图片，无限储存容量！</p>
+<p>国外：</p>
+<p>1. 美国TripnTale – 无限免费旅游网络图片相册</p>
+<p>美国TripnTale是一个免费旅游图片存储空间，提供无限量的存储空间，但有个要求是你上传的图片必须和旅游相关的。支持上传jpeg、gif、<br>bmp、png格式图片，单个图片最大为6M，图片可以从flickr、picasa等中直接导入，然后给上传的图片进行注释，在地图上进行标注，最后发 布即可。</p>
+<p>另外，还支持视频文件上传存储，单个视频最大为100M，上传速度还可以，图片能支持外链，后台能对图片进行管理，还能写日记，很适合旅游爱好者</p>
+<p>2. 美国Tinyalbum – 无限免费相册+支持外链</p>
+<p>Tinyalbum<br>是一个提供免费相册空间和图片存储服务的网站，服务器位于美国亚利桑那州斯科特斯德市，界面上与Flickr有些相似，支持外链。TinyAlbum的操<br>作上比较简单方便，上传速度也不错，能同时上传多张图片，相册能设置公开和私有。</p>
+<p>另外，TinyAlbum对上传图片数量没有限制，单张图片限制在8M以<br>内，但只能上传jpg、png格式的图片。在网站还能看到其他用户的相册，在后台用flash浏览自己的图片时，很好玩哦，图片会随着鼠标动，这种效果很 好.</p>
+<p>3. 瑞士overpic – 免费无限网络相册</p>
+<p>瑞士overpic提供免费的无限网络相册，无需注册就能上传，能支持外部链接，同时能上传10张图片，单个上传图片的大小限制为10M，支持的图片格式<br>为：JPEG、JPG、BMP、PNG、GIF。可设置保存时间（一天、一周、一个月、三个月、六个月、永久），也能通过图片的网络地址来上传图片，但不是很稳定，上传完图片之后会自动生成一些html代码，论坛代码等方便用户复制代码进行外链</p>
+<p>4. 美国imgplace – 提供无限的免费相册</p>
+<p>美国imgplace提供免费的图片空间，能上传flash，图片，zip文件等，flash需要注册才能上传，其他不用注册也能上传，zip文件里面能放<br>100张图片，但里面不能建文件夹，上传后会自动解压支持的图片格式有jpg, jpeg, gif, and<br>bmp。上一次最多能上传50张图片，但图片加在一起的总大小不能超过100M，单个文件不能超过3M，没有带宽限制，但页面上广告很多，页面不是很好</p>
+<p>5. 加拿大tinypic – 免费相册和视频空间</p>
+<p>加拿大tinypic提供免费的相册和视频空间，是Photobucket旗下的一个网站，成立于2003年，由Alex Welch 和 Darren<br>Crystal 创办，每月有3900万的访问者，其中一半是来自美国的。</p>
+<p>不用注册就能上传，上传的空间无限制，上传时可以改变图片的大小，有多种大小供选择，当然注册了<br>更好，能建立自己的相册和视频空间，支持多个文件同时上传，图片上传后会产生一个很短的地址，能直接进行外部引用链接。还能对图片进行编辑，提供很多的编<br>辑工具，基本上能满足你的要求,去体验吧，相当不错的一个空间了</p>
+<p>6. 美国xs – 完全支持外链的图片空间</p>
+<p>美国xs提供无限免费的图片空间，完全支持外链(以测试过），而且不用注册就能上传图片，支持上传JPG, JPEG, GIF, PNG, BMP, TIF,<br>TIFF等格式的图片，单个上传文件最大为2Mb，能同时上传多张图片，每次上传最大数为500，只要你知道图片的网络地址也能上传图片，只要你的图片每<br>月有一个点击量就不会删除你的图片，后台还支持FLASH相册制作，提供多种引用形式</p>
+<p>7. Flickr – 免费相册支持外链</p>
+<p>Flickr 是目前世界上最好的线上相片管理和分享应用程式之一。Flickr是由加拿大Ludicorp公司所开发设计。该公司于2004年2月正式推出<br>Flickr网站。Flickr于2005年3月被雅虎收购，在6月,所有的资料都从原本位于加拿大的服务器迁入美国，使得所有的资料都受到美国联邦法的 管辖。</p>
+<p>上传速度还不错而且还支持外链，有很多图片网站都是利用这个相册来装图片的，还能对你的图片进行特效外理以及在线图片编辑功能，每月上传空间限制在<br>100M，但如果超过90天未登录，你帐号下的图片将会被删除。</p>
+<p>8. Dumpt – 提供无限免费图片空间无需注册</p>
+<p>Dumpt 是来自美国伊利诺伊州的无限免费空间，无需注册就能使用，页面很简洁，在首页就能上传，支持多文件上传，一次最多能上传10张图片，最大上传文件为3M，<br>不但可以上传本地电脑上的图片，还可以上传URL网络图片，可以设置上传的图片为私有或公开。上传格式支持：JPEG, .JPG, .GIF,<br>.PNG,.BMP。上传图片后可获得很多图片的外链地址，方便引用图片。</p>
+<p>9. Pict –捷克的一个免费相册</p>
+<p>它和别的相册不同，页面很特别，打开首页就是一个相册，你会看到有很多的很多的正方形框，上面标有“Upload images”，点击任意一个即可上传图片，<br>允许上传JPG/PNG/GIF等格式的图片，<br>最大上传的图片尺寸为3.5M。同时可选择多张图片上传，最多同时能上传多张不详，我曾选择过100多张图片同时上传也可以，首页会自动变长，方框会自动<br>增多。不过上传多了，会减慢上传速度。</p>
+<p>在网站底部会看到“Share this album”地址，通过这个网址可以链接到这个相册，图片支持外链，点击相册图片上的“Share<br>it”，即可出现引用地址。</p>
+<p>10. RockYou – 无限图片上传空间+闪秀相册</p>
+<p>RockYou<br>是来自美国的免费网络FLASH相册网站，主要面对客户是博客使用者，现在在美国有大量的人在使用，网站提供电子相册、刮刮卡、闪闪靓字、靓字闪图、动态<br>相册等BLOG扩展服务。目前，网站已经推出了中文版本。</p>
+<p>你可以无限制的上传图片. 图片的格式必须为jpeg, gif, 或者 png；每张图片的大小不得超过 3<br>M，你可以无限制的创建你的闪秀相册。想拥有多少，就拥有多少！用户可进行隐私设置。</p>
+<p>11 . Thumbsnap – 非常简单好用的图片存储空间</p>
+<p>Thumbsnap是来自美国乔治亚州的一个非常简单，好用的免费图片存储空间。界面简洁无广告，无需注册即可上传图片，对上传图片张数无限制，支持.jpg,<br>.jpeg, .gif, .png格式的图片。支持的最大上传图片大小为2M。而且还支持图片外链。</p>
+<p>上传非常简单，进入网站首页后，点击”UPLOAD<br>Photo”按钮，选择一张图片即可自动上传，上传速度非常不错。上传完成后可获得图片的分享代码，提供4种代码。可通过点击”More Link<br>Codes”来获得图片的直接外链地址（Direct Link）。还可能过E-mail来分享。</p>
+<p>12. SharePiks – 无需注册的免费图片存储空间</p>
+<p>SharePiks<br>是来自美国的一个免费图片存储空间，支持上传的最大图片为5M，无需注册即可上传。不允许上传违反法律的图片，图片也不可用于邮件发送、商业广告等。如上<br>传了以上图片将会被删除，非以上图片可以永久保存。SharePiks不会公开你上传的图片，除非是你指定的人。</p>
+<p>图片上传后会获得四种外链代码，有图片的直接外链地址、引用地址、HTML代码、论坛代码。也可通过点击”Click here to share this<br>image with your friends”来将你的图片发送给你的朋友进行分享。</p>
+<p>13. 美国imgur – 简单实用的无限外链相册</p>
+<p>Imgur 是来自美国的一个免费网络相册，非常简单实用。Imgur由美国俄亥俄州大学的学生Alan<br>Schaaf创建，Imgur的服务器位于美国得克萨斯州达拉斯市，其Alexa世界排名为1283，Imgur免费相册流行于美国、印度、英国、德国、<br>加拿大、澳大利亚等国家。</p>
+<p>使用Imgur相册时，不需要注册，Imgur不限制图片上传空间，支持图片直接外链，支持的图片格式有JPEG, GIF, PNG, TIFF, BMP,<br>PDF, XFC (GIMP)。但TIFF, BMP, PDF,<br>XFC格式的图片上传后会转换成PNG格式。非动画图片允许上传的最大为10M，但超过1M的图片都会被压缩成1M，允许上传的动画图片最大为2M（包括<br>PNG、GIF），只要图片每3个月有一个浏览量，图片会被永久保存。可上传本地图片或通过图片URL地址上传。</p>
+<p>14. 德国Imagez– 无需注册可外链的免费相册</p>
+<p>Imagez是来自德国的一个免费相册，无需注册即可使用，且支持直接外链。支持上传jpg, jpeg, png, bmp,<br>gif格式的图片，最大单个文件最大为5M，注册用户限制在10M，支持批量上传，还可上传zip文件。注册用户还可对相册设置密码保护。上传速度还不 错。</p>
+<p>15. 美国Fotki– 支持FTP可外链的无限免费相册</p>
+<p>Fotki是来自美国弗吉尼亚州的一个在线免费相册，成立于1998年，是一个比较老牌的相册了。存储空间容量不限，可创建多个相册，创建时可对相册设置<br>访问密码。支持jpg、jpeg、png、psd、gif、bmp、tif、tiff图片格式，但上传的图片都会被转换成jpeg格式，单张图片大小限制<br>不祥，免费注册为Fotki用户，可以使用Java、ActiveX控件、软件客户端、网页、URL网址、FTP、手机、E-Mail等多种方式上传图<br>片。图片支持外链，可通过右键点击图片，查看属性，找到外链地址。</p>
+<p>Fotki除提供免费相册外，还提供免费日记本、免费留言板、免费论坛等免费服务。还支持上传某些网站的视频如：youtube，但不支持国内视频网站上的视频上传。</p>
+<p>16. 幻天图床</p>
+<p>国外轻量级图床，采用了国外cdn加速图片缓存，操作简单方便！无需注册！即可上传图片。无需付费，空间图片无限制。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/blog/tags/图像/">图像</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/blog/images/qrcode_alipay.png" alt="支付宝"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/">
+                <span class="level-item">DB主从一致性架构优化4种方法</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/blog/images/avatar.jpeg" alt="hcq0618">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        hcq0618
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Grab
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Beijing</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        110
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        10
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        18
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/hcq0618" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/hcq0618">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/blog/categories/AR/">
+            <span class="level-start">
+                <span class="level-item">AR</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/C/">
+            <span class="level-start">
+                <span class="level-item">C#</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity/">
+            <span class="level-start">
+                <span class="level-item">Unity</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">31</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity优化/">
+            <span class="level-start">
+                <span class="level-item">Unity优化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">24</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity插件/">
+            <span class="level-start">
+                <span class="level-item">Unity插件</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">26</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/VR/">
+            <span class="level-start">
+                <span class="level-item">VR</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/其他/">
+            <span class="level-start">
+                <span class="level-item">其他</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/后端/">
+            <span class="level-start">
+                <span class="level-item">后端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/小程序/">
+            <span class="level-start">
+                <span class="level-item">小程序</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/网络/">
+            <span class="level-start">
+                <span class="level-item">网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13.75px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11.25px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 17.5px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 18.75px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11.25px;">VR</a> <a href="/blog/tags/后端/" style="font-size: 15px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11.25px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11.25px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11.25px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16.25px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12.5px;">网络安全</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen is-sticky">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/blog/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">110</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/AR/">
+                        <span class="tag">AR</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C/">
+                        <span class="tag">C#</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C-优化/">
+                        <span class="tag">C#优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Google/">
+                        <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/UML/">
+                        <span class="tag">UML</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity/">
+                        <span class="tag">Unity</span>
+                        <span class="tag is-grey">31</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity优化/">
+                        <span class="tag">Unity优化</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity插件/">
+                        <span class="tag">Unity插件</span>
+                        <span class="tag is-grey">26</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/VR/">
+                        <span class="tag">VR</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/后端/">
+                        <span class="tag">后端</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/小程序/">
+                        <span class="tag">小程序</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/开源/">
+                        <span class="tag">开源</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/数据库/">
+                        <span class="tag">数据库</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/移动支付/">
+                        <span class="tag">移动支付</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络/">
+                        <span class="tag">网络</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络安全/">
+                        <span class="tag">网络安全</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/blog/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">110</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/AR/">
+                        <span class="tag">AR</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C/">
+                        <span class="tag">C#</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C-优化/">
+                        <span class="tag">C#优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Google/">
+                        <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/UML/">
+                        <span class="tag">UML</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity/">
+                        <span class="tag">Unity</span>
+                        <span class="tag is-grey">31</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity优化/">
+                        <span class="tag">Unity优化</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity插件/">
+                        <span class="tag">Unity插件</span>
+                        <span class="tag is-grey">26</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/VR/">
+                        <span class="tag">VR</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/后端/">
+                        <span class="tag">后端</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/小程序/">
+                        <span class="tag">小程序</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/开源/">
+                        <span class="tag">开源</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/数据库/">
+                        <span class="tag">数据库</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/移动支付/">
+                        <span class="tag">移动支付</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络/">
+                        <span class="tag">网络</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络安全/">
+                        <span class="tag">网络安全</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/blog/">
+                
+                    <img src="/blog/images/logo.svg" alt="图床及iPic" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Hcq0618&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/hcq0618/blog/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/blog/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/blog/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/blog/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/blog/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/blog/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/blog/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/blog/js/insight.js" defer></script>
+<link rel="stylesheet" href="/blog/css/search.css">
+<link rel="stylesheet" href="/blog/css/insight.css">
+    
+</body>
+</html>

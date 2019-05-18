@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>分类: Unity优化 - Hcq0618&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="A blog for bookmarking and recording technology">
+<meta name="keywords" content="Android,Flutter,Kotlin,ReactNative,VR,Unity,Python,C#,Backend,NodeJs,Javascript,TypeScript,Hexo,Framework,Architecture,Java">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hcq0618&#39;s Blog">
+<meta property="og:url" content="https://hcq0618.github.io/blog/categories/Unity优化/page/2/index.html">
+<meta property="og:site_name" content="Hcq0618&#39;s Blog">
+<meta property="og:description" content="A blog for bookmarking and recording technology">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://hcq0618.github.io/blog/images/og_image.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hcq0618&#39;s Blog">
+<meta name="twitter:description" content="A blog for bookmarking and recording technology">
+<meta name="twitter:image" content="https://hcq0618.github.io/blog/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/blog/images/logo.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/blog/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?844bc0c79484177c3822e7a30257f8a3";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/blog/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/blog/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/blog/">
+            
+                <img src="/blog/images/logo.svg" alt="Hcq0618&#39;s Blog" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/blog/">主页</a>
+                
+                <a class="navbar-item" href="/blog/archives">文章</a>
+                
+                <a class="navbar-item" href="/blog/categories">分类</a>
+                
+                <a class="navbar-item" href="/blog/tags">标签</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/hcq0618/blog/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    <div class="card-content">
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/blog/categories">分类</a></li>
+            
+            <li class="is-active"><a href="#" aria-current="page">Unity优化</a></li>
+        </ul>
+        </nav>
+    </div>
+</div>
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.836Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity优化/">Unity优化</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    22 分钟 读完 (大约 3274 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/Unity性能优化方法总结/">Unity性能优化方法总结</a>
+            
+        </h1>
+        <div class="content">
+            <p><strong>资源分离打包与加载</strong></p>
+<p>游戏中会有很多地方使用同一份资源。比如，有些界面共用同一份字体、同一张图集，有些场景共用同一张贴图，有些怪物使用同一个Animator，等等。在制作游戏安装包时将这些公用资源从其它资源中分离出来，单独打包。比如若资源A和B都引用了资源C，则将C分离出来单独打一个bundle。在游戏运行时，如果要加载A，则先加载C；之后如果要加载B，因为C的实例已经在内存，所以只要直接加载B，让B指向C即可。如果打包时不将C从A和B分离出来，那么A的包里会有一份C，B的包里也会有一份C，冗余的C会将安装包撑大；并且在运行时，如果A和B都加载进内存，内存里就会有两个C实例，增大了内存占用。</p>
+<p>资源分离打包与加载是最有效的减小安装包体积与运行时内存占用的手段。一般打包粒度越细，这两个指标就越小；而且当两个renderQueue相邻的DrawCall使用了相同的贴图、材质和shader实例时，这两个DrawCall就可以合并。但打包也并不是越细就越好。如果运行时要同时加载大量小bundle，那么加载速度将会非常慢——时间都浪费在协程之间的调度和多批次的小I/O上了；而且DrawCall合并不见得会提高性能，有时反而会降低性能，后文会提到。因此需要有策略地控制打包粒度。一般只字体和贴图这种体积较大的公用资源。</p>
+<p>　　可以用AssetDatabase.GetDependencies得知一份资源使用了哪些其它资源。</p>
+<p> <strong>2  贴图透明通道分离，压缩格式设为ETC/PVRTC</strong></p>
+<p>最初我们使用了DXT5作为贴图压缩格式，希望能减小贴图的内存占用，但很快发现移动平台的显卡是不支持的。因此对于一张1024x1024大小的RGBA32贴图，虽然DXT5可将它从4MB压缩到1MB，但系统将它送进显卡之前，会先用CPU在内存里将它解压成4MB的RGBA32格式（软件解压），然后再将这4MB送进显存。于是在这段时间里，这张贴图就占用了5MB内存和4MB显存；而移动平台往往没有独立显存，需要从内存里抠一块作为显存，于是原以为只占1MB内存的贴图实际却占了9MB！</p>
+<p>所有不支持硬件解压的压缩格式都有这个问题。经过一番调研，我们发现<a href="http://lib.csdn.net/base/15" target="_blank" rel="noopener">安卓</a>上硬件支持最广泛的格式是ETC，苹果上则是PVRTC。但这两种格式都是不带透明（Alpha）通道的。因此我们将每张原始贴图的透明通道都分离了出来，写进另一张贴图的红色通道里。这两张贴图都采用ETC/PVRTC压缩。渲染的时候，将两张贴图都送进显存。同时我们修改了NGUI的shader，在渲染时将第二张贴图的红色通道写到第一张贴图的透明通道里，恢复原来的颜色：</p>
+<p>fixed4 frag (v2f i) : COLOR</p>
+<pre><code>fixed4 col;
+
+col.rgb = tex2D(_MainTex, i.texcoord).rgb;
+
+col.a = tex2D(_AlphaTex, i.texcoord).r;
+
+return col * i.color;</code></pre><p>fixed4 frag (v2f i) : COLOR</p>
+<p>{</p>
+<pre><code>fixed4 col;
+
+col.rgb = tex2D(_MainTex, i.texcoord).rgb;
+
+col.a = tex2D(_AlphaTex, i.texcoord).r;
+
+return col * i.color;</code></pre><p>}</p>
+<p>这样，一张4MB的1024x1024大小的RGBA32原始贴图，会被分离并压缩成两张0.5MB的ETC/PVRTC贴图（我们用的是ETC/PVRTC 4<br>bits）。它们渲染时的内存占用则是2x0.5+2x0.5=2MB。</p>
+<p> <strong>3 关闭贴图的读写选项</strong></p>
+<p>Unity中导入的每张贴图都有一个启用可读可写（Read/Write<br>Enabled）的开关，对应的程序参数是[TextureImporter.isReadable](<a href="http://docs.unity3d.com/ScriptReference" target="_blank" rel="noopener">http://docs.unity3d.com/ScriptReference</a><br>/TextureImporter-isReadable.html)。选中贴图后可在Import<br>Setting选项卡中看到这个开关。只有打开这个开关，才可以对贴图使用Texture2D.GetPixel，读取或改写贴图资源的像素，但这就需要系统在内存里保留一份贴图的拷贝，以供CPU访问。一般游戏运行时不会有这样的需求，因此我们对所有贴图都关闭了这个开关，只在编辑中做贴图导入后处理（比如对原始贴图分离透明通道）时打开它。这样，上文提到的1024x1024大小的贴图，其运行时的2MB内存占用又可以少一半，减小到1MB。</p>
+<p> <strong>4 减少场景中的GameObject数量</strong></p>
+<p>　　有一次我们将场景中的GameObject数量减少了近2万个，游戏在iPhone<br>3S上的内存占用立马减了20MB。这些GameObject虽然基本是在隐藏状态（activeInHierarchy为false），但仍然会占用不少内存。这些GameObject身上还挂载了不少脚本，每个GameObject中的每个脚本都要实例化，又是一比不菲的内存占用。因此后来我们规定场景中的GameObject数量不得超过1万，并且将GameObject数量列为每周版本的性能监测指标。</p>
+<p> <strong>5 图集</strong></p>
+<p>整理图集的主要目的是节省运行时内存（虽然有时也能起到合并DrawCall的作用）。从这个角度讲，显示一个界面时送进显存的图集尺寸之和是越小越好。一般有如下方法可以帮助我们做到这点：</p>
+<p>1）在界面设计上，尽量让美术将控件设计为可以做九宫格拉伸，即UISprite的类型为Sliced。这样美术就可以只切出一张小图，我们在Unity中将它拉大。当然，一个控件做九宫格也就意味着其顶点数量从4个增加到至少16个（九宫格的中心格子采用Tiled做平铺类型的话，顶点数会更多），构建DrawCall的开销会更大（见第6点），但一般只要DrawCall安排合理（同样见第6点）就不会有问题。</p>
+<p>2）同样是在界面设计上，尽量让美术将图案设计成对称的形式。这样切图的时候，美术就可以只切一部分，我们在Unity中将完整的图案拼出来。比如对一个圆形图案，美术可以只切出四分之一；对一张脸，美术可以只切出一半。不过，与第1）点类似，这个方法同样有其它性能代价——一个图案所对应的顶点数和GameObject数量都增多了。第4点已经提到，GameObject数量的增多有时也会显著占用更多内存。因此一般只对尺寸较大的图案采用这个方法。</p>
+<p>3）确保不要让不必要的贴图素材驻留内存，更不要在渲染时将无关的贴图素材送进显存。为此需要将图集按照界面分开，一般一张图集只放一个界面的素材，一个界面中的UISprite也不要使用别的界面的图集。假设界面A和界面B上都有一个小小的一模一样的金币图标，不要因为在制作时贪图方便，就让界面A的UISprite直接引用界面B中的金币素材；否则界面A显示的时候，会将整个界面B的图集也送进显存，而且只要A还在内存中，B的图集也会驻留内存。对于这种情况，应该在A和B的图集中各放一个一模一样的金币图标，A中的UISprite只使用A的图集，B中的UISprite只使用B的图集。</p>
+<p>不过，如果两个界面之间存在大量相同的素材，那么这两个界面就可以共用同一张图集。这样可以减少所有界面的总内存占用量。具体操作时需要根据美术的设计进行权衡。一般界面之间相同的通用的素材越多，程序的内存负担就越小。但界面之间相同的东西太多的话，美术效果可能就不生动，这是美术和程序之间又一个需要寻求平衡的地方。</p>
+<p>　　另外，数量庞大的图标资源（如物品图标）不要做在图集里，而应该采用UITexture。</p>
+<p>4）减少图集中的空白地方。图集中完全透明的像素和不透名的像素所占的内存空间其实是一样的。因此在素材量不变的情况下，要尽量减少图集中的空白。有时一张1024x1024的图集中，素材所占的面积还没超过一半，这时可以考虑将这张图集切成两张512x512的图集。（有人会问为什么不能做成一张1024x512的图集，这是因为<a href="http://lib.csdn.net/base/1" target="_blank" rel="noopener">iOS</a>平台似乎要求送进显存的贴图一定是方形。）当然，两张不同图集的DrawCall是无法合并的，但这并不是什么问题（见第6点）。</p>
+<p>　　应该说，图集的整理在具体操作时并没有一成不变的标准，很多时候需要权衡利弊来最终决定如何整理，因为不管哪种措施都会有别的性能代价。</p>
+<p> <strong>8 降低贴图素材分辨率</strong></p>
+<p>这一招说白了其实就是减小贴图素材的尺寸。比如对一张在原画里尺寸是100x80的，我们将它导入Unity后会把它缩小到50x40，即缩小两倍。游戏实际使用的是缩小后的贴图。不过这一招是必然会显著降低美术品质的，美术立马会发现画面变得更模糊，因此一般不到程序撑不住的时候不会采用。</p>
+<p> <strong>9 界面的延迟加载和定时卸载策略</strong></p>
+<p>如果一些界面的重要性较低，并且不常被使用，可以等到界面需要打开显示的时候才从bundle加载资源，并且在关闭时将卸载出内存，或者等过一段时间再卸载。不过这个方法有两个代价：一是会影响体验，玩家要求打开界面时，界面的显示会有延迟；二是更容易出bug，上层写逻辑时要考虑异步情况，当程序员要访问一个界面时，这个界面未必会在内存里。因此目前为止我们仍未实施该方案。目前只是进入一个新场景时，卸载上一个场景用到但新场景不会用到的界面。</p>
+<p>以上的9个方法中，4、5、6需要在一定程度上从策划和美术的角度考虑问题，并且需要持续保持监控以维护优化状态（因为在设计上总是会有新界面的需求或改动老界面的需求）；其它都是一劳永逸的解决方案，只要实施稳定后，就不需要再在上面花费精力。不过2和8都是会降低美术品质的方法，尤其是8。如果美术对品质的降低程度实在忍不了的话，也可能不会允许采用这两个方法。</p>
+<p> <strong>10避免频繁调用GameObject.SetActive</strong></p>
+<p>我们游戏的某些逻辑会在一帧内频繁调用GameObject.SetActive，显示或隐藏一些对象，数量达到一百多次之多。这类操作的CPU开销很大（尤其是NGUI的UIWidget在激活的时候会做很多初始化工作），而且会触发大量GC。后来我们改变了显示和隐藏对象的方法——让对象一直保持激活状态（activeInHierarchy为true），而原来的SetActive(false)改为将对象移到屏幕外，SetActive(true)改为将对象移回屏幕内。这样性能就好多了。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.825Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity优化/">Unity优化</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    11 分钟 读完 (大约 1578 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/unity性能优化规范/">unity性能优化规范</a>
+            
+        </h1>
+        <div class="content">
+            <p>和java不同 能用for就不用foreach,因为foreach会使用迭代器并会产生额外几kb的gc。</p>
+<p>和findViewById一样 GameObject.Find和Transform.Find尽量少调用 在Awake和Start只获取一次对象或组件。</p>
+<p>与java不同 函数名首字母大写。</p>
+<p>工具类声明为 static class 静态类。</p>
+<p>开启monoDevelop的代码分析功能 并根据提示尽量优化代码。使用Profile工具进行性能分析测试。</p>
+<p>有光照的情况下，烘焙场景和物体可以节约计算资源 你把物体模型放进了场景里之后， 引擎会计算光线，光线照到你的物体的表面形成反光和阴影。 如果不烘焙，<br>游戏运行的时候，这些反光和阴影都是由显卡和CPU计算出来的。你烘焙之后，这些反光和阴影都记录到了你的模型里，变成了新的贴图了，运行的时候，显卡和CPU不需要进行对环境光效果的运算了，节约CPU资源<br>。</p>
+<p>字符串连接用StringBuilder 。</p>
+<p>不要直接访问gameobject的tag属性。比如if (go.tag == “human”)最好换成if (go.CompareTag<br>(“human”))。因为访问物体的tag属性会在堆上额外的分配空间 。</p>
+<p>对比通过方法GetComponent()获取Transform组件,<br>通过MonoBehavor的transform属性去取，后者更快，但GetComponent又快于Find 。</p>
+<p>善于使用OnBecameVisible()和OnBecameInVisible来控制物体的update()函数的执行以减少开销。</p>
+<p>使用内建的数组，比如用Vector3.zero而不是new Vector(0, 0, 0)。</p>
+<p>在c#里面List速度优于ArrayList 而且类型安全。</p>
+<p>资源及代码都尽量继承和复用framework下的。</p>
+<p>尝试使用IL2CPP。</p>
+<p>设置贴图压缩格式以优化安装包大小及运行效率：iOS上尽量使用PVRTC，Android上使用ETC 或者<br>选择自动压缩，但需要在显示质量和性能进行权衡，每家的GPU支持不同的压缩格式，但他们都兼容ETC格式，对于透明贴图，我们只能选择RGBA 16bit<br>或者RGBA 32bit。如果不调用SetPixels或GetPixels函数，最好关闭Read/Write<br>enable开关，否则会复制一份贴图到内存中，内存占用会大两倍，这个属性的实质是决定了这个贴图的存放位置，是在内存上还是在显存上。（虽说在移动设备上显存和内存是共用的，但数据不直接互通）<br>如果可读写，那么这个贴图既在显存上，又在内存上，而且还必须得是非压缩的格式（ARGB32，ARGB4444之类）。用getPixel(s)，setPixel(s)之类的方法，读取或设置的数据，都是内存上的数据，但其他属性不区分内存还是显存。Apply方法的作用是把这个贴图在内存上的传给显存。Apply方法的第二个参数，决定了这个这个贴图是否还可读写，换种说法就是内存上这部分数据在执行完这个方法之后还要不要。</p>
+<p>代码能加namespace的尽量都加namespace。</p>
+<p> 在ProjectSetting-&gt;<br>Quality中的，关闭垂直同步。可以考虑降低FPS，降低FPS的好处：1）省电，减少手机发热的情况；2）能都稳定游戏FPS，减少出现卡顿的情况。当我们设置了FPS后，再调整下Fixed<br>timestep这个参数，这个参数在ProjectSetting-&gt;Time中，目的是减少物理计算的次数，来提高游戏性能。可以考虑待机时，调整游戏的FPS为1（手动设置帧率可以用Application.targetFrameRate），节省电量。</p>
+<p>尽量少使用Update LateUpdate<br>FixedUpdate，这样也可以提升性能和节省电量。多使用事件（不是SendMessage，使用自己写的，或者C#中的事件委托）。</p>
+<p>把大部分图片打成图集减少draw<br>call，可以用unity自带的工具打<a href="http://www.xuanyusong.com/archives/3304" target="_blank" rel="noopener">http://</a><a href="http://www.xuanyusong.com/archives/3304" target="_blank" rel="noopener">www.xuanyusong.com/archives/3304</a>也可以用TexturePackerGUI。图集大小最好不要高于1024，否则游戏安装之后、低端机直接崩溃、原因是手机系统版本低于2.2、超过1000的图集无法读取、导致。2.2<br>以上没有遇见这个情况。注意手机的RAM 与 ROM、小于 512M的手机、直接放弃机型适配。</p>
+<p>RectMask2D性能好于Mask。</p>
+<p>考虑使用Occlusion Culling遮挡剔除技术，减少绘制。</p>
+<p>对象最好复用同一个材质，并且保证缩放一致，unity会自动进行动态批处理，减少draw<br>call。Lightmap对象由于多了光照烘焙材质，以及有阴影的对象，不会被批处理。对静止的物体勾选static，就会自动静态批处理，比动态批处理更节约资源。但无论是动态批处理还是静态批处理，都是空间换时间的操作，所以会更占内存，需要权衡利弊。</p>
+<p>避免使用顶点过多的对象，减少计算量。</p>
+<p>避免使用过于复杂的数学函数，且整形类型计算优于浮点型。</p>
+<p>使用有规则的碰撞体，比如长方形，球形，胶囊形，效率高于网格碰撞体。</p>
+<p>Image组件的RaycastTarget勾选以后会消耗一些效率，为了节省效率就不要勾选它了，不仅Image组件Text组件也有这样的问题。<br>一般UI里也就是按钮才需要接收响应事件，那么大部分image和text是是不需要开RaycastTarget的。<a href="http://www.xuanyusong.com/archives/4006" target="_blank" rel="noopener">http://www.xuanyusong.com/archives/4006</a></p>
+<p>按界面分离canvas，减少界面刷新，按静态和动态物体分离canvas，减少界面刷新。</p>
+<p>若使用了AndroidJavaXXX类则需要使用using语句或者Dispose函数来确保资源会被释放回收</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.819Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity优化/">Unity优化</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    22 分钟 读完 (大约 3341 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/Unity加载资源深度解析/">Unity加载资源深度解析</a>
+            
+        </h1>
+        <div class="content">
+            <p>在游戏和VR项目的研发过程中，加载模块所带来的效率开销和内存占用（即“加载效率”、“场景切换速度”等）经常是开发团队非常头疼的问题，它不仅包括资源的加载耗时，同时也包含场景物件的实例化和资源卸载等。在我们看来，该模块的耗时是目前引擎中仅次于渲染的第二大模块。因此，我们认为非常有必要来跟大家分享一下目前加载模块的主要性能问题。</p>
+<p>我们通过对提交到<a href="http://www.uwa4d.com/" target="_blank" rel="noopener">www.uwa4d.com</a>网站的大量项目进行分析，认为目前加载模块中最为耗时的性能开销可以归结为以下几类：<br><strong>资源加载、资源卸载、Object的实例化和代码的序列化等</strong> 。今天，我们先为大家带来资源加载中纹理资源的加载性能分析。</p>
+<p>这是侑虎科技第48篇原创文章，欢迎转发分享，未经作者授权请勿转载。同时如果您有任何独到的见解或者发现也欢迎联系我们，一起探讨。（QQ群465082844）</p>
+<h1 id="资源加载"><a href="#资源加载" class="headerlink" title="资源加载"></a><strong>资源加载</strong></h1><p>资源加载是加载模块中最为耗时的部分，其CPU开销在Unity引擎中主要体现在Loading.UpdatePreloading和Loading.ReadObject两项中，相信经常查看Profiler的朋友对这两项肯定毫不陌生了。</p>
+<p>Loading.UpdatePreloading，这一项仅在调用类似LoadLevel（Async）的接口处出现，主要负责卸载当前场景的资源，并且加载下一场景中的相关资源和序列化信息等。下一场景中，自身所拥有的GameObject和资源越多，其加载开销越大。</p>
+<p>在很多项目中，存在另外一种加载方式，即场景为空场景，绝大部分资源和GameObject都是通过OnLevelWasLoaded回调函数中进行加载、实例化和拼合的。对于这种情况，Loading.UpdatePreloading的加载开销会很小。</p>
+<p>Loading.ReadObject，这一项记录的则是资源加载时的真正资源读取性能开销，基本上引擎的主流资源（纹理资源、网格资源、动画片段等等）读取均是通过该项来进行体现。可以说，这一项很大程度上决定了项目场景的切换效率。正因如此，我们就当前项目中所用的主流资源进行了大量的测试和分析，下面我们将分析结果与大家一起分享，希望可以帮到正在进行开发的你。</p>
+<p><strong>注意事项：本篇文章的资源性能分析主要是针对移动项目而言，因为目前UWA所测评的项目中，移动游戏/应用占比在90%以上。所以，我们选择首先在移动设备上针对每种资源的加载性能进行分析和总结。</strong></p>
+<h1 id="资源加载性能测试代码"><a href="#资源加载性能测试代码" class="headerlink" title="资源加载性能测试代码"></a><strong>资源加载性能测试代码</strong></h1><p>以下为我们测试时所使用的测试代码，我们将每种资源均制作成一定大小的AssetBundle文件，并逐一通过以下代码在不同设备上进行加载，以期得到不同硬件设备上的资源加载性能比较。</p>
+<p> **  
+**</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-984777e717341c6d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><strong>测试环境</strong></p>
+<p>引擎版本：Unity 5.2版本</p>
+<p>测试设备：五台不同档次的移动设备（Android：红米2、红米Note2和三星S6，iOS：iPhone 5 和 iPhone 6）</p>
+<h1 id="纹理资源"><a href="#纹理资源" class="headerlink" title="纹理资源"></a><strong>纹理资源</strong></h1><p>纹理资源是项目加载过程中开销占用最大的资源之一，其加载效率由其自身大小决定。目前，决定纹理资源大小的因素主要有三种：分辨率、格式和Mipmap是否开启。</p>
+<p> <strong>1. 分辨率 &amp; 格式</strong></p>
+<p>分辨率和格式是影响纹理资源加载效率的重要因素，因为这两项的设置对纹理资源的大小影响很大。因此，我们对这两种因素进行了详细的测试：</p>
+<p> <strong>测试1：相同格式、不同分辨率的加载效率测试</strong></p>
+<p>我们选取了两张分辨率为2048x2048的普通纹理资源，并在打成AssetBundle时，将其分辨率最大值分别设置为512x512、1024x1024和2048x20248，纹理格式均设置为ETC1（Android）和PVRTC（iOS）、且关闭Mipmap功能。所以，三组纹理的内存占用分别为256KB、1MB和4MB，其对应AssetBundle大小为156KB、531KB和1.92MB（对于Android平台）、175KB、628KB和2.4MB（对于iOS平台）。Unity<br>版本为5.2，压缩格式为默认的LZMA压缩。</p>
+<p>Android平台测试纹理：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9f7deef71a51a211.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>我们在五种不同档次的机型上加载这些纹理资源，为降低偶然性，每台设备上重复进行十次加载操作并将取其平均值作为最终性能开销。具体测试结果如下表所示。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-356ed3fa27b2aae3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>通过上述测试，我们可以得到以下结论：</p>
+<p>1、纹理资源的分辨率对加载性能影响较大，分辨率越高，其加载越为耗时。设备性能越差，其耗时差别越为明显；</p>
+<p>2、设备越好，加载效率确实越高。但是，对于硬件支持纹理（ETC1/PVRTC）来说,中高端设备的加载效率差别已经很小，比如图中的红米Note2和三星S6设备，差别已经很不明显。</p>
+<p>测试2：不同格式、相同分辨率的加载效率测试</p>
+<p>我们选取了两张分辨率为1024x1024的普通纹理资源，并在打成AssetBundle时，根据不同平台将其纹理格式分别设置不同格式用于打包。对于Android平台，我们使用ETC1、ETC2、RGBA16和RGBA32四种格式，对于iOS平台，我们使用PVRTC<br>4BPP、RGBA16和RGBA32三种格式，同时，对于每张纹理均关闭Mipmap功能。所以，三组纹理的内存占用分别为1MB、1MB、4MB 和<br>8MB（Android平台）/1MB、4MB 和 8MB（iOS平台）。</p>
+<p>Android平台测试纹理：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ef0821de93838c63.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>与测试1相同，我们在五种不同档次的机型上重复进行十次加载操作并将取其平均值作为最终性能开销。具体测试结果如下图所示。</p>
+<p> <strong>Android设备：</strong></p>
+<p> **  
+**</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-51c4a77564da0e0a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><strong>iOS设备：</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-04244ab0fe899ee7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>通过上述测试，我们可以得到以下结论：</p>
+<p>1、纹理资源的格式对加载性能影响同样较大，Android平台上，ETC1和ETC2的加载效率最高。同样，iOS平台上，PVRTC 4BPP的加载效率最高。</p>
+<p>2、RGBA16格式纹理的加载效率同样很高，与RGBA32格式相比，其加载效率与ETC1/PVRTC非常接近，并且设备越好，加载开销差别越不明显；</p>
+<p>3、RGBA32格式纹理的加载效率受硬件设备的性能影响较大，ETC/PVRTC/RGBA16受硬件设备的影响较低。</p>
+<p> <strong>注意事项：这里需要指出的是测试中所使用的ETC1和ETC2纹理均为RGB<br>4Bit格式，所以对于半透明纹理贴图，需要两张ETC1格式的纹理进行支持（一张RGB通道，一张Alpha通道）。逐一加载两张ETC1格式的纹理，其加载效率要低于RGBA16格式，但可以通过加载方式来进行弥补。这一点我们将在后续文章中进行详细说明。</strong></p>
+<p> <strong>2. 开启Mipmap功能</strong></p>
+<p>开启Mipmap功能同样会增大一部分纹理大小，一般来说，其内存会增加至原始大小的1.33倍。因此，我们对开启Mipmap功能前后的加载性能进行了详细的测试：</p>
+<p>测试3：开启/关闭Mipmap功能的加载效率测试</p>
+<p>我们仍然使用两张分辨率为1024x1024的普通纹理资源，分别使用ETC1格式、PVRTC格式、RGBA16格式和RGBA32格式（测试所用纹理与测试2相同），并在打成AssetBundle时，一组开启Mipmap功能，一组关闭Mipmap功能。</p>
+<p>与测试1相同，我们在五种不同档次的机型上重复进行十次加载操作并将取其平均值作为最终性能开销。具体测试结果如下图所示。</p>
+<p> <strong>Android平台：</strong></p>
+<p> **  
+**</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0ee8eec1b7cff964.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>**  
+**</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7980b411d2e5cb4e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><strong>iOS平台：</strong></p>
+<p> **  
+**</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-b87dd0660665d453.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3eb5145b2e723623.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>通过上述测试，我们可以看出：  <strong>开启Mipmap功能会导致资源加载更为耗时，且设备性能越差，其加载效率影响越大。</strong></p>
+<p>通过以上性能测试，我们对于纹理资源的加载建议如下：</p>
+<p>1、严格控制RGBA32和ARGB32纹理的使用，在保证视觉效果的前提下，尽可能采用“够用就好”的原则，降低纹理资源的分辨率，以及使用硬件支持的纹理格式。</p>
+<p>2、在硬件格式（ETC、PVRTC）无法满足视觉效果时，RGBA16格式是一种较为理想的折中选择，既可以增加视觉效果，又可以保持较低的加载耗时。</p>
+<p>3、严格检查纹理资源的Mipmap功能，特别注意UI纹理的Mipmap是否开启。在UWA测评过的项目中，有不少项目的UI纹理均开启了Mipmap功能，不仅造成了内存占用上的浪费，同时也增加了不小的加载时间。</p>
+<p>4、ETC2对于支持OpenGL ES3.0的Android移动设备来说，是一个很好的处理半透明的纹理格式。但是，如果你的游戏需要在大量OpenGL<br>ES2.0的设备上进行运行，那么我们不建议使用ETC2格式纹理。因为不仅会造成大量的内存占用（ETC2转成RGBA32），同时也增加一定的加载时间。下图为测试2中所用的测试纹理在三星S3和S4设备上加载性能表现。可以看出，在OpenGL<br>ES2.0设备上，ETC2格式纹理的加载要明显高于ETC1格式，且略高于RGBA16格式纹理。因此，建议研发团队在项目中谨慎使用ETC2格式纹理。</p>
+<p> **  
+**</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ca0edc6345efdbd5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><strong>正是由于以上加载效率问题，我们在UWA测评报告中加入了对每个检测到的纹理资源参数的详细展示，以方便开发团队可以快速查看资源的使用情况，只需对相关信息列进行排序，即可定位引发性能问题的具体资源。</strong></p>
+<p> **  
+**</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-b271fe2982298c1f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><strong>说明：以上测试数据为我们所用的测试纹理加载数据，需要指出的是，不同纹理的加载效率是不相同的，因为其内容的不同会造成AssetBundle压缩包大小的不同，进而造成最终加载效率的不同。这里我们给出的具体性能比较，其本意是让大家通过数据直观了解到纹理格式、分辨率和Mipmap功能对加载性能的影响。另外，我们后续会进行更多的测试，以期为大家提供更为普遍的测试结果。</strong></p>
+<p>以上为纹理资源在加载时的性能测试。关于加载模块的性能问题，<br><strong>我们会不断推出网格、音频等其他资源的加载性能分析、资源卸载性能分析、资源实例化性能分析、不同加载方式的性能分析等一系列技术文章</strong><br>，并对目前UWA所检测过项目的共性问题进行总结，以期让大家对项目的加载效率有更加深入的认知，并提升对加载模块的掌控能力。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+    
+<div class="card card-transparent">
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        <div class="pagination-previous">
+            <a class="is-flex-grow has-text-black-ter" href="/blog/categories/Unity优化/">上一页</a>
+        </div>
+        <div class="pagination-next">
+            <a class="is-flex-grow has-text-black-ter" href="/blog/categories/Unity优化/page/3/">下一页</a>
+        </div>
+        <ul class="pagination-list is-hidden-mobile">
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/categories/Unity优化/">1</a></li>
+            
+            <li><a class="pagination-link is-current" href="/blog/categories/Unity优化/page/2/">2</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/categories/Unity优化/page/3/">3</a></li>
+            
+            <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/categories/Unity优化/page/8/">8</a></li>
+            
+        </ul>
+    </nav>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/blog/images/avatar.jpeg" alt="hcq0618">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        hcq0618
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Grab
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Beijing</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        110
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        10
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        18
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/hcq0618" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/hcq0618">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/blog/categories/AR/">
+            <span class="level-start">
+                <span class="level-item">AR</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/C/">
+            <span class="level-start">
+                <span class="level-item">C#</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity/">
+            <span class="level-start">
+                <span class="level-item">Unity</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">31</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity优化/">
+            <span class="level-start">
+                <span class="level-item">Unity优化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">24</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity插件/">
+            <span class="level-start">
+                <span class="level-item">Unity插件</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">26</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/VR/">
+            <span class="level-start">
+                <span class="level-item">VR</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/其他/">
+            <span class="level-start">
+                <span class="level-item">其他</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/后端/">
+            <span class="level-start">
+                <span class="level-item">后端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/小程序/">
+            <span class="level-start">
+                <span class="level-item">小程序</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/网络/">
+            <span class="level-start">
+                <span class="level-item">网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13.75px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11.25px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 17.5px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 18.75px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11.25px;">VR</a> <a href="/blog/tags/后端/" style="font-size: 15px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11.25px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11.25px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11.25px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16.25px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12.5px;">网络安全</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen is-sticky">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/blog/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">110</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/AR/">
+                        <span class="tag">AR</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C/">
+                        <span class="tag">C#</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C-优化/">
+                        <span class="tag">C#优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Google/">
+                        <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/UML/">
+                        <span class="tag">UML</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity/">
+                        <span class="tag">Unity</span>
+                        <span class="tag is-grey">31</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity优化/">
+                        <span class="tag">Unity优化</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity插件/">
+                        <span class="tag">Unity插件</span>
+                        <span class="tag is-grey">26</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/VR/">
+                        <span class="tag">VR</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/后端/">
+                        <span class="tag">后端</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/小程序/">
+                        <span class="tag">小程序</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/开源/">
+                        <span class="tag">开源</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/数据库/">
+                        <span class="tag">数据库</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/移动支付/">
+                        <span class="tag">移动支付</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络/">
+                        <span class="tag">网络</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络安全/">
+                        <span class="tag">网络安全</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/blog/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">110</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/AR/">
+                        <span class="tag">AR</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C/">
+                        <span class="tag">C#</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C-优化/">
+                        <span class="tag">C#优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Google/">
+                        <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/UML/">
+                        <span class="tag">UML</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity/">
+                        <span class="tag">Unity</span>
+                        <span class="tag is-grey">31</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity优化/">
+                        <span class="tag">Unity优化</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity插件/">
+                        <span class="tag">Unity插件</span>
+                        <span class="tag is-grey">26</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/VR/">
+                        <span class="tag">VR</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/后端/">
+                        <span class="tag">后端</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/小程序/">
+                        <span class="tag">小程序</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/开源/">
+                        <span class="tag">开源</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/数据库/">
+                        <span class="tag">数据库</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/移动支付/">
+                        <span class="tag">移动支付</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络/">
+                        <span class="tag">网络</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络安全/">
+                        <span class="tag">网络安全</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/blog/">
+                
+                    <img src="/blog/images/logo.svg" alt="Hcq0618&#39;s Blog" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Hcq0618&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/hcq0618/blog/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/blog/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/blog/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/blog/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/blog/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/blog/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/blog/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/blog/js/insight.js" defer></script>
+<link rel="stylesheet" href="/blog/css/search.css">
+<link rel="stylesheet" href="/blog/css/insight.css">
+    
+</body>
+</html>

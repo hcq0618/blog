@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Hcq0618&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="A blog for bookmarking and recording technology">
+<meta name="keywords" content="Android,Flutter,Kotlin,ReactNative,VR,Unity,Python,C#,Backend,NodeJs,Javascript,TypeScript,Hexo,Framework,Architecture,Java">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hcq0618&#39;s Blog">
+<meta property="og:url" content="https://hcq0618.github.io/blog/page/26/index.html">
+<meta property="og:site_name" content="Hcq0618&#39;s Blog">
+<meta property="og:description" content="A blog for bookmarking and recording technology">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://hcq0618.github.io/blog/images/og_image.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hcq0618&#39;s Blog">
+<meta name="twitter:description" content="A blog for bookmarking and recording technology">
+<meta name="twitter:image" content="https://hcq0618.github.io/blog/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/blog/images/logo.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/blog/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?844bc0c79484177c3822e7a30257f8a3";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/blog/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/blog/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/blog/">
+            
+                <img src="/blog/images/logo.svg" alt="Hcq0618&#39;s Blog" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/blog/">主页</a>
+                
+                <a class="navbar-item" href="/blog/archives">文章</a>
+                
+                <a class="navbar-item" href="/blog/categories">分类</a>
+                
+                <a class="navbar-item" href="/blog/tags">标签</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/hcq0618/blog/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.837Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 分钟 读完 (大约 933 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/可用于VR环境的列表视图框架/">可用于VR环境的列表视图框架</a>
+            
+        </h1>
+        <div class="content">
+            <p>本文为大家介绍Unity Labs团队开发的可用于VR环境的列表视图框架，代码和示例场景可以从Unity Asset<br>Store获取，也可从Unity开源Git仓库中获取。</p>
+<h1 id="Unity-Labs介绍"><a href="#Unity-Labs介绍" class="headerlink" title="Unity Labs介绍"></a>Unity Labs介绍</h1><p>Unity Labs是专注于研究VR、AR、图形及游戏开发等相关前沿技术的团队。目前Unity Labs最主要的项目就是Unity VR编辑器以及Carte<br>Blanche项目。Unity Labs团队介绍请看：</p>
+<h1 id="Carte-Blanche项目介绍"><a href="#Carte-Blanche项目介绍" class="headerlink" title="Carte Blanche项目介绍"></a>Carte Blanche项目介绍</h1><p>Carte Blanche项目（PCB）是Unity实验室的研发计划，目的是为非技术用户提供VR-in-VR的编程工具。Carte<br>Blanched的核心设计理念主要在于对象与行为的设计，它的一种典型示例：用户可以抓取虚拟的扑克牌，并将其放置在虚拟的桌子上，借助动作捕捉控制器真实地与卡牌互动。概念视频：</p>
+<h1 id="PCB卡牌系统介绍"><a href="#PCB卡牌系统介绍" class="headerlink" title="PCB卡牌系统介绍"></a>PCB卡牌系统介绍</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-713486dec6c0bbf8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>PCB的卡牌系统比传统滚动列表要复杂得多。PCB系统要求卡牌必须能够动态出现或消失，且用户可以触碰到它们。此外，VR应用程序对性能的要求也极其苛刻。还要尽量避免实例化/销毁场景对象，因为这些操作的开销非常之大。最后为了可重用性，外观和感觉上的统一性起见，还需要一套可扩展的解决方案，能够使用其他类型的UI元素制造出相似的体验。</p>
+<p>Unity Labs为列表视图开发了一套通用框架作为PCB卡牌系统的基础。代码和示例场景可以从Unity Asset<br>Store获取，也可从Unity开源Git仓库中获取。示例效果如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-973a3f3e72f11218.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Model与View的解耦</p>
+<p>本框架的一个设计目标是遵循MVC或MVVM设计模式，将数据的显示逻辑（view）与数据的状态（mode）本身解耦。对于任何一个框架而言，框架本身应自动处理列表当前状态的显示。这种实现下我们只需要考虑数据的当前状态，而不用关心如何处理视图的更新。</p>
+<p>框架本身会负责搞定这些列表行的内存分配问题，并在列表元素离开屏幕时回收并重用在接下来要显示的元素上。</p>
+<p>更为具体的技术实现细节请访问Unity官方中文社区阅读！</p>
+<h1 id="资源包"><a href="#资源包" class="headerlink" title="资源包"></a>资源包</h1><p>List View框架现已发布至Unity资源商店，一同开放的还有Unity BitBucket官方账号的开源Git仓库。本文的框架是Carte<br>Blanche项目资源包的首个模块，其他的模块将会陆续地以同样地方式对社区公布。</p>
+<p>本框架可以归结为三个C#类：ListViewController（以两个文件存在），ListViewItem与ListViewItemData。这些类用来控制并处理鼠标与触摸的输入以及列表需要显示的数据。在处理游戏手柄，UI，手势输入或VR设备时这些类也能让开发者很方便地完成需要的特性。在PCB的例子中，列表视图的控制是通过手势追踪控制器来实现的。</p>
+<p>更为具体的技术实现细节及代码下载请访问Unity官方中文社区！</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.831Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    3 分钟 读完 (大约 493 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/Unity中Avatar换装实现/">Unity中Avatar换装实现</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="资源准备"><a href="#资源准备" class="headerlink" title="资源准备"></a><strong>资源准备</strong></h1><p>1.每一套装备模型必须使用同一套骨骼，并单独将骨骼数据保存成一个Prefab。红色部分为武器挂节点（也可以把武器做成一个SkinnedMesh，不采用挂接点的形式），骨骼数据在Unity中的展示形式就是Transform。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-129c61772bf10714.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>2.将模型拆分成多个部分，将每一个部分单独保存成Prefab，武器也单独保存为一个Prefab。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-94f504546d1f5cab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-63ff518d5462cf39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>每一个Prefab都含有自身的SkinnedMeshRenderer。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-504330a2a6642f0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<h1 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a><strong>实现过程</strong></h1><p>1.创建骨骼GameObject，所有装备的蒙皮数据会最终合成到这个Prefab中。</p>
+<p>2.创建装备GameObject，用于搜集其中蒙皮数据以生成新的SkinnedMeshRenderer到骨骼Prefab中。</p>
+<p>3.public void CombineObject(GameObject skeleton, SkinnedMeshRenderer[] meshes,<br>bool combine = false)传入骨骼的GameObject和蒙皮数据。</p>
+<p>4.搜集装备蒙皮数据中的有效信息。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line">// Collect information from meshes</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         for (int i = 0; i &lt; meshes.Length; i ++)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             SkinnedMeshRenderer smr = meshes[i];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             materials.AddRange(smr.materials); // Collect materials</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             // Collect meshes</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             for (int sub = 0; sub &lt; smr.sharedMesh.subMeshCount; sub++)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 CombineInstance ci = new CombineInstance();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 ci.mesh = smr.sharedMesh;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 ci.subMeshIndex = sub;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 combineInstances.Add(ci);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             // Collect bones</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             for (int j = 0 ; j &lt; smr.bones.Length; j ++)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 int tBase = 0;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 for (tBase = 0; tBase &lt; transforms.Count; tBase ++)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                     if (smr.bones[j].name.Equals(transforms[tBase].name))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                     &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                         bones.Add(transforms[tBase]);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                         break;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             &#125;</span><br></pre></td></tr></table></figure>
+
+<p>5.为骨骼GameObject生成新的SkinnedMeshRenderer。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// Create a new SkinnedMeshRenderer</span><br><span class="line">SkinnedMeshRenderer oldSKinned = skeleton.GetComponent&lt;SkinnedMeshRenderer&gt;();</span><br><span class="line">     if (oldSKinned != null) &#123;</span><br><span class="line"></span><br><span class="line">     GameObject.DestroyImmediate(oldSKinned);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> SkinnedMeshRenderer r = skeleton.AddComponent &lt; SkinnedMeshRenderer();</span><br><span class="line">r.sharedMesh = new Mesh();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">r.sharedMesh.CombineMeshes(combineInstances.ToArray(), false, false);//</span><br><span class="line">Combine meshes</span><br><span class="line"></span><br><span class="line"> r.bones = bones.ToArray();// Use new bones</span><br></pre></td></tr></table></figure>
+
+<p>6.挂接武器。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Transform[] transforms = Instance.GetComponentsInChildren&lt;Transform();</span><br><span class="line"></span><br><span class="line"> foreach (Transform joint in transforms) &#123;</span><br><span class="line"></span><br><span class="line"> if (joint.name == &quot;weapon_hand_r&quot;)</span><br><span class="line"> &#123;// find the joint (need the support of art designer)</span><br><span class="line">         WeaponInstance.transform.parent = joint.gameObject.transform;</span><br><span class="line">         break;</span><br><span class="line">     &#125;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中WeaponInstance为武器实例GameObject，Instance为骨骼实例GameObject。</p>
+<p> <strong>合成后的效果</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-134a7438bc50b8cb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<h1 id="如何优化"><a href="#如何优化" class="headerlink" title="如何优化"></a><strong>如何优化</strong></h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-cd754741009b285c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>合成之后的模型拥有4个独立材质，加上独立的对象武器，也就是会产生5个Draw Call；如果将在骨骼中的这4个材质合并成一个，那么就能将Draw<br>Call减少到2个。</p>
+<p> <strong>其中实现过程如下：</strong></p>
+<p>优化CombineObject方法，其中Combine为bool类型，用于标识是否合并材质。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line">// merge materials</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> if (combine)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     newMaterial = new Material (Shader.Find (&quot;Mobile/Diffuse&quot;));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     oldUV = new List&lt;Vector2[]();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     // merge the texture</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     List&lt;Texture2D Textures = new List&lt;Texture2D();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     for (int i = 0; i &lt; materials.Count; i++)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         Textures.Add(materials[i].GetTexture(COMBINE_DIFFUSE_TEXTURE) as</span><br><span class="line">Texture2D);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     newDiffuseTex = new Texture2D(COMBINE_TEXTURE_MAX, COMBINE_TEXTURE_MAX,</span><br><span class="line">TextureFormat.RGBA32, true);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     Rect[] uvs = newDiffuseTex.PackTextures(Textures.ToArray(), 0);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     newMaterial.mainTexture = newDiffuseTex;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // reset uv</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     Vector2[] uva, uvb;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     for (int j = 0; j &lt; combineInstances.Count; j++)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         uva = (Vector2[])(combineInstances[j].mesh.uv);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         uvb = new Vector2[uva.Length];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         for (int k = 0; k &lt; uva.Length; k++)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             uvb[k] = new Vector2((uva[k].x * uvs[j].width) + uvs[j].x,</span><br><span class="line">(uva[k].y * uvs[j].height) + uvs[j].y);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         oldUV.Add(combineInstances[j].mesh.uv);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         combineInstances[j].mesh.uv = uvb;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+
+<p>生成新的SkinnedMeshRenderer时略有区别：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-730fcfde74913194.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><strong>最终效果如下：</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7849bf813428bb2a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>可以看出，新的SkinnedMeshRenderer只有一个材质，Draw Call自然也就降低了。</p>
+<p> <strong>示例工程</strong></p>
+<p>GitHub：<a href="https://github.com/zouchunyi/UnityAvater" target="_blank" rel="noopener">https://github.com/zouchunyi/UnityAvater</a></p>
+<p>感兴趣的朋友可以下载。工程中代码大家可以直接使用，但是美术资源不得用于任何商业用途。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-1a40c01330296f8a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.812Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    11 分钟 读完 (大约 1698 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/Android全自动打包生成apk/">Android全自动打包生成apk</a>
+            
+        </h1>
+        <div class="content">
+            <p>Unity自动打包Android其实要比IOS容易得多，因为Android不用先生成java工程，然后在构建.apk包，我先说说Android打包的步骤。</p>
+<p>1.把sdk拷贝至Plugins/Android下。</p>
+<p>如下图所示，如果你做过Android源生开发，我相信下面的东西你不会陌生。可是如果你没做过Android原生开发，我还是详细说明以下。</p>
+<p>AndroidManifest：这是Android程序必不可少的文件，这里记录着应用程序的启动Activity。Activity就是Android的一个界面，一般应用程序会有很多Acitivty，来回切换界面。但是游戏就不太一样了，因为游戏只需要一个Activity<br>一个View就可以了。（扯远了）</p>
+<p>AndroidManifest：里面还记录着应用程序的权限，Service啊什么的，，有兴趣的同学可以谷歌搜一搜。</p>
+<p>每次打包的时候Unity会用它默认的AndroidManifest，它默认的AndroidManifest在<br>unity.app/Contents/PlaybackEngines/AndroidPlayer下面。当你在进行打包apk的时候<br>unity会拷贝该路径下的所有参数。</p>
+<p>在ProjectSetting里面勾选一些权限的时候，Unity会自动帮你修改AndroidManifest里面的权限，但是如果某个权限不能在Unity工程里面修改，那么就需要自己手动替换。如下图所示，我们把AndroidManifest放在Plugins/Android下面，<br>这样Unity在进行打包的时候就不会用它默认的，而是用我自己新写的打包。。这样就方便灵活很多了。。</p>
+<p>bin:下面就记录着sdk用到的第三方jar</p>
+<p>res：下面就是安卓的一些图片，资源啊什么。</p>
+<p>你可以随便解开一个android的APK看看它的目录结构就明白了。。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-023b15f9b35219c4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>这样在打包的时候unity就会自动把Plugins/Android下面的所有资源打包在你的APK里面了。但是如果你做渠道包的时候，每个包用的是不同的sdk，所以你需要在打包不同渠道的时候把相关的文件拷贝在Plugins/Android下面。</p>
+<p>如下图所示，我在根目录下创建一个文件夹名子叫91，当我自动化打包的时候自动把91文件夹下面的资源先拷贝在Plugins/Android下面，然后在自动打包。。打完包以后再把Plugins/Andoird文件夹清空即可。。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4cc6d58eb949859e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Ok上脚本。。代码和上一篇文章的第一步差不多，我就不多余注释，，执行下面shell脚本将自动打开unity，然后执行ProjectBuild.BuidForAndroid方法。。<br>project-$1 就是传入的参数。。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">#参数判断</span><br><span class="line">if [ $# != 1 ];then</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo &quot;需要一个参数。 参数是游戏包的名子&quot;</span><br><span class="line">exit</span><br><span class="line"></span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">#UNITY程序的路径#</span><br><span class="line"></span><br><span class="line">UNITY_PATH=/Applications/Unity/Unity.app/Contents/MacOS/Unity</span><br><span class="line"></span><br><span class="line">#游戏程序路径#</span><br><span class="line"></span><br><span class="line">PROJECT_PATH=/Users/MOMO/commond</span><br><span class="line"></span><br><span class="line">#在Unity中构建apk#</span><br><span class="line"></span><br><span class="line">$UNITY_PATH -projectPath $PROJECT_PATH -executeMethod</span><br><span class="line">ProjectBuild.BuildForAndroid project-$1 -quit</span><br><span class="line"></span><br><span class="line">echo &quot;Apk生成完毕&quot;</span><br></pre></td></tr></table></figure>
+
+<p>在关闭unity的情况下运行。在命令行里面执行这一条脚本， 参数一个参数 91。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7a4cc479b9e26605.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.IO;</span><br><span class="line">using UnityEditor;</span><br><span class="line">using UnityEngine;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System;</span><br><span class="line"></span><br><span class="line">class ProjectBuild : Editor</span><br><span class="line">&#123;</span><br><span class="line">    //在这里找出你当前工程所有的场景文件，假设你只想把部分的scene文件打包 那么这里可以写你的条件判断 总之返回一个字符串数组。</span><br><span class="line">    static string[] GetBuildScenes()</span><br><span class="line">    &#123;</span><br><span class="line">        List&lt;string&gt; names = new List&lt;string&gt;();</span><br><span class="line">        foreach (EditorBuildSettingsScene e in EditorBuildSettings.scenes)</span><br><span class="line">        &#123;</span><br><span class="line">            if (e == null)</span><br><span class="line">                continue;</span><br><span class="line">            if (e.enabled)</span><br><span class="line">                names.Add(e.path);</span><br><span class="line">        &#125;</span><br><span class="line">        return names.ToArray();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static void BuildForAndroid()</span><br><span class="line">    &#123;</span><br><span class="line">        Function.DeleteFolder(Application.dataPath + &quot;/Plugins/Android&quot;);</span><br><span class="line">        if (Function.projectName == &quot;91&quot;)</span><br><span class="line">        &#123;</span><br><span class="line">            Function.CopyDirectory(Application.dataPath + &quot;/91&quot;, Application.dataPath + &quot;/Plugins/Android&quot;);</span><br><span class="line">            PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android,</span><br><span class="line">           &quot;USE_SHARE&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        string path = Application.dataPath + &quot;/&quot; + Function.projectName + &quot;.apk&quot;;</span><br><span class="line">        BuildPipeline.BuildPlayer(GetBuildScenes(), path, BuildTarget.Android,</span><br><span class="line">       BuildOptions.None);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>程序会执行BuildForAndroid的方法，这里我把shell传入的参数取出来。根据传入的不同参数来初始化打包的一些设置。。</p>
+<p>最终BuildPlayr就开始构建apk，第二个参数就是打包出apk保存的路径。 在打包之前你可以处理一些 游戏包名， 游戏icon<br>等等一些平台之间的特殊性 ，也可以设置一些 预定义标签，。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#if UNITY_EDITOR</span><br><span class="line"> using UnityEditor;</span><br><span class="line"> using UnityEditor.Callbacks;</span><br><span class="line"> using UnityEditor.XCodeEditor;</span><br><span class="line"> using System.Xml;</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">using System.IO;</span><br><span class="line">public static class XCodePostProcess</span><br><span class="line">&#123;</span><br><span class="line">#if UNITY_EDITOR</span><br><span class="line">     [PostProcessBuild (100)]</span><br><span class="line">     public static void OnPostProcessBuild (BuildTarget target, string</span><br><span class="line">pathToBuiltProject)</span><br><span class="line">     &#123;</span><br><span class="line">    if (target == BuildTarget.Android)</span><br><span class="line">    &#123;</span><br><span class="line">    Function.DeleteFolder(Application.dataPath+&quot;/Plugins/Android&quot;);</span><br><span class="line">    if(Function.projectName== &quot;91&quot;) &#123;</span><br><span class="line">              //当我们在打91包的时候 这里面做一些 操作。</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">#endif</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>**** 在回到XUPortr里面，当Android打包完毕后，这里我们清空Plugins/Android文件夹。。或者你也可以做一些操作。。</p>
+<p>Function.cs 用到的一个工具类</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line">using System.Collections;</span><br><span class="line">using System.IO;</span><br><span class="line">public class Function</span><br><span class="line">&#123;</span><br><span class="line">    //得到项目的名称</span><br><span class="line">    public static string projectName</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            //在这里分析shell传入的参数， 还记得上面我们说的哪个 project-$1 这个参数吗？</span><br><span class="line">            //这里遍历所有参数，找到 project开头的参数， 然后把-符号 后面的字符串返回，</span><br><span class="line">            //这个字符串就是 91 了。。</span><br><span class="line">            foreach (string arg in System.Environment.GetCommandLineArgs())</span><br><span class="line">            &#123;</span><br><span class="line">                if (arg.StartsWith(&quot;project&quot;))</span><br><span class="line">                &#123;</span><br><span class="line">                    return arg.Split(&quot;-&quot;[0])[1];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return &quot;test&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void DeleteFolder(string dir)</span><br><span class="line">    &#123;</span><br><span class="line">        foreach (string d in Directory.GetFileSystemEntries(dir))</span><br><span class="line">        &#123;</span><br><span class="line">            if (File.Exists(d))</span><br><span class="line">            &#123;</span><br><span class="line">                FileInfo fi = new FileInfo(d);</span><br><span class="line">                if (fi.Attributes.ToString().IndexOf(&quot;ReadOnly&quot;) != -1)</span><br><span class="line">                    fi.Attributes = FileAttributes.Normal;</span><br><span class="line">                File.Delete(d);</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                DirectoryInfo d1 = new DirectoryInfo(d);</span><br><span class="line">                if (d1.GetFiles().Length != 0)</span><br><span class="line">                &#123;</span><br><span class="line">                    DeleteFolder(d1.FullName);////递归删除子文件夹</span><br><span class="line">                &#125;</span><br><span class="line">                Directory.Delete(d);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void CopyDirectory(string sourcePath, string destinationPath)</span><br><span class="line">    &#123;</span><br><span class="line">        DirectoryInfo info = new DirectoryInfo(sourcePath);</span><br><span class="line">        Directory.CreateDirectory(destinationPath);</span><br><span class="line">        foreach (FileSystemInfo fsi in info.GetFileSystemInfos())</span><br><span class="line">        &#123;</span><br><span class="line">            string destName = Path.Combine(destinationPath, fsi.Name);</span><br><span class="line">            if (fsi is System.IO.FileInfo)</span><br><span class="line">                File.Copy(fsi.FullName, destName);</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                Directory.CreateDirectory(destName);</span><br><span class="line">                CopyDirectory(fsi.FullName, destName);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如下图所示，脚本运行完毕，你打包的APK就静静的放在了这里，怎么样？简单吧？嘿嘿。。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-86fc0aea58f9bcb0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>注意事项：</p>
+<p>1、因为你的工程可能比较大，如果IOS和Android同时打包的话切个平台都要半个多小时，我建议的svn在本地check out 两个工程，一个切在ios<br>一个切在Android  打包的时候分开打。</p>
+<p>2.执行shell脚本的时候请关闭保存unity工程。</p>
+<p>3.Android 因为不受证书的限制，我上传的工程建议你下载下来看看，肯定可以直接打出来包。。</p>
+<p>4.我建议打包的机器使用mac。 因为windows不能打包IOS 而MAC可以同时 打包 IOS 和 Android</p>
+<p>工程下载地址：<a href="http://pan.baidu.com/s/1o6OATcu" target="_blank" rel="noopener">http://pan.baidu.com/s/1o6OATcu</a></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+    
+<div class="card card-transparent">
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        <div class="pagination-previous">
+            <a class="is-flex-grow has-text-black-ter" href="/blog/page/25/">上一页</a>
+        </div>
+        <div class="pagination-next">
+            <a class="is-flex-grow has-text-black-ter" href="/blog/page/27/">下一页</a>
+        </div>
+        <ul class="pagination-list is-hidden-mobile">
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/">1</a></li>
+            
+            <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/25/">25</a></li>
+            
+            <li><a class="pagination-link is-current" href="/blog/page/26/">26</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/27/">27</a></li>
+            
+            <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/37/">37</a></li>
+            
+        </ul>
+    </nav>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/blog/images/avatar.jpeg" alt="hcq0618">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        hcq0618
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Grab
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Beijing</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        110
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        10
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        18
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/hcq0618" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/hcq0618">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/blog/categories/AR/">
+            <span class="level-start">
+                <span class="level-item">AR</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/C/">
+            <span class="level-start">
+                <span class="level-item">C#</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity/">
+            <span class="level-start">
+                <span class="level-item">Unity</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">31</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity优化/">
+            <span class="level-start">
+                <span class="level-item">Unity优化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">24</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity插件/">
+            <span class="level-start">
+                <span class="level-item">Unity插件</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">26</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/VR/">
+            <span class="level-start">
+                <span class="level-item">VR</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/其他/">
+            <span class="level-start">
+                <span class="level-item">其他</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/后端/">
+            <span class="level-start">
+                <span class="level-item">后端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/小程序/">
+            <span class="level-start">
+                <span class="level-item">小程序</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/网络/">
+            <span class="level-start">
+                <span class="level-item">网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13.75px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11.25px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 17.5px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 18.75px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11.25px;">VR</a> <a href="/blog/tags/后端/" style="font-size: 15px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11.25px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11.25px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11.25px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16.25px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12.5px;">网络安全</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen is-sticky">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/blog/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">110</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/AR/">
+                        <span class="tag">AR</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C/">
+                        <span class="tag">C#</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C-优化/">
+                        <span class="tag">C#优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Google/">
+                        <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/UML/">
+                        <span class="tag">UML</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity/">
+                        <span class="tag">Unity</span>
+                        <span class="tag is-grey">31</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity优化/">
+                        <span class="tag">Unity优化</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity插件/">
+                        <span class="tag">Unity插件</span>
+                        <span class="tag is-grey">26</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/VR/">
+                        <span class="tag">VR</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/后端/">
+                        <span class="tag">后端</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/小程序/">
+                        <span class="tag">小程序</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/开源/">
+                        <span class="tag">开源</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/数据库/">
+                        <span class="tag">数据库</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/移动支付/">
+                        <span class="tag">移动支付</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络/">
+                        <span class="tag">网络</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络安全/">
+                        <span class="tag">网络安全</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/blog/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">110</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/AR/">
+                        <span class="tag">AR</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C/">
+                        <span class="tag">C#</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C-优化/">
+                        <span class="tag">C#优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Google/">
+                        <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/UML/">
+                        <span class="tag">UML</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity/">
+                        <span class="tag">Unity</span>
+                        <span class="tag is-grey">31</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity优化/">
+                        <span class="tag">Unity优化</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity插件/">
+                        <span class="tag">Unity插件</span>
+                        <span class="tag is-grey">26</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/VR/">
+                        <span class="tag">VR</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/后端/">
+                        <span class="tag">后端</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/小程序/">
+                        <span class="tag">小程序</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/开源/">
+                        <span class="tag">开源</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/数据库/">
+                        <span class="tag">数据库</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/移动支付/">
+                        <span class="tag">移动支付</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络/">
+                        <span class="tag">网络</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络安全/">
+                        <span class="tag">网络安全</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/blog/">
+                
+                    <img src="/blog/images/logo.svg" alt="Hcq0618&#39;s Blog" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Hcq0618&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/hcq0618/blog/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/blog/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/blog/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/blog/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/blog/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/blog/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/blog/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/blog/js/insight.js" defer></script>
+<link rel="stylesheet" href="/blog/css/search.css">
+<link rel="stylesheet" href="/blog/css/insight.css">
+    
+</body>
+</html>

@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Unity中的时间控制 - Hcq0618&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="关卡创建本文会探讨如何在Unity中使用时间控制进行关卡创建。在探讨之前，可以观看视频了解拥有时间控制玩法的解谜游戏《Lintrix》： 因为与《Lintrix》拥有同样的时间控制玩法的游戏并不多见，因此本文以《Lintrix》为例，说明如何在Unity中实现该功能，以及它可以有哪些应用。我们将以Unity引擎为例，并使用Unity相关的术语，但其概念也适用于其他引擎。 时间控制对创建关卡的意义为">
+<meta name="keywords" content="Unity">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unity中的时间控制">
+<meta property="og:url" content="https://hcq0618.github.io/blog/2019/05/17/Unity/Unity中的时间控制/index.html">
+<meta property="og:site_name" content="Hcq0618&#39;s Blog">
+<meta property="og:description" content="关卡创建本文会探讨如何在Unity中使用时间控制进行关卡创建。在探讨之前，可以观看视频了解拥有时间控制玩法的解谜游戏《Lintrix》： 因为与《Lintrix》拥有同样的时间控制玩法的游戏并不多见，因此本文以《Lintrix》为例，说明如何在Unity中实现该功能，以及它可以有哪些应用。我们将以Unity引擎为例，并使用Unity相关的术语，但其概念也适用于其他引擎。 时间控制对创建关卡的意义为">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://hcq0618.github.io/blog/images/og_image.png">
+<meta property="og:updated_time" content="2019-05-17T14:13:44.988Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Unity中的时间控制">
+<meta name="twitter:description" content="关卡创建本文会探讨如何在Unity中使用时间控制进行关卡创建。在探讨之前，可以观看视频了解拥有时间控制玩法的解谜游戏《Lintrix》： 因为与《Lintrix》拥有同样的时间控制玩法的游戏并不多见，因此本文以《Lintrix》为例，说明如何在Unity中实现该功能，以及它可以有哪些应用。我们将以Unity引擎为例，并使用Unity相关的术语，但其概念也适用于其他引擎。 时间控制对创建关卡的意义为">
+<meta name="twitter:image" content="https://hcq0618.github.io/blog/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/blog/images/logo.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/blog/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?844bc0c79484177c3822e7a30257f8a3";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/blog/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/blog/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/blog/">
+            
+                <img src="/blog/images/logo.svg" alt="Unity中的时间控制" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/blog/">主页</a>
+                
+                <a class="navbar-item" href="/blog/archives">文章</a>
+                
+                <a class="navbar-item" href="/blog/categories">分类</a>
+                
+                <a class="navbar-item" href="/blog/tags">标签</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/hcq0618/blog/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.110Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    24 分钟 读完 (大约 3564 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Unity中的时间控制
+            
+        </h1>
+        <div class="content">
+            <h1 id="关卡创建"><a href="#关卡创建" class="headerlink" title="关卡创建"></a>关卡创建</h1><p>本文会探讨如何在Unity中使用时间控制进行关卡创建。在探讨之前，可以观看视频了解拥有时间控制玩法的解谜游戏《Lintrix》：</p>
+<p>因为与《Lintrix》拥有同样的时间控制玩法的游戏并不多见，因此本文以《Lintrix》为例，说明如何在Unity中实现该功能，以及它可以有哪些应用。<br>我们将以Unity引擎为例，并使用Unity相关的术语，但其概念也适用于其他引擎。</p>
+<h1 id="时间控制对创建关卡的意义"><a href="#时间控制对创建关卡的意义" class="headerlink" title="时间控制对创建关卡的意义"></a>时间控制对创建关卡的意义</h1><p>为什么要用时间控制来辅助创建关卡呢？这样设计的主要契机是：第一，《Lintrix》团队有成员在创建动画编辑器方面具有丰富经验；第二，Unity有一个时间轴，可以查看场景在任何时刻的表现。</p>
+<p>我们希望状态和属性，比如Unity对象的Transforms，可依赖于时间，并且能够跳转到特定时刻，因为如果这样的话，正常进行游戏的时候，所有对象都将拥有相应的状态。</p>
+<p>就游戏本身而言，因为《Lintrix》是确定性的游戏，所以可以很好地利用时间轴来实现时间控制。《Lintrix》场景的许多对象都在游戏进行时移动，并且它们彼此之间的相对位置非常重要，像时间轴这样的工具可以帮助关卡设计者更容易理解该关卡在游戏中的样子，以便在编辑器中进行创建。另外在大多数情况下，我们也很容易编辑某个时刻的关卡，从而让所有的对象在某个具体时间点定位或旋转，并且当时间设置为零或开始移动时，对象会自动重新计算其位置。</p>
+<p>我们提供了快捷键以便于对时间进行前进和后退操作。之后，关卡创建不仅是摆放物体后运行，更多的是向前或向后跳跃，以及重新定位对象，所以这些物体在关卡的任意时刻都要保持在其预先设计的位置。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-140c4eacca6d8184.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>这在《Lintrix》游戏中非常有用：一方面，希望玩家能够连接晶体来消灭所有的敌人；另一方面，又不希望这些连接会覆盖其他晶体或者彼此重叠。</p>
+<h1 id="如何避免对象碰撞"><a href="#如何避免对象碰撞" class="headerlink" title="如何避免对象碰撞"></a>如何避免对象碰撞</h1><p>实际上，在开发《Lintrix》游戏的过程中，重叠是个大问题，因为当场景中大多数对象移动时，很难防止它们过早碰撞。 大部分时间会出现类似这种糟糕的效果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-1dfbf81f5821ec9a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>为了理解物体如何移动，我们添加了移动轨迹。它让敌人在晶体之间移动而不碰撞的问题更加容易避免。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ab68351f900d0193.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>它也可用于可视化晶体运动。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9923e29bb11ab99d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>我们在创建关卡时使用时间控制进行“计时”。 这里的计时表示调整关卡某些部分的运动，使得在关卡运行时物体早点或晚点出现。 有时甚至希望来回移动所有的动作。<br>例如，在关卡开始时可以预留给玩家一些时间，以便他们能够预估将会发生的景象。 使用时间轴可以轻松地将时间移至负值，并将此新时间设为零表示开始。</p>
+<p>因为在编辑器模式下更新时间的脚本被添加到控制时间的对象，如果想要启用或禁用对象上更改时间的效果，只需启用或禁用此脚本，并使它们响应或忽略时间的更改。</p>
+<h1 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h1><p>下面我们一起来看看如何在Unity中实现该功能。</p>
+<p> <strong>创建接口</strong></p>
+<p>首先创建一个非常简单的接口，让所有需要随时间变化的脚本都实现这个接口：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface ITimeChanging</span><br><span class="line">&#123;</span><br><span class="line">    void AddTime(float dt);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>定义时间操控实体</strong></p>
+<p>这个时间操控实体可以为一组实现了ITimeChanging接口的对象调用这些方法。 实体接口如下：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class TimeManager</span><br><span class="line">&#123;</span><br><span class="line">    float Time &#123; get; set; &#125;</span><br><span class="line">    IEnumerable&lt;ITimeChanging&gt; TimeDependants &#123; get; set; &#125;</span><br><span class="line">    void SetTimeBruteForce(float time);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在编辑器模式中，有一个可以让用户直接在运行模式下控制时间的脚本。如下图所示，你可以看到关卡控制器通过它的Update()来增加时间。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-42a1bb7af7898650.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>示例项目下载链接：</p>
+<p><a href="https://github.com/alexander91/timelineExample" target="_blank" rel="noopener">https://github.com/alexander91/timelineExample</a></p>
+<p> <strong>为时间控制添加物体响应</strong></p>
+<p>我们设置了一个时间轴管理器，允许跳转到不同的时刻。<br>以及几个带有线性运动（LineMovement）脚本的立方体，LineMovement脚本继承自ITimeChaning，并监听TimeManager中的时间改变（AddTime），可以在监视器面板设置这个立方体以给定速度朝预定方向移动，代码如下：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class LineMovement : MonoBehaviour, ITimeChanging</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    [SerializeField]</span><br><span class="line">    Vector3 direction = Vector3.up;</span><br><span class="line"></span><br><span class="line">    [SerializeField]</span><br><span class="line">    float speed = 0.2f;</span><br><span class="line"></span><br><span class="line">    public void AddTime(float dt)</span><br><span class="line">    &#123;</span><br><span class="line">        transform.position += dt * speed * direction.normalized;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>综上所述，编辑器自定义时间控制工具非常适用于确定性的游戏，这将让整个工作流程分外轻松。 另外，如果游戏中的动作很简单，也可以很容易在编辑器中提供各种选项。</p>
+<h1 id="时间倒退"><a href="#时间倒退" class="headerlink" title="时间倒退"></a>时间倒退</h1><p>之前我们探讨了Unity中时间控制在<a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651040085&idx=1&sn=12fe0737b989460f1573c8c38289ca11&chksm=bd1a9e648a6d17721c6e7e72aa67623e057abcf14c020e0a469fc57450b3b5631f3108de55fc&scene=21#wechat_redirect" target="_blank" rel="noopener">关卡创建</a>方面的应用，今天我们将以解谜游戏<a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651040085&idx=1&sn=12fe0737b989460f1573c8c38289ca11&chksm=bd1a9e648a6d17721c6e7e72aa67623e057abcf14c020e0a469fc57450b3b5631f3108de55fc&scene=21#wechat_redirect" target="_blank" rel="noopener">《Lintrix》</a>为例，继续为大家分享在开发游戏的过程中，如何在Unity中实现时间倒退功能，并且对游戏设计与机制进行深入的探讨，希望能对大家有帮助。</p>
+<h1 id="时间倒退功能的必要性"><a href="#时间倒退功能的必要性" class="headerlink" title="时间倒退功能的必要性"></a>时间倒退功能的必要性</h1><p>在开发并试玩游戏的过程中，我们认识到玩家往往会忘记在关卡中犯过的错误，所以需要在游戏中做大量的记录。事实上，一些游戏关卡的设计目的就是为了从各个方向分散玩家的注意力，让玩家在某个时刻忽视某个方向来的敌人，最终导致游戏失败。当然，游戏中也有很多选择可以用来帮助玩家回想起发生过的事情，例如展示遇到过敌人的轨迹，或者在玩家之前的游戏过程中角色死亡次数比较多的地方设置警示点。</p>
+<p>但有人担心这样做会让屏幕变得混乱，或者让玩家容易重复之前的行为而不去思考新的方式，降低了游戏的趣味性。为了解决这个问题，我们发现利用时间轴复用功能进行提示似乎是个不错的选择。因为每次游戏失败之后，在玩家点击“重新开始”按钮后，以相反的方向显示之前的游戏经历，如下图所示：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-95c8da7ee1a5ea26.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><em>从失败那一刻开始，呈现最有可能导致失败的片段</em></p>
+<p>但若要有一个完美的解决方案，应该还要知道之前发生了什么事情，记录下来作为回放。</p>
+<h1 id="实现方法-1"><a href="#实现方法-1" class="headerlink" title="实现方法"></a>实现方法</h1><p>事实上，反向回放要做的工作几乎都在上一篇为关卡设置时间轴时就完成了。而下面将要讲述的方法，虽然可能这不是最优的解决方案，但是这种做法十分简单。</p>
+<p>虽然用之前已经实现的后退操作就能完成敌人和水晶的运动。但是关卡中的其它事件是由玩家或者玩家动作触发的。对于这种情况，需要为TimeManager添加新的接口：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public delegate void ReversingTimeActionDelegate();</span><br><span class="line">public class TimeManager</span><br><span class="line">&#123;</span><br><span class="line">    class ReversingActionWithTime</span><br><span class="line">    &#123;</span><br><span class="line">        public float Time &#123; get; set; &#125;</span><br><span class="line">        public ReversingTimeActionDelegate ActionToCarryOut &#123; get; set; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public void RememberAction(ReversingTimeActionDelegate action)</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们引入了ReversingActionWithTime这个类来记录动作的时间以及一个函数，它可以执行反向动作，这个逻辑与编程中的命令模式相似，但它是通过与时间绑定而不是点击ctrl+Z或其他类似的组合键来触发执行的。当关卡运行且动作发生时，只需要把RememberAction反向函数添加到这一时刻，如果想让时间倒退就可以调用这个函数。</p>
+<p>例如当有敌人碰到屏障且消失时，就添加这个函数。在之后点击重新开始后，就可以回放到这一时间点了。<br>这个函数会自动用于再次激活敌人的TimeManager调用，使敌人出现在屏幕上：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class Enemy</span><br><span class="line">&#123;</span><br><span class="line">    void onCollisionWithBarrier()</span><br><span class="line">    &#123;</span><br><span class="line">        timeManager.RememberAction(Activate);</span><br><span class="line">        Deactivate();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void Activate()</span><br><span class="line">    &#123;</span><br><span class="line">        // 进行激活相关的操作</span><br><span class="line">    &#125;</span><br><span class="line">    //.. 剩下的实现</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在时间倒退模式中，我们并不关心碰撞，因为这些碰撞已经在游戏正常运行的时候发生了。只需要倒退游戏状态以更快的速度跳过一些帧即可，<br>这里不需要太强大的设备，因为倒退可以按照正常速度的20倍进行，并且关卡倒退完成就相当于重置所有对象的位置。</p>
+<p>但是在某些情况下，也需要将一些变量的值存储在函数中。例如下图中黄色的搬运者敌人，一种在被消灭后会产生细小敌人的角色，它的确切运动需要记录下来，是因为生成的小敌人的运动轨迹会有1秒或2秒的随机延迟。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3af11a7f940de8e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<h1 id="视觉反馈"><a href="#视觉反馈" class="headerlink" title="视觉反馈"></a>视觉反馈</h1><p>为了让玩家更好地注意到时间倒退的发生，要添加一些视觉反馈功能。玩家非常喜欢游戏中时间倒退的部分，特别是引入像移动水晶或搬运者这些高端的东西的时候。时间倒退不仅是一个视觉体验，而且还能让玩家再回顾一次如何败给之前的敌人。这可以给玩家在游戏开始前留一些缓冲时间，可以减少一些挫败感。</p>
+<p>当玩家成功地通关之后，我们大概都会做相似的事情。比如把界面切换到游戏地图，而不仅仅是打开下一关卡，播放不同类型的动画并且有专门的地方让玩家查看进度。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-26cf5128bea95b78.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>例如在上图中，我们把红色的敌人高亮了，因为这是玩家需要看到的最重要的东西，同时，这样还会得到一个很好的视觉效果。我们还添加了时间倒退小图标，虽然最开始我们尝试过类似VHS的时间倒退效果，但这不符合我们的视觉风格。这个简单的效果只需使用灰度就能实现，但要让值大于0.7的红色像素保持不变。</p>
+<p>另外，如果想要将这个效果应用到相机而非单独的物体中，我们可以将着色器赋给某个材质，并将下面脚本绑定到相机中：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line">public class BasicPostEffect : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    [SerializeField]</span><br><span class="line">    Material mat;</span><br><span class="line"></span><br><span class="line">    void OnRenderImage(RenderTexture src, RenderTexture dst)</span><br><span class="line">    &#123;</span><br><span class="line">        Graphics.Blit(src, dst, mat);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接着，将新材质赋给相机对应的字段。有趣的事情是添加了这个效果之后，玩家最终可以直观的知道发生了什么事情，并且不再点击屏幕创建屏障了。同样有趣的是，有部分玩家观察到有一个倒退回放只会在十次重新开始后出现，但对这个回放丝毫没有印象。</p>
+<p>基于上述的讨论，我们还添加了双击屏幕任何地方就能跳过倒退回放的功能，双击屏幕也算是玩家想跳过的时候最常见的反应了。</p>
+<h1 id="延伸思考"><a href="#延伸思考" class="headerlink" title="延伸思考"></a>延伸思考</h1><p>这篇教程还可以举一反三，尝试一些其它用法。例如在游戏中，玩家失败后就及时提供指示信息，然后倒退一点时间并让玩家再次挑战。在我们看来，这比让整个关卡重新开始，或在玩家要行动的时候停下来提示的做法要好。还可以倒退回玩家连续多次失败的关节点。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>希望您能轻松上手这个功能，实现时间倒退的效果。在下一篇文章中，我们会关注利用了时间轴的游戏设计，了解如何解决一些常见的问题并提升游戏质量。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/blog/tags/Unity/">Unity</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/blog/images/qrcode_alipay.png" alt="支付宝"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/blog/2019/05/17/Unity/Unity项目设计与管理/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Unity项目设计与管理</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/blog/2019/05/17/Unity/Unity中的单元测试和错误追踪/">
+                <span class="level-item">Unity中的单元测试和错误追踪</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/blog/images/avatar.jpeg" alt="hcq0618">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        hcq0618
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Grab
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Beijing</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        110
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        10
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        18
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/hcq0618" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/hcq0618">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/blog/categories/AR/">
+            <span class="level-start">
+                <span class="level-item">AR</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/C/">
+            <span class="level-start">
+                <span class="level-item">C#</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity/">
+            <span class="level-start">
+                <span class="level-item">Unity</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">31</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity优化/">
+            <span class="level-start">
+                <span class="level-item">Unity优化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">24</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity插件/">
+            <span class="level-start">
+                <span class="level-item">Unity插件</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">26</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/VR/">
+            <span class="level-start">
+                <span class="level-item">VR</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/其他/">
+            <span class="level-start">
+                <span class="level-item">其他</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/后端/">
+            <span class="level-start">
+                <span class="level-item">后端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/小程序/">
+            <span class="level-start">
+                <span class="level-item">小程序</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/网络/">
+            <span class="level-start">
+                <span class="level-item">网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13.75px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11.25px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 17.5px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 18.75px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11.25px;">VR</a> <a href="/blog/tags/后端/" style="font-size: 15px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11.25px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11.25px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11.25px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16.25px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12.5px;">网络安全</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen is-sticky">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/blog/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">110</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/AR/">
+                        <span class="tag">AR</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C/">
+                        <span class="tag">C#</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C-优化/">
+                        <span class="tag">C#优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Google/">
+                        <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/UML/">
+                        <span class="tag">UML</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity/">
+                        <span class="tag">Unity</span>
+                        <span class="tag is-grey">31</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity优化/">
+                        <span class="tag">Unity优化</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity插件/">
+                        <span class="tag">Unity插件</span>
+                        <span class="tag is-grey">26</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/VR/">
+                        <span class="tag">VR</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/后端/">
+                        <span class="tag">后端</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/小程序/">
+                        <span class="tag">小程序</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/开源/">
+                        <span class="tag">开源</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/数据库/">
+                        <span class="tag">数据库</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/移动支付/">
+                        <span class="tag">移动支付</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络/">
+                        <span class="tag">网络</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络安全/">
+                        <span class="tag">网络安全</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/blog/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">110</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/AR/">
+                        <span class="tag">AR</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C/">
+                        <span class="tag">C#</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C-优化/">
+                        <span class="tag">C#优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Google/">
+                        <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/UML/">
+                        <span class="tag">UML</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity/">
+                        <span class="tag">Unity</span>
+                        <span class="tag is-grey">31</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity优化/">
+                        <span class="tag">Unity优化</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity插件/">
+                        <span class="tag">Unity插件</span>
+                        <span class="tag is-grey">26</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/VR/">
+                        <span class="tag">VR</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/后端/">
+                        <span class="tag">后端</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/小程序/">
+                        <span class="tag">小程序</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/开源/">
+                        <span class="tag">开源</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/数据库/">
+                        <span class="tag">数据库</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/移动支付/">
+                        <span class="tag">移动支付</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络/">
+                        <span class="tag">网络</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络安全/">
+                        <span class="tag">网络安全</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/blog/">
+                
+                    <img src="/blog/images/logo.svg" alt="Unity中的时间控制" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Hcq0618&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/hcq0618/blog/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/blog/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/blog/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/blog/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/blog/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/blog/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/blog/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/blog/js/insight.js" defer></script>
+<link rel="stylesheet" href="/blog/css/search.css">
+<link rel="stylesheet" href="/blog/css/insight.css">
+    
+</body>
+</html>

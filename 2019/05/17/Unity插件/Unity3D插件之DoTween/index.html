@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Unity3D插件之DoTween - Hcq0618&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="官方下载地址：http://dotween.demigiant.com/download.php 1、把下载到压缩包中的DOTween文件夹拷贝到项目文件中 2、安装DOTween：菜单栏——》Tools——》DOTween Unility Panel——》Setup DOTween…    配置DOTween（全局配置）   全局参数说明： Safe Mode：勾选时，间补动画平滑度会稍稍下降，">
+<meta name="keywords" content="Unity插件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unity3D插件之DoTween">
+<meta property="og:url" content="https://hcq0618.github.io/blog/2019/05/17/Unity插件/Unity3D插件之DoTween/index.html">
+<meta property="og:site_name" content="Hcq0618&#39;s Blog">
+<meta property="og:description" content="官方下载地址：http://dotween.demigiant.com/download.php 1、把下载到压缩包中的DOTween文件夹拷贝到项目文件中 2、安装DOTween：菜单栏——》Tools——》DOTween Unility Panel——》Setup DOTween…    配置DOTween（全局配置）   全局参数说明： Safe Mode：勾选时，间补动画平滑度会稍稍下降，">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://hcq0618.github.io/blog/images/og_image.png">
+<meta property="og:updated_time" content="2019-05-17T14:37:20.375Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Unity3D插件之DoTween">
+<meta name="twitter:description" content="官方下载地址：http://dotween.demigiant.com/download.php 1、把下载到压缩包中的DOTween文件夹拷贝到项目文件中 2、安装DOTween：菜单栏——》Tools——》DOTween Unility Panel——》Setup DOTween…    配置DOTween（全局配置）   全局参数说明： Safe Mode：勾选时，间补动画平滑度会稍稍下降，">
+<meta name="twitter:image" content="https://hcq0618.github.io/blog/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/blog/images/logo.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/blog/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?844bc0c79484177c3822e7a30257f8a3";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/blog/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/blog/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/blog/">
+            
+                <img src="/blog/images/logo.svg" alt="Unity3D插件之DoTween" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/blog/">主页</a>
+                
+                <a class="navbar-item" href="/blog/archives">文章</a>
+                
+                <a class="navbar-item" href="/blog/categories">分类</a>
+                
+                <a class="navbar-item" href="/blog/tags">标签</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/hcq0618/blog/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.386Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    21 分钟 读完 (大约 3202 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Unity3D插件之DoTween
+            
+        </h1>
+        <div class="content">
+            <p>官方下载地址：<a href="http://dotween.demigiant.com/download.php" target="_blank" rel="noopener">http://dotween.demigiant.com/download.php</a></p>
+<p>1、把下载到压缩包中的DOTween文件夹拷贝到项目文件中</p>
+<p>2、安装DOTween：菜单栏——》Tools——》DOTween Unility Panel——》Setup DOTween…</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0db62e43f50ac06f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<h1 id="配置DOTween（全局配置）"><a href="#配置DOTween（全局配置）" class="headerlink" title="配置DOTween（全局配置）"></a>配置DOTween（全局配置）</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-0816bf75493f442e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>全局参数说明：</p>
+<p>Safe Mode：勾选时，间补动画平滑度会稍稍下降，但可以防止出现目标体被销毁，tween还在运行的情况</p>
+<p>Editor Report：勾选时，当DOTween运行结束后会输出一份运行情况报告</p>
+<p>Log Behaviour：调试日志输出类型，ErrorsOnly、Verbose（详细的）、Default</p>
+<p>Settings Location：菜单文件存放目录</p>
+<p>Recyle Tweens：勾选时，间补动画不会被销毁，会缓存到对象池中，等待启用；（建议不勾选）</p>
+<p>AutoPlay：运行时自动播放类型，None/Auto play Sequence（自动播放Sequence）/Auto play<br>Tweener（自动播放Tweener）/All</p>
+<p>Update Type：动画每帧更新类型，正常Normal，固定帧更新Fixed，晚于正常帧更新Late</p>
+<p>TimeScale Independent：独立Tween时间缩放控制</p>
+<p>Ease：动画缓动类型（linear（线性的）；OutQuad（前快后慢）…具体参考：<a href="http://easings.net/zh-cn）" target="_blank" rel="noopener">http://easings.net/zh-cn）</a></p>
+<p>Ease Overshot：后偏移缓动值</p>
+<p>Ease Period：前偏移缓动值</p>
+<p>AutoKill：是否自动释放内存，后面需要重新启用的可以单独设置.SetAutoKill(false)</p>
+<p>Loop Type：循环类型，Restart（重新启动），Yoyo（来回循环），Incremental（增量循环）</p>
+<p>因为NGUI中已经有UITween了，可是UGUI中是没有这样的Tween的。我看过UGUI的Demo它的实现方式是用Animator来做的，这样每一个需要移动的对象就要挂上一个AmimationController并且还要去编辑动画。。<br>想想都恐怖，我觉得真没必要那么做。。</p>
+<p>我强烈建议新项目使用DoTween。&lt;<a href="http://dotween.demigiant.com/网址要翻墙，不然打不开。不要紧后面我把下载地址提供出来。" target="_blank" rel="noopener">http://dotween.demigiant.com/网址要翻墙，不然打不开。不要紧后面我把下载地址提供出来。</a><br>（目前DoTween还是测试版本）DoTween的文档写的非常详细，所以我就简单的只写两句代码，为大家抛砖引玉一下即可。</p>
+<p>不得不说的是，因为在做游戏暂停的时候通常会使用Time.Scale ＝ 0 ，可是暂停的时候UI如果需要继续有动画怎么办呢？在DoTween中只需要设置<br>tweener.SetUpdate(true); 即可。意思就是这个Tween是忽略TimeScale，如果不写的话 tweener.SetUpdate 是<br>false。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">using DG.Tweening; //不能少了这个命名空间。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Start</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//让TimeScale = 0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">timeScale</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Image imagetransform&quot;Image&quot;GetComponentImage</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//调用DOmove方法来让图片移动</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Tweener tweenerimagerectTransformDOMoveVector3</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//设置这个Tween不受Time.scale影响</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tweenerSetUpdate</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//设置移动类型</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tweenerSetEaseLinear</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tweeneronCompletedelegate</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Debug&quot;移动完毕事件&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">imagematerialDOFadeonCompletedelegate</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Debug&quot;褪色完毕事件&quot;</span><br></pre></td></tr></table></figure>
+
+<p>Tween的移动类型有很多种，比如匀速运动、加速运动、减速运动，等等。如果你拿捏不准你需要用什么移动类形式。</p>
+<p>&lt;<a href="http://www.robertpenner.com/easing/easing_demo.html你可以在这里预览一下那种移动类型更佳适合你。" target="_blank" rel="noopener">http://www.robertpenner.com/easing/easing_demo.html你可以在这里预览一下那种移动类型更佳适合你。</a></p>
+<p>最后是DoTween的类库，如果你没有翻墙就下载我的吧， 是最新的。 欢迎大家在留言处和我一起讨论，加油！Fighting!</p>
+<p>&lt;<a href="http://pan.baidu.com/s/1o6qiefC" target="_blank" rel="noopener">http://pan.baidu.com/s/1o6qiefC</a></p>
+<p>官方文档链接：<a href="http://dotween.demigiant.com/documentation.php#globalSettings" target="_blank" rel="noopener">http://dotween.demigiant.com/documentation.php#globalSettings</a></p>
+<p>普通版下载地址：<a href="http://dotween.demigiant.com/download.php" target="_blank" rel="noopener">http://dotween.demigiant.com/download.php</a></p>
+<p>pro版下载地址：<a href="http://pan.baidu.com/s/1dEzTQkL" target="_blank" rel="noopener">http://pan.baidu.com/s/1dEzTQkL</a></p>
+<p>(pro版提供DOTween Animation和DOTween Path这两个组件，支持可视化编辑)</p>
+<p>移动类型：<a href="http://robertpenner.com/easing/easing_demo.html" target="_blank" rel="noopener">http://robertpenner.com/easing/easing_demo.html</a></p>
+<p>DOTween真的比iTween好很多：</p>
+<p>1.编写方面更加人性化</p>
+<p>2.效率高很多，其中有一点是因为iTween使用的是unity内置的SendMessage</p>
+<p>DOTween一般的样子是这样滴：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">using DG.Tweening;</span><br><span class="line"></span><br><span class="line">transform.DOMoveX(45,</span><br><span class="line">1).SetDelay(2).SetEase(Ease.OutQuad).OnComplete(MyCallback);</span><br></pre></td></tr></table></figure>
+
+<p>好了，正式开始！</p>
+<p>一些名词：</p>
+<p> <strong>Tweener</strong> ：补间动画</p>
+<p> <strong>Sequence</strong> ：相当于一个Tweener的链表，可以通过执行一个Sequence来执行一串Tweener</p>
+<p> <strong>Tween：</strong> Tweener + Sequence</p>
+<p> <strong>Nested tween</strong> ：Sequence中的一个Tweener称为一个Nested tween</p>
+<p>主要的方法(就是最常用的)：</p>
+<p>1.以开头的方法：就是的方法。例如：transform.DOMoveX(,)</p>
+<p>2.以 <strong>Set</strong> 开头的方法：设置补间动画的一些。例如：myTween.SetLoops(, LoopType.Yoyo)</p>
+<p>3.以开头的方法：补间动画的 <strong>回调</strong> 方法。例如：myTween.OnStart(myStartFunction)</p>
+<p>DOTween初始化与全局设置：</p>
+<p>当你第一次创建一个Tween时，DOTween就会自动初始化(只初始化一次)，使用缺省值。</p>
+<p>当然，也可以使用DOTween.Init方法进行自定义，但要在第一次创建一个Tween前。所有创建的Tween都会受DOTween.Init方法的影响。</p>
+<p>但之后，你也可以通过DOTween类的一些静态方法或者变量来修改全局设置：</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">static LogBehaviour DOTween.logBehaviour</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> static DOTween.showUnityEditorReport</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> staticfloat DOTween.timeScale</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> static DOTween.useSafeMode</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> static DOTween.SetTweensCapacity( maxTweeners,  maxSequences)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> static DOTween.defaultAutoKill</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> static AutoPlay DOTween.defaultAutoPlay</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> staticfloat DOTween.defaultEaseOvershootOrAmplitude</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> staticfloat DOTween.defaultEasePeriod</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> static Ease DOTween.defaultEaseType</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> static LoopType DOTween.defaultLoopType</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> static DOTween.defaultRecyclable</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> static DOTween.defaultTimeScaleIndependent</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> static UpdateType DOTween.defaultUpdateType</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> static DOTween.Init(bool recycleAllByDefault = false, bool useSafeMode =</span><br><span class="line">true, LogBehaviour logBehaviour = LogBehaviour.ErrorsOnly)</span><br></pre></td></tr></table></figure>
+
+<p>recycleAllByDefault ：如果为true，则当Tween完成时就会被回收，放到一个池中；否则就会被destroy</p>
+<p>useSafeMode ：效率会稍微降低，但更安全</p>
+<p>logBehaviour ：默认值为只打印错误信息</p>
+<p>创建Tweener(有三种方法)：</p>
+<p> static DOTween.To(getter, setter, to, float duration)</p>
+<p>以DOTween.To(() = myVector, x = myVector = x,  Vector3(3, 4, 8),<br>1);为例，就是对myVector进行插值，目标值为Vector3(3, 4, 8)</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">transform.DOMove( Vector3(2,3,4), 1);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> rigidbody.DOMove( Vector3(2,3,4), 1);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> material.DOColor(Color.green, 1);</span><br></pre></td></tr></table></figure>
+
+<p>对于unity内置的一些组件，都可以通过”.+DO开头的方法”的方式创建补间动画</p>
+<p>以transform.DOMove(new Vector3(2,3,4), 1)为例，new<br>Vector3(2,3,4)是最终值，意思是用一秒的时间运动到Vector3(2,3,4)</p>
+<p>而transform.DOMove(new Vector3(2, 3, 4), 1) <strong>.From()</strong><br>，就是从Vector3(2,3,4)运动到当前位置</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">static DOTween.Punch(getter, setter, Vector3 direction, float duration,</span><br><span class="line">vibrato, float elasticity)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> static DOTween.Shake(getter, setter, float duration, float/Vector3 strength,</span><br><span class="line">vibrato, float randomness,  ignoreZAxis)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> static DOTween.ToAlpha(getter, setter, float duration)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> static DOTween.ToArray(getter, setter, float duration)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> static DOTween.ToAxis(getter, setter, float duration, AxisConstraint axis)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> static DOTween.To(setter, float startValue, float endValue, float duration)</span><br></pre></td></tr></table></figure>
+
+<p>创建Sequence：</p>
+<p>Sequence可以包含Sequence，当执行一个Sequence时会 <strong>顺序执行Tweener</strong> ，可以使用Insert方法实现同时执行。</p>
+<p>Sequence的方法：</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">static DOTween.Sequence()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> Append(Tween tween)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> AppendCallback(TweenCallback callback)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> AppendInterval(float interval)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> Insert(float atPosition, Tween tween)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> InsertCallback(float atPosition, TweenCallback callback)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> Join(Tween tween)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> Prepend(Tween tween)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> PrependCallback(TweenCallback callback)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> PrependInterval(float interval)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // Grab a free Sequence to use</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> Sequence mySequence = DOTween.Sequence();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // Add a movement tween at the beginning</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> mySequence.Append(transform.DOMoveX(1, 1));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // Add a rotation tween as soon as the previous one is finished</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> mySequence.Append(transform.DORotate( Vector3(0, 180, 0), 1));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // Delay the whole Sequence by 1 second</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> mySequence.PrependInterval(1);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // Insert a scale tween for the whole duration of the Sequence</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> mySequence.Insert(0, transform.DOScale( Vector3(3, 3, 3),</span><br><span class="line">mySequence.Duration()));</span><br></pre></td></tr></table></figure>
+
+<p>等同于：</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Sequence mySequence = DOTween.Sequence();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> mySequence.Append(transform.DOMoveX(45, 1))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">           .Append(transform.DORotate( Vector3(0, 180, 0), 1))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">           .PrependInterval(1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">           .Insert(0, transform.DOScale( Vector3(3, 3, 3),</span><br><span class="line">mySequence.Duration()));</span><br></pre></td></tr></table></figure>
+
+<p>上面我们提到了全局设置，这里我们再说一说针对Tweener和Sequence的局部设置</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">float timeScale</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> SetAs(Tween tween \ TweenParams tweenParams)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> SetAutoKill( autoKillOnCompletion =</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> SetEase(Ease easeType \ AnimationCurve animCurve \ EaseFunction customEase)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> SetId(object</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> SetLoops( loops, LoopType loopType = LoopType.Restart)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> SetRecyclable( recyclable)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> SetUpdate(UpdateType updateType,  isIndependentUpdate = false</span><br></pre></td></tr></table></figure>
+
+<p>注意的一点是SetUpdate方法可以让目标忽略timeScale</p>
+<p>回调方法：</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">OnComplete(TweenCallback callback)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> OnKill(TweenCallback callback)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> OnPlay(TweenCallback callback)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> OnPause(TweenCallback callback)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> OnRewind(TweenCallback callback)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> OnStart(TweenCallback callback)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> OnStepComplete(TweenCallback callback)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> OnUpdate(TweenCallback callback)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> OnWaypointChange(TweenCallback&lt; callback)</span><br></pre></td></tr></table></figure>
+
+<p>还有一些针对部分Tweener的特殊的局部设置：</p>
+<p> <strong>注意SetOptions方法必须紧跟Tweener</strong> ，就好像这样：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DOTween.To(()= myVector, x= myVector = x, new Vector3(2,2,2),</span><br><span class="line">1).SetOptions(AxisConstraint.Y, true);</span><br></pre></td></tr></table></figure>
+
+<p>TweenParams：</p>
+<p>就是可以将一些参数应用到多个Tweener中</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// Store settings for an infinite looping tween with elastic ease</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> TweenParams tParms =  TweenParams().SetLoops(-1).SetEase(Ease.OutElastic);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // Apply them to a couple of tweens</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> transformA.DOMoveX(15, 1).SetAs(tParms);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> transformB.DOMoveY(10, 1).SetAs(tParms);</span><br></pre></td></tr></table></figure>
+
+<p>操作Tweener(有三种方法)：</p>
+<p>1.DOTween静态方法</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">// Pauses all tweens</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> DOTween.PauseAll();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // Pauses all tweens that have &quot;badoom&quot; as an id</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> DOTween.Pause(&quot;badoom&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // Pauses all tweens that have someTransform as a target</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> DOTween.Pause(someTransform);</span><br></pre></td></tr></table></figure>
+
+<p>2.Tweener方法</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">myTween.Pause();</span><br></pre></td></tr></table></figure>
+
+<p>3.部件.+以DO开头的方法</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">transform.DOPause();</span><br></pre></td></tr></table></figure>
+
+<p>以上的是Pause方法，以下的是其余的操作方法。上面三种方式中，DOTween和Tweener都有以下的操作方法，而部件的话，要在前面加上”DO”。</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line">CompleteAll/Complete()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> FlipAll/Flip()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> GotoAll/Goto(float andPlay = false</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> KillAll/Kill( complete =</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> PauseAll/Pause()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> PlayAll/Play()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> PlayBackwardsAll/PlayBackwards()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> PlayForwardAll/PlayForward()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> RestartAll/Restart( includeDelay =</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> RewindAll/Rewind( includeDelay =</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> TogglePauseAll/TogglePause()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using UnityEngine;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using System.Collections;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using DG.Tweening;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> publicclass Test : MonoBehaviour &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     public RectTransform rt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     private isIn = false</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     // Use this for initialization</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      Start ()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         //修改的是世界坐标</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         //Tweener t = rt.DOMove(Vector3.zero, 0.3f);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         //修改的是局部坐标</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         Tweener t = rt.DOLocalMove(Vector3.zero, 0.3f);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         //默认动画播放完成会自动销毁</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         t.SetAutoKill(false</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         t.Pause();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     public OnClick ()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">          (!isIn)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             //将开始该物体的所有Tweener</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             rt.DOPlayForward();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             rt.DOPlayBackwards();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         isIn = !isIn;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-abb38803f8fd7152.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using System.Collections;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using DG.Tweening;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using UnityEngine.UI;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> publicclass Test2 : MonoBehaviour &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     public Transform t;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     public Text text;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     // Use this for initialization</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      Start ()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         //Vector3.zero是绝对位置，表示从Vector3.zero移动到当前位置</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         //t.DOMove(Vector3.zero, 2).From();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         //默认为false</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         //Vector3.forward是相对位置，表示从Vector3.forward加当前位置移动到当前位置</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         t.DOMove(Vector3.forward, 2).From(</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         //逐字显示</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         text.DOText(&quot;宏哥宏哥宏哥宏哥宏哥宏哥宏哥宏哥宏哥宏哥宏哥宏哥宏哥宏哥宏哥宏哥”</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-751b6c01a5d10c26.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>1.如何对变量进行动画（dotween控制的变量改变动画）</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//对变量做一个动画（通过差值的方式去修改一个值得变化）</span><br><span class="line"></span><br><span class="line">//当前值   把修改的值（当前值到目标值的差值）赋值给myVvalue（unity计算好的）   目标值   变化时间</span><br><span class="line"></span><br><span class="line">//前两个参数（委托类型的变量）实为两个方法</span><br><span class="line"></span><br><span class="line"> DOTween.To(()=myValue,x=myValue=x,new Vector3(10,10,10),2);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> DOTween.To(()=myValue2,x=myValue2=x,10,2);</span><br></pre></td></tr></table></figure>
+
+<p>2.控制cube和UI面板的动画（应用到实际物体上）</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public RectTransform taskPanelTransform;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //taskPanelTransform.position=myValue;//世界坐标</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> taskPanelTransform.localPosition=myValue;</span><br></pre></td></tr></table></figure>
+
+<p>3.动画的快捷播放方式DOMove，动画的前放和倒放</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">////播放它时有一返回值Ttweener,Tweener对象保存这个动画的信息，每次调用都会创建一个tweener对象，这个对象是dotween来管理</span><br><span class="line"></span><br><span class="line"> //Tweener tweener=taskPanelTransfrom.DOLocalMove (new Vector3 (0, 0, 0),</span><br><span class="line">0.5f);//播放此动画时会创建一个动画，默认播放完成后即销毁，所以回放无效</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //tweener.SetAutoKill(false);//使动画不被销毁.但造成的后果是每次都会创建耗费性能.解决方法，将其放入start方法中</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> taskPanelTransfrom.DOPlay();//只会播放一次</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> taskPanelTransfrom.DOPlayForward();//与下方的成对.播放对象身上所有动画</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> taskPanelTransfrom.DOPlayBackwards ();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> tweener.Pause();//为使初始不播放动画，暂停动画</span><br></pre></td></tr></table></figure>
+
+<p>4.From Tweens</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//cubeTransform.DOLocalMoveX(5, 1);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //cubeTransform.DOLocalMoveX(5, 1).From();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //默认是从当前位置运行到目标位置，加上from方法后表示从目标位置移动到当前位置。from可被所有动画使用</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> cubeTransform.DOLocalMoveX(5,</span><br><span class="line">3).From(true);//默认为false。加上true后为相对坐标（相当于从当前坐标加上5运行到当前位置）</span><br></pre></td></tr></table></figure>
+
+<p>5.动画的属性设置（动画曲线和事件函数）</p>
+<p>6.动画的生命周期和生命周期函数</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">Tweener tweener = this.transform.DOLocalMoveX (0, 3);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //tweener.SetEase (Ease.InBack);//先远离目标位置再快速的到达目标位置</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //tweener.SetEase(Ease.InBounce);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //tweener.SetEase(Ease.OutBounce);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //tweener.SetLoops(2);//循环播放的次数</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> tweener.OnComplete(OnTweenComplete);//动画播放完成后调用什么事件</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> void OnTweenComplete()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> Debug.Log (&quot;动画播放完成后”);</span><br></pre></td></tr></table></figure>
+
+<p>7.对话框文字动画，屏幕震动效果</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">text.DOText(&quot;设计模式 设计模式 设计模式&quot;,2,true);//内容设置，时间，是否使用富文本</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //只是camera随机振动，最后还会回到原地</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //transform.DOShakePosition (1);//随机振动。时间  强度（0-1的值  或者  位置向量&lt;震动向量）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> transform.DOShakePosition(1,new Vector3(3,3,0));</span><br></pre></td></tr></table></figure>
+
+<p>8.颜色和透明度动画</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">text.DOColor (Color.red, 2);//颜色渐变</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> text.DOFade (1,3);//修改alpha值</span><br></pre></td></tr></table></figure>
+
+<p>9.DOTween官方网站</p>
+<p>DO开头  开启动画</p>
+<p>Set     设置属性</p>
+<p>10.动画的组件可视化创建方式DOTweenAnimation</p>
+<p>11.DOTweenPath路径编辑器</p>
+<p>（1）Tween Options.Loops  -1 循环播放</p>
+<p>（2）Path Tween Options.Path Type路径类型（折现，圆滑）</p>
+<p>.Close Path起点终点相连</p>
+<p>.Orientation朝向</p>
+<p>（3）Path Editor Options.Relative相对的，勾选后路径相对于对象，随对象移动。单个节点移动无碍</p>
+<p>.Handles Type路径节点图标类型</p>
+<p>.Handles Mode指向下一个点的模式（3d or 2d）</p>
+<p>（4）Button 点击事件控制动画的播放，DOTweenPath.DOTooglePause动画播放按钮（播放时点击可暂停，暂停时点击可播放）</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/blog/tags/Unity插件/">Unity插件</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/blog/images/qrcode_alipay.png" alt="支付宝"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/blog/2019/05/17/Unity插件/精美实用的Unity场景资源/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">精美实用的Unity场景资源</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/blog/2019/05/17/小程序/小程序整理/">
+                <span class="level-item">小程序整理</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/blog/images/avatar.jpeg" alt="hcq0618">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        hcq0618
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Grab
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Beijing</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        110
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        10
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        18
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/hcq0618" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/hcq0618">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/blog/categories/AR/">
+            <span class="level-start">
+                <span class="level-item">AR</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/C/">
+            <span class="level-start">
+                <span class="level-item">C#</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity/">
+            <span class="level-start">
+                <span class="level-item">Unity</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">31</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity优化/">
+            <span class="level-start">
+                <span class="level-item">Unity优化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">24</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity插件/">
+            <span class="level-start">
+                <span class="level-item">Unity插件</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">26</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/VR/">
+            <span class="level-start">
+                <span class="level-item">VR</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/其他/">
+            <span class="level-start">
+                <span class="level-item">其他</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/后端/">
+            <span class="level-start">
+                <span class="level-item">后端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/小程序/">
+            <span class="level-start">
+                <span class="level-item">小程序</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/网络/">
+            <span class="level-start">
+                <span class="level-item">网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13.75px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11.25px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 17.5px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 18.75px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11.25px;">VR</a> <a href="/blog/tags/后端/" style="font-size: 15px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11.25px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11.25px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11.25px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16.25px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12.5px;">网络安全</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen is-sticky">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/blog/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">110</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/AR/">
+                        <span class="tag">AR</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C/">
+                        <span class="tag">C#</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C-优化/">
+                        <span class="tag">C#优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Google/">
+                        <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/UML/">
+                        <span class="tag">UML</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity/">
+                        <span class="tag">Unity</span>
+                        <span class="tag is-grey">31</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity优化/">
+                        <span class="tag">Unity优化</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity插件/">
+                        <span class="tag">Unity插件</span>
+                        <span class="tag is-grey">26</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/VR/">
+                        <span class="tag">VR</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/后端/">
+                        <span class="tag">后端</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/小程序/">
+                        <span class="tag">小程序</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/开源/">
+                        <span class="tag">开源</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/数据库/">
+                        <span class="tag">数据库</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/移动支付/">
+                        <span class="tag">移动支付</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络/">
+                        <span class="tag">网络</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络安全/">
+                        <span class="tag">网络安全</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/blog/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">110</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/AR/">
+                        <span class="tag">AR</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C/">
+                        <span class="tag">C#</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C-优化/">
+                        <span class="tag">C#优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Google/">
+                        <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/UML/">
+                        <span class="tag">UML</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity/">
+                        <span class="tag">Unity</span>
+                        <span class="tag is-grey">31</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity优化/">
+                        <span class="tag">Unity优化</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity插件/">
+                        <span class="tag">Unity插件</span>
+                        <span class="tag is-grey">26</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/VR/">
+                        <span class="tag">VR</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/后端/">
+                        <span class="tag">后端</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/小程序/">
+                        <span class="tag">小程序</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/开源/">
+                        <span class="tag">开源</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/数据库/">
+                        <span class="tag">数据库</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/移动支付/">
+                        <span class="tag">移动支付</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络/">
+                        <span class="tag">网络</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络安全/">
+                        <span class="tag">网络安全</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/blog/">
+                
+                    <img src="/blog/images/logo.svg" alt="Unity3D插件之DoTween" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Hcq0618&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/hcq0618/blog/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/blog/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/blog/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/blog/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/blog/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/blog/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/blog/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/blog/js/insight.js" defer></script>
+<link rel="stylesheet" href="/blog/css/search.css">
+<link rel="stylesheet" href="/blog/css/insight.css">
+    
+</body>
+</html>
