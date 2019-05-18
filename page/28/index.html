@@ -8,7 +8,7 @@
 
 
     <meta name="description" content="A blog for bookmarking and recording technology">
-<meta name="keywords" content="Android,Flutter,Kotlin,ReactNative,VR,Unity,Python,C#,Backend,NodeJs,Javascript,TypeScript,Hexo,Framework,Architecture,Java">
+<meta name="keywords" content="Android,Flutter,Kotlin,ReactNative,VR,Unity,Python,C#,Backend,NodeJs,Javascript,TypeScript,Hexo,Framework,Architecture,Java,MiniProgram">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Hcq0618&#39;s Blog">
 <meta property="og:url" content="https://hcq0618.github.io/blog/page/28/index.html">
@@ -153,6 +153,96 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.763Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    8 分钟 读完 (大约 1171 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/关于界面高度height的计算/">关于界面高度height的计算</a>
+            
+        </h1>
+        <div class="content">
+            <p>首先看一个例子，新建一个Panel，在下面添加两个Button，分别命名为Button、Button2。</p>
+<p>1、给Panel添加一个VerticalLayoutGroup组件，ChildForceExpand属性中勾上Width。</p>
+<p>2、给Button、Button2添加LayoutElement组件，其中Button的FlexibleHeight设置为0.3，Button2的FlexibleHeight设置为0.1</p>
+<p>3、将Panel的高度设置为100</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a61dd914895a4b69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c74d44cba15dfecb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>这时我们发现，Button的高度是70，Button2的高度是30。奇怪，这个高度是怎么算出来的呢？</p>
+<p>网上搜索一番，竟然很少有人讨论uGUI的AutoLayout，尤其是flexibleWidth/Height属性的意义，官方文档也语焉不详。这时只能放大招了，uGUI已经开源，索性把代码拉下来看看到底怎么实现的。下面是托管代码的地址：</p>
+<p><a href="https://bitbucket.org/Unity-Technologies/ui" target="_blank" rel="noopener">https://bitbucket.org/Unity-Technologies/ui</a></p>
+<p>uGUI的AutoLayout有三个核心接口，定义在ILayoutElement.cs文件中：</p>
+<p>ILayoutElement</p>
+<p>ILayoutController</p>
+<p>ILayoutIgnorer</p>
+<p>结构很清晰，由ILayoutElement提供布局信息，ILayoutController来控制布局，ILayoutIgnore提供给UI忽略AutoLayout的能力。</p>
+<p>例子中使用的VerticalLayoutGroup继承自HorizontalOrVerticalLayoutGroup，这个类实现了布局的核心逻辑，代码量不多，我就直接贴上来了</p>
+<p>其中SetChildrenAlongAxis方法清晰地阐释了minHeight,preferredHeight,flexibleHeight的涵义。</p>
+<p>为了帮助理解，我们先定义几个概念。我们把当前UI所有同级并参与自动布局的组件的preferredHeight总和称为totalPreferredHeight，minHeight的总和称为totalMinHeight，父UI的真实高度称为realHeight。总结如下：</p>
+<p>1、 <strong>minHeight</strong></p>
+<p>在自动布局中，此UI最小高度不会小于minHeight。这个参数定义了realHeight &lt;
+totalMinHeight时，当前子UI的height为minHeight。</p>
+<p>2、 <strong>preferredHeight</strong></p>
+<p>可以理解为，UI自身希望的高度。</p>
+<p>当totalMinHeight &lt; realHeight &lt;
+totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight之间一定百分比，把这个比例应用到每一个接受自动布局的子UI上，即是我们最终得到的效果</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-1240ece0245c46cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>3、 <strong>flexibleHeight</strong></p>
+<p>当realHeight &gt;<br>totalPreferredHeight时，父UI会剩下一部分高度。flexibleHeight就是告诉AutoLayout系统，应该怎么瓜分剩下的高度，使子UI填充满父UI。flexibleHeight默认是-1，不会进行扩充。当flexibleHeight</p>
+<blockquote>
+<p>0时，flexibleHeight值作为权重来计算当前子UI最终的高度，公式如下：</p>
+</blockquote>
+<p>height = preferredHeight + (flexibleHeight / totalFlexibleHeight) *
+(realHeight - totalPreferredHeight)</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7dd199a2b1bbe3d0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>flexibleHeight示意图</p>
+<p>弄清楚这些概念后，我们再看一下文章开头的例子。</p>
+<p>button1的flexibleHeight=0.3，button2的flexibleHeight=0.1，minHeight和preferredHeight都没有设置，按道理高度应该分别是75、25。为什么会出现70、30？</p>
+<p>查一下ILayoutElement的实现类</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4d6556ae3f039540.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>ILayoutElement实现类</p>
+<p>发现Image和Text实现了ILayoutElement，而我们的按钮中默认是有一个Image组件的，用脚本获取这个Image然后打印它的preferredHeight，发现等于10</p>
+<p>再套用flexibleHeight的计算公式：</p>
+<p>这里有个问题，一个GameObject上挂载两个ILayoutElement组件，是怎么决定用哪个的？这个可以在LayoutUtility.cs中找到答案：</p>
+<p>原来LayoutElement有一个layoutPriority属性用来决定优先级，这个属性暂时还没有在编辑器中暴露，也许后续版本会加强这方面的能力。</p>
+<p>AutoLayout系统会选用优先级最高的ILayoutElement里相应属性返回。Image和Text的优先级默认是0，LayoutElement默认优先级是1。所以正常情况会使用LayoutElement中的设置，但我们的例子中，LayoutElement没有设置preferredHeight，LayoutElement里布局相关的初始值都是-1，所以还是使用了Image的preferredHeight:10。</p>
+<p>【结语】</p>
+<p>其实，只要官方文档描述详细一些，根本没必要浪费时间去查这个来龙去脉。这几天在学习<a href="http://lib.csdn.net/base/1" target="_blank" rel="noopener">Swift</a>，苹果人性化的Programming<br>Guide加上iBooks的配合，使得学习这门语言真是件轻松愉快的事情。相比之下，Unity简直是在虐待开发者。Unity、Unreal、Cryengine等最近也为争市场弄得头破血流，除了降价开源提供新特性之外，完善文档也是不容忽视的工作，毕竟开发者才是这些厂商真正的衣食父母。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.730Z">2019-05-17</time>
                 
                 <div class="level-item">
@@ -285,83 +375,6 @@ _</p>
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.713Z">2019-05-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    9 分钟 读完 (大约 1353 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/三款Unity插件带您玩转人脸识别与模拟/">三款Unity插件带您玩转人脸识别与模拟</a>
-            
-        </h1>
-        <div class="content">
-            <p>若想让游戏或电影中的虚拟角色表现得更加真实，面部表情是至关重要的。人脸识别技术则借助真人表演来为虚拟角色赋予丰富的表情与面部动作，小至皱眉带动眼部肌肉的抽动，大致对话时嘴唇的张合，均可通过人脸识别技术来实现。</p>
-<p>本文为大家介绍三款在Unity中实现人脸识别的插件，再结合Unity引擎的实时渲染功能，轻松定制出次世代的虚拟角色。</p>
-<h1 id="NaturalFront-3D-Face-Animation-Plugin-Pro"><a href="#NaturalFront-3D-Face-Animation-Plugin-Pro" class="headerlink" title="NaturalFront 3D Face Animation Plugin Pro"></a>NaturalFront 3D Face Animation Plugin Pro</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-ced7ccb429aaf812.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>如果想要构建三维人脸模型，却没有Kinect这类动作捕捉硬件，别担心，Unity可以用一张照片帮助您实现人脸模型构建。NaturalFront 3D<br>Face Animation Plugin<br>Pro可以帮您以FBX格式导出自定义的高质量3D头部模型及逼真的动画，能为动画设计师与爱好者们节省大量建模和动画制作的时间。</p>
-<p>整个建模、生成动画及导出FBX文件的过程均可在Unity编辑器中完成。您也可以根据需求快速调整面部表情及唇部动作。虽然功能如此强大，但构建模型的过程并不复杂。首先需要上传一张人脸的照片，按照参考图选定人脸的标志点，例如眼角、嘴角、鼻翼等。接下来就是等待计算的过程，您会得到一张如下图所示的人脸模型。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-d36949fcf054b0af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>所有步骤仅需动动鼠标或滑动建模工具栏的滑块即可完成，实现自定义表情与嘴型，无需进行骨骼绑定、设置关键帧或动作捕捉。</p>
-<p>下载链接：</p>
-<p><a href="https://www.assetstore.unity3d.com/en/#!/content/82488" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/82488</a></p>
-<h1 id="Cloud-Face-Detection"><a href="#Cloud-Face-Detection" class="headerlink" title="Cloud Face Detection"></a>Cloud Face Detection</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-0565cd53929ea8cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>这是一款免费的AI脚本插件，它非常适用于刚接触Unity人脸识别，想在短时间内完成一些好玩应用的开发者。Cloud Face<br>Detection包括两个易学易用的人脸识别Demo，可以直接应用到您自己的Unity工程中。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-50351847a7a8fb20.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>该插件不仅可以检测人脸，Demo中还包括了性别、年龄和微笑程度评估。这个功能的意义在于，您可以有根据地在运行时调节游戏进度，追求最佳的用户体验。它支持多人脸识别模式，甚至支持识别侧脸。该插件使用了Microsoft<br>Azure 的识别服务，同时支持Unity Personal个人版与Unity Pro专业版。</p>
-<p>下载地址：</p>
-<p><a href="https://www.assetstore.unity3d.com/en/#!/content/54489" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/54489</a></p>
-<h1 id="Fruit-With-Faces-3D-Pack"><a href="#Fruit-With-Faces-3D-Pack" class="headerlink" title="Fruit With Faces 3D Pack"></a>Fruit With Faces 3D Pack</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-b0e450545b019430.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>如果您想为自己的游戏塑造一些可以引起玩家共鸣的角色，就需要对游戏角色的面部表情下功夫。Fruit With Faces 3D<br>Pack这款插件为您提供了37种常见水果与蔬菜Q版模型，以及12种可爱的表情动画，包括困惑、快乐、古怪、生气、震惊、悲伤等常见的人类表情。</p>
-<p> _  
-_</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6aa4a642e6bd767e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><em>以苹果为例的12种表情动画</em></p>
-<p>模型虽然小巧精致，但也极具灵活性，您可以根据需求任意组合，甚至上传其他自制的模型，为它们赋予特定的表情。因为水果模型与表情模型是相互独立的预制件，使用起来也十分方便。</p>
-<p> _  
-_</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-8d8b9b2a9db91bad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><em>独立的表情模型和蔬果模型，便于分开使用</em></p>
-<p>素材具有1024x1024的精美手绘纹理，且提供.blend文件便于您的再次编辑。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c9c3b59cb2b5df90.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>快来试用一下，一起来打造拟人化的游戏角色吧！</p>
-<p>下载地址：</p>
-<p><a href="https://www.assetstore.unity3d.com/en/#!/content/34854" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/34854</a></p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>其实本文所介绍的人脸识别与模拟插件有很大的延展空间，您可以借助它们为自己的应用增加崭新的内容与炫目的效果，还可以在此基础上进一步完善与修改，与现有的项目进行集成。借助上述插件，您可能实现属于自己的人脸模型和人脸识别解决方案，或者塑造拟人化的模型。</p>
-<p>如果您有好的案例，不妨成为Asset<br>Store资源商店的发布者，将您的创意与来自世界的开发者分享，为您的游戏开发提供动力。您可以点击【阅读原文】进入Unity官方中文社区(forum.china.unity3d.com)了解更多相关内容和精品插件。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -434,7 +447,7 @@ _</p>
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        110
+                        111
                     </p>
                 </div>
             </div>
@@ -444,7 +457,7 @@ _</p>
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        10
+                        11
                     </p>
                 </div>
             </div>
@@ -454,7 +467,7 @@ _</p>
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        18
+                        19
                     </p>
                 </div>
             </div>
@@ -541,6 +554,14 @@ _</p>
                 <span class="level-item tag">2</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Web/">
+            <span class="level-start">
+                <span class="level-item">Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
             <span class="level-start">
                 <span class="level-item">其他</span>
@@ -584,7 +605,7 @@ _</p>
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13.75px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11.25px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 17.5px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 18.75px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11.25px;">VR</a> <a href="/blog/tags/后端/" style="font-size: 15px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11.25px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11.25px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11.25px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16.25px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12.5px;">网络安全</a>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13.75px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11.25px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 17.5px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 18.75px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11.25px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 15px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11.25px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11.25px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11.25px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16.25px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12.5px;">网络安全</a>
     </div>
 </div>
 
@@ -598,6 +619,19 @@ _</p>
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/Web/GithubPage+Hexo搭建个人主页/" class="has-link-black-ter is-size-6">GithubPage+Hexo搭建个人主页</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -651,19 +685,6 @@ _</p>
             </div>
         </article>
         
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -682,7 +703,7 @@ _</p>
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">110</span>
+                    <span class="level-item tag">111</span>
                 </span>
             </a>
         </li>
@@ -760,6 +781,13 @@ _</p>
                     <a class="tags has-addons" href="/blog/tags/VR/">
                         <span class="tag">VR</span>
                         <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web/">
+                        <span class="tag">Web</span>
+                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 
@@ -853,6 +881,19 @@ _</p>
             
             <div class="media-content">
                 <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/Web/GithubPage+Hexo搭建个人主页/" class="has-link-black-ter is-size-6">GithubPage+Hexo搭建个人主页</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
                     <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
                     <p class="is-size-7 is-uppercase">
@@ -901,19 +942,6 @@ _</p>
             </div>
         </article>
         
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -932,7 +960,7 @@ _</p>
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">110</span>
+                    <span class="level-item tag">111</span>
                 </span>
             </a>
         </li>
@@ -1010,6 +1038,13 @@ _</p>
                     <a class="tags has-addons" href="/blog/tags/VR/">
                         <span class="tag">VR</span>
                         <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web/">
+                        <span class="tag">Web</span>
+                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 

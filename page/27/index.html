@@ -8,7 +8,7 @@
 
 
     <meta name="description" content="A blog for bookmarking and recording technology">
-<meta name="keywords" content="Android,Flutter,Kotlin,ReactNative,VR,Unity,Python,C#,Backend,NodeJs,Javascript,TypeScript,Hexo,Framework,Architecture,Java">
+<meta name="keywords" content="Android,Flutter,Kotlin,ReactNative,VR,Unity,Python,C#,Backend,NodeJs,Javascript,TypeScript,Hexo,Framework,Architecture,Java,MiniProgram">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Hcq0618&#39;s Blog">
 <meta property="og:url" content="https://hcq0618.github.io/blog/page/27/index.html">
@@ -147,6 +147,87 @@ var _hmt = _hmt || [];
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.812Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    11 分钟 读完 (大约 1698 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/Android全自动打包生成apk/">Android全自动打包生成apk</a>
+            
+        </h1>
+        <div class="content">
+            <p>Unity自动打包Android其实要比IOS容易得多，因为Android不用先生成java工程，然后在构建.apk包，我先说说Android打包的步骤。</p>
+<p>1.把sdk拷贝至Plugins/Android下。</p>
+<p>如下图所示，如果你做过Android源生开发，我相信下面的东西你不会陌生。可是如果你没做过Android原生开发，我还是详细说明以下。</p>
+<p>AndroidManifest：这是Android程序必不可少的文件，这里记录着应用程序的启动Activity。Activity就是Android的一个界面，一般应用程序会有很多Acitivty，来回切换界面。但是游戏就不太一样了，因为游戏只需要一个Activity<br>一个View就可以了。（扯远了）</p>
+<p>AndroidManifest：里面还记录着应用程序的权限，Service啊什么的，，有兴趣的同学可以谷歌搜一搜。</p>
+<p>每次打包的时候Unity会用它默认的AndroidManifest，它默认的AndroidManifest在<br>unity.app/Contents/PlaybackEngines/AndroidPlayer下面。当你在进行打包apk的时候<br>unity会拷贝该路径下的所有参数。</p>
+<p>在ProjectSetting里面勾选一些权限的时候，Unity会自动帮你修改AndroidManifest里面的权限，但是如果某个权限不能在Unity工程里面修改，那么就需要自己手动替换。如下图所示，我们把AndroidManifest放在Plugins/Android下面，<br>这样Unity在进行打包的时候就不会用它默认的，而是用我自己新写的打包。。这样就方便灵活很多了。。</p>
+<p>bin:下面就记录着sdk用到的第三方jar</p>
+<p>res：下面就是安卓的一些图片，资源啊什么。</p>
+<p>你可以随便解开一个android的APK看看它的目录结构就明白了。。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-023b15f9b35219c4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>这样在打包的时候unity就会自动把Plugins/Android下面的所有资源打包在你的APK里面了。但是如果你做渠道包的时候，每个包用的是不同的sdk，所以你需要在打包不同渠道的时候把相关的文件拷贝在Plugins/Android下面。</p>
+<p>如下图所示，我在根目录下创建一个文件夹名子叫91，当我自动化打包的时候自动把91文件夹下面的资源先拷贝在Plugins/Android下面，然后在自动打包。。打完包以后再把Plugins/Andoird文件夹清空即可。。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4cc6d58eb949859e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Ok上脚本。。代码和上一篇文章的第一步差不多，我就不多余注释，，执行下面shell脚本将自动打开unity，然后执行ProjectBuild.BuidForAndroid方法。。<br>project-$1 就是传入的参数。。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">#参数判断</span><br><span class="line">if [ $# != 1 ];then</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo &quot;需要一个参数。 参数是游戏包的名子&quot;</span><br><span class="line">exit</span><br><span class="line"></span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">#UNITY程序的路径#</span><br><span class="line"></span><br><span class="line">UNITY_PATH=/Applications/Unity/Unity.app/Contents/MacOS/Unity</span><br><span class="line"></span><br><span class="line">#游戏程序路径#</span><br><span class="line"></span><br><span class="line">PROJECT_PATH=/Users/MOMO/commond</span><br><span class="line"></span><br><span class="line">#在Unity中构建apk#</span><br><span class="line"></span><br><span class="line">$UNITY_PATH -projectPath $PROJECT_PATH -executeMethod</span><br><span class="line">ProjectBuild.BuildForAndroid project-$1 -quit</span><br><span class="line"></span><br><span class="line">echo &quot;Apk生成完毕&quot;</span><br></pre></td></tr></table></figure>
+
+<p>在关闭unity的情况下运行。在命令行里面执行这一条脚本， 参数一个参数 91。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7a4cc479b9e26605.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.IO;</span><br><span class="line">using UnityEditor;</span><br><span class="line">using UnityEngine;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System;</span><br><span class="line"></span><br><span class="line">class ProjectBuild : Editor</span><br><span class="line">&#123;</span><br><span class="line">    //在这里找出你当前工程所有的场景文件，假设你只想把部分的scene文件打包 那么这里可以写你的条件判断 总之返回一个字符串数组。</span><br><span class="line">    static string[] GetBuildScenes()</span><br><span class="line">    &#123;</span><br><span class="line">        List&lt;string&gt; names = new List&lt;string&gt;();</span><br><span class="line">        foreach (EditorBuildSettingsScene e in EditorBuildSettings.scenes)</span><br><span class="line">        &#123;</span><br><span class="line">            if (e == null)</span><br><span class="line">                continue;</span><br><span class="line">            if (e.enabled)</span><br><span class="line">                names.Add(e.path);</span><br><span class="line">        &#125;</span><br><span class="line">        return names.ToArray();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static void BuildForAndroid()</span><br><span class="line">    &#123;</span><br><span class="line">        Function.DeleteFolder(Application.dataPath + &quot;/Plugins/Android&quot;);</span><br><span class="line">        if (Function.projectName == &quot;91&quot;)</span><br><span class="line">        &#123;</span><br><span class="line">            Function.CopyDirectory(Application.dataPath + &quot;/91&quot;, Application.dataPath + &quot;/Plugins/Android&quot;);</span><br><span class="line">            PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android,</span><br><span class="line">           &quot;USE_SHARE&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        string path = Application.dataPath + &quot;/&quot; + Function.projectName + &quot;.apk&quot;;</span><br><span class="line">        BuildPipeline.BuildPlayer(GetBuildScenes(), path, BuildTarget.Android,</span><br><span class="line">       BuildOptions.None);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>程序会执行BuildForAndroid的方法，这里我把shell传入的参数取出来。根据传入的不同参数来初始化打包的一些设置。。</p>
+<p>最终BuildPlayr就开始构建apk，第二个参数就是打包出apk保存的路径。 在打包之前你可以处理一些 游戏包名， 游戏icon<br>等等一些平台之间的特殊性 ，也可以设置一些 预定义标签，。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#if UNITY_EDITOR</span><br><span class="line"> using UnityEditor;</span><br><span class="line"> using UnityEditor.Callbacks;</span><br><span class="line"> using UnityEditor.XCodeEditor;</span><br><span class="line"> using System.Xml;</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">using System.IO;</span><br><span class="line">public static class XCodePostProcess</span><br><span class="line">&#123;</span><br><span class="line">#if UNITY_EDITOR</span><br><span class="line">     [PostProcessBuild (100)]</span><br><span class="line">     public static void OnPostProcessBuild (BuildTarget target, string</span><br><span class="line">pathToBuiltProject)</span><br><span class="line">     &#123;</span><br><span class="line">    if (target == BuildTarget.Android)</span><br><span class="line">    &#123;</span><br><span class="line">    Function.DeleteFolder(Application.dataPath+&quot;/Plugins/Android&quot;);</span><br><span class="line">    if(Function.projectName== &quot;91&quot;) &#123;</span><br><span class="line">              //当我们在打91包的时候 这里面做一些 操作。</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">#endif</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>**** 在回到XUPortr里面，当Android打包完毕后，这里我们清空Plugins/Android文件夹。。或者你也可以做一些操作。。</p>
+<p>Function.cs 用到的一个工具类</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line">using System.Collections;</span><br><span class="line">using System.IO;</span><br><span class="line">public class Function</span><br><span class="line">&#123;</span><br><span class="line">    //得到项目的名称</span><br><span class="line">    public static string projectName</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            //在这里分析shell传入的参数， 还记得上面我们说的哪个 project-$1 这个参数吗？</span><br><span class="line">            //这里遍历所有参数，找到 project开头的参数， 然后把-符号 后面的字符串返回，</span><br><span class="line">            //这个字符串就是 91 了。。</span><br><span class="line">            foreach (string arg in System.Environment.GetCommandLineArgs())</span><br><span class="line">            &#123;</span><br><span class="line">                if (arg.StartsWith(&quot;project&quot;))</span><br><span class="line">                &#123;</span><br><span class="line">                    return arg.Split(&quot;-&quot;[0])[1];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return &quot;test&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void DeleteFolder(string dir)</span><br><span class="line">    &#123;</span><br><span class="line">        foreach (string d in Directory.GetFileSystemEntries(dir))</span><br><span class="line">        &#123;</span><br><span class="line">            if (File.Exists(d))</span><br><span class="line">            &#123;</span><br><span class="line">                FileInfo fi = new FileInfo(d);</span><br><span class="line">                if (fi.Attributes.ToString().IndexOf(&quot;ReadOnly&quot;) != -1)</span><br><span class="line">                    fi.Attributes = FileAttributes.Normal;</span><br><span class="line">                File.Delete(d);</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                DirectoryInfo d1 = new DirectoryInfo(d);</span><br><span class="line">                if (d1.GetFiles().Length != 0)</span><br><span class="line">                &#123;</span><br><span class="line">                    DeleteFolder(d1.FullName);////递归删除子文件夹</span><br><span class="line">                &#125;</span><br><span class="line">                Directory.Delete(d);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void CopyDirectory(string sourcePath, string destinationPath)</span><br><span class="line">    &#123;</span><br><span class="line">        DirectoryInfo info = new DirectoryInfo(sourcePath);</span><br><span class="line">        Directory.CreateDirectory(destinationPath);</span><br><span class="line">        foreach (FileSystemInfo fsi in info.GetFileSystemInfos())</span><br><span class="line">        &#123;</span><br><span class="line">            string destName = Path.Combine(destinationPath, fsi.Name);</span><br><span class="line">            if (fsi is System.IO.FileInfo)</span><br><span class="line">                File.Copy(fsi.FullName, destName);</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                Directory.CreateDirectory(destName);</span><br><span class="line">                CopyDirectory(fsi.FullName, destName);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如下图所示，脚本运行完毕，你打包的APK就静静的放在了这里，怎么样？简单吧？嘿嘿。。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-86fc0aea58f9bcb0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>注意事项：</p>
+<p>1、因为你的工程可能比较大，如果IOS和Android同时打包的话切个平台都要半个多小时，我建议的svn在本地check out 两个工程，一个切在ios<br>一个切在Android  打包的时候分开打。</p>
+<p>2.执行shell脚本的时候请关闭保存unity工程。</p>
+<p>3.Android 因为不受证书的限制，我上传的工程建议你下载下来看看，肯定可以直接打出来包。。</p>
+<p>4.我建议打包的机器使用mac。 因为windows不能打包IOS 而MAC可以同时 打包 IOS 和 Android</p>
+<p>工程下载地址：<a href="http://pan.baidu.com/s/1o6OATcu" target="_blank" rel="noopener">http://pan.baidu.com/s/1o6OATcu</a></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
     <div class="card">
     
     <div class="card-content article ">
@@ -296,96 +377,6 @@ var _hmt = _hmt || [];
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.763Z">2019-05-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    8 分钟 读完 (大约 1171 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/关于界面高度height的计算/">关于界面高度height的计算</a>
-            
-        </h1>
-        <div class="content">
-            <p>首先看一个例子，新建一个Panel，在下面添加两个Button，分别命名为Button、Button2。</p>
-<p>1、给Panel添加一个VerticalLayoutGroup组件，ChildForceExpand属性中勾上Width。</p>
-<p>2、给Button、Button2添加LayoutElement组件，其中Button的FlexibleHeight设置为0.3，Button2的FlexibleHeight设置为0.1</p>
-<p>3、将Panel的高度设置为100</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a61dd914895a4b69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c74d44cba15dfecb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>这时我们发现，Button的高度是70，Button2的高度是30。奇怪，这个高度是怎么算出来的呢？</p>
-<p>网上搜索一番，竟然很少有人讨论uGUI的AutoLayout，尤其是flexibleWidth/Height属性的意义，官方文档也语焉不详。这时只能放大招了，uGUI已经开源，索性把代码拉下来看看到底怎么实现的。下面是托管代码的地址：</p>
-<p><a href="https://bitbucket.org/Unity-Technologies/ui" target="_blank" rel="noopener">https://bitbucket.org/Unity-Technologies/ui</a></p>
-<p>uGUI的AutoLayout有三个核心接口，定义在ILayoutElement.cs文件中：</p>
-<p>ILayoutElement</p>
-<p>ILayoutController</p>
-<p>ILayoutIgnorer</p>
-<p>结构很清晰，由ILayoutElement提供布局信息，ILayoutController来控制布局，ILayoutIgnore提供给UI忽略AutoLayout的能力。</p>
-<p>例子中使用的VerticalLayoutGroup继承自HorizontalOrVerticalLayoutGroup，这个类实现了布局的核心逻辑，代码量不多，我就直接贴上来了</p>
-<p>其中SetChildrenAlongAxis方法清晰地阐释了minHeight,preferredHeight,flexibleHeight的涵义。</p>
-<p>为了帮助理解，我们先定义几个概念。我们把当前UI所有同级并参与自动布局的组件的preferredHeight总和称为totalPreferredHeight，minHeight的总和称为totalMinHeight，父UI的真实高度称为realHeight。总结如下：</p>
-<p>1、 <strong>minHeight</strong></p>
-<p>在自动布局中，此UI最小高度不会小于minHeight。这个参数定义了realHeight &lt;
-totalMinHeight时，当前子UI的height为minHeight。</p>
-<p>2、 <strong>preferredHeight</strong></p>
-<p>可以理解为，UI自身希望的高度。</p>
-<p>当totalMinHeight &lt; realHeight &lt;
-totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight之间一定百分比，把这个比例应用到每一个接受自动布局的子UI上，即是我们最终得到的效果</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-1240ece0245c46cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
-<p>3、 <strong>flexibleHeight</strong></p>
-<p>当realHeight &gt;<br>totalPreferredHeight时，父UI会剩下一部分高度。flexibleHeight就是告诉AutoLayout系统，应该怎么瓜分剩下的高度，使子UI填充满父UI。flexibleHeight默认是-1，不会进行扩充。当flexibleHeight</p>
-<blockquote>
-<p>0时，flexibleHeight值作为权重来计算当前子UI最终的高度，公式如下：</p>
-</blockquote>
-<p>height = preferredHeight + (flexibleHeight / totalFlexibleHeight) *
-(realHeight - totalPreferredHeight)</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7dd199a2b1bbe3d0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
-<p>flexibleHeight示意图</p>
-<p>弄清楚这些概念后，我们再看一下文章开头的例子。</p>
-<p>button1的flexibleHeight=0.3，button2的flexibleHeight=0.1，minHeight和preferredHeight都没有设置，按道理高度应该分别是75、25。为什么会出现70、30？</p>
-<p>查一下ILayoutElement的实现类</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4d6556ae3f039540.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
-<p>ILayoutElement实现类</p>
-<p>发现Image和Text实现了ILayoutElement，而我们的按钮中默认是有一个Image组件的，用脚本获取这个Image然后打印它的preferredHeight，发现等于10</p>
-<p>再套用flexibleHeight的计算公式：</p>
-<p>这里有个问题，一个GameObject上挂载两个ILayoutElement组件，是怎么决定用哪个的？这个可以在LayoutUtility.cs中找到答案：</p>
-<p>原来LayoutElement有一个layoutPriority属性用来决定优先级，这个属性暂时还没有在编辑器中暴露，也许后续版本会加强这方面的能力。</p>
-<p>AutoLayout系统会选用优先级最高的ILayoutElement里相应属性返回。Image和Text的优先级默认是0，LayoutElement默认优先级是1。所以正常情况会使用LayoutElement中的设置，但我们的例子中，LayoutElement没有设置preferredHeight，LayoutElement里布局相关的初始值都是-1，所以还是使用了Image的preferredHeight:10。</p>
-<p>【结语】</p>
-<p>其实，只要官方文档描述详细一些，根本没必要浪费时间去查这个来龙去脉。这几天在学习<a href="http://lib.csdn.net/base/1" target="_blank" rel="noopener">Swift</a>，苹果人性化的Programming<br>Guide加上iBooks的配合，使得学习这门语言真是件轻松愉快的事情。相比之下，Unity简直是在虐待开发者。Unity、Unreal、Cryengine等最近也为争市场弄得头破血流，除了降价开源提供新特性之外，完善文档也是不容忽视的工作，毕竟开发者才是这些厂商真正的衣食父母。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -458,7 +449,7 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        110
+                        111
                     </p>
                 </div>
             </div>
@@ -468,7 +459,7 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        10
+                        11
                     </p>
                 </div>
             </div>
@@ -478,7 +469,7 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        18
+                        19
                     </p>
                 </div>
             </div>
@@ -565,6 +556,14 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                 <span class="level-item tag">2</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Web/">
+            <span class="level-start">
+                <span class="level-item">Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
             <span class="level-start">
                 <span class="level-item">其他</span>
@@ -608,7 +607,7 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13.75px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11.25px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 17.5px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 18.75px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11.25px;">VR</a> <a href="/blog/tags/后端/" style="font-size: 15px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11.25px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11.25px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11.25px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16.25px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12.5px;">网络安全</a>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13.75px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11.25px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 17.5px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 18.75px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11.25px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 15px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11.25px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11.25px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11.25px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16.25px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12.5px;">网络安全</a>
     </div>
 </div>
 
@@ -622,6 +621,19 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/Web/GithubPage+Hexo搭建个人主页/" class="has-link-black-ter is-size-6">GithubPage+Hexo搭建个人主页</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -675,19 +687,6 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
             </div>
         </article>
         
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -706,7 +705,7 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">110</span>
+                    <span class="level-item tag">111</span>
                 </span>
             </a>
         </li>
@@ -784,6 +783,13 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                     <a class="tags has-addons" href="/blog/tags/VR/">
                         <span class="tag">VR</span>
                         <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web/">
+                        <span class="tag">Web</span>
+                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 
@@ -877,6 +883,19 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
             
             <div class="media-content">
                 <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/Web/GithubPage+Hexo搭建个人主页/" class="has-link-black-ter is-size-6">GithubPage+Hexo搭建个人主页</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
                     <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
                     <p class="is-size-7 is-uppercase">
@@ -925,19 +944,6 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
             </div>
         </article>
         
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -956,7 +962,7 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">110</span>
+                    <span class="level-item tag">111</span>
                 </span>
             </a>
         </li>
@@ -1034,6 +1040,13 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                     <a class="tags has-addons" href="/blog/tags/VR/">
                         <span class="tag">VR</span>
                         <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web/">
+                        <span class="tag">Web</span>
+                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 

@@ -8,7 +8,7 @@
 
 
     <meta name="description" content="A blog for bookmarking and recording technology">
-<meta name="keywords" content="Android,Flutter,Kotlin,ReactNative,VR,Unity,Python,C#,Backend,NodeJs,Javascript,TypeScript,Hexo,Framework,Architecture,Java">
+<meta name="keywords" content="Android,Flutter,Kotlin,ReactNative,VR,Unity,Python,C#,Backend,NodeJs,Javascript,TypeScript,Hexo,Framework,Architecture,Java,MiniProgram">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Hcq0618&#39;s Blog">
 <meta property="og:url" content="https://hcq0618.github.io/blog/page/9/index.html">
@@ -147,6 +147,58 @@ var _hmt = _hmt || [];
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.847Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity优化/">Unity优化</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    2 分钟 读完 (大约 280 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/UGUI一个优化效率小技巧/">UGUI一个优化效率小技巧</a>
+            
+        </h1>
+        <div class="content">
+            <p>无意间发现了一个小技巧。如下图所示，可以发现UGUI的Image组件的RaycastTarget勾选以后会消耗一些效率，为了节省效率就不要勾选它了，不仅Image组件Text组件也有这样的问题。<br>一般UI里也就是按钮才需要接收响应事件，那么大部分image和text是是不需要开RaycastTarget的。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-cbac9b6a4fcf7076.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>但是问题就来了，Unity默认在hierarchy窗口Create-UI-Image 、Text的时候就会自动帮我们勾选上RaycastTarget，<br>一个复杂点的界面至少也300+个Image和Text， 总不能一个个取消吧。 所以我们可以重写Create-UI-Image的事件。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3d0147f90b0733ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">[MenuItem(&quot;GameObject/UI/Image&quot;)]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> static void CreatImage()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> if(Selection.activeTransform)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> if(Selection.activeTransform.GetComponentInParent&lt;Canvas())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> GameObject go = new GameObject(&quot;image&quot;,typeof(Image));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> go.GetComponent&lt;Image().raycastTarget = false;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> go.transform.SetParent(Selection.activeTransform);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p> 这样创建出来的Image就不带 RaycastTarget,Text组件原理同上。 Unity版本5.3.3</p>
+<p> <strong>作者：雨松MOMO</strong></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
     <div class="card">
     
     <div class="card-content article ">
@@ -295,78 +347,6 @@ return col * i.color;</code></pre><p>}</p>
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.825Z">2019-05-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Unity优化/">Unity优化</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    11 分钟 读完 (大约 1578 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/unity性能优化规范/">unity性能优化规范</a>
-            
-        </h1>
-        <div class="content">
-            <p>和java不同 能用for就不用foreach,因为foreach会使用迭代器并会产生额外几kb的gc。</p>
-<p>和findViewById一样 GameObject.Find和Transform.Find尽量少调用 在Awake和Start只获取一次对象或组件。</p>
-<p>与java不同 函数名首字母大写。</p>
-<p>工具类声明为 static class 静态类。</p>
-<p>开启monoDevelop的代码分析功能 并根据提示尽量优化代码。使用Profile工具进行性能分析测试。</p>
-<p>有光照的情况下，烘焙场景和物体可以节约计算资源 你把物体模型放进了场景里之后， 引擎会计算光线，光线照到你的物体的表面形成反光和阴影。 如果不烘焙，<br>游戏运行的时候，这些反光和阴影都是由显卡和CPU计算出来的。你烘焙之后，这些反光和阴影都记录到了你的模型里，变成了新的贴图了，运行的时候，显卡和CPU不需要进行对环境光效果的运算了，节约CPU资源<br>。</p>
-<p>字符串连接用StringBuilder 。</p>
-<p>不要直接访问gameobject的tag属性。比如if (go.tag == “human”)最好换成if (go.CompareTag<br>(“human”))。因为访问物体的tag属性会在堆上额外的分配空间 。</p>
-<p>对比通过方法GetComponent()获取Transform组件,<br>通过MonoBehavor的transform属性去取，后者更快，但GetComponent又快于Find 。</p>
-<p>善于使用OnBecameVisible()和OnBecameInVisible来控制物体的update()函数的执行以减少开销。</p>
-<p>使用内建的数组，比如用Vector3.zero而不是new Vector(0, 0, 0)。</p>
-<p>在c#里面List速度优于ArrayList 而且类型安全。</p>
-<p>资源及代码都尽量继承和复用framework下的。</p>
-<p>尝试使用IL2CPP。</p>
-<p>设置贴图压缩格式以优化安装包大小及运行效率：iOS上尽量使用PVRTC，Android上使用ETC 或者<br>选择自动压缩，但需要在显示质量和性能进行权衡，每家的GPU支持不同的压缩格式，但他们都兼容ETC格式，对于透明贴图，我们只能选择RGBA 16bit<br>或者RGBA 32bit。如果不调用SetPixels或GetPixels函数，最好关闭Read/Write<br>enable开关，否则会复制一份贴图到内存中，内存占用会大两倍，这个属性的实质是决定了这个贴图的存放位置，是在内存上还是在显存上。（虽说在移动设备上显存和内存是共用的，但数据不直接互通）<br>如果可读写，那么这个贴图既在显存上，又在内存上，而且还必须得是非压缩的格式（ARGB32，ARGB4444之类）。用getPixel(s)，setPixel(s)之类的方法，读取或设置的数据，都是内存上的数据，但其他属性不区分内存还是显存。Apply方法的作用是把这个贴图在内存上的传给显存。Apply方法的第二个参数，决定了这个这个贴图是否还可读写，换种说法就是内存上这部分数据在执行完这个方法之后还要不要。</p>
-<p>代码能加namespace的尽量都加namespace。</p>
-<p> 在ProjectSetting-&gt;<br>Quality中的，关闭垂直同步。可以考虑降低FPS，降低FPS的好处：1）省电，减少手机发热的情况；2）能都稳定游戏FPS，减少出现卡顿的情况。当我们设置了FPS后，再调整下Fixed<br>timestep这个参数，这个参数在ProjectSetting-&gt;Time中，目的是减少物理计算的次数，来提高游戏性能。可以考虑待机时，调整游戏的FPS为1（手动设置帧率可以用Application.targetFrameRate），节省电量。</p>
-<p>尽量少使用Update LateUpdate<br>FixedUpdate，这样也可以提升性能和节省电量。多使用事件（不是SendMessage，使用自己写的，或者C#中的事件委托）。</p>
-<p>把大部分图片打成图集减少draw<br>call，可以用unity自带的工具打<a href="http://www.xuanyusong.com/archives/3304" target="_blank" rel="noopener">http://</a><a href="http://www.xuanyusong.com/archives/3304" target="_blank" rel="noopener">www.xuanyusong.com/archives/3304</a>也可以用TexturePackerGUI。图集大小最好不要高于1024，否则游戏安装之后、低端机直接崩溃、原因是手机系统版本低于2.2、超过1000的图集无法读取、导致。2.2<br>以上没有遇见这个情况。注意手机的RAM 与 ROM、小于 512M的手机、直接放弃机型适配。</p>
-<p>RectMask2D性能好于Mask。</p>
-<p>考虑使用Occlusion Culling遮挡剔除技术，减少绘制。</p>
-<p>对象最好复用同一个材质，并且保证缩放一致，unity会自动进行动态批处理，减少draw<br>call。Lightmap对象由于多了光照烘焙材质，以及有阴影的对象，不会被批处理。对静止的物体勾选static，就会自动静态批处理，比动态批处理更节约资源。但无论是动态批处理还是静态批处理，都是空间换时间的操作，所以会更占内存，需要权衡利弊。</p>
-<p>避免使用顶点过多的对象，减少计算量。</p>
-<p>避免使用过于复杂的数学函数，且整形类型计算优于浮点型。</p>
-<p>使用有规则的碰撞体，比如长方形，球形，胶囊形，效率高于网格碰撞体。</p>
-<p>Image组件的RaycastTarget勾选以后会消耗一些效率，为了节省效率就不要勾选它了，不仅Image组件Text组件也有这样的问题。<br>一般UI里也就是按钮才需要接收响应事件，那么大部分image和text是是不需要开RaycastTarget的。<a href="http://www.xuanyusong.com/archives/4006" target="_blank" rel="noopener">http://www.xuanyusong.com/archives/4006</a></p>
-<p>按界面分离canvas，减少界面刷新，按静态和动态物体分离canvas，减少界面刷新。</p>
-<p>若使用了AndroidJavaXXX类则需要使用using语句或者Dispose函数来确保资源会被释放回收</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -439,7 +419,7 @@ return col * i.color;</code></pre><p>}</p>
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        110
+                        111
                     </p>
                 </div>
             </div>
@@ -449,7 +429,7 @@ return col * i.color;</code></pre><p>}</p>
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        10
+                        11
                     </p>
                 </div>
             </div>
@@ -459,7 +439,7 @@ return col * i.color;</code></pre><p>}</p>
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        18
+                        19
                     </p>
                 </div>
             </div>
@@ -546,6 +526,14 @@ return col * i.color;</code></pre><p>}</p>
                 <span class="level-item tag">2</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Web/">
+            <span class="level-start">
+                <span class="level-item">Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
             <span class="level-start">
                 <span class="level-item">其他</span>
@@ -589,7 +577,7 @@ return col * i.color;</code></pre><p>}</p>
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13.75px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11.25px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 17.5px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 18.75px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11.25px;">VR</a> <a href="/blog/tags/后端/" style="font-size: 15px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11.25px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11.25px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11.25px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16.25px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12.5px;">网络安全</a>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13.75px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11.25px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 17.5px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 18.75px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11.25px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 15px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11.25px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11.25px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11.25px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16.25px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12.5px;">网络安全</a>
     </div>
 </div>
 
@@ -603,6 +591,19 @@ return col * i.color;</code></pre><p>}</p>
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/Web/GithubPage+Hexo搭建个人主页/" class="has-link-black-ter is-size-6">GithubPage+Hexo搭建个人主页</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -656,19 +657,6 @@ return col * i.color;</code></pre><p>}</p>
             </div>
         </article>
         
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -687,7 +675,7 @@ return col * i.color;</code></pre><p>}</p>
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">110</span>
+                    <span class="level-item tag">111</span>
                 </span>
             </a>
         </li>
@@ -765,6 +753,13 @@ return col * i.color;</code></pre><p>}</p>
                     <a class="tags has-addons" href="/blog/tags/VR/">
                         <span class="tag">VR</span>
                         <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web/">
+                        <span class="tag">Web</span>
+                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 
@@ -858,6 +853,19 @@ return col * i.color;</code></pre><p>}</p>
             
             <div class="media-content">
                 <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time></div>
+                    <a href="/blog/2019/05/18/Web/GithubPage+Hexo搭建个人主页/" class="has-link-black-ter is-size-6">GithubPage+Hexo搭建个人主页</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
                     <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
                     <p class="is-size-7 is-uppercase">
@@ -906,19 +914,6 @@ return col * i.color;</code></pre><p>}</p>
             </div>
         </article>
         
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/渐进式加载/" class="has-link-black-ter is-size-6">渐进式加载</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -937,7 +932,7 @@ return col * i.color;</code></pre><p>}</p>
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">110</span>
+                    <span class="level-item tag">111</span>
                 </span>
             </a>
         </li>
@@ -1015,6 +1010,13 @@ return col * i.color;</code></pre><p>}</p>
                     <a class="tags has-addons" href="/blog/tags/VR/">
                         <span class="tag">VR</span>
                         <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web/">
+                        <span class="tag">Web</span>
+                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 
