@@ -91,8 +91,9 @@ def convert(file_path, _for_hexo):
 
     # remove prefix before '-' in file name
     if "-" in file_name:
-        file_name = file_name.replace(
-            file_name[0:file_name.index("-") + 1], "")
+        title_prefix = file_name[0:file_name.index("-") + 1]
+        if '[' in title_prefix and ']' in title_prefix:
+            file_name = file_name.replace(title_prefix, "")
 
     # need to url encode file name
     with io.open(file_dir + os.sep + file_name + ".md", 'w', encoding='utf-8') as f:
