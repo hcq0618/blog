@@ -114,5 +114,5 @@ def convert_all_files(root_dir, _for_hexo):
     return _files
 
 
-for_hexo = len(sys.argv) > 2 and sys.argv[2] == '-hexo'
-convert_all_files(sys.argv[1], for_hexo)
+# for_hexo = len(sys.argv) > 2 and sys.argv[2] == '-hexo'
+convert_all_files(sys.argv[1], True)
