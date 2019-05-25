@@ -153,17 +153,17 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-18T07:35:42.653Z">2019-05-18</time>
+                <time class="level-item has-text-grey" datetime="2019-05-25T12:39:13.239Z">2019-05-25</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/AR/">AR</a>
+                <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    32 分钟 读完 (大约 4871 个字)
+                    6 分钟 读完 (大约 965 个字)
                 </span>
                 
                 
@@ -172,184 +172,45 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/">ARKit：增强现实技术在美团到餐业务的实践</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/25/React-Native/React-Native页面优化实践/">React-Native页面优化实践</a>
             
         </h1>
         <div class="content">
-            <h2 id="ARKit：增强现实技术在美团到餐业务的实践"><a href="#ARKit：增强现实技术在美团到餐业务的实践" class="headerlink" title="ARKit：增强现实技术在美团到餐业务的实践"></a>ARKit：增强现实技术在美团到餐业务的实践</h2><p>原创： 曹宇  美团技术团队 __</p>
-<p><img src="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/640_1.png" alt>  </p>
-<p><strong>总第282篇</strong></p>
-<p> <strong>2018年 第74篇</strong></p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p>增强现实（Augmented Reality）是一种在视觉上呈现虚拟物体与现实场景结合的技术。Apple 公司在 2017 年 6 月正式推出了<br>ARKit，iOS 开发者可以在这个平台上使用简单便捷的 API 来开发 AR 应用程序。</p>
-<p>本文将结合美团到餐业务场景，介绍一种基于位置服务（LBS）的 AR 应用。使用 AR<br>的方式展现商家相对用户的位置，这会给用户带来身临其境的沉浸式体验。下面是实现效果：</p>
-<p><img src="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/640_1.gif" alt>  </p>
-<p>图1 实现效果图</p>
-<h2 id="项目实现"><a href="#项目实现" class="headerlink" title="项目实现"></a><strong>项目实现</strong></h2><p>iOS 平台的 AR 应用通常由 ARKit 和渲染引擎两部分构成：</p>
-<p><img src="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/640_8.jpg" alt>  </p>
-<p>图2 AR 应用的整体架构</p>
-<p>ARKit 是连接真实世界与虚拟世界的桥梁，而渲染引擎是把虚拟世界的内容渲染到屏幕上。本部分会围绕这两个方面展开介绍。</p>
-<h2 id="ARKit"><a href="#ARKit" class="headerlink" title="ARKit"></a>ARKit</h2><p>ARKit 的 ARSession 负责管理每一帧的信息。ARSession 做了两件事：拍摄图像并获取传感器数据；对数据进行分析处理后逐帧输出。如下图：</p>
-<p><img src="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/640.jpg" alt>  </p>
-<p>图3 ARKit 结构图</p>
-<h3 id="设备追踪"><a href="#设备追踪" class="headerlink" title="设备追踪"></a>设备追踪</h3><p>设备追踪确保了虚拟物体的位置不受设备移动的影响。在启动 ARSession 时需要传入一个 ARSessionConfiguration<br>的子类对象，以区别三种追踪模式：</p>
-<ul>
-<li><p>ARFaceTrackingConfiguration</p>
-</li>
-<li><p>ARWorldTrackingConfiguration</p>
-</li>
-<li><p>AROrientationTrackingConfiguration</p>
-</li>
-</ul>
-<p>其中 ARFaceTrackingConfiguration 可以识别人脸的位置、方向以及获取拓扑结构。此外，还可以探测到预设的 52<br>种丰富的面部动作，如眨眼、微笑、皱眉等等。ARFaceTrackingConfiguration 需要调用支持 TrueDepth<br>的前置摄像头进行追踪，显然不能满足我们的需求，这里就不做过多的介绍。下面只针对使用后置摄像头的另外两种类型进行对比。</p>
-<h4 id="ARWorldTrackingConfiguration"><a href="#ARWorldTrackingConfiguration" class="headerlink" title="ARWorldTrackingConfiguration"></a>ARWorldTrackingConfiguration</h4><p>ARWorldTrackingConfiguration 提供 6DoF（Six Degree of Freedom）的设备追踪。包括三个姿态角<br>Yaw（偏航角）、Pitch（俯仰角）和 Roll（翻滚角），以及沿笛卡尔坐标系中 X、Y 和 Z 三轴的偏移量：</p>
-<p><img src="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/640_10.jpg" alt>  </p>
-<p>图4 6DoF</p>
-<p>不仅如此，ARKit 还使用了 VIO（Visual-Inertial<br>Odometry）来提高设备运动追踪的精度。在使用惯性测量单元(<a href="https://en.wikipedia.org/wiki/Inertial_measurement_unit" target="_blank" rel="noopener"></a><a href="https://en.wikipedia.org/wiki/Inertial_measurement_unit" target="_blank" rel="noopener">IMU</a>)检测运动轨迹的同时，对运动过程中摄像头拍摄到的图片进行图像处理。将图像中的一些特征点的变化轨迹与传感器的结果进行比对后，输出最终的高精度结果。</p>
-<p>从追踪的维度和准确度来看，ARWorldTrackingConfiguration<br>非常强悍。但如<a href="https://developer.apple.com/documentation/arkit/understanding_world_tracking_in_arkit?language=objc" target="_blank" rel="noopener"></a><a href="https://developer.apple.com/documentation/arkit/understanding_world_tracking_in_arkit?language=objc" target="_blank" rel="noopener">官方文档</a>所言，它也有两个致命的缺点：</p>
-<ul>
-<li><p>受环境光线质量影响</p>
-</li>
-<li><p>受剧烈运动影响</p>
-</li>
-</ul>
-<p>由于在追踪过程中要通过采集图像来提取特征点，所以图像的质量会影响追踪的结果。在光线较差的环境下（比如夜晚或者强光），拍摄的图像无法提供正确的参考，追踪的质量也会随之下降。</p>
-<p>追踪过程中会逐帧比对图像与传感器结果，如果设备在短时间内剧烈的移动，会很大程度上干扰追踪结果。追踪的结果与真实的运动轨迹有偏差，那么用户看到的商家位置就不准确。</p>
-<h4 id="AROrientationTrackingConfiguration"><a href="#AROrientationTrackingConfiguration" class="headerlink" title="AROrientationTrackingConfiguration"></a>AROrientationTrackingConfiguration</h4><p>AROrientationTrackingConfiguration 只提供对三个姿态角的追踪（3DoF），并且不会开启 VIO。</p>
-<blockquote>
-<p>Because 3DOF tracking creates limited AR experiences, you should generally<br>not use the AROrientationTrackingConfiguration class directly. Instead, use<br>the subclass ARWorldTrackingConfiguration for tracking with six degrees of<br>freedom (6DOF), plane detection, and hit testing. Use 3DOF tracking only as a<br>fallback in situations where 6DOF tracking is temporarily unavailable.</p>
-</blockquote>
-<p>通常情况下来讲，这么做的理由是因为 AROrientationTrackingConfiguration<br>的追踪能力受限，<a href="https://developer.apple.com/documentation/arkit/arorientationtrackingconfiguration?language=objc" target="_blank" rel="noopener"></a><a href="https://developer.apple.com/documentation/arkit/arorientationtrackingconfiguration?language=objc" target="_blank" rel="noopener">官方文档</a>不推荐直接使用。但是鉴于：</p>
-<ol>
-<li><p>对三个姿态角的追踪，已经足以正确的展现商家相对用户的位置了。</p>
-</li>
-<li><p>ARWorldTrackingConfiguration 的高精度追踪，更适合于距离较近的追踪。比如设备相对桌面、地面的位移。但是商家和用户的距离动辄几百米，过于精确的位移追踪意义不大。</p>
-</li>
-<li><p>ARWorldTrackingConfiguration 需要规范用户的操作、确保环境光线良好。这对用户来说很不友好。</p>
-</li>
-</ol>
-<p>最终经过讨论，我们团队决定使用<br>AROrientationTrackingConfiguration。这样的话，即便是在夜晚，甚至遮住摄像头，商家的位置也能够正确的进行展现。而且剧烈晃动带来的影响很小，商家位置虽然会出现短暂的角度偏差，但是在传感器数值稳定下来后就会得到校准。</p>
-<h3 id="坐标轴"><a href="#坐标轴" class="headerlink" title="坐标轴"></a>坐标轴</h3><p>ARKit 使用笛卡尔坐标系度量真实世界。ARSession 开启时的设备位置即是坐标轴的原点。而 ARSessionConfiguration 的<br>worldAlignment 属性决定了三个坐标轴的方向，该属性有三个枚举值：</p>
-<ul>
-<li><p>ARWorldAlignmentCamera</p>
-</li>
-<li><p>ARWorldAlignmentGravity</p>
-</li>
-<li><p>ARWorldAlignmentGravityAndHeading</p>
-</li>
-</ul>
-<p>三种枚举值对应的坐标轴如下图所示：</p>
-<p><img src="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/640_3.jpg" alt>  </p>
-<p>图5 三种枚举值对应的坐标轴</p>
-<p>对于 ARWorldAlignmentCamera<br>来说，设备的姿态决定了三个坐标轴的方向。这种坐标设定适用于以设备作为参考系的坐标计算，与真实地理环境无关，比如用 AR 技术丈量真实世界物体的尺寸。</p>
-<p>对于 ARWorldAlignmentGravity 来说，Y 轴方向始终与重力方向平行，而其 X、Z<br>轴方向仍然由设备的姿态确定。这种坐标设定适用于计算拥有重力属性的物体坐标，比如放置一排氢气球，或者执行一段篮球下落的动画。</p>
-<p>对于 ARWorldAlignmentGravityAndHeading 来说，X、Y、Z 三轴固定朝向正东、正上、正南。在这种模式下 ARKit<br>内部会根据设备偏航角的朝向与地磁真北（非地磁北）方向的夹角不断地做出调整，以确保 ARKit 坐标系中 -Z<br>方向与我们真实世界的正北方向吻合。有了这个前提条件，真实世界位置坐标才能够正确地映射到虚拟世界中。显然，ARWorldAlignmentGravityAndHeading<br>才是我们需要的。</p>
-<h3 id="商家坐标"><a href="#商家坐标" class="headerlink" title="商家坐标"></a>商家坐标</h3><p>商家坐标的确定，包含水平坐标和垂直坐标两部分：</p>
-<h4 id="水平坐标"><a href="#水平坐标" class="headerlink" title="水平坐标"></a>水平坐标</h4><p>商家的水平位置只是一组经纬度值，那么如何将它对应到 ARKit 当中呢？我们通过下图来说明：</p>
-<p><img src="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/640_6.jpg" alt>  </p>
-<p>图6 经纬度转换为坐标</p>
-<p>借助 CLLocation 中的 <code>distanceFromLocation:location</code><br>方法，可以计算出两个经纬度坐标之间的距离，返回值单位是米。我们可以以用户的经度 lng1、商家的纬度 lat2 作一个辅助点（lng1,<br>lat2），然后分别计算出辅助点距离商家的距离 x、辅助点距离用户的距离 z。ARKit 坐标系同样以米为单位，因而可以直接确定商家的水平坐标（x,<br>-z）。</p>
-<h4 id="垂直坐标"><a href="#垂直坐标" class="headerlink" title="垂直坐标"></a>垂直坐标</h4><p>对商家地址进行中文分词可以提取出商户所在楼层数，再乘以一层楼大概的高度，以此确定商家的垂直坐标 y 值：</p>
-<p><img src="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/640_2.png" alt>  </p>
-<p>图7 高度信息提取</p>
-<h2 id="卡片渲染"><a href="#卡片渲染" class="headerlink" title="卡片渲染"></a>卡片渲染</h2><p>通常我们想展示的信息，都是通过 UIView 及其子类来实现。但是 ARKit<br>只负责建立真实世界与虚拟世界的桥梁，渲染的部分还是要交给渲染引擎来处理。Apple 给我们提供了三种可选的引擎：</p>
-<ul>
-<li><p>Metal</p>
-</li>
-<li><p>SpriteKit</p>
-</li>
-<li><p>SceneKit</p>
-</li>
-</ul>
-<p>强大的 Metal 引擎包含了 MetalKit、Metal 着色器以及标准库等等工具，可以更高效地利用 GPU，适用于高度定制化的渲染要求。不过<br>Metal 对于当前需求来说，有些大材小用。</p>
-<p>SpriteKit 是 2D 渲染引擎，它提供了动画、事件处理、物理碰撞等接口，通常用于制作 2D 游戏。SceneKit 是 3D 渲染引擎，它建立在<br>OpenGL 之上，支持多通道渲染。除了可以处理 3D 物体的物理碰撞和动画，还可以呈现逼真的纹理和粒子特效。SceneKit 可以用于制作 3D<br>游戏，或者在 App 中加入 3D 内容。</p>
-<p>虽然我们可以用 SpriteKit 把 2D 的卡片放置到 3D 的 AR 世界中，但是考虑到扩展性，方便之后为 AR 页面添加新的功能，这里我们选用 3D<br>渲染引擎 SceneKit。</p>
-<p>我们可以直接通过创建 ARSCNView 来使用 SceneKit。ARSCNView 是 SCNView 的子类，它做了三件事：</p>
-<ul>
-<li><p>将设备摄像头捕捉的每一帧的图像信息作为 3D 场景的背景</p>
-</li>
-<li><p>将设备摄像头的位置作为 3D 场景的摄像头（观察点）位置</p>
-</li>
-<li><p>将 ARKit 追踪的真实世界坐标轴与 3D 场景坐标轴重合</p>
-</li>
-</ul>
-<h3 id="卡片信息"><a href="#卡片信息" class="headerlink" title="卡片信息"></a>卡片信息</h3><p>SceneKit 中使用 SCNNode 来管理 3D 物体。设置 SCNNode 的 geometry 属性可以改变物体的外观。系统已经给我们提供了例如<br>SCNBox、SCNPlane、SCNSphere 等等一些常见的形状，其中 SCNPlane 正是我们所需要的卡片形状。借助 UIGraphics<br>中的一些方法可以将绘制好的 UIView 渲染成一个 UIImage 对象。根据这张图片创建 SCNPlane，以作为 SCNNode 的外观。</p>
-<h3 id><a href="#" class="headerlink" title="**"></a>**</h3><p>**</p>
-<h3 id="卡片大小"><a href="#卡片大小" class="headerlink" title="卡片大小"></a>卡片大小</h3><p>ARKit 中的物体都是近大远小。只要固定好 SCNPlane 的宽高，ARKit 会自动根据距离的远近设置 SCNPlane<br>的大小。这里列出一个在屏幕上具体的像素数与距离的粗略计算公式，为笔者在开发过程中摸索的经验值：</p>
-<p><img src="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/640_4.jpg" alt>  </p>
-<p>也就是说，假如 SCNPlane 的宽度为 30，距离用户 100 米，那么在屏幕上看到这个 SCNPlane 的宽度大约为 \(530 / 100<br>\times 30 = 159) pt。</p>
-<h3 id="卡片位置"><a href="#卡片位置" class="headerlink" title="卡片位置"></a>卡片位置</h3><p>对于距离用户过近的商家卡片，会出现两个问题：</p>
-<ul>
-<li><p>由于 ARKit 自动将卡片展现得近大远小，身边的卡片会大到遮住了视野</p>
-</li>
-<li><p>前文提到的 ARSession 使用 AROrientationTrackingConfiguration 追踪模式，由于没有追踪设备的水平位移，当用户走向商家时，并不会发觉商家卡片越来越近</p>
-</li>
-</ul>
-<p>这里我们将距离用户过近的卡片映射到稍远的位置。如下图所示，距离用户的距离小于 d 的卡片，会被映射到 d-k ~ d 的区间内。</p>
-<p><img src="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/640.png" alt>  </p>
-<p>图8 过近卡片位置映射</p>
-<p>假设某商家距离用户的真实距离为 x，映射后的距离为 y，映射关系如下：</p>
-<p><img src="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/640_3.png" alt>  </p>
-<p>这样既解决了距离过近的问题，又可以保持卡片之间的远近关系。用户位置发生位移到达一定阈值后，会触发一次新的网络请求，根据新的用户位置来重新计算商家的位置。这样随着用户的移动，卡片的位置也会持续地更新。</p>
-<h3 id="卡片朝向"><a href="#卡片朝向" class="headerlink" title="卡片朝向"></a>卡片朝向</h3><p>SceneKit 会在渲染每一帧之前，根据 SCNNode 的约束自动调整卡片的各种行为，比如碰撞、位置、速度、朝向等等。SCNConstraint<br>的子类中 SCNLookAtConstraint 和 SCNBillboardConstraint 可以约束卡片的朝向。</p>
-<p>SCNLookAtConstraint 可以让卡片始终朝向空间中某一个点。这样相邻的卡片会出现交叉现象，用户看到的卡片信息很可能是不完整的。使用<br>SCNBillboardConstraint 可以解决这个问题，让卡片的朝向始终与摄像头的朝向平行。</p>
-<p><img src="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/640_2.jpg" alt>  </p>
-<p>图9 卡片朝向的两种约束</p>
-<p>下面是创建卡片的示例代码：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">// 位置</span><br><span class="line"></span><br><span class="line">SCNVector nodePosition = SCNVectorMake(-200, 5, -80);</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">// 外观</span><br><span class="line"></span><br><span class="line">SCNPlane *plane = [SCNPlane planeWithWidth:image.size.width</span><br><span class="line"></span><br><span class="line">                                    height:image.size.height];</span><br><span class="line"></span><br><span class="line">plane.firstMaterial.diffuse.contents = image;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">// 约束</span><br><span class="line"></span><br><span class="line">SCNBillboardConstraint *constraint = [SCNBillboardConstraint</span><br><span class="line">constraint.freeAxes = SCNBillboardAxisY;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">SCNNode *node = [SCNNode nodeWithGeometry:plane];</span><br><span class="line"></span><br><span class="line">node.position = nodePosition;</span><br><span class="line"></span><br><span class="line">node.constraints = @[constraint];</span><br></pre></td></tr></table></figure>
+            <h1 id="生产环境下日志输出禁用"><a href="#生产环境下日志输出禁用" class="headerlink" title="生产环境下日志输出禁用"></a>生产环境下日志输出禁用</h1><p>接入babel-plugin-transform-remove-console</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install babel-plugin-transform-remove-console --save-dev</span><br></pre></td></tr></table></figure>
 
-<h1 id="-1"><a href="#-1" class="headerlink" title=" "></a> </h1><h1 id="优化"><a href="#优化" class="headerlink" title="优化"></a><strong>优化</strong></h1><h2 id="遮挡问题"><a href="#遮挡问题" class="headerlink" title="遮挡问题"></a><strong>遮挡问题</strong></h2><p>如果同一个方向的商家数量有很多，那么卡片会出现互相重叠的现象，这会导致用户只能看到离自己近的卡片。这是个比较棘手的问题，如果在屏幕上平铺卡片的话，既牺牲了对商家高度的感知，又无法体现商家距离用户的远近关系。</p>
-<h3 id="点击散开的交互方式"><a href="#点击散开的交互方式" class="headerlink" title="点击散开的交互方式"></a>点击散开的交互方式</h3><p>经过漫长的讨论，我们最终决定采取点击重叠区域后，卡片向四周分散的交互方式来解决重叠问题，效果如下：</p>
-<p><img src="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/640_3.gif" alt>  </p>
-<p>图10 卡片散开的效果</p>
-<p>下面围绕点击和投射两个部分，介绍该效果的实现原理。</p>
-<h4 id="点击"><a href="#点击" class="headerlink" title="点击"></a><strong>点击</strong></h4><p>熟悉 Cocoa Touch 的朋友都了解，UIView 的层级结构是通过 hit-testing 来判断哪个视图响应事件的，在 ARKit 中也不例外。</p>
-<p>ARSCNView 可以使用两种 hit-testing：</p>
-<ul>
-<li><p>来自 ARSCNView 的 <code>hitTest:types:</code> 方法：查找点击的位置所对应的真实世界中的物体或位置</p>
-</li>
-<li><p>来自 SCNSceneRenderer 协议的 <code>hitTest:options:</code> 方法：查找点击位置所对应的虚拟世界中的内容。</p>
-</li>
-</ul>
-<p>显然，<code>hitTest:options:</code> 才是我们需要的。在 3D 世界中的 hit-testing<br>就像一束激光一样，向点击位置的方向发射，<code>hitTest:options:</code><br>的返回值就是被激光穿透的所有卡片的数组。这样就可以检测到用户点击的位置有哪些卡片发生了重叠。</p>
-<h4 id="投射"><a href="#投射" class="headerlink" title="投射"></a>投射</h4><p>这里简单介绍一下散开的实现原理。SCNSceneRenderer 协议有两个方法用来投射坐标：</p>
-<ul>
-<li><p><code>projectPoint:</code>：将三维坐标系中点的坐标，投射到屏幕坐标系中</p>
-</li>
-<li><p><code>unprojectPoint:</code>：将屏幕坐标系中的点的坐标，投射到三维坐标系中</p>
-</li>
-</ul>
-<p>其中屏幕坐标系中的点也是个 SCNVector3，其 z 坐标代表着深度，从 0.0（近裁面）到 1.0（远裁面）。散开的整体过程如下:</p>
-<p><img src="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/640_5.jpg" alt>  </p>
-<p>图11 投射过程</p>
-<p>散开后，点击空白处会恢复散开的状态，回到初始位置。未参与散开的卡片会被淡化，以突出重点，减少视觉压力。</p>
-<h3 id="后台聚类"><a href="#后台聚类" class="headerlink" title="后台聚类"></a>后台聚类</h3><p>对于排布比较密集的商家，卡片的重叠现象会很严重。点击散开的卡片数量太多对用户不是很友好。后台在返回用户附近的商家数据时，按照商家的经纬度坐标，使用<br>K-Means 聚类算法进行二维聚类，将距离很近的商家聚合为一个卡片。由于这些商家的位置大体相同，可以采用一个带有数字的卡片来代表几个商家的位置：</p>
-<p><img src="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/640.gif" alt>  </p>
-<p>图12 聚合卡片</p>
-<h2 id="闪烁问题"><a href="#闪烁问题" class="headerlink" title="闪烁问题"></a>闪烁问题</h2><p>实测中发现，距离较近的卡片在重叠区域会发生闪烁的现象：</p>
-<p><img src="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/640_2.gif" alt>  </p>
-<p>图13 闪烁</p>
-<p>这里要引入一个 3D 渲染引擎普遍要面对的问题——可见性问题。简单来说就是屏幕上哪些物体应该被展示，哪些物体应该被遮挡。GPU<br>最终应该在屏幕上渲染出所有应该被展示的像素。</p>
-<p>可见性问题的一个典型的解决方案就是<a href="https://en.wikipedia.org/wiki/Painter%27s_algorithm" target="_blank" rel="noopener"></a><a href="https://en.wikipedia.org/wiki/Painter%27s_algorithm" target="_blank" rel="noopener">画家算法</a>，它像一个头脑简单的画家一样，先绘制最远的物体，然后一层层的绘制到最近的物体。可想而知，画家算法的效率很低，绘制较精细场景会很消耗资源。</p>
-<h3 id="深度缓冲"><a href="#深度缓冲" class="headerlink" title="深度缓冲"></a>深度缓冲</h3><p> **  
-**</p>
-<p><a href="https://en.wikipedia.org/wiki/Z-buffering" target="_blank" rel="noopener">深度缓冲</a><br>弥补了画家算法的缺陷，它使用一个二维数组来存储当前屏幕中每个像素的深度。如下图所示，某个像素点渲染了深度为 0.5 的像素，并储存该像素的深度：</p>
-<p><img src="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/640_1.jpg" alt>  </p>
-<p>图14 深度缓冲区</p>
-<p>下一帧时，当另外一个物体的某个像素也在这个像素点渲染时，GPU<br>会对该像素的深度与缓冲区中的深度进行比较，深度小者被保留并被存入缓冲区，深度大者不被渲染。如下图所示，该像素点下一帧要渲染的像素深度为<br>0.2，比缓冲区存储的 0.5 小，其深度被存储，并且该像素被渲染在屏幕上：</p>
-<p><img src="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/640_9.jpg" alt>  </p>
-<p>图15 深度小的像素被保留</p>
-<p>显然，深度缓冲技术相比画家算法，可以极大地提升渲染效率。但是它也会带来深度冲突的问题。</p>
-<h3 id="深度冲突"><a href="#深度冲突" class="headerlink" title="深度冲突"></a>深度冲突</h3><p>深度缓冲技术在处理具有相同深度的像素点时，会出现深度冲突（<a href="https://en.wikipedia.org/wiki/Z-fighting" target="_blank" rel="noopener"></a><a href="https://en.wikipedia.org/wiki/Z-fighting" target="_blank" rel="noopener">Z-fighting</a>）现象。这些具有相同深度的像素点在竞争中只有一个“胜出”，显示在屏幕上。如下图所示：</p>
-<p><img src="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/640_7.jpg" alt>  </p>
-<p>图16 深度冲突</p>
-<p>如果这两个像素点交替“胜出”，就会出现我们视觉上的闪烁效果。由于每个卡片都被设置了 SCNBillboardConstraint<br>约束，始终朝向摄像头方向。摄像头轻微的角度变化，都会引起卡片之间出现部分重合。与有厚度的物体不同，卡片之间的深度关系变化很快，很容易出现多个卡片在屏幕同一个位置渲染的情况。所以经常会出现闪烁的现象：</p>
-<p><img src="/blog/2019/05/18/其他/ARKit：增强现实技术在美团到餐业务的实践/640_4.gif" alt>  </p>
-<p>图17 角度变化引起的深度冲突</p>
-<p>为了解决这 Bug 般的体验，最终决定牺牲深度缓冲带来的渲染效率。SceneKit 为我们暴露了深度是否写入、读取缓冲区的接口，我们将其禁用即可：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> plane.firstMaterial.writesToDepthBuffer = NO;</span><br><span class="line"></span><br><span class="line"> plane.firstMaterial.readsFromDepthBuffer = NO;</span><br></pre></td></tr></table></figure>
+<p>配置.babelrc</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">// 生产环境下配置去掉console输出</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   ...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   &quot;plugins&quot;: [</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     ...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   ],</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   &quot;env&quot;: &#123;&quot;production&quot;: &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       &quot;plugins&quot;: [[&quot;transform-remove-console&quot;, &#123;&quot;exclude&quot;: [&quot;error&quot;]&#125;]]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 
-<p>由于卡片内容内容相对简单，禁用缓冲区对帧率几乎没什么影响。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2><p>在到餐业务场景中，以 AR+LBS 的方式展现商家信息，可以给用户带来沉浸式的体验。本文介绍了 ARKit<br>的一些使用细节，总结了在开发过程中遇到的问题以及解决方案，希望可以给其他开发者带来一点参考价值。</p>
+<h1 id="采用setNativeProps"><a href="#采用setNativeProps" class="headerlink" title="采用setNativeProps"></a>采用setNativeProps</h1><p>在RN中，如果需要频繁刷新view，建议使用setNativeProps，避免使用setState导致的频繁render。</p>
+<p>类似顶部tab的透明度渐变，就适用这种情况</p>
+<p>官方原文建议</p>
+<p> 在（不得不）频繁刷新而又遇到了性能瓶颈的时候。<br>直接操作组件并不是应该经常使用的工具。一般来说只是用来创建连续的动画，同时避免渲染组件结构和同步太多视图变化所带来的大量开销。setNativeProps<br>是一个“简单粗暴”的方法，它直接在底层（DOM、UIView等）而不是React组件中记录state，这样会使代码逻辑难以理清。所以在使用这个方法之前，请尽量先尝试用setState<br>和shouldComponentUpdate方法来解决问题。</p>
+<h1 id="使用PureComponent或shouldComponentUpdate"><a href="#使用PureComponent或shouldComponentUpdate" class="headerlink" title="使用PureComponent或shouldComponentUpdate"></a>使用PureComponent或shouldComponentUpdate</h1><p> <strong>PureComponent</strong></p>
+<p>当组件更新时，如果组件的 props 和 state 都没发生改变， render 方法就不会触发，省去 Virtual DOM<br>的生成和比对过程，达到提升性能的目的。</p>
+<p>具体原理是 在shouldComponentUpdate回调中，对oldState和newState 及<br>oldProps和newProps进行浅比较，如不同，才return true，进而回调render。</p>
+<p> <strong>重写shouldComponentUpdate</strong></p>
+<p>代码块</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">shouldComponentUpdate() &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      return this.state.update;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>控制在需要的时候才去刷新，根据需求或者业务去控制。</p>
+<h1 id="Android硬件加速"><a href="#Android硬件加速" class="headerlink" title="Android硬件加速"></a>Android硬件加速</h1><p>通过启用View的renderToHardwareTextureAndroid属性<br>为true，可以开启View的硬件加速。（决定这个视图是否要把它自己（以及所有的子视图）渲染到一个 GPU 上的硬件纹理中。）</p>
+<p>在 Android<br>上，这对于只修改不透明度、旋转、位移、或缩放的动画和交互十分有用：在这些情况下，视图不必每次都重新绘制，显示列表也不需要重新执行。纹理可以被重用于不同的参数。负面作用是这会大量消耗显存，所以当交互/动画结束后应该把此属性设置回<br>false。</p>
+<p> <strong>shouldRasterizeIOS</strong> 在iOS上有个 <strong>shouldRasterizeIOS属性，</strong><br>可以设置该view在被渲染到屏幕之前，先绘制到一个位图上，这个我理解和Android中的双缓冲区比较想像。</p>
+<p>这个属性对于不会修改组件和子视图尺寸的动画和交互十分有用。举例来说，当我们移动一个静态视图的位置的时候，预渲染允许渲染器重用一个缓存了静态视图的位图，并快速合成。</p>
+<h1 id="长列表加载"><a href="#长列表加载" class="headerlink" title="长列表加载"></a>长列表加载</h1><p>使用用复用性更强的FlatList或SectionList</p>
+<p> <strong>FlatList或SectionList优化：</strong></p>
+<p>Item采用PureComponent或重写shouldComponentUpdate</p>
+<p>getItemLayout如果行高是固定的，可以使用getItemLayout，避免动态测量内容尺寸的开销。</p>
+<h1 id="首屏进入时间优化"><a href="#首屏进入时间优化" class="headerlink" title="首屏进入时间优化"></a>首屏进入时间优化</h1><p> <strong>减少bundle包大小</strong></p>
+<p>图片压缩；</p>
+<p>图片上传到图片服务器，再引用；</p>
+<p>mrn团队的拆包策略（目前有bug）</p>
+<p> <strong>懒加载</strong></p>
+<p>JS在执行import时有时很需要时间，首屏不需要展示的组件可以懒加载</p>
+<p>代码块</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> import &#123; TouchableOpacity, View, Text &#125; from &apos;react-native&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // 先把这个组件赋值为null</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> let VeryExpensive = null;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> export default class Optimized extends Component &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   state = &#123; needsExpensive: false &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   didPress = () = &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     if (VeryExpensive == null) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     // 真正需要这个组件的时候才加载</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       VeryExpensive = require(&apos;./VeryExpensive&apos;).default;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     this.setState(() = (&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       needsExpensive: true,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   render() &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     return (</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       &lt;View style=&#123;&#123; marginTop: 20 &#125;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &lt;TouchableOpacity onPress=&#123;this.didPress&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">           &lt;TextLoad&lt;/Text</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &lt;/TouchableOpacity</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       // 根据需要判断是否渲染该组件</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#123;this.state.needsExpensive ? &lt;VeryExpensive / : null&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       &lt;/View</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
 
         </div>
         
@@ -371,17 +232,17 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-18T07:35:42.553Z">2019-05-18</time>
+                <time class="level-item has-text-grey" datetime="2019-05-25T12:39:13.220Z">2019-05-25</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    14 分钟 读完 (大约 2047 个字)
+                    15 分钟 读完 (大约 2293 个字)
                 </span>
                 
                 
@@ -390,105 +251,176 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/">UML系列时序图（顺序图）sequence diagram</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/25/React-Native/React-Native常用三方组件库大全/">React-Native常用三方组件库大全</a>
             
         </h1>
         <div class="content">
-            <h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><blockquote>
-<p>用例图、类图、活动图、时序图之间是什么关系？</p>
-</blockquote>
-<blockquote>
-<p>时序图有什么作用？</p>
-</blockquote>
-<pre><code>先来模拟一下三国演义的赤壁之战的时序图，先知道它到底长什么样子，再深入介绍：</code></pre><p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20191627-50286479c12b491997c28034fa1e80fc.png" alt>  </p>
-<p> 小伙伴惊呆了，这样画战略图，一目了然，原来著名的战役是这么回事。这样看三国演义再也不会睡着了……</p>
-<p>再看看各个大人物的主要操作：</p>
-<p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20192222-9f22ca467bd647cc87c452e78fb11388.png" alt><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20192258-3ce6eac6e83b45058e1c4b571c1dc6ee.png" alt>  </p>
-<p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20192337-72f19b3150074f99a98467c920551220.png" alt><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20192402-3267135fc93142efb05f49b5ed2647d7.png" alt><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20192410-5e992a10eaac451a8cce1052fe037b51.png" alt>  </p>
-<p>代码模拟各任务操作：</p>
-<p>[<img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/copycode.gif" alt><br>](file:///Applications/%E5%8D%B0%E8%B1%A1%E7%AC%94%E8%AE%B0.app/Contents/Resources<br>/common-editor-mac/mac.html# “复制代码”)</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">public class 关羽 &#123;</span><br><span class="line"></span><br><span class="line">    public void 防守荊州();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class 张飞 &#123;</span><br><span class="line"></span><br><span class="line">    public void 防守荆州前线();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class 孙权 &#123;</span><br><span class="line"></span><br><span class="line">    public void 领兵相助();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class 刘备 &#123;</span><br><span class="line"></span><br><span class="line">    public void 应战();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class 孔明 &#123;</span><br><span class="line"></span><br><span class="line">    public void 拟定策略();</span><br><span class="line"></span><br><span class="line">    public void 联合孙权();</span><br><span class="line"></span><br><span class="line">    private void 借东风火攻();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>[<img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/copycode.gif" alt><br>](file:///Applications/%E5%8D%B0%E8%B1%A1%E7%AC%94%E8%AE%B0.app/Contents/Resources<br>/common-editor-mac/mac.html# “复制代码”)</p>
-<pre><code>(以上为伪代码，只为说明问题，缩短文章长度)。</code></pre><h3 id="分析一：用例图、活动图、时序图之间的关系"><a href="#分析一：用例图、活动图、时序图之间的关系" class="headerlink" title="分析一：用例图、活动图、时序图之间的关系"></a>分析一：用例图、活动图、时序图之间的关系</h3><p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20193505-cf3c1a6645d548e293cb3aa69d335159.png" alt>  </p>
-<h3 id="分析二：类图与时序图之间的关系"><a href="#分析二：类图与时序图之间的关系" class="headerlink" title="分析二：类图与时序图之间的关系"></a>分析二：类图与时序图之间的关系</h3><p> <img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20194242-91d35200fbb74c57a24fa4774855af7b.png" alt>  </p>
-<p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20194339-db56b08b049146b4b78b4aa4daec107f.png" alt>  </p>
-<p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20194500-8b0e002058fc4a6abb2d5ba78ca6fec8.png" alt>  </p>
-<p>类图描述系统的静态结构，时序图描述系统的动态行为。</p>
-<p>若出现了一个新的消息（不是类中的操作），则需要为类添加一个新的操作。</p>
-<p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20194909-d8d8fd9d35134cbc96a5879cadb25f7f.png" alt>  </p>
-<p>为类c添加k操作。如果这里不容易理解，可以参考上面的赤壁大战的时序图，你就知道该新加的操作到底是类B的还是C的。</p>
-<h3 id="时序图的作用"><a href="#时序图的作用" class="headerlink" title="时序图的作用"></a>时序图的作用</h3><p>用对象间的交互来描述用例。（注意是对象间的）</p>
-<p>寻找类的操作。</p>
-<h3 id="时序图的概念"><a href="#时序图的概念" class="headerlink" title="时序图的概念"></a>时序图的概念</h3><p>时序图描述了对象之间传递消息的时间顺序，它用来表示用例的行为顺序。</p>
-<h3 id="时序图的组成"><a href="#时序图的组成" class="headerlink" title="时序图的组成"></a>时序图的组成</h3><p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20194339-db56b08b049146b4b78b4aa4daec107f.png" alt>  </p>
-<p> 对象</p>
-<p>对象是类的实例，对象是通过类来创建的，我们可以把类看作是创建对象的模版。</p>
-<p>对象的符号</p>
-<p> 时序图中的每个大峡谷显示单独的列里。</p>
-<p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20200707-a8628b9cddb9423097a1fdfc67135044.png" alt>  </p>
-<p> 对象的左右排列位置</p>
-<p>对象的左右顺序并不重要，但是为了画图画的清晰整洁起见，通常应遵循一下两个原则：</p>
-<p>（1）把交互频繁的对象尽可能地靠拢。</p>
-<p>（2）把初始化整个交互活动的对象（有时是一个参与者）放置在最左边。</p>
-<p>生命线lifeline</p>
-<p>表示对象的生存时间。生命线从对象创建开始到对象销毁时终止。</p>
-<p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20202115-f65ed70cf70d484f90f648fbf550ed5f.png" alt>对象在生命线上的两种状态：休眠状态、激活状态。</p>
-<p> 消息</p>
-<p>消息的概念：</p>
-<p>对象之间的交互是通过相互发消息来实现的。一个对象可以请求（要求）另一个对象做某件事件。</p>
-<p>消息从源对象指向目标对象。消息一旦发送便将控制从源对象转移到目标对象。</p>
-<p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20194339-db56b08b049146b4b78b4aa4daec107f.png" alt>  </p>
-<p> 时序图中，消息的阅读顺序是严格自上而下的。</p>
-<p> 消息的类型与符号</p>
-<p> <img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20203237-684175dd526349d5bd9e651c907d6e95.png" alt>  </p>
-<p>实例：同步异步</p>
-<p>你叫我去吃饭，我听到了就和你去吃饭；如果没有听到，你就不停的叫，直到我告诉你听到了，才一起去吃饭。</p>
-<p>你叫我去吃饭，然后自己去吃饭，我得到消息后可能立即走，也可能等到下班才去吃饭。</p>
-<p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20203516-d6aa5db4c4234a488260b399677b23a7.png" alt>  </p>
-<p>所以，要我请你吃饭就用同步的方法，要请我吃饭就用异步的方法，这样你可以省钱。^_^!</p>
-<p>（1）简单消息</p>
-<p>简单消息是没有区分同步和异步的消息。</p>
-<p>简单消息用从一对下岗的生命线指向另一个对象的生命线的直线箭头来表示，箭头上面标出消息名。</p>
-<p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20210531-815f5970fa714745a3e3ad9cca321d8f.png" alt>  </p>
-<p>（2）同步消息</p>
-<p>消息的发送者把进程控制传递给消息的接收者，然后暂停活动，等待消息接收者的回应消息。</p>
-<p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20204005-8a15b871a5cc42c28c74d829dea4f7b7.png" alt>  </p>
-<p>你叫我去吃饭，我听到了就和你去吃饭；如果没有听到，你就不停的叫，直到我告诉你听到了，才一起去吃饭。</p>
-<p>（3）异步消息</p>
-<p>消息的发送者将消息发送给消息的接受者后，不用等待回应的消息，即可开始另一个活动。</p>
-<p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20204246-77063a575bec4a87bdef462e7944d405.png" alt>  </p>
-<p>你叫我去吃饭，然后自己去吃饭，我得到消息后可能立即走，也可能等到下班才去吃饭。</p>
-<p>激活</p>
-<p>激活的概念</p>
-<p>当一个对象没有被激活期时，该对象处于休眠状态，什么事都不做，但它仍然存在，等待新的消息来激活它。</p>
-<p>当一条消息被传递给对象的时候，它会触发该对象的某个行为，这就是说该对象被激活了。</p>
-<p>当一个对象处于激活期时，表明该对象正处于执行某个动作。</p>
-<p>激活的符号</p>
-<p>激活用一个细长的矩阵框（在生命线上）表示。</p>
-<p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20210531-815f5970fa714745a3e3ad9cca321d8f.png" alt>  </p>
-<p>矩形框的高度表示对象执行一个操作所经历的时间段，矩形的顶部表示动作的开始，底部表示动作的结束。</p>
-<p>对象接收消息后可以由自己的某个操作来完成，也可以通过其他对象的操作来完成。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>时序图到此结束，如果有需要补充的可以留言，lz定补上。</p>
-<p>时序图还是听复杂的，遇到问题得好好分析……</p>
-<p>矩形框的高度表示对象执行一个操作所经历的时间段，矩形的顶部表示动作的开始，底部表示动作的结束。</p>
-<p>对象接收消息后可以由自己的某个操作来完成，也可以通过其他对象的操作来完成。</p>
-<p>比如下面的三张图表达的意思就不同了：</p>
-<p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/20213225-881631f2ffc448ef80e448a0582daab4.png" alt>  </p>
-<p>如果能把这三个图的区别搞明白了，时序图也掌握的差不多……Thinking…..</p>
-<p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/1A90351F-8695-47EE-BDDA-E91063E49690.png" alt></p>
-<h3 id="返回消息"><a href="#返回消息" class="headerlink" title="返回消息"></a>返回消息</h3><p>返回的消息。虚线的线性箭头表示。</p>
-<p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/7B4130BD-8C98-48AC-BA9A-8D01F0F5E48B.png" alt>  </p>
-<h3 id="自关联消息"><a href="#自关联消息" class="headerlink" title="自关联消息"></a>自关联消息</h3><p>自身调用自身的方法。即自我调用的同步消息。  </p>
-<p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/F87A4E6F-A057-407E-86AD-E684CC47F22B.png" alt>  </p>
-<h2 id="组合"><a href="#组合" class="headerlink" title="组合"></a>组合</h2><p>对一个交互过程的执行条件进行限定。</p>
-<h3 id="选择组合"><a href="#选择组合" class="headerlink" title="选择组合"></a>选择组合</h3><p>表明组合中的内容可能执行可能不执行，根据条件进行判断。</p>
-<p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/09B2B47F-C94B-4D1A-B7AC-5AA0DC43A818.png" alt></p>
-<h3 id="替换组合"><a href="#替换组合" class="headerlink" title="替换组合"></a>替换组合</h3><p>类似与if..else和<a href="https://www.baidu.com/s?wd=switch&tn=24004469_oem_dg&rsv_dl=gh_pl_sl_csd" target="_blank" rel="noopener">switch</a>，多个组合中选择一个执行。</p>
-<p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/B43FE803-643F-4ED8-9F7B-32F4BAABD286.png" alt></p>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>组合情况下面的情况，摘自网络。</p>
-<p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/7ABBBC61-9025-447C-A0A5-57C795B1AB28.png" alt></p>
-<h2 id="一个简单例子"><a href="#一个简单例子" class="headerlink" title="一个简单例子"></a>一个简单例子</h2><p><img src="/blog/2019/05/18/其他/UML系列时序图（顺序图）sequence diagram/07B265AA-1F0D-4ABF-AA50-36CBCE3694FF.png" alt>  </p>
+            <p>作者整理的一套常用的React<br>Native开发中使用到的三方组件库大全，后续也会持续更新，同学们如果发现有好用的组件但是文章中没有列出的，也请给作者留言告知组件名称，作者好将读者们反馈的组件添加到文章中，以便帮助更多的RN开发者。后续持续更新的三方组件会放到文章的开头部分，代表是新追加的组件，小伙伴们请知晓！</p>
+<p>如果小伙伴们想学习React Native 框架的搭建以及Redux框架的学习使用，可以参考作者的开源项目OneM:<br><strong><a href="https://github.com/guangqiang-liu/OneM" target="_blank" rel="noopener">https://github.com/guangqiang-liu/OneM</a></strong> 记得给个star哦</p>
+<p>当然也欢迎小伙伴们加入作者的React Native实战开发QQ交流群:620792950, 开发中遇到的问题可以在群里随意的提问，互相交流学习。</p>
+<h1 id="react-native-30-每天一个Demo，共三十个，有些demo很不错哦"><a href="#react-native-30-每天一个Demo，共三十个，有些demo很不错哦" class="headerlink" title="react-native -30 (每天一个Demo，共三十个，有些demo很不错哦)"></a>react-native -30 (每天一个Demo，共三十个，有些demo很不错哦)</h1><p><a href="https://github.com/fangwei716/30-days-of-react-native" target="_blank" rel="noopener">https://github.com/fangwei716/30-days-of-react-native</a></p>
+<h1 id="自动管理Timer组件"><a href="#自动管理Timer组件" class="headerlink" title="自动管理Timer组件"></a>自动管理Timer组件</h1><p>此组件目前只支持ES5 语法，ES6语法</p>
+<p>请在componentWillUnmount() 中清除timer</p>
+<p><a href="https://github.com/reactjs/react-timer-mixin" target="_blank" rel="noopener">https://github.com/reactjs/react-timer-mixin</a></p>
+<h1 id="蚂蚁金服组件库-antd-mobile"><a href="#蚂蚁金服组件库-antd-mobile" class="headerlink" title="蚂蚁金服组件库 antd-mobile"></a>蚂蚁金服组件库 antd-mobile</h1><p><a href="https://github.com/ant-design/ant-design-mobile" target="_blank" rel="noopener">https://github.com/ant-design/ant-design-mobile</a></p>
+<h1 id="react-native-button"><a href="#react-native-button" class="headerlink" title="react-native-button"></a>react-native-button</h1><p><a href="https://github.com/ide/react-native-button" target="_blank" rel="noopener">https://github.com/ide/react-native-button</a></p>
+<h1 id="点击图片放大缩小"><a href="#点击图片放大缩小" class="headerlink" title="点击图片放大缩小"></a>点击图片放大缩小</h1><p><a href="https://github.com/ascoders/react-native-image-viewer" target="_blank" rel="noopener">https://github.com/ascoders/react-native-image-viewer</a></p>
+<h1 id="进度组件"><a href="#进度组件" class="headerlink" title="进度组件"></a>进度组件</h1><p><a href="https://github.com/oblador/react-native-progress" target="_blank" rel="noopener">https://github.com/oblador/react-native-progress</a></p>
+<h1 id="路由组件react-native-router-flux"><a href="#路由组件react-native-router-flux" class="headerlink" title="路由组件react-native-router-flux"></a>路由组件react-native-router-flux</h1><p><a href="https://github.com/aksonov/react-native-router-flux" target="_blank" rel="noopener">https://github.com/aksonov/react-native-router-flux</a></p>
+<h1 id="简单的storage封装"><a href="#简单的storage封装" class="headerlink" title="简单的storage封装"></a>简单的storage封装</h1><p><a href="https://github.com/jasonmerino/react-native-simple-store" target="_blank" rel="noopener">https://github.com/jasonmerino/react-native-simple-store</a></p>
+<h1 id="tabBar组件react-native-tab-navigator"><a href="#tabBar组件react-native-tab-navigator" class="headerlink" title="tabBar组件react-native-tab-navigator"></a>tabBar组件react-native-tab-navigator</h1><p><a href="https://github.com/happypancake/react-native-tab-navigator" target="_blank" rel="noopener">https://github.com/happypancake/react-native-tab-navigator</a></p>
+<h1 id="iconFont组件"><a href="#iconFont组件" class="headerlink" title="iconFont组件"></a>iconFont组件</h1><p><a href="https://github.com/oblador/react-native-vector-icons" target="_blank" rel="noopener">https://github.com/oblador/react-native-vector-icons</a></p>
+<h1 id="分页组件-react-native-viewpager"><a href="#分页组件-react-native-viewpager" class="headerlink" title="分页组件 react-native-viewpager"></a>分页组件 react-native-viewpager</h1><p><a href="https://github.com/race604/react-native-viewpager" target="_blank" rel="noopener">https://github.com/race604/react-native-viewpager</a></p>
+<h1 id="导航组件-react-navigation"><a href="#导航组件-react-navigation" class="headerlink" title="导航组件 react-navigation"></a>导航组件 react-navigation</h1><p><a href="https://github.com/react-community/react-navigation" target="_blank" rel="noopener">https://github.com/react-community/react-navigation</a></p>
+<h1 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h1><p><a href="https://github.com/oblador/react-native-animatable" target="_blank" rel="noopener">https://github.com/oblador/react-native-animatable</a></p>
+<h1 id="轮播"><a href="#轮播" class="headerlink" title="轮播"></a>轮播</h1><p><a href="https://github.com/nick/react-native-carousel" target="_blank" rel="noopener">https://github.com/nick/react-native-carousel</a></p>
+<h1 id="倒计时"><a href="#倒计时" class="headerlink" title="倒计时"></a>倒计时</h1><p><a href="https://github.com/buhe/react-native-countdown" target="_blank" rel="noopener">https://github.com/buhe/react-native-countdown</a></p>
+<h1 id="设备信息react-native-device-info"><a href="#设备信息react-native-device-info" class="headerlink" title="设备信息react-native-device-info"></a>设备信息react-native-device-info</h1><p><a href="https://github.com/rebeccahughes/react-native-device-info" target="_blank" rel="noopener">https://github.com/rebeccahughes/react-native-device-info</a></p>
+<h1 id="文件上传react-native-fileupload"><a href="#文件上传react-native-fileupload" class="headerlink" title="文件上传react-native-fileupload"></a>文件上传react-native-fileupload</h1><p><a href="https://github.com/PhilippKrone/react-native-fileupload" target="_blank" rel="noopener">https://github.com/PhilippKrone/react-native-fileupload</a></p>
+<h1 id="图标"><a href="#图标" class="headerlink" title="图标"></a>图标</h1><p><a href="https://github.com/corymsmith/react-native-icons" target="_blank" rel="noopener">https://github.com/corymsmith/react-native-icons</a></p>
+<p><a href="https://github.com/oblador/react-native-vector-icons" target="_blank" rel="noopener">https://github.com/oblador/react-native-vector-icons</a></p>
+<h1 id="图片选择器react-native-image-picker"><a href="#图片选择器react-native-image-picker" class="headerlink" title="图片选择器react-native-image-picker"></a>图片选择器react-native-image-picker</h1><p><a href="https://github.com/react-community/react-native-image-picker" target="_blank" rel="noopener">https://github.com/react-community/react-native-image-picker</a></p>
+<h1 id="iOS-KeyChain管理react-native-keychain"><a href="#iOS-KeyChain管理react-native-keychain" class="headerlink" title="iOS KeyChain管理react-native-keychain"></a>iOS KeyChain管理react-native-keychain</h1><p><a href="https://github.com/oblador/react-native-keychain" target="_blank" rel="noopener">https://github.com/oblador/react-native-keychain</a></p>
+<h1 id="滚轮选择器react-native-picker"><a href="#滚轮选择器react-native-picker" class="headerlink" title="滚轮选择器react-native-picker"></a>滚轮选择器react-native-picker</h1><p><a href="https://github.com/beefe/react-native-picker" target="_blank" rel="noopener">https://github.com/beefe/react-native-picker</a></p>
+<h1 id="Android-滚轮选择器react-native-picker-Android"><a href="#Android-滚轮选择器react-native-picker-Android" class="headerlink" title="Android 滚轮选择器react-native-picker-Android"></a>Android 滚轮选择器react-native-picker-Android</h1><p><a href="https://github.com/beefe/react-native-picker-android" target="_blank" rel="noopener">https://github.com/beefe/react-native-picker-android</a></p>
+<h1 id="可刷新列表react-native-refreshable-listview"><a href="#可刷新列表react-native-refreshable-listview" class="headerlink" title="可刷新列表react-native-refreshable-listview"></a>可刷新列表react-native-refreshable-listview</h1><p><a href="https://github.com/jsdf/react-native-refreshable-listview" target="_blank" rel="noopener">https://github.com/jsdf/react-native-refreshable-listview</a></p>
+<h1 id="可滚动标签react-native-scrollable-tab-view"><a href="#可滚动标签react-native-scrollable-tab-view" class="headerlink" title="可滚动标签react-native-scrollable-tab-view"></a>可滚动标签react-native-scrollable-tab-view</h1><p><a href="https://github.com/skv-headless/react-native-scrollable-tab-view" target="_blank" rel="noopener">https://github.com/skv-headless/react-native-scrollable-tab-view</a></p>
+<h1 id="侧栏react-native-side-menu"><a href="#侧栏react-native-side-menu" class="headerlink" title="侧栏react-native-side-menu"></a>侧栏react-native-side-menu</h1><p><a href="https://github.com/react-native-community/react-native-side-menu" target="_blank" rel="noopener">https://github.com/react-native-community/react-native-side-menu</a></p>
+<h1 id="轮播react-native-swiper"><a href="#轮播react-native-swiper" class="headerlink" title="轮播react-native-swiper"></a>轮播react-native-swiper</h1><p><a href="https://github.com/leecade/react-native-swiper" target="_blank" rel="noopener">https://github.com/leecade/react-native-swiper</a></p>
+<h1 id="音视频播放react-native-video"><a href="#音视频播放react-native-video" class="headerlink" title="音视频播放react-native-video"></a>音视频播放react-native-video</h1><p><a href="https://github.com/react-native-community/react-native-video" target="_blank" rel="noopener">https://github.com/react-native-community/react-native-video</a></p>
+<h1 id="分页浏览react-native-viewpager"><a href="#分页浏览react-native-viewpager" class="headerlink" title="分页浏览react-native-viewpager"></a>分页浏览react-native-viewpager</h1><p><a href="https://github.com/race604/react-native-viewpager" target="_blank" rel="noopener">https://github.com/race604/react-native-viewpager</a></p>
+<h1 id="可滑动的底部或上部导航栏框架react-native-scrollable-tab-view"><a href="#可滑动的底部或上部导航栏框架react-native-scrollable-tab-view" class="headerlink" title="可滑动的底部或上部导航栏框架react-native-scrollable-tab-view"></a>可滑动的底部或上部导航栏框架react-native-scrollable-tab-view</h1><p><a href="https://github.com/skv-headless/react-native-scrollable-tab-view" target="_blank" rel="noopener">https://github.com/skv-headless/react-native-scrollable-tab-view</a></p>
+<h1 id="底部或上部导航框架-不可滑动-react-native-tab-navigator"><a href="#底部或上部导航框架-不可滑动-react-native-tab-navigator" class="headerlink" title="底部或上部导航框架(不可滑动)react-native-tab-navigator"></a>底部或上部导航框架(不可滑动)react-native-tab-navigator</h1><p><a href="https://github.com/happypancake/react-native-tab-navigator" target="_blank" rel="noopener">https://github.com/happypancake/react-native-tab-navigator</a></p>
+<h1 id="CheckBoxreact-native-check-box"><a href="#CheckBoxreact-native-check-box" class="headerlink" title="CheckBoxreact-native-check-box"></a>CheckBoxreact-native-check-box</h1><p><a href="https://github.com/crazycodeboy/react-native-check-box" target="_blank" rel="noopener">https://github.com/crazycodeboy/react-native-check-box</a></p>
+<h1 id="启动白屏问题react-native-splash-screen"><a href="#启动白屏问题react-native-splash-screen" class="headerlink" title="启动白屏问题react-native-splash-screen"></a>启动白屏问题react-native-splash-screen</h1><p><a href="https://github.com/crazycodeboy/react-native-splash-screen" target="_blank" rel="noopener">https://github.com/crazycodeboy/react-native-splash-screen</a></p>
+<h1 id="简易路由跳转框架react-native-simple-router"><a href="#简易路由跳转框架react-native-simple-router" class="headerlink" title="简易路由跳转框架react-native-simple-router"></a>简易路由跳转框架react-native-simple-router</h1><p><a href="https://github.com/react-native-simple-router-community/react-native-simple-" target="_blank" rel="noopener">https://github.com/react-native-simple-router-community/react-native-simple-</a><br>router</p>
+<h1 id="持久化存储react-native-storage"><a href="#持久化存储react-native-storage" class="headerlink" title="持久化存储react-native-storage"></a>持久化存储react-native-storage</h1><p><a href="https://github.com/sunnylqm/react-native-storage" target="_blank" rel="noopener">https://github.com/sunnylqm/react-native-storage</a></p>
+<h1 id="分类ListViewreact-native-sortable-listview"><a href="#分类ListViewreact-native-sortable-listview" class="headerlink" title="分类ListViewreact-native-sortable-listview"></a>分类ListViewreact-native-sortable-listview</h1><p><a href="https://github.com/deanmcpherson/react-native-sortable-listview" target="_blank" rel="noopener">https://github.com/deanmcpherson/react-native-sortable-listview</a></p>
+<h1 id="将-HTML-目录作为本地视图的控件，其风格可以定制react-native-htmlview"><a href="#将-HTML-目录作为本地视图的控件，其风格可以定制react-native-htmlview" class="headerlink" title="将 HTML 目录作为本地视图的控件，其风格可以定制react-native-htmlview"></a>将 HTML 目录作为本地视图的控件，其风格可以定制react-native-htmlview</h1><p><a href="https://github.com/jsdf/react-native-htmlview" target="_blank" rel="noopener">https://github.com/jsdf/react-native-htmlview</a></p>
+<h1 id="Toastreact-native-easy-toast"><a href="#Toastreact-native-easy-toast" class="headerlink" title="Toastreact-native-easy-toast"></a>Toastreact-native-easy-toast</h1><p><a href="https://github.com/crazycodeboy/react-native-easy-toast" target="_blank" rel="noopener">https://github.com/crazycodeboy/react-native-easy-toast</a></p>
+<h1 id="material组件库（各种漂亮的小组件）"><a href="#material组件库（各种漂亮的小组件）" class="headerlink" title="material组件库（各种漂亮的小组件）"></a>material组件库（各种漂亮的小组件）</h1><p><a href="https://github.com/xinthink/react-native-material-kitbase" target="_blank" rel="noopener">https://github.com/xinthink/react-native-material-kitbase</a></p>
+<h1 id="组件库（各种封装不错的小组件）"><a href="#组件库（各种封装不错的小组件）" class="headerlink" title="组件库（各种封装不错的小组件）"></a>组件库（各种封装不错的小组件）</h1><p><a href="http://nativebase.io/docs/v0.4.6/components#anatomy" target="_blank" rel="noopener">http://nativebase.io/docs/v0.4.6/components#anatomy</a></p>
+<p><a href="https://github.com/GeekyAnts/NativeBase" target="_blank" rel="noopener">https://github.com/GeekyAnts/NativeBase</a></p>
+<h1 id="按钮"><a href="#按钮" class="headerlink" title="按钮"></a>按钮</h1><p><a href="https://github.com/mastermoo/react-native-action-button" target="_blank" rel="noopener">https://github.com/mastermoo/react-native-action-button</a></p>
+<p><a href="https://github.com/ide/react-native-button" target="_blank" rel="noopener">https://github.com/ide/react-native-button</a></p>
+<h1 id="输入框表单验证"><a href="#输入框表单验证" class="headerlink" title="输入框表单验证"></a>输入框表单验证</h1><p><a href="https://github.com/gcanti/tcomb-form-native" target="_blank" rel="noopener">https://github.com/gcanti/tcomb-form-native</a></p>
+<p><a href="https://github.com/FaridSafi/react-native-gifted-form" target="_blank" rel="noopener">https://github.com/FaridSafi/react-native-gifted-form</a></p>
+<p><a href="https://github.com/bartonhammond/snowflake" target="_blank" rel="noopener">https://github.com/bartonhammond/snowflake</a></p>
+<h1 id="炫酷效果的-TextInput"><a href="#炫酷效果的-TextInput" class="headerlink" title="炫酷效果的 TextInput"></a>炫酷效果的 TextInput</h1><p><a href="https://github.com/halilb/react-native-textinput-effects" target="_blank" rel="noopener">https://github.com/halilb/react-native-textinput-effects</a></p>
+<p><a href="https://github.com/zbtang/React-Native-TextInputLayout" target="_blank" rel="noopener">https://github.com/zbtang/React-Native-TextInputLayout</a></p>
+<h1 id="聊天"><a href="#聊天" class="headerlink" title="聊天"></a>聊天</h1><p><a href="https://github.com/FaridSafi/react-native-gifted-chat" target="_blank" rel="noopener">https://github.com/FaridSafi/react-native-gifted-chat</a></p>
+<h1 id="地图"><a href="#地图" class="headerlink" title="地图"></a>地图</h1><p><a href="https://github.com/lelandrichardson/react-native-maps" target="_blank" rel="noopener">https://github.com/lelandrichardson/react-native-maps</a></p>
+<h1 id="动画-1"><a href="#动画-1" class="headerlink" title="动画"></a>动画</h1><p><a href="https://github.com/oblador/react-native-animatable" target="_blank" rel="noopener">https://github.com/oblador/react-native-animatable</a></p>
+<h1 id="加载动画"><a href="#加载动画" class="headerlink" title="加载动画"></a>加载动画</h1><p><a href="https://github.com/maxs15/react-native-spinkit" target="_blank" rel="noopener">https://github.com/maxs15/react-native-spinkit</a></p>
+<h1 id="抽屉效果"><a href="#抽屉效果" class="headerlink" title="抽屉效果"></a>抽屉效果</h1><p><a href="https://github.com/root-two/react-native-drawer" target="_blank" rel="noopener">https://github.com/root-two/react-native-drawer</a></p>
+<h1 id="侧滑按钮"><a href="#侧滑按钮" class="headerlink" title="侧滑按钮"></a>侧滑按钮</h1><p><a href="https://github.com/dancormier/react-native-swipeout" target="_blank" rel="noopener">https://github.com/dancormier/react-native-swipeout</a></p>
+<p><a href="https://github.com/jemise111/react-native-swipe-list-view" target="_blank" rel="noopener">https://github.com/jemise111/react-native-swipe-list-view</a></p>
+<h1 id="图表"><a href="#图表" class="headerlink" title="图表"></a>图表</h1><p><a href="https://github.com/tomauty/react-native-chart" target="_blank" rel="noopener">https://github.com/tomauty/react-native-chart</a></p>
+<h1 id="下拉放大"><a href="#下拉放大" class="headerlink" title="下拉放大"></a>下拉放大</h1><p><a href="https://github.com/lelandrichardson/react-native-parallax-view" target="_blank" rel="noopener">https://github.com/lelandrichardson/react-native-parallax-view</a></p>
+<h1 id="可滑动的日历组件"><a href="#可滑动的日历组件" class="headerlink" title="可滑动的日历组件"></a>可滑动的日历组件</h1><p><a href="https://github.com/cqm1994617/react-native-myCalendar" target="_blank" rel="noopener">https://github.com/cqm1994617/react-native-myCalendar</a></p>
+<h1 id="语言转化和一些常用格式转换"><a href="#语言转化和一些常用格式转换" class="headerlink" title="语言转化和一些常用格式转换"></a>语言转化和一些常用格式转换</h1><p><a href="https://github.com/joshswan/react-native-globalize" target="_blank" rel="noopener">https://github.com/joshswan/react-native-globalize</a></p>
+<h1 id="单选多选ListView"><a href="#单选多选ListView" class="headerlink" title="单选多选ListView"></a>单选多选ListView</h1><p><a href="https://github.com/hinet/react-native-checkboxlist" target="_blank" rel="noopener">https://github.com/hinet/react-native-checkboxlist</a></p>
+<h1 id="选择按钮"><a href="#选择按钮" class="headerlink" title="选择按钮"></a>选择按钮</h1><p><a href="https://github.com/sconxu/react-native-checkbox" target="_blank" rel="noopener">https://github.com/sconxu/react-native-checkbox</a></p>
+<h1 id="二维码"><a href="#二维码" class="headerlink" title="二维码"></a>二维码</h1><p><a href="https://github.com/ideacreation/react-native-barcodescanner" target="_blank" rel="noopener">https://github.com/ideacreation/react-native-barcodescanner</a></p>
+<h1 id="制作本地库"><a href="#制作本地库" class="headerlink" title="制作本地库"></a>制作本地库</h1><p><a href="https://github.com/frostney/react-native-create-library" target="_blank" rel="noopener">https://github.com/frostney/react-native-create-library</a></p>
+<h1 id="影音相关"><a href="#影音相关" class="headerlink" title="影音相关"></a>影音相关</h1><p><a href="https://github.com/MisterAlex95/react-native-record-sound" target="_blank" rel="noopener">https://github.com/MisterAlex95/react-native-record-sound</a></p>
+<h1 id="安卓录音"><a href="#安卓录音" class="headerlink" title="安卓录音"></a>安卓录音</h1><p><a href="https://github.com/bosung90/react-native-audio-android" target="_blank" rel="noopener">https://github.com/bosung90/react-native-audio-android</a></p>
+<h1 id="提示消息的Bar"><a href="#提示消息的Bar" class="headerlink" title="提示消息的Bar"></a>提示消息的Bar</h1><p><a href="https://github.com/KBLNY/react-native-message-bar" target="_blank" rel="noopener">https://github.com/KBLNY/react-native-message-bar</a></p>
+<h1 id="iOS原生TableView"><a href="#iOS原生TableView" class="headerlink" title="iOS原生TableView"></a>iOS原生TableView</h1><p><a href="https://github.com/aksonov/react-native-tableview" target="_blank" rel="noopener">https://github.com/aksonov/react-native-tableview</a></p>
+<h1 id="点击弹出视图"><a href="#点击弹出视图" class="headerlink" title="点击弹出视图"></a>点击弹出视图</h1><p><a href="https://github.com/jeanregisser/react-native-popover" target="_blank" rel="noopener">https://github.com/jeanregisser/react-native-popover</a></p>
+<p><a href="https://github.com/instea/react-native-popup-menu" target="_blank" rel="noopener">https://github.com/instea/react-native-popup-menu</a></p>
+<h1 id="3D-Touch"><a href="#3D-Touch" class="headerlink" title="3D Touch"></a>3D Touch</h1><p><a href="https://github.com/madriska/react-native-quick-actions" target="_blank" rel="noopener">https://github.com/madriska/react-native-quick-actions</a></p>
+<h1 id="双平台兼容的ActionSheet"><a href="#双平台兼容的ActionSheet" class="headerlink" title="双平台兼容的ActionSheet"></a>双平台兼容的ActionSheet</h1><p><a href="https://github.com/beefe/react-native-actionsheet" target="_blank" rel="noopener">https://github.com/beefe/react-native-actionsheet</a></p>
+<h1 id="照片墙"><a href="#照片墙" class="headerlink" title="照片墙"></a>照片墙</h1><p><a href="https://github.com/ldn0x7dc/react-native-gallery" target="_blank" rel="noopener">https://github.com/ldn0x7dc/react-native-gallery</a></p>
+<h1 id="键盘遮挡问题"><a href="#键盘遮挡问题" class="headerlink" title="键盘遮挡问题"></a>键盘遮挡问题</h1><p><a href="https://github.com/wix/react-native-keyboard-aware-scrollview" target="_blank" rel="noopener">https://github.com/wix/react-native-keyboard-aware-scrollview</a></p>
+<p><a href="https://github.com/reactnativecn/react-native-inputscrollview" target="_blank" rel="noopener">https://github.com/reactnativecn/react-native-inputscrollview</a></p>
+<h1 id="本地存储"><a href="#本地存储" class="headerlink" title="本地存储"></a>本地存储</h1><p><a href="https://github.com/sunnylqm/react-native-storage" target="_blank" rel="noopener">https://github.com/sunnylqm/react-native-storage</a></p>
+<h1 id="星星"><a href="#星星" class="headerlink" title="星星"></a>星星</h1><p><a href="https://github.com/djchie/react-native-star-rating" target="_blank" rel="noopener">https://github.com/djchie/react-native-star-rating</a></p>
+<h1 id="国际化"><a href="#国际化" class="headerlink" title="国际化"></a>国际化</h1><p><a href="https://github.com/joshswan/react-native-globalize" target="_blank" rel="noopener">https://github.com/joshswan/react-native-globalize</a></p>
+<h1 id="扫描二维码"><a href="#扫描二维码" class="headerlink" title="扫描二维码"></a>扫描二维码</h1><p><a href="https://github.com/lazaronixon/react-native-qrcode-reader" target="_blank" rel="noopener">https://github.com/lazaronixon/react-native-qrcode-reader</a></p>
+<h1 id="通讯录"><a href="#通讯录" class="headerlink" title="通讯录"></a>通讯录</h1><p><a href="https://github.com/rt2zz/react-native-contacts" target="_blank" rel="noopener">https://github.com/rt2zz/react-native-contacts</a></p>
+<h1 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h1><p><a href="https://www.npmjs.com/package/crypto-js" target="_blank" rel="noopener">https://www.npmjs.com/package/crypto-js</a></p>
+<h1 id="缓存管理"><a href="#缓存管理" class="headerlink" title="缓存管理"></a>缓存管理</h1><p><a href="https://github.com/reactnativecn/react-native-http-cache" target="_blank" rel="noopener">https://github.com/reactnativecn/react-native-http-cache</a></p>
+<h1 id="ListView的优化"><a href="#ListView的优化" class="headerlink" title="ListView的优化"></a>ListView的优化</h1><p><a href="https://github.com/sghiassy/react-native-sglistview" target="_blank" rel="noopener">https://github.com/sghiassy/react-native-sglistview</a></p>
+<h1 id="图片和base64互转"><a href="#图片和base64互转" class="headerlink" title="图片和base64互转"></a>图片和base64互转</h1><p><a href="https://github.com/xfumihiro/react-native-image-to-base64" target="_blank" rel="noopener">https://github.com/xfumihiro/react-native-image-to-base64</a></p>
+<h1 id="安卓-iOS-白屏解决"><a href="#安卓-iOS-白屏解决" class="headerlink" title="安卓 iOS 白屏解决"></a>安卓 iOS 白屏解决</h1><p><a href="https://github.com/mehcode/rn-splash-screen" target="_blank" rel="noopener">https://github.com/mehcode/rn-splash-screen</a></p>
+<h1 id="Text跑马灯效果"><a href="#Text跑马灯效果" class="headerlink" title="Text跑马灯效果"></a>Text跑马灯效果</h1><p><a href="https://github.com/remobile/react-native-marquee-label" target="_blank" rel="noopener">https://github.com/remobile/react-native-marquee-label</a></p>
+<h1 id="清除按钮的输入框"><a href="#清除按钮的输入框" class="headerlink" title="清除按钮的输入框"></a>清除按钮的输入框</h1><p><a href="https://github.com/beefe/react-native-textinput" target="_blank" rel="noopener">https://github.com/beefe/react-native-textinput</a></p>
+<h1 id="webView-bridge相关"><a href="#webView-bridge相关" class="headerlink" title="webView-bridge相关"></a>webView-bridge相关</h1><p><a href="https://github.com/alinz/react-native-webview-bridge" target="_blank" rel="noopener">https://github.com/alinz/react-native-webview-bridge</a></p>
+<h1 id="判断横竖屏"><a href="#判断横竖屏" class="headerlink" title="判断横竖屏"></a>判断横竖屏</h1><p><a href="https://github.com/yamill/react-native-orientation" target="_blank" rel="noopener">https://github.com/yamill/react-native-orientation</a></p>
+<h1 id="PDF"><a href="#PDF" class="headerlink" title="PDF"></a>PDF</h1><p><a href="https://github.com/cnjon/react-native-pdf-view" target="_blank" rel="noopener">https://github.com/cnjon/react-native-pdf-view</a></p>
+<h1 id="获取设备信息"><a href="#获取设备信息" class="headerlink" title="获取设备信息"></a>获取设备信息</h1><p><a href="https://github.com/rebeccahughes/react-native-device-info" target="_blank" rel="noopener">https://github.com/rebeccahughes/react-native-device-info</a></p>
+<h1 id="手势放大缩小移动"><a href="#手势放大缩小移动" class="headerlink" title="手势放大缩小移动"></a>手势放大缩小移动</h1><p><a href="https://github.com/kiddkai/react-native-gestures" target="_blank" rel="noopener">https://github.com/kiddkai/react-native-gestures</a></p>
+<p><a href="https://github.com/johanneslumpe/react-native-gesture-recognizers" target="_blank" rel="noopener">https://github.com/johanneslumpe/react-native-gesture-recognizers</a></p>
+<h1 id="下拉-上拉-刷新"><a href="#下拉-上拉-刷新" class="headerlink" title="下拉-上拉-刷新"></a>下拉-上拉-刷新</h1><p><a href="https://github.com/FaridSafi/react-native-gifted-listview" target="_blank" rel="noopener">https://github.com/FaridSafi/react-native-gifted-listview</a></p>
+<p><a href="https://github.com/jsdf/react-native-refreshable-listview" target="_blank" rel="noopener">https://github.com/jsdf/react-native-refreshable-listview</a></p>
+<p><a href="https://github.com/greatbsky/react-native-pull/wiki" target="_blank" rel="noopener">https://github.com/greatbsky/react-native-pull/wiki</a></p>
+<h1 id="下拉选择"><a href="#下拉选择" class="headerlink" title="下拉选择"></a>下拉选择</h1><p><a href="https://github.com/alinz/react-native-dropdown" target="_blank" rel="noopener">https://github.com/alinz/react-native-dropdown</a></p>
+<h1 id="图片查看"><a href="#图片查看" class="headerlink" title="图片查看"></a>图片查看</h1><p><a href="https://github.com/oblador/react-native-lightbox" target="_blank" rel="noopener">https://github.com/oblador/react-native-lightbox</a></p>
+<h1 id="照片选择"><a href="#照片选择" class="headerlink" title="照片选择"></a>照片选择</h1><p><a href="https://github.com/marcshilling/react-native-image-picker" target="_blank" rel="noopener">https://github.com/marcshilling/react-native-image-picker</a></p>
+<p><a href="https://github.com/ivpusic/react-native-image-crop-picker" target="_blank" rel="noopener">https://github.com/ivpusic/react-native-image-crop-picker</a></p>
+<h1 id="图片加载进度条"><a href="#图片加载进度条" class="headerlink" title="图片加载进度条"></a>图片加载进度条</h1><p><a href="https://github.com/oblador/react-native-image-progress" target="_blank" rel="noopener">https://github.com/oblador/react-native-image-progress</a></p>
+<h1 id="轮播视图"><a href="#轮播视图" class="headerlink" title="轮播视图"></a>轮播视图</h1><p><a href="https://github.com/race604/react-native-viewpager" target="_blank" rel="noopener">https://github.com/race604/react-native-viewpager</a></p>
+<p><a href="https://github.com/FuYaoDe/react-native-app-intro" target="_blank" rel="noopener">https://github.com/FuYaoDe/react-native-app-intro</a></p>
+<p><a href="https://github.com/appintheair/react-native-looped-carousel" target="_blank" rel="noopener">https://github.com/appintheair/react-native-looped-carousel</a></p>
+<p><a href="https://github.com/leecade/react-native-swiper" target="_blank" rel="noopener">https://github.com/leecade/react-native-swiper</a></p>
+<h1 id="模态视图"><a href="#模态视图" class="headerlink" title="模态视图"></a>模态视图</h1><p><a href="https://github.com/maxs15/react-native-modalbox" target="_blank" rel="noopener">https://github.com/maxs15/react-native-modalbox</a></p>
+<p><a href="https://github.com/brentvatne/react-native-modal" target="_blank" rel="noopener">https://github.com/brentvatne/react-native-modal</a></p>
+<p><a href="https://github.com/bodyflex/react-native-simple-modal" target="_blank" rel="noopener">https://github.com/bodyflex/react-native-simple-modal</a></p>
+<h1 id="毛玻璃效果"><a href="#毛玻璃效果" class="headerlink" title="毛玻璃效果"></a>毛玻璃效果</h1><p><a href="https://github.com/react-native-fellowship/react-native-blur" target="_blank" rel="noopener">https://github.com/react-native-fellowship/react-native-blur</a></p>
+<h1 id="头像库"><a href="#头像库" class="headerlink" title="头像库"></a>头像库</h1><p><a href="https://github.com/oblador/react-native-vector-icons" target="_blank" rel="noopener">https://github.com/oblador/react-native-vector-icons</a></p>
+<h1 id="滑动选项卡"><a href="#滑动选项卡" class="headerlink" title="滑动选项卡"></a>滑动选项卡</h1><p><a href="https://github.com/skv-headless/react-native-scrollable-tab-view" target="_blank" rel="noopener">https://github.com/skv-headless/react-native-scrollable-tab-view</a></p>
+<h4 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h4><h4 id="https-github-com-aroth-react-native-uploader"><a href="#https-github-com-aroth-react-native-uploader" class="headerlink" title="https://github.com/aroth/react-native-uploader"></a><a href="https://github.com/aroth/react-native-uploader" target="_blank" rel="noopener">https://github.com/aroth/react-native-uploader</a></h4><h1 id="动画-2"><a href="#动画-2" class="headerlink" title="动画"></a>动画</h1><p><a href="https://github.com/oblador/react-native-animatable" target="_blank" rel="noopener">https://github.com/oblador/react-native-animatable</a></p>
+<h1 id="图标-1"><a href="#图标-1" class="headerlink" title="图标"></a>图标</h1><p><a href="https://github.com/oblador/react-native-vector-icons" target="_blank" rel="noopener">https://github.com/oblador/react-native-vector-icons</a></p>
+<h1 id="图片选择器（可多选）"><a href="#图片选择器（可多选）" class="headerlink" title="图片选择器（可多选）"></a>图片选择器（可多选）</h1><p><a href="https://github.com/ivpusic/react-native-image-crop-picker" target="_blank" rel="noopener">https://github.com/ivpusic/react-native-image-crop-picker</a></p>
+<h1 id="滚轮选择器"><a href="#滚轮选择器" class="headerlink" title="滚轮选择器"></a>滚轮选择器</h1><p><a href="https://github.com/beefe/react-native-picker" target="_blank" rel="noopener">https://github.com/beefe/react-native-picker</a></p>
+<h1 id="下拉刷新listview"><a href="#下拉刷新listview" class="headerlink" title="下拉刷新listview"></a>下拉刷新listview</h1><p><a href="https://github.com/jsdf/react-native-refreshable-listview" target="_blank" rel="noopener">https://github.com/jsdf/react-native-refreshable-listview</a></p>
+<h1 id="可滚动Tab"><a href="#可滚动Tab" class="headerlink" title="可滚动Tab"></a>可滚动Tab</h1><p><a href="https://github.com/skv-headless/react-native-scrollable-tab-view" target="_blank" rel="noopener">https://github.com/skv-headless/react-native-scrollable-tab-view</a></p>
+<h1 id="侧栏"><a href="#侧栏" class="headerlink" title="侧栏"></a>侧栏</h1><p><a href="https://github.com/react-native-community/react-native-side-menu" target="_blank" rel="noopener">https://github.com/react-native-community/react-native-side-menu</a></p>
+<h1 id="图片轮播"><a href="#图片轮播" class="headerlink" title="图片轮播"></a>图片轮播</h1><p><a href="https://github.com/leecade/react-native-swiper" target="_blank" rel="noopener">https://github.com/leecade/react-native-swiper</a></p>
+<h1 id="CheckBox"><a href="#CheckBox" class="headerlink" title="CheckBox"></a>CheckBox</h1><p><a href="https://github.com/crazycodeboy/react-native-check-box" target="_blank" rel="noopener">https://github.com/crazycodeboy/react-native-check-box</a></p>
+<h1 id="Toast"><a href="#Toast" class="headerlink" title="Toast"></a>Toast</h1><p><a href="https://github.com/crazycodeboy/react-native-easy-toast" target="_blank" rel="noopener">https://github.com/crazycodeboy/react-native-easy-toast</a></p>
+<h1 id="各种漂亮的小组件"><a href="#各种漂亮的小组件" class="headerlink" title="各种漂亮的小组件"></a>各种漂亮的小组件</h1><p><a href="https://github.com/xinthink/react-native-material-kit" target="_blank" rel="noopener">https://github.com/xinthink/react-native-material-kit</a></p>
+<h1 id="base组件库"><a href="#base组件库" class="headerlink" title="base组件库"></a>base组件库</h1><p><a href="https://github.com/GeekyAnts/NativeBase" target="_blank" rel="noopener">https://github.com/GeekyAnts/NativeBase</a></p>
+<h1 id="按钮-1"><a href="#按钮-1" class="headerlink" title="按钮"></a>按钮</h1><p><a href="https://github.com/mastermoo/react-native-action-button" target="_blank" rel="noopener">https://github.com/mastermoo/react-native-action-button</a></p>
+<h1 id="炫酷效果的-TextInput-1"><a href="#炫酷效果的-TextInput-1" class="headerlink" title="炫酷效果的 TextInput"></a>炫酷效果的 TextInput</h1><p><a href="https://github.com/halilb/react-native-textinput-effects" target="_blank" rel="noopener">https://github.com/halilb/react-native-textinput-effects</a></p>
+<p><a href="https://github.com/zbtang/React-Native-TextInputLayout" target="_blank" rel="noopener">https://github.com/zbtang/React-Native-TextInputLayout</a></p>
+<h1 id="聊天-1"><a href="#聊天-1" class="headerlink" title="聊天"></a>聊天</h1><p><a href="https://github.com/FaridSafi/react-native-gifted-chat" target="_blank" rel="noopener">https://github.com/FaridSafi/react-native-gifted-chat</a></p>
+<h1 id="百度地图"><a href="#百度地图" class="headerlink" title="百度地图"></a>百度地图</h1><p><a href="https://github.com/lovebing/react-native-baidu-map" target="_blank" rel="noopener">https://github.com/lovebing/react-native-baidu-map</a></p>
+<p><a href="http://www.jianshu.com/p/eceb7e66fa5e" target="_blank" rel="noopener">http://www.jianshu.com/p/eceb7e66fa5e</a></p>
+<h1 id="加载动画-1"><a href="#加载动画-1" class="headerlink" title="加载动画"></a>加载动画</h1><p><a href="https://github.com/maxs15/react-native-spinkit" target="_blank" rel="noopener">https://github.com/maxs15/react-native-spinkit</a></p>
+<h1 id="侧滑按钮-1"><a href="#侧滑按钮-1" class="headerlink" title="侧滑按钮"></a>侧滑按钮</h1><p><a href="https://github.com/dancormier/react-native-swipeout" target="_blank" rel="noopener">https://github.com/dancormier/react-native-swipeout</a></p>
+<p><a href="https://github.com/jemise111/react-native-swipe-list-view" target="_blank" rel="noopener">https://github.com/jemise111/react-native-swipe-list-view</a></p>
+<h1 id="图表-1"><a href="#图表-1" class="headerlink" title="图表"></a>图表</h1><p><a href="https://github.com/wuxudong/react-native-charts-wrapper" target="_blank" rel="noopener">https://github.com/wuxudong/react-native-charts-wrapper</a></p>
+<h1 id="下拉放大-1"><a href="#下拉放大-1" class="headerlink" title="下拉放大"></a>下拉放大</h1><p><a href="https://github.com/lelandrichardson/react-native-parallax-view" target="_blank" rel="noopener">https://github.com/lelandrichardson/react-native-parallax-view</a></p>
+<h1 id="可滑动的日历组件-1"><a href="#可滑动的日历组件-1" class="headerlink" title="可滑动的日历组件"></a>可滑动的日历组件</h1><p><a href="https://github.com/cqm1994617/react-native-myCalendar" target="_blank" rel="noopener">https://github.com/cqm1994617/react-native-myCalendar</a></p>
+<h1 id="提示消息的Bar-1"><a href="#提示消息的Bar-1" class="headerlink" title="提示消息的Bar"></a>提示消息的Bar</h1><p><a href="https://github.com/KBLNY/react-native-message-bar" target="_blank" rel="noopener">https://github.com/KBLNY/react-native-message-bar</a></p>
+<h1 id="点击弹出视图-1"><a href="#点击弹出视图-1" class="headerlink" title="点击弹出视图"></a>点击弹出视图</h1><p><a href="https://github.com/jeanregisser/react-native-popover" target="_blank" rel="noopener">https://github.com/jeanregisser/react-native-popover</a></p>
+<h1 id="3D-Touch-1"><a href="#3D-Touch-1" class="headerlink" title="3D Touch"></a>3D Touch</h1><p><a href="https://github.com/madriska/react-native-quick-actions" target="_blank" rel="noopener">https://github.com/madriska/react-native-quick-actions</a></p>
+<h1 id="双平台兼容的ActionSheet-1"><a href="#双平台兼容的ActionSheet-1" class="headerlink" title="双平台兼容的ActionSheet"></a>双平台兼容的ActionSheet</h1><p><a href="https://github.com/beefe/react-native-actionsheet" target="_blank" rel="noopener">https://github.com/beefe/react-native-actionsheet</a></p>
+<h1 id="图片加载进度条-1"><a href="#图片加载进度条-1" class="headerlink" title="图片加载进度条"></a>图片加载进度条</h1><p><a href="https://github.com/oblador/react-native-image-progress" target="_blank" rel="noopener">https://github.com/oblador/react-native-image-progress</a></p>
+<h1 id="模态视图-1"><a href="#模态视图-1" class="headerlink" title="模态视图"></a>模态视图</h1><p><a href="https://github.com/maxs15/react-native-modalbox" target="_blank" rel="noopener">https://github.com/maxs15/react-native-modalbox</a></p>
+<p><a href="https://github.com/bodyflex/react-native-simple-modal" target="_blank" rel="noopener">https://github.com/bodyflex/react-native-simple-modal</a></p>
+<h1 id="毛玻璃效果-1"><a href="#毛玻璃效果-1" class="headerlink" title="毛玻璃效果"></a>毛玻璃效果</h1><p><a href="https://github.com/react-native-community/react-native-blur" target="_blank" rel="noopener">https://github.com/react-native-community/react-native-blur</a></p>
+<h1 id="按钮特效"><a href="#按钮特效" class="headerlink" title="按钮特效"></a>按钮特效</h1><p><a href="https://github.com/dwicao/react-native-circle-button" target="_blank" rel="noopener">https://github.com/dwicao/react-native-circle-button</a></p>
+<h1 id="折叠动画"><a href="#折叠动画" class="headerlink" title="折叠动画"></a>折叠动画</h1><p><a href="https://github.com/jmurzy/react-native-foldview" target="_blank" rel="noopener">https://github.com/jmurzy/react-native-foldview</a></p>
+<h1 id="方块滚动轮播图"><a href="#方块滚动轮播图" class="headerlink" title="方块滚动轮播图"></a>方块滚动轮播图</h1><p><a href="https://github.com/archriss/react-native-snap-carousel" target="_blank" rel="noopener">https://github.com/archriss/react-native-snap-carousel</a></p>
+<h1 id="下拉选项组件"><a href="#下拉选项组件" class="headerlink" title="下拉选项组件"></a>下拉选项组件</h1><p><a href="https://github.com/sohobloo/react-native-modal-dropdown" target="_blank" rel="noopener">https://github.com/sohobloo/react-native-modal-dropdown</a></p>
+<h1 id="提示气泡toast"><a href="#提示气泡toast" class="headerlink" title="提示气泡toast"></a>提示气泡toast</h1><p><a href="https://github.com/magicismight/react-native-root-toast" target="_blank" rel="noopener">https://github.com/magicismight/react-native-root-toast</a></p>
+<h1 id="From表单"><a href="#From表单" class="headerlink" title="From表单"></a>From表单</h1><p><a href="https://github.com/FaridSafi/react-native-gifted-form" target="_blank" rel="noopener">https://github.com/FaridSafi/react-native-gifted-form</a></p>
+<h1 id="线性渐变颜色"><a href="#线性渐变颜色" class="headerlink" title="线性渐变颜色"></a>线性渐变颜色</h1><p><a href="https://link.jianshu.com/?t=https://github.com/brentvatne/react-native-linear-" target="_blank" rel="noopener">https://link.jianshu.com/?t=https://github.com/brentvatne/react-native-linear-</a><br>gradient</p>
+<h1 id="app-引导页"><a href="#app-引导页" class="headerlink" title="app 引导页"></a>app 引导页</h1><p><a href="https://github.com/fuyaode/react-native-app-intro" target="_blank" rel="noopener">https://github.com/fuyaode/react-native-app-intro</a></p>
+<h1 id="手势解锁密码"><a href="#手势解锁密码" class="headerlink" title="手势解锁密码"></a>手势解锁密码</h1><p><a href="https://link.jianshu.com/?t=https://github.com/spikef/react-native-gesture-" target="_blank" rel="noopener">https://link.jianshu.com/?t=https://github.com/spikef/react-native-gesture-</a><br>password</p>
+<h1 id="瀑布流列表"><a href="#瀑布流列表" class="headerlink" title="瀑布流列表"></a>瀑布流列表</h1><p><a href="https://github.com/xudafeng/autoresponsive-react-native" target="_blank" rel="noopener">https://github.com/xudafeng/autoresponsive-react-native</a></p>
+<h1 id="折叠列表"><a href="#折叠列表" class="headerlink" title="折叠列表"></a>折叠列表</h1><p><a href="https://github.com/naoufal/react-native-accordion" target="_blank" rel="noopener">https://github.com/naoufal/react-native-accordion</a></p>
+<h1 id="通讯录-1"><a href="#通讯录-1" class="headerlink" title="通讯录"></a>通讯录</h1><p><a href="https://github.com/i6mi6/react-native-alphabetlistview" target="_blank" rel="noopener">https://github.com/i6mi6/react-native-alphabetlistview</a></p>
+<h1 id="多级菜单"><a href="#多级菜单" class="headerlink" title="多级菜单"></a>多级菜单</h1><p><a href="https://github.com/vczero/react-native-tab-menu" target="_blank" rel="noopener">https://github.com/vczero/react-native-tab-menu</a></p>
+<h1 id="tip提示框"><a href="#tip提示框" class="headerlink" title="tip提示框"></a>tip提示框</h1><p><a href="https://github.com/chirag04/react-native-tooltip" target="_blank" rel="noopener">https://github.com/chirag04/react-native-tooltip</a></p>
+<h1 id="pdf文件上传"><a href="#pdf文件上传" class="headerlink" title="pdf文件上传"></a>pdf文件上传</h1><p><a href="https://link.jianshu.com/?t=https://github.com/wonday/react-native-pdf" target="_blank" rel="noopener">https://link.jianshu.com/?t=https://github.com/wonday/react-native-pdf</a></p>
+<p><a href="https://github.com/christopherdro/react-native-html-to-pdf" target="_blank" rel="noopener">https://github.com/christopherdro/react-native-html-to-pdf</a></p>
+<h1 id="上传doc文档"><a href="#上传doc文档" class="headerlink" title="上传doc文档"></a>上传doc文档</h1><p><a href="https://github.com/philipphecht/react-native-doc-viewer" target="_blank" rel="noopener">https://github.com/philipphecht/react-native-doc-viewer</a></p>
+<h1 id="列表滑动删除"><a href="#列表滑动删除" class="headerlink" title="列表滑动删除"></a>列表滑动删除</h1><p><a href="https://github.com/jemise111/react-native-swipe-list-view" target="_blank" rel="noopener">https://github.com/jemise111/react-native-swipe-list-view</a></p>
+<h1 id="IM聊天界面"><a href="#IM聊天界面" class="headerlink" title="IM聊天界面"></a>IM聊天界面</h1><p><a href="https://github.com/Ice-MT/react-native-imUI" target="_blank" rel="noopener">https://github.com/Ice-MT/react-native-imUI</a></p>
 
         </div>
         
@@ -510,17 +442,17 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-18T07:35:42.488Z">2019-05-18</time>
+                <time class="level-item has-text-grey" datetime="2019-05-25T12:39:13.165Z">2019-05-25</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    16 分钟 读完 (大约 2397 个字)
+                    9 分钟 读完 (大约 1419 个字)
                 </span>
                 
                 
@@ -529,59 +461,58 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/18/后端/互联网架构的演变/">互联网架构的演变</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/25/React-Native/React-Native-中组件的生命周期/">React-Native-中组件的生命周期</a>
             
         </h1>
         <div class="content">
-            <h2 id><a href="#" class="headerlink" title=" "></a> </h2><p>互联网架构的演变</p>
-<p>1</p>
-<p>最初是前端一个web 加一个DB的结构</p>
-<p><img src="/blog/2019/05/18/后端/互联网架构的演变/640_4.png" alt>  </p>
-<p>这种结构，web容易挂掉，业务就会终止，由于高可用的需求，出现了下面这样的架构。</p>
-<p>2</p>
-<p>加了一个web，两个web之间是主备的关系，一个挂了，另一个来代替，用来解决高可用问题</p>
-<p><img src="/blog/2019/05/18/后端/互联网架构的演变/640_7.png" alt>  </p>
-<p>3</p>
-<p>之后发现这样的架构支持的访问量不够了，前端撑不住那么大的访问量，因为前端的访问量和DB的落库有大概是10比1的比例，前端访问10个，会有1个能够落库，所以随着访问量的增加，前端先扛不住了，这个时候主、备结构已经不能解决高可用的问题，所以在web前面加了一个ngx，作为负载均衡进行访问的转发，这个时候，web和web之间的主备关系就不存在了，在ngx进行转发的时候会有一个session保持的操作，再后来就出现无状态的概念，在两个web之间进行轮询，给谁都行</p>
-<p><img src="/blog/2019/05/18/后端/互联网架构的演变/640_2.png" alt>  </p>
-<p>4</p>
-<p>当无状态的概念出来以后，web这一层就可以进行多次的横向扩展，这是第一次质的飞越</p>
-<p><img src="/blog/2019/05/18/后端/互联网架构的演变/640.png" alt>  </p>
-<p>后来人们觉得一个ngx也会出问题，就设计了主、备结构的ngx</p>
-<p><img src="/blog/2019/05/18/后端/互联网架构的演变/640_9.png" alt>  </p>
-<p>5</p>
-<p>后来主、备ngx结构也不满足需求了，就在ngx前面加了一个lvs，lvs是一个负载均衡的结构，lvs先对ngx做分发</p>
-<p><img src="/blog/2019/05/18/后端/互联网架构的演变/640_3.png" alt>  </p>
-<p>这时nginx就解放出来了，不是主、备结构了，而是作为一个层级的结构，可以进行无限横向扩展，lvs被设计成主、备的结构，至此，lvs作为第一层就不再变化了，第一层始终是主、备的结构，lvs的负载特别小，所有的负载到lvs直接就传给ngx，ngx再往下分发</p>
-<p><img src="/blog/2019/05/18/后端/互联网架构的演变/640_8.png" alt>  </p>
-<p>这个时候，转发层活了，web层活了，压力就全到DB了，DB就开始演变</p>
-<p>6</p>
-<p>最初DB演变出来master和slave这样的架构</p>
-<p><img src="/blog/2019/05/18/后端/互联网架构的演变/640_11.png" alt>  </p>
-<p>所有的web既连master也连slave，连slave只进行读操作，连master只进行写操作，这样把读和写进行分离，这时速度就有一个质的提升</p>
-<p>然后如果一个slave不够的时候，再加一个slave，就解决了这个架构对数据库读的压力，这个时候的网站的并发访问量，理论上可以到万级了</p>
-<p><img src="/blog/2019/05/18/后端/互联网架构的演变/640_1.png" alt>  </p>
-<p>但是有一个问题，master是一个单点，如果它挂了，整个系统就都挂了，这个时候要考虑的不只是吞吐量，也要看性能、可靠性，前端已经没有问题了，但是数据库这里有一个单点的问题，后来人们就开始想办法，怎么能保证DB不会出问题呢，后来人们就把DB这块给重构了。</p>
-<p>7</p>
-<p>在web下面加了一层proxy结构，可以说是转发，也可以说是中间件，这一层结构可以做成集群，这个集群是给数据库做切片的，做成类似于分布式的功能，这一层下来给DB做切片转发，这样DB这一层的库之间就不再有主、从的关系了，都认为是主，挂掉一个，其他的还能正常工作，既做高可用，又做高性能，保证某一台挂掉的时候，另外两台可以做到高可用，如果负载不够的时候，还可以添加</p>
-<p><img src="/blog/2019/05/18/后端/互联网架构的演变/640_10.png" alt>  </p>
-<p>这个4层结构，可以在很高的性能下，很高的可靠性下做到万级甚至十万级的并发。</p>
-<p>这是5年前开始流行的架构，现在的使用率也很高，在对可靠性和性能方面要求不是很高的系统中可以很稳定的应用，但它存在一个问题，就是访问量再大的时候，落库的时候会有一个瓶颈，因为DB不只是做插入和查询，还要做分析和关联，速度会很慢，那怎么办呢？</p>
-<p>8</p>
-<p>人们开始在DB层的上边加两个缓存层（读和写），读缓存层是用redis，它也是集群，在业务层下边，DB层的上边，redis从数据库里抽数据，到自己的缓存中，然后提供给业务，只要被缓存命中的数据，读的是特别快的，redis把DB中的热数据提取到缓存层，直接给业务层来用。</p>
-<p>写的话用的是MQ，来实现写的业务，一读一写合起来就大大的提升了并发的处理。</p>
-<p><img src="/blog/2019/05/18/后端/互联网架构的演变/640_6.png" alt>  </p>
-<p>这个架构中的lvs负责四层转发，ngx做7层转发，转发下来后，web做接收。</p>
-<p>读的时候，热数据从DB里抽到redis里读，就不会因为DB的计算卡着web了，在像双十一这种秒杀的业务，可以把数据提前放到redis里，供web来读，写数据时可以快速的写给mq，之后web就不用管了，用户就可以接着做下一步了，然后mq往DB里一点一点的落库，就是说通过缓存层把高速的web和低速的DB给隔离开，这样给前边的用户体验就会特别好。</p>
-<p>比如双十一之前加购物车，都是提前被写好了放到redis里边，然后下订单都是通过mq来落库，你这边一点刷一下就过去了，你觉得过去了，实际上都在mq里往DB里处理，不可能一下子就落到DB里，目前还没有一家公司能够做到，就算是分布式数据库也不行，分布式数据库只能解决中型的业务场景，解决不了巨型的业务场景，这是这两年很典型的比较火的架构，但是它比不上分布式数据库，这种结构即使很快，如果技术实力不够也只能达到十万级，如果要扩的话，只能是横向的扩，一套一套的往上累加。</p>
-<p>9</p>
-<p>出现了新型分布式数据库以后，这个架构变得很简单，很明晰，速度也很快。</p>
-<p>lvs，nginx，web这三层不变，下边的缓存层，代理层都没有了，只剩数据库本身了，这个DB目前可以撑住10万甚至20万（瞬间的并发写），没有理论上限，各种的复杂的计算在一秒内都可以完成，这就是分布式架构的架构之美，越来越简洁。这个DB实际上是很复杂的。</p>
-<p><img src="/blog/2019/05/18/后端/互联网架构的演变/640_5.png" alt>  </p>
-<p>它的底层有自己的分布式存储dfs结构，另外有控制节点，还有提供实际计算，运行sql的计算节点，这三部分是没有中心（去中心），可扩展，对称的（坏掉一台、加一台都没问题），可以做到平行的扩展，做到无限制的可行性，也是分布式的目的所在。</p>
-<p>他是怎么做到高速的呢？实际上就是分布式存储和计算的理念，如果有中心的话，需求下来一定是发给一个中心节点上，这个中心就会成为瓶颈，无中心的话，需求下来抛给控制节点，控制节点也没有中心，控制节点接到请求以后告诉它你去哪个计算节点上去，然后计算节点去计算的时候，如果这时所有的数据放到一个dfs上边（存储DB），读写势必会很慢，但是分布式存储它是完全散开的（多个dfs），一个请求过来后是放到所有的计算节点上去算的，然后拿的时候是到所有的dfs上去拿的，这个速度会特别快，这个过程完全都是分布的，所以，这种新型的数据库架构，就可以做到每秒10万个查询、写入、update，也可以做分析，最快可以到每秒10万。</p>
-<p>目前能做到千万级别的并发的，有BAT和12306，其他就没有了，这种架构覆盖了当前互联网基本上 95%甚至是99%的需求。</p>
-<p>数据在下发的时候，是多副本，挂掉一个机器数据是不会丢失的，它的数据是打散的，这样读的才会快，这个结构出来之后直接干掉缓存层，而且可以支持列式数据库，目前的数据库基本是行式的，列式数据库对那种特别大的数据量支持的特别好。<br><em>（The End）</em></p>
+            <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>就像 Android 开发中的 View 一样，React Native（RN）<br>中的组件也有生命周期（Lifecycle）。所谓生命周期，就是一个对象从开始生成到最后消亡所经历的状态，理解生命周期，是合理开发的关键。RN<br>组件的生命周期整理如下图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-95861f85f7773d44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>如图，可以把组件生命周期大致分为三个阶段：</p>
+<p>第一阶段：是组件第一次绘制阶段，如图中的上面虚线框内，在这里完成了组件的加载和初始化；</p>
+<p>第二阶段：是组件在运行和交互阶段，如图中左下角虚线框，这个阶段组件可以处理用户交互，或者接收事件更新界面；</p>
+<p>第三阶段：是组件卸载消亡的阶段，如图中右下角的虚线框中，这里做一些组件的清理工作。</p>
+<h1 id="生命周期回调函数"><a href="#生命周期回调函数" class="headerlink" title="生命周期回调函数"></a>生命周期回调函数</h1><p>下面来详细介绍生命周期中的各回调函数。</p>
+<h2 id="getDefaultProps"><a href="#getDefaultProps" class="headerlink" title="getDefaultProps"></a>getDefaultProps</h2><p>在组件创建之前，会先调用getDefaultProps()，这是全局调用一次，严格地来说，这不是组件的生命周期的一部分。在组件被创建并加载候，首先调用getInitialState()，来初始化组件的状态。</p>
+<h2 id="componentWillMount"><a href="#componentWillMount" class="headerlink" title="componentWillMount"></a>componentWillMount</h2><p>然后，准备加载组件，会调用componentWillMount()，其原型如下：</p>
+<p> void componentWillMount()</p>
+<p>这个函数调用时机是在组件创建，并初始化了状态之后，在第一次绘制render()之前。可以在这里做一些业务初始化操作，也可以设置组件状态。这个函数在整个生命周期中只被调用一次。</p>
+<h2 id="componentDidMount"><a href="#componentDidMount" class="headerlink" title="componentDidMount"></a>componentDidMount</h2><p>在组件第一次绘制之后，会调用componentDidMount()，通知组件已经加载完成。函数原型如下：</p>
+<p> void componentDidMount()</p>
+<p>这个函数调用的时候，其虚拟 DOM 已经构建完成，你可以在这个函数开始获取其中的元素或者子组件了。需要注意的是，RN<br>框架是先调用子组件的componentDidMount()，然后调用父组件的函数。从这个函数开始，就可以和 JS<br>其他框架交互了，例如设置计时setTimeout或者setInterval，或者发起网络请求。这个函数也是只被调用一次。这个函数之后，就进入了稳定运行状态，等待事件触发。</p>
+<h2 id="componentWillReceiveProps"><a href="#componentWillReceiveProps" class="headerlink" title="componentWillReceiveProps"></a>componentWillReceiveProps</h2><p>如果组件收到新的属性（props），就会调用componentWillReceiveProps()，其原型如下：</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">void componentWillReceiveProps(</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> object nextProps</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
+
+<p>输入参数nextProps是即将被设置的属性，旧的属性还是可以通过this.props来获取。在这个回调函数里面，你可以根据属性的变化，通过调用this.setState()来更新你的组件状态，这里调用更新状态是安全的，并不会触发额外的render()调用。如下：</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">componentWillReceiveProps: function(nextProps) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> this.setState(&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> likesIncreasing: nextProps.likeCount  this.props.likeCount</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="shouldComponentUpdate"><a href="#shouldComponentUpdate" class="headerlink" title="shouldComponentUpdate"></a>shouldComponentUpdate</h2><p>当组件接收到新的属性和状态改变的话，都会触发调用shouldComponentUpdate(…)，函数原型如下：</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">boolean shouldComponentUpdate(</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> object nextProps, object nextState</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
+
+<p>输入参数nextProps和上面的componentWillReceiveProps函数一样，nextState表示组件即将更新的状态值。这个函数的返回值决定是否需要更新组件，如果true表示需要更新，继续走后面的更新流程。否者，则不更新，直接进入等待状态。</p>
+<p>默认情况下，这个函数永远返回true用来保证数据变化的时候 UI 能够同步更新。在大型项目中，你可以自己重载这个函数，通过检查变化前后属性和状态，来决定<br>UI 是否需要更新，能有效提高应用性能。</p>
+<h2 id="componentWillUpdate"><a href="#componentWillUpdate" class="headerlink" title="componentWillUpdate"></a>componentWillUpdate</h2><p>如果组件状态或者属性改变，并且上面的shouldComponentUpdate(…)返回为true，就会开始准更新组件，并调用componentWillUpdate()，其函数原型如下：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">void componentWillUpdate(</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">object nextProps, object nextState</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>输入参数与shouldComponentUpdate一样，在这个回调中，可以做一些在更新界面之前要做的事情。需要特别注意的是，在这个函数里面，你就不能使用this.setState来修改状态。这个函数调用之后，就会把nextProps和nextState分别设置到this.props和this.state中。紧接着这个函数，就会调用render()来更新界面了。</p>
+<h2 id="componentDidUpdate"><a href="#componentDidUpdate" class="headerlink" title="componentDidUpdate"></a>componentDidUpdate</h2><p>调用了render()更新完成界面之后，会调用componentDidUpdate()来得到通知，其函数原型如下：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">void componentDidUpdate(</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">object prevProps, object prevState</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>因为到这里已经完成了属性和状态的更新了，此函数的输入参数变成了prevProps和prevState。</p>
+<h2 id="componentWillUnmount"><a href="#componentWillUnmount" class="headerlink" title="componentWillUnmount"></a>componentWillUnmount</h2><p>当组件要被从界面上移除的时候，就会调用componentWillUnmount()，其函数原型如下：</p>
+<p> void componentWillUnmount()</p>
+<p>在这个函数中，可以做一些组件相关的清理工作，例如取消计时器、网络请求等。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>到这里，RN 的组件的完整的生命都介绍完了，在回头来看一下前面的图，就比较清晰了，把生命周期的回调函数总结成如下表格：</p>
+<p>生命周期                                      调用次数                           能否使用<br>setSate()</p>
+<p>getDefaultProps                       1(全局调用一次)                 否</p>
+<p>getInitialState                           1<br>否</p>
+<p>componentWillMount                1                                        是</p>
+<p>render                                        =1<br>否</p>
+<p>componentDidMount                   1                                        是</p>
+<p>componentWillReceiveProps    =0                                    是</p>
+<p>shouldComponentUpdate        =0                                        否</p>
+<p>componentWillUpdate                =0                                    否</p>
+<p>componentDidUpdate                =0                                    否</p>
+<p>componentWillUnmount            1                                        否</p>
 
         </div>
         
@@ -621,7 +552,7 @@ var _hmt = _hmt || [];
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/37/">37</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/43/">43</a></li>
             
         </ul>
     </nav>
@@ -669,7 +600,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        111
+                        128
                     </p>
                 </div>
             </div>
@@ -679,7 +610,7 @@ var _hmt = _hmt || [];
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        11
+                        12
                     </p>
                 </div>
             </div>
@@ -689,7 +620,7 @@ var _hmt = _hmt || [];
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        19
+                        23
                     </p>
                 </div>
             </div>
@@ -748,6 +679,14 @@ var _hmt = _hmt || [];
             </span>
             <span class="level-end">
                 <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/ReactNative/">
+            <span class="level-start">
+                <span class="level-item">ReactNative</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">17</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/Unity/">
@@ -833,7 +772,7 @@ var _hmt = _hmt || [];
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13.75px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11.25px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 17.5px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 18.75px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11.25px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 15px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11.25px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11.25px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11.25px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16.25px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12.5px;">网络安全</a>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/ReactNative/" style="font-size: 17px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 15px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
     </div>
 </div>
 
@@ -852,10 +791,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/Web/GithubPage+Hexo搭建个人主页/" class="has-link-black-ter is-size-6">GithubPage+Hexo搭建个人主页</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -865,10 +804,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -878,10 +817,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -891,10 +830,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -904,10 +843,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -931,7 +870,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">111</span>
+                    <span class="level-item tag">128</span>
                 </span>
             </a>
         </li>
@@ -973,6 +912,34 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Google/">
                         <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative/">
+                        <span class="tag">ReactNative</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative优化/">
+                        <span class="tag">ReactNative优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative库/">
+                        <span class="tag">ReactNative库</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
+                        <span class="tag">ReactNative插件</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1109,10 +1076,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/Web/GithubPage+Hexo搭建个人主页/" class="has-link-black-ter is-size-6">GithubPage+Hexo搭建个人主页</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1122,10 +1089,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1135,10 +1102,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1148,10 +1115,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1161,10 +1128,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1188,7 +1155,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">111</span>
+                    <span class="level-item tag">128</span>
                 </span>
             </a>
         </li>
@@ -1230,6 +1197,34 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Google/">
                         <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative/">
+                        <span class="tag">ReactNative</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative优化/">
+                        <span class="tag">ReactNative优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative库/">
+                        <span class="tag">ReactNative库</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
+                        <span class="tag">ReactNative插件</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>

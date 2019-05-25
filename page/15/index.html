@@ -153,7 +153,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.633Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.842Z">2019-05-17</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/Unity优化/">Unity优化</a>
@@ -163,7 +163,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    13 分钟 读完 (大约 2016 个字)
+                    8 分钟 读完 (大约 1142 个字)
                 </span>
                 
                 
@@ -172,605 +172,26 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/Unity图集的理解和使用/">Unity图集的理解和使用</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/Unity-UI优化技术与技巧/">Unity-UI优化技术与技巧</a>
             
         </h1>
         <div class="content">
-            <p>图集的好处：</p>
-<p>1.减少draw call: 多张图片需要多次draw call，合成了一张大图则只需要一次draw call。</p>
-<p>2.减少内存占用：OpenGL<br>ES中每张贴图都需要设置成2的n次方才能使用。比如你有一张宽高为100x100和一张宽高为10x10的图片,如果不合成大贴图,那么需要使用128x128和16x16的两张图片(分别是2的7次方和2的4次方),但如果使用一张大图的话，可以把100x100和10x10的图片放到128x128的大图中,这样就用一张图片。</p>
-<p>UGUI的图集打包与工作原理，整整看了一天多，终于看明白了～晕～还是记录一下我研究的成果，也希望大家在下面给我留言我们一起讨论一下。</p>
-<p>先说说UGUI的Atlas和NGUI的Atlas的区别，NGUI是必须先打出图集然后才能开始做界面。这一点很烦，因为始终都要去考虑你的UI图集。比如图集会不会超1024<br>，图集该如何来规划等等。而UGUI的原理则是，让开发者彻底模糊图集的概念，让开发者不要去关心自己的图集。做界面的时候只用小图，而在最终打包的时候unity才会把你的小图和并在一张大的图集里面。然而这一切一切都是自动完成的，开发者不需要去care它。</p>
-<p>如下图所示，Editor-&gt;Project Settings 下面有sprite packer的模式。Disabled表示不启用它，Enabled For<br>Builds 表示只有打包的时候才会启用它，Always Enabled 表示永远启用它。 这里的启用它就表示是否将小图自动打成图集。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ce5db986bb1a13ad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>我的选项是Always Enabled 。因为开发的时候我们需要清楚的看到现在是几个Draw<br>Call，从而才能优化小图。在最终打包的时候unity会自动构建大的图集，可是我开发的时候就想看图集会占几个Draw<br>Call，这怎么办呢？如下图所示，首先将你的图片拖入unity中，将同一图集的所有图片的packing tag设置成一个名子即可。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-dc922416b373d48a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>注意你的图片不能放在Resources文件夹下面，Resources文件夹下的资源将不会被打入图集，切记（也就是在这里混淆了我很久）。然后在Windows-&gt;Sprite<br>Packer 里，点击packer<br>在这里你就可以预览到你的图集信息。图集的大小还有图集的格式等等很多参数我们都是可以控制的，也可以通过脚本来设置。我在下一篇文章里详细说这个（请期待嘿嘿）。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-1a44840b1d9ef060.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>图集的预览紧紧是让你看看你的图集大概张什么样子。那么我们的图集的这张图片保存在了哪里呢？它保存在和Assets文件夹同级的目录，Libary/AtlasCache里面。你不用管它，也不要删除它，就算你删除了也没用因为只要你打包，它就会生成并且会打到包中。</p>
-<p>此时在Hierarchy视图中创建两个Image对象。如下图所示，我们可以清楚的看到此时我的draw call已经被合并成了1 。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0ffe79cd589f1ada.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>这两个图片是我是在Editor模式下预先拖入Hierarchy视图中的，可是如果我想运行时根据图片的名子来动态创建精灵该如何？可是unity根本没有提供加载图集的方法，也没有提供加载图集上某个图片的方法。<br>因为UGUI就不像让开发者有图集的这个概念，可是我们肯定是要实现这个需求的。。怎么办呢？</p>
-<p>第一个设想，先把散＝小图打包成图集，然后再把所有散图拷贝在Resources文件夹下，这样运行时就能用Resources.load了。</p>
-<p>第二个设想，还是先把小图打成图集，然后把所有小图关联在prefab上，拷贝在Resources文件夹下，这样运行时也能用Resources.load了。到底那个靠谱呢？<br>给大家看一个图大家就知道答案了。</p>
-<p>如下图所示，打成图集的图片如果在放在Resources那么资源就变成双份了。。<br>所以我们只能把小图关联在Prefab上，把所有的Prefab放在Resources下面，这样就不占用多余的空间了。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-192071356a4488e1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>好了，现在方法我们已经掌握，那么就开始写工具吧。如下图所示可以按文件夹分，每一个文件夹就是一个图集。然后每一张小图创建一个Prefab，Prefab的名子就起小图的名子，文件关联在Resources下面。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-29752791f390e6ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>、</p>
-<p>代码比较简单，我就不注释了。</p>
-<blockquote>
-<p>[MenuItem (“MyMenu/AtlasMaker”)]</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>static private void MakeAtlas()</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>{</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>string spriteDir = Application.dataPath +”/Resources/Sprite”;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>if(!Directory.Exists(spriteDir)){</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>Directory.CreateDirectory(spriteDir);</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>}</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>DirectoryInfo rootDirInfo = new DirectoryInfo (Application.dataPath<br>+”/Atlas”);</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>foreach (DirectoryInfo dirInfo in rootDirInfo.GetDirectories()) {</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>foreach (FileInfo pngFile in<br>dirInfo.GetFiles(“*.png”,SearchOption.AllDirectories)) {</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>string allPath = pngFile.FullName;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>string assetPath = allPath.Substring(allPath.IndexOf(“Assets”));</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>Sprite sprite = Resources.LoadAssetAtPath<sprite>(assetPath);</sprite></p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>GameObject go = new GameObject(sprite.name);</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>go.AddComponent<spriterenderer>().sprite = sprite;</spriterenderer></p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>allPath = spriteDir+”/“+sprite.name+”.prefab”;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>string prefabPath = allPath.Substring(allPath.IndexOf(“Assets”));</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>PrefabUtility.CreatePrefab(prefabPath,go);</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>GameObject.DestroyImmediate(go);</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>}</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>}</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>}</p>
-</blockquote>
-<p>然后是运行时的代码。</p>
-<blockquote>
-<p>using UnityEngine;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>using System.Collections;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>using UnityEngine.UI;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>public class UIMain : MonoBehaviour {</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>void Start ()</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>{</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>CreatImage(loadSprite(“image0”));</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>CreatImage(loadSprite(“image1”));</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>}</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>private void CreatImage(Sprite sprite ){</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>GameObject go = new GameObject(sprite.name);</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>go.layer = LayerMask.NameToLayer(“UI”);</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>go.transform.parent = transform;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>go.transform.localScale= Vector3.one;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>Image image = go.AddComponent<image>();</image></p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>image.sprite = sprite;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>image.SetNativeSize();</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>}</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>private Sprite loadSprite(string spriteName){</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>return Resources.Load<gameobject>(“Sprite/“ +<br>spriteName).GetComponent<spriterenderer>().sprite;</spriterenderer></gameobject></p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>}</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>}</p>
-</blockquote>
-<p>因为这两个图是在同一个图集上，所以drawcall就是1了。这样我们就可以根据图片的名子来运行时加载图片了。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-352f1ddadc200796.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>接下来就是Assetbundle了，如果我们的图集需要在线更新那该怎么办呢？<br>其实Assetbundle比Resources要更简单一些，无论如何我们要先开始打图集。</p>
-<blockquote>
-<p>[MenuItem (“MyMenu/Build Assetbundle”)]</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>static private void BuildAssetBundle()</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>{</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>string dir = Application.dataPath +”/StreamingAssets”;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>if(!Directory.Exists(dir)){</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>Directory.CreateDirectory(dir);</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>}</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>DirectoryInfo rootDirInfo = new DirectoryInfo (Application.dataPath<br>+”/Atlas”);</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>foreach (DirectoryInfo dirInfo in rootDirInfo.GetDirectories()) {</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>List<sprite> assets = new List<sprite>();</sprite></sprite></p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>string path = dir +”/“+dirInfo.Name+”.assetbundle”;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>foreach (FileInfo pngFile in<br>dirInfo.GetFiles(“*.png”,SearchOption.AllDirectories))</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>{</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>string allPath = pngFile.FullName;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>string assetPath = allPath.Substring(allPath.IndexOf(“Assets”));</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>assets.Add(Resources.LoadAssetAtPath<sprite>(assetPath));</sprite></p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>}</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>if(BuildPipeline.BuildAssetBundle(null, assets.ToArray(),<br>path,BuildAssetBundleOptions.UncompressedAssetBundle|<br>BuildAssetBundleOptions.CollectDependencies, GetBuildTarget())){</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>}</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>}</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>}</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>static private BuildTarget GetBuildTarget()</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>{</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>BuildTarget target = BuildTarget.WebPlayer;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>#if UNITY_STANDALONE</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>target = BuildTarget.StandaloneWindows;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>#elif UNITY_IPHONE</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>target = BuildTarget.iPhone;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>#elif UNITY_ANDROID</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>target = BuildTarget.Android;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>#endif</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>return target;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>}</p>
-</blockquote>
-<p>如下图所示，我的assetbundle已经打出来了。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a157c0bfa10e43ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>然后把UIMain.cs在改一改。</p>
-<blockquote>
-<p>using UnityEngine;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>using System.Collections;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>using UnityEngine.UI;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>public class UIMain : MonoBehaviour {</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>AssetBundle assetbundle = null;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>void Start ()</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>{</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>CreatImage(loadSprite(“image0”));</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>CreatImage(loadSprite(“image1”));</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>}</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>private void CreatImage(Sprite sprite ){</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>GameObject go = new GameObject(sprite.name);</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>go.layer = LayerMask.NameToLayer(“UI”);</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>go.transform.parent = transform;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>go.transform.localScale= Vector3.one;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>Image image = go.AddComponent<image>();</image></p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>image.sprite = sprite;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>image.SetNativeSize();</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>}</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>private Sprite loadSprite(string spriteName){</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>#if USE_ASSETBUNDLE</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>if(assetbundle == null)</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>assetbundle = AssetBundle.CreateFromFile(Application.streamingAssetsPath<br>+”/Main.assetbundle”);</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>return assetbundle.Load(spriteName) as Sprite;</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>#else</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>return Resources.Load<gameobject>(“Sprite/“ +<br>spriteName).GetComponent<spriterenderer>().sprite;</spriterenderer></gameobject></p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>#endif</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>}</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>}</p>
-</blockquote>
-<p>如下图所示，依然还是一个drawcall。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6b3672bdc9a57aa0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>衷心希望有经验的朋友在留言处给我提提意见， 或者大家一起讨论讨论。。 我们共同为把NGUI干掉的目标而奋斗，嘻嘻。</p>
+            <p>优化UI有时候并没有什么很简洁的方式。本文介绍了一些可能对UI性能提升有帮助的建议，有些建议是针对结构上“不清晰”，或难于维护，或者效果很差。另一些则可能对开发初期的UI用户界面简化有所帮助，但也相对更容易产生一些性能问题。</p>
+<h1 id="基于RectTransform的布局"><a href="#基于RectTransform的布局" class="headerlink" title="基于RectTransform的布局"></a>基于RectTransform的布局</h1><p>Layout组件的性能开销相当大，因为每次当它们被标记为Dirty时，都必须重新计算所有子节点的坐标和尺寸。如果在给定的Layout内有一些相对较小的固定数量的元素，并且布局的结构也相对简单，那么就有可能将Layout替换为基于矩形变换的布局<br>（RectTransform-based layout）。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0903f2a5cd4f4484.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>通过设置RectTransform的锚点（Anchors），RectTransform的坐标和大小会根据父节点进行缩放。例如，一个简单的两列布局可以用两个RectTransform实现:</p>
+<p>左列的锚点应该是X: (0, 0.5) 以及 Y: (0, 1)</p>
+<p>右列的锚点应该是X: (0.5, 1) 以及 Y: (0, 1)</p>
+<p>对于RectTransform坐标和大小的计算会由Transform系统自身的源代码进行驱动。通常情况下这比Luyout系统更高效。也可以通过MonoBehaviours来实现基于RectTransform的Layout。然而，这是一个相对复杂的任务，不在本文中描述。</p>
+<h1 id="禁用Canvas渲染器"><a href="#禁用Canvas渲染器" class="headerlink" title="禁用Canvas渲染器"></a>禁用Canvas渲染器</h1><p>当显示或者隐藏UI的某个部分时，通常是激活（Enable）或者禁用（Disable）UI根节点的GameObject。这会导致被禁用UI下的所有组件都将不再接收输入或者Unity回调。</p>
+<p>然而，这也会导致Canvas丢弃它的VBO（Vertex Buffer<br>Objects，顶点缓存对象）数据。重新激活Canvas需要Canvas（以及它的子Canvas）执行重新构建（Rebuild）<br>以及重新批处理（Rebatch）操作。如果这种情况非常频繁，那么CPU使用率的增加就会导致应用程序帧率的卡顿。</p>
+<p>一个可行但有风险的解决方案是让将那些需要切换显示或隐藏的UI放在单独的Canvas或子Canvas中，然后仅仅激活/禁用附加在Canvas上的Canvas渲染组件（Canvas<br>Renderer）。</p>
+<p>这会导致UI的网格不被绘制，但它们会一直存在于内存中，并且原始的批处理信息（Batching）也会被保留。此外，UI层级结构（Hierarchy）下的OnEnable<br>或者 OnDisable回调将不会执行。</p>
+<p>注意，这并不会将UI图形从图形记录（GraphicRegistry）中消除，所以它们依然会出现在组件列表中，可以被光线投射（Raycast）检测到。隐藏UI也不会禁用任何的MonoBehaviour，所以那些MonoBehaviour依然会接受Unity生命周期相关的回调，比如Update函数。</p>
+<p>隐藏UI的MonoBehaviour脚本不直接实现那些Unity生命周期相关的回调函数，而是从UI根节点上的“回调管理器”MonoBehaviour中接收回调，可以避免出现这样的问题。这个“回调管理器”无论UI是否显示都可以访问，并且保证了生命周期事件按需发送。</p>
+<h1 id="分配事件相机"><a href="#分配事件相机" class="headerlink" title="分配事件相机"></a>分配事件相机</h1><p>如果使用了Unity内置的输入管理器，并将Canvas的渲染模式设为世界空间（World Space）或者屏幕空间相机（Screen Space –<br>Camera）渲染，有一点很重要，就是分别设置Event Camera和Render<br>Camera的属性。这可以在脚本中访问Canvas的worldCamera属性进行设置。</p>
+<p>如果没有设置worldCamera属性，那么Unity UI会查找标签为Main<br>Camera的GameObject上附加的Camera脚本来搜索主相机。这个查询会在世界空间（World Space）和相机空间（Camera<br>Space）的Canvas中都至少分别执行一次。由于GameObject.FindWithTag非常缓慢，Unity强烈建议大家在设计或初始化所有的世界空间（World<br>Space）和相机空间（Camera Space）的Canvas时，就分配好各自的相机属性。</p>
+<p>这个问题不会在渲染模式为Overlay的Canvas中出现。</p>
 
         </div>
         
@@ -792,7 +213,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.609Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.836Z">2019-05-17</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/Unity优化/">Unity优化</a>
@@ -802,7 +223,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    32 分钟 读完 (大约 4845 个字)
+                    22 分钟 读完 (大约 3274 个字)
                 </span>
                 
                 
@@ -811,78 +232,54 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/unity性能优化内存篇/">unity性能优化内存篇</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/Unity性能优化方法总结/">Unity性能优化方法总结</a>
             
         </h1>
         <div class="content">
-            <h1 id="资源内存占用"><a href="#资源内存占用" class="headerlink" title="资源内存占用"></a>资源内存占用</h1><p>在一个较为复杂的大中型项目中，资源的内存占用往往占据了总体内存的70%以上。因此，资源使用是否恰当直接决定了项目的内存占用情况。一般来说，一款游戏项目的资源主要可分为如下几种：纹理（Texture）、网格（Mesh）、动画片段（AnimationClip）、音频片段（AudioClip）、材质（Material）、着色器（Shader）、字体资源（Font）以及文本资源（Text<br>Asset）等等。其中，纹理、网格、动画片段和音频片段则是最容易造成较大内存开销的资源。</p>
-<p>纹理资源可以说是几乎所有游戏项目中占据最大内存开销的资源。一个6万面片的场景，网格资源最大才不过10MB，但一个2048x2048的纹理，可能直接就达到16MB。因此，项目中纹理资源的使用是否得当会极大地影响项目的内存占用。</p>
-<p>那么，纹理资源在使用时应该注意哪些地方呢？</p>
-<p> <strong>（1） 纹理格式</strong></p>
-<p>纹理格式是研发团队最需要关注的纹理属性。因为它不仅影响着纹理的内存占用，同时还决定了纹理的加载效率。一般来说，我们建议开发团队尽可能根据硬件的种类选择硬件支持的纹理格式，比如Android平台的ETC、iOS平台的PVRTC、Windows<br>PC上的DXT等等。 <strong>因此，我们在UWA测评报告中，将纹理格式进行详细罗列，以便开发团队进行快速查找，一步定位。</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-14929745ae72ffe9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>在使用硬件支持的纹理格式时，你可能会遇到以下几个问题：</p>
-<p>色阶问题</p>
-<p>由于ETC、PVRTC等格式均为有损压缩，因此，当纹理色差范围跨度较大时，均不可避免地造成不同程度的“阶梯”状的色阶问题。因此，很多研发团队使用RGBA32/ARGB32格式来实现更好的效果。但是，这种做法将造成很大的内存占用。比如，同样一张1024x1024的纹理，如果不开启Mipmap，并且为PVRTC格式，则其内存占用为512KB，而如果转换为RGBA32位，则很可能占用达到4MB。所以，研发团队在使用RGBA32或ARGB32格式的纹理时，一定要慎重考虑，<br><strong>更为明智的选择是尽量减少纹理的色差范围，使其尽可能使用硬件支持的压缩格式进行储存。</strong></p>
-<p>ETC1 不支持透明通道问题</p>
-<p>在Android平台上，对于使用OpenGL ES<br>2.0的设备，其纹理格式仅能支持ETC1格式，该格式有个较为严重的问题，即不支持Alpha透明通道，使得透明贴图无法直接通过ETC1格式来进行储存。对此，我们建议研发团队将透明贴图尽可能分拆成两张，即一张RGB24位纹理记录原始纹理的颜色部分和一张Alpha8纹理记录原始纹理的透明通道部分。然后，将这两张贴图分别转化为ETC1格式的纹理，并通过特定的Shader来进行渲染，从而来达到支持透明贴图的效果。<br><strong>该种方法不仅可以极大程度上逼近RGBA透明贴图的渲染效果，同时还可以降低纹理的内存占用，是我们非常推荐的使用方式。</strong></p>
-<p>当然，目前已经有越来越多的设备支持了OpenGL ES<br>3.0，这样Android平台上你可以进一步使用ETC2甚至ASTC，这些纹理格式均为支持透明通道且压缩比更为理想的纹理格式。如果你的游戏适合人群为中高端设备用户，那么不妨直接使用这两种格式来作为纹理的主要存储格式。</p>
-<p> <strong>（2）纹理尺寸</strong></p>
-<p>一般来说，纹理尺寸越大，则内存占用越大。所以，尽可能降低纹理尺寸，如果512x512的纹理对于显示效果已经够用，那么就不要使用1024x1024的纹理，因为后者的内存占用是前者的四倍。<br><strong>因此，我们在UWA测评报告中，将纹理的尺寸进行详细展示，以便开发团队进行快速检测。</strong></p>
-<p> **  
-**</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3182fd8615308854.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><strong>（3） Mipmap功能</strong></p>
-<p>Mipmap旨在有效降低渲染带宽的压力，提升游戏的渲染效率。但是，开启Mipmap会将纹理内存提升1.33倍。对于具有较大纵深感的3D游戏来说，3D场景模型和角色我们一般是建议开启Mipmap功能的，但是在我们的测评项目中，经常会发现部分UI纹理也开启了Mipmap功能。这其实就没有必要的，绝大多数UI均是渲染在屏幕最上层，开启Mipmap并不会提升渲染效率，反倒会增加无谓的内存占用。<br><strong>因此，建议研发团队在UWA的测评报告中通过Mipmap一项进行排序，详细检测开启Mipmap功能的资源是否为UI资源。</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0fc3c18794b98955.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><strong>（4） Read &amp; Write</strong></p>
-<p>一般情况下，纹理资源的“Read &amp; Write”功能在Unity引擎中是默认关闭的。但是，我们仍然在项目深度优化时发现了不少项目的纹理资源会开启该选项。<br><strong>对此，我们建议研发团队密切关注纹理资源中该选项的使用，因为开启该选项将会使纹理内存增大一倍。</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-97e146e8fe1fa192.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>网格资源在较为复杂的游戏中，往往占据较高的内存。对于网格资源来说，它在使用时应该注意哪些方面呢？</p>
-<p> <strong>（1） Normal、Color和Tangent</strong></p>
-<p>在我们深度优化过的大量项目中，Mesh资源的数据中经常会含有大量的Color数据、Normal数据和Tangent数据。这些数据的存在将大幅度增加Mesh资源的文件体积和内存占用。其中，Color数据和Normal数据主要为3DMax、Maya等建模软件导出时设置所生成，而Tangent一般为导入引擎时生成。</p>
-<p>更为麻烦的是，如果项目对Mesh进行Draw Call<br>Batching操作的话，那么将很有可能进一步增大总体内存的占用。比如，100个Mesh进行拼合，其中99个Mesh均没有Color、Tangent等属性，剩下一个则包含有Color、Normal和Tangent属性，那么Mesh拼合后，CombinedMesh中将为每个Mesh来添加上此三个顶点属性，进而造成很大的内存开销。<br><strong>正因如此，我们在UWA测评报告中为每个Mesh展示了其Normal、Color和Tangent属性的具体使用情况，研发团队可以直接针对每种属性进行排序查看，直接定位出现冗余数据的资源。</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c1de552aae4fe06b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>一般来说这些数据主要为Shader所用，来生成较为酷炫的效果。所以，建议研发团队针对项目中的网格资源进行详细检测，查看该模型的渲染Shader中是否需要这些数据进行渲染。</p>
-<p>限于篇幅，我们今天只针对纹理和网格资源进行详细介绍，对于动画片段、音频片段等其他资源，建议您直接通过UWA测评报告中进行查看。同时，我们会在后续的资源专题中进行详细讲解，敬请期待。</p>
-<h1 id="引擎模块自身占用"><a href="#引擎模块自身占用" class="headerlink" title="引擎模块自身占用"></a><strong>引擎模块自身占用</strong></h1><p>引擎自身中存在内存开销的部分纷繁复杂，可以说是由巨量的“微小”内存所累积起来的，比如GameObject及其各种Component（最大量的Component应该算是Transform了）、ParticleSystem、MonoScript以及各种各样的模块Manager（SceneManager、CanvasManager、PersistentManager等)…</p>
-<p>一般情况下，上面所指出的引擎各组成部分的内存开销均比较小，真正占据较大内存开销的是这两处： <strong>WebStream</strong>  和<br><strong>SerializedFile</strong> 。其绝大部分的内存分配则是由AssetBundle加载资源所致。简单言之，当您使用new<br>WWW或CreateFromMemory来加载AssetBundle时，Unity引擎会加载原始数据到内存中并对其进行解压，而WebStream的大小则是AssetBundle原始文件大小</p>
-<ul>
-<li>解压后的数据大小 + DecompressionBuffer(0.5MB)。同时，由于Unity</li>
-</ul>
-<p>5.3版本之前的AssetBundle文件为LZMA压缩，其压缩比类似于Zip（20%-25%）,所以对于一个1MB的原始AssetBundle文件，其加载后WebStream的大小则可能是5~6MB，<br><strong>因此，当项目中存在通过new<br>WWW加载多个AssetBundle文件，且AssetBundle又无法及时释放时，WebStream的内存可能会很大，这是研发团队需要时刻关注的。</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9c5c9c4da57d07f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>对于SerializedFile，则是当你使用LoadFromCacheOrDownload、CreateFromFile或new<br>WWW本地AssetBundle文件时产生的序列化文件。</p>
-<p>对于WebStream和SerializedFile，你需要关注以下两点：</p>
-<p>是否存在AssetBundle没有被清理干净的情况。开发团队可以通过Unity Profiler直接查看其使用具体的使用情况，并确定Take<br>Sample时AssetBundle的存在是否合理；</p>
-<p>对于占用WebStream较大的AssetBundle文件（如UI<br>Atlas相关的AssetBundle文件等），建议使用LoadFromCacheOrDownLoad或CreateFromFile来进行替换，即将解压后的AssetBundle数据存储于本地Cache中进行使用。这种做法非常适合于内存特别吃紧的项目，即通过本地的磁盘空间来换取内存空间。</p>
-<p><strong>注意：关于AssetBundle的详细管理机制，建议查看我们之前的<a href="http://blog.uwa4d.com/archives/ABTheory.html" target="_blank" rel="noopener">AssetBundle技术文章</a>。</strong></p>
-<h1 id="托管堆内存占用"><a href="#托管堆内存占用" class="headerlink" title="托管堆内存占用"></a><strong>托管堆内存占用</strong></h1><p>对于目前绝大多数基于Unity引擎开发的项目而言，其托管堆内存是由Mono分配和管理的。“托管”<br>的本意是Mono可以自动地改变堆的大小来适应你所需要的内存，并且适时地调用垃圾回收（Garbage<br>Collection）操作来释放已经不需要的内存，从而降低开发人员在代码内存管理方面的门槛。</p>
-<p><strong>但是这并不意味着研发团队可以在代码中肆无忌惮地开辟托管堆内存，因为目前Unity所使用的Mono版本存在一个很严重的问题，即：Mono的堆内存一旦分配，就不会返还给系统。这意味着Mono的堆内存是只升不降的。</strong><br>举个例子，项目运行时，在场景A中开辟了60MB的托管堆内存，而到下一场景B时，只需要使用20MB的托管堆内存，那么Mono中将会存在40MB空闲的堆内存，且不会返还给系统。这是我们非常不愿意看到的现象，因为对于游戏（特别是移动游戏）来说，内存的占用可谓是寸土寸金的，让Mono毫无必要地锁住大量的内存，是一件非常浪费的事情。<br><strong>所以，我们在UWA测评报告中，为研发团队统计了测试过程中累积的函数堆内存分配量，大家只需要通过查看堆内存分配Top10的函数，即可快速对其底层代码实现进行查看，定位是否有分配不必要堆内存的代码存在。</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6b68fadbf4c4f50b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>读到这里，你可能会产生这样的疑问： <strong>我知道了哪些函数的堆内存分配大了，但是我该如何去进一步定位不必要的堆内存呢？</strong></p>
-<p>这是我们经常遇到的问题，所以在我们的深度项目优化服务中，我们都会直接进驻到项目团队，现场查看项目代码并对问题代码进行定位。在经过了大量的深度检测后，我们发现用户不必要的堆内存分配主要来自于以下几个方面：</p>
-<p>高频率地 New Class/Container/Array等。<br><strong>研发团队切记不要在Update、FixUpdate或较高调用频率的函数中开辟堆内存，这会对你的项目内存和性能均造成非常大的伤害。</strong><br>做个简单的计算，假设你的项目中某一函数每一帧只分配100B的堆内存，帧率是1秒30帧，那么1秒钟游戏的堆内存分配则是3KB，1分钟的堆内存分配就是180KB，10分钟后就已经分配了1.8MB。如果你有10个这样的函数，那么10分钟后，堆内存的分配就是18MB，这期间，它可能会造成Mono的堆内存峰值升高，同时又可能引起了多次GC的调用。在我们的测评项目中，一个函数在10分钟内分配上百MB的情况比比皆是，有时候甚至会分配上GB的堆内存。</p>
-<p>Log输出。我们发现在大量的项目中，仍然存在大量Log输出的情况。建议研发团队对自身Log的输出进行严格的控制，仅保留关键Log，以避免不必要的堆内存分配。<br><strong>对此，我们在UWA测评报告中对Log的输出进行了详细的检测，不仅提供详细的性能开销，同时占用Log输出的调用路径。这样，研发团队可直接通过报告定位和控制Log的输出。</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-def87592b3b1f28e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>UIPanel.LateUpdate。这是NGUI中CPU和堆内存开销最大的函数。它本身只是一个函数，但NGUI的大量使用使它逐渐成为了一个不可忽视规则。该函数的堆内存分配和自身CPU开销，其根源上是一致的，即是由UI网格的重建造成。因此，其对应的优化方法是直接查看<a href="http://blog.uwa4d.com/archives/optimzation_cpu.html" target="_blank" rel="noopener">CPU篇</a>中的UI模块讲解。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9f2c1f6f11e2ecf5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>关于代码堆内存分配的注意点还有很多，比如String连接、部分引擎API（GetComponent）的使用等等，这些已经是老生常谈了，鉴于篇幅限制不在此处多作介绍，大家感兴趣可以Google自行搜索。后续也会有专门的代码效率专题讲解，敬请关注。</p>
-<h1 id="UWA测评的内存标准"><a href="#UWA测评的内存标准" class="headerlink" title="UWA测评的内存标准"></a><strong>UWA测评的内存标准</strong></h1><p>在大家使用过UWA之后，对于UWA推荐的内存标准值提出了很大的疑惑。在这里，我们也分享下UWA内存标准的制定规则。</p>
-<p>（1）150MB的总体内存标准主要由以下两个因素得出：</p>
-<p> <strong>经过了大量的项目优化后总结而得。</strong><br>其实，对于目前市场主流的Unity游戏来说，其内存占用主要集中在120~200MB。同时，顾及到iPhone4和512MB/768MB等低端Android机型，其应用的自身总体内存占用不可超过200MB（iPhone4的安全线应该在180MB左右），所以我们将Reserved<br>Total设定在150MB，这是Unity引擎的自身内存分配，以保证App在使用到的系统库后，其OS中的整体内存也在200MB以下。</p>
-<p> <strong>某些渠道对Android游戏的PSS内存进行了严格的限制。</strong> 一般要求游戏的PSS内存在200MB以下。这是我们将Reserved<br>Total内存设定在150MB的另外一个重要原因。</p>
-<p>（2）当总体内存设定为150MB后，我们进一步对其具体分配进行了设定。但需要说明的是，这里的内存分配其实并没有严格的公式来进行论证，仅是我们在大量的项目优化工作中提炼出的经验值。目前，项目较为合理的内存分配如下：</p>
-<p>纹理资源： 50 MB</p>
-<p>网格资源： 20 MB</p>
-<p>动画片段： 15 MB</p>
-<p>音频片段： 15 MB</p>
-<p>Mono堆内存： 40 MB</p>
-<p>其他： 10 MB</p>
-<p>需要指出的是，150MB中并没有涵盖较为复杂的字体文件（比如微软雅黑）以及Text Asset，这些需要根据游戏需求而定。</p>
-<p>（3）目前的UWA内存标准是较为苛刻的，对于中高端设备而言，其内容允许量其实要比150MB要大得多。但我们坚持认为，在研发过程中，一个严苛的标准对于一个项目来说是一件好事。至少，它可以为大家提个醒，让大家时刻关注自己的问题。据我们了解，目前的三到五线城市，其低端手机的覆盖率还是相当高的。同时，对于中高端移动设备，我们仍在不断试验和研究中。我们希望在不久的将来可以做到针对各种不同档次的机型都给出一个更为合理的推荐值，从而让大家更为简单地对内存进行管理。</p>
-<p>以上所说的是游戏项目中主要的内存分配情况，希望读到此处的你，可以更加了解Unity项目的内存开销和潜在问题，并对自己的项目进行更有针对性的检测。</p>
-<p>除以上内容外，还有两个更为重要的地方需要研发团队关注： <strong>内存泄露</strong> 和 <strong>资源冗余</strong><br>。我们将在下一篇内存优化文章中为您带来相关分享。同时，不同的项目遇到的问题不尽相同。</p>
+            <p><strong>资源分离打包与加载</strong></p>
+<p>游戏中会有很多地方使用同一份资源。比如，有些界面共用同一份字体、同一张图集，有些场景共用同一张贴图，有些怪物使用同一个Animator，等等。在制作游戏安装包时将这些公用资源从其它资源中分离出来，单独打包。比如若资源A和B都引用了资源C，则将C分离出来单独打一个bundle。在游戏运行时，如果要加载A，则先加载C；之后如果要加载B，因为C的实例已经在内存，所以只要直接加载B，让B指向C即可。如果打包时不将C从A和B分离出来，那么A的包里会有一份C，B的包里也会有一份C，冗余的C会将安装包撑大；并且在运行时，如果A和B都加载进内存，内存里就会有两个C实例，增大了内存占用。</p>
+<p>资源分离打包与加载是最有效的减小安装包体积与运行时内存占用的手段。一般打包粒度越细，这两个指标就越小；而且当两个renderQueue相邻的DrawCall使用了相同的贴图、材质和shader实例时，这两个DrawCall就可以合并。但打包也并不是越细就越好。如果运行时要同时加载大量小bundle，那么加载速度将会非常慢——时间都浪费在协程之间的调度和多批次的小I/O上了；而且DrawCall合并不见得会提高性能，有时反而会降低性能，后文会提到。因此需要有策略地控制打包粒度。一般只字体和贴图这种体积较大的公用资源。</p>
+<p>　　可以用AssetDatabase.GetDependencies得知一份资源使用了哪些其它资源。</p>
+<p> <strong>2  贴图透明通道分离，压缩格式设为ETC/PVRTC</strong></p>
+<p>最初我们使用了DXT5作为贴图压缩格式，希望能减小贴图的内存占用，但很快发现移动平台的显卡是不支持的。因此对于一张1024x1024大小的RGBA32贴图，虽然DXT5可将它从4MB压缩到1MB，但系统将它送进显卡之前，会先用CPU在内存里将它解压成4MB的RGBA32格式（软件解压），然后再将这4MB送进显存。于是在这段时间里，这张贴图就占用了5MB内存和4MB显存；而移动平台往往没有独立显存，需要从内存里抠一块作为显存，于是原以为只占1MB内存的贴图实际却占了9MB！</p>
+<p>所有不支持硬件解压的压缩格式都有这个问题。经过一番调研，我们发现<a href="http://lib.csdn.net/base/15" target="_blank" rel="noopener">安卓</a>上硬件支持最广泛的格式是ETC，苹果上则是PVRTC。但这两种格式都是不带透明（Alpha）通道的。因此我们将每张原始贴图的透明通道都分离了出来，写进另一张贴图的红色通道里。这两张贴图都采用ETC/PVRTC压缩。渲染的时候，将两张贴图都送进显存。同时我们修改了NGUI的shader，在渲染时将第二张贴图的红色通道写到第一张贴图的透明通道里，恢复原来的颜色：</p>
+<p>fixed4 frag (v2f i) : COLOR</p>
+<pre><code>fixed4 col;
+
+col.rgb = tex2D(_MainTex, i.texcoord).rgb;
+
+col.a = tex2D(_AlphaTex, i.texcoord).r;
+
+return col * i.color;</code></pre><p>fixed4 frag (v2f i) : COLOR</p>
+<p>{</p>
+<pre><code>fixed4 col;
+
+col.rgb = tex2D(_MainTex, i.texcoord).rgb;
+
+col.a = tex2D(_AlphaTex, i.texcoord).r;
+
+return col * i.color;</code></pre><p>}</p>
+<p>这样，一张4MB的1024x1024大小的RGBA32原始贴图，会被分离并压缩成两张0.5MB的ETC/PVRTC贴图（我们用的是ETC/PVRTC 4<br>bits）。它们渲染时的内存占用则是2x0.5+2x0.5=2MB。</p>
+<p> <strong>3 关闭贴图的读写选项</strong></p>
+<p>Unity中导入的每张贴图都有一个启用可读可写（Read/Write<br>Enabled）的开关，对应的程序参数是[TextureImporter.isReadable](<a href="http://docs.unity3d.com/ScriptReference" target="_blank" rel="noopener">http://docs.unity3d.com/ScriptReference</a><br>/TextureImporter-isReadable.html)。选中贴图后可在Import<br>Setting选项卡中看到这个开关。只有打开这个开关，才可以对贴图使用Texture2D.GetPixel，读取或改写贴图资源的像素，但这就需要系统在内存里保留一份贴图的拷贝，以供CPU访问。一般游戏运行时不会有这样的需求，因此我们对所有贴图都关闭了这个开关，只在编辑中做贴图导入后处理（比如对原始贴图分离透明通道）时打开它。这样，上文提到的1024x1024大小的贴图，其运行时的2MB内存占用又可以少一半，减小到1MB。</p>
+<p> <strong>4 减少场景中的GameObject数量</strong></p>
+<p>　　有一次我们将场景中的GameObject数量减少了近2万个，游戏在iPhone<br>3S上的内存占用立马减了20MB。这些GameObject虽然基本是在隐藏状态（activeInHierarchy为false），但仍然会占用不少内存。这些GameObject身上还挂载了不少脚本，每个GameObject中的每个脚本都要实例化，又是一比不菲的内存占用。因此后来我们规定场景中的GameObject数量不得超过1万，并且将GameObject数量列为每周版本的性能监测指标。</p>
+<p> <strong>5 图集</strong></p>
+<p>整理图集的主要目的是节省运行时内存（虽然有时也能起到合并DrawCall的作用）。从这个角度讲，显示一个界面时送进显存的图集尺寸之和是越小越好。一般有如下方法可以帮助我们做到这点：</p>
+<p>1）在界面设计上，尽量让美术将控件设计为可以做九宫格拉伸，即UISprite的类型为Sliced。这样美术就可以只切出一张小图，我们在Unity中将它拉大。当然，一个控件做九宫格也就意味着其顶点数量从4个增加到至少16个（九宫格的中心格子采用Tiled做平铺类型的话，顶点数会更多），构建DrawCall的开销会更大（见第6点），但一般只要DrawCall安排合理（同样见第6点）就不会有问题。</p>
+<p>2）同样是在界面设计上，尽量让美术将图案设计成对称的形式。这样切图的时候，美术就可以只切一部分，我们在Unity中将完整的图案拼出来。比如对一个圆形图案，美术可以只切出四分之一；对一张脸，美术可以只切出一半。不过，与第1）点类似，这个方法同样有其它性能代价——一个图案所对应的顶点数和GameObject数量都增多了。第4点已经提到，GameObject数量的增多有时也会显著占用更多内存。因此一般只对尺寸较大的图案采用这个方法。</p>
+<p>3）确保不要让不必要的贴图素材驻留内存，更不要在渲染时将无关的贴图素材送进显存。为此需要将图集按照界面分开，一般一张图集只放一个界面的素材，一个界面中的UISprite也不要使用别的界面的图集。假设界面A和界面B上都有一个小小的一模一样的金币图标，不要因为在制作时贪图方便，就让界面A的UISprite直接引用界面B中的金币素材；否则界面A显示的时候，会将整个界面B的图集也送进显存，而且只要A还在内存中，B的图集也会驻留内存。对于这种情况，应该在A和B的图集中各放一个一模一样的金币图标，A中的UISprite只使用A的图集，B中的UISprite只使用B的图集。</p>
+<p>不过，如果两个界面之间存在大量相同的素材，那么这两个界面就可以共用同一张图集。这样可以减少所有界面的总内存占用量。具体操作时需要根据美术的设计进行权衡。一般界面之间相同的通用的素材越多，程序的内存负担就越小。但界面之间相同的东西太多的话，美术效果可能就不生动，这是美术和程序之间又一个需要寻求平衡的地方。</p>
+<p>　　另外，数量庞大的图标资源（如物品图标）不要做在图集里，而应该采用UITexture。</p>
+<p>4）减少图集中的空白地方。图集中完全透明的像素和不透名的像素所占的内存空间其实是一样的。因此在素材量不变的情况下，要尽量减少图集中的空白。有时一张1024x1024的图集中，素材所占的面积还没超过一半，这时可以考虑将这张图集切成两张512x512的图集。（有人会问为什么不能做成一张1024x512的图集，这是因为<a href="http://lib.csdn.net/base/1" target="_blank" rel="noopener">iOS</a>平台似乎要求送进显存的贴图一定是方形。）当然，两张不同图集的DrawCall是无法合并的，但这并不是什么问题（见第6点）。</p>
+<p>　　应该说，图集的整理在具体操作时并没有一成不变的标准，很多时候需要权衡利弊来最终决定如何整理，因为不管哪种措施都会有别的性能代价。</p>
+<p> <strong>8 降低贴图素材分辨率</strong></p>
+<p>这一招说白了其实就是减小贴图素材的尺寸。比如对一张在原画里尺寸是100x80的，我们将它导入Unity后会把它缩小到50x40，即缩小两倍。游戏实际使用的是缩小后的贴图。不过这一招是必然会显著降低美术品质的，美术立马会发现画面变得更模糊，因此一般不到程序撑不住的时候不会采用。</p>
+<p> <strong>9 界面的延迟加载和定时卸载策略</strong></p>
+<p>如果一些界面的重要性较低，并且不常被使用，可以等到界面需要打开显示的时候才从bundle加载资源，并且在关闭时将卸载出内存，或者等过一段时间再卸载。不过这个方法有两个代价：一是会影响体验，玩家要求打开界面时，界面的显示会有延迟；二是更容易出bug，上层写逻辑时要考虑异步情况，当程序员要访问一个界面时，这个界面未必会在内存里。因此目前为止我们仍未实施该方案。目前只是进入一个新场景时，卸载上一个场景用到但新场景不会用到的界面。</p>
+<p>以上的9个方法中，4、5、6需要在一定程度上从策划和美术的角度考虑问题，并且需要持续保持监控以维护优化状态（因为在设计上总是会有新界面的需求或改动老界面的需求）；其它都是一劳永逸的解决方案，只要实施稳定后，就不需要再在上面花费精力。不过2和8都是会降低美术品质的方法，尤其是8。如果美术对品质的降低程度实在忍不了的话，也可能不会允许采用这两个方法。</p>
+<p> <strong>10避免频繁调用GameObject.SetActive</strong></p>
+<p>我们游戏的某些逻辑会在一帧内频繁调用GameObject.SetActive，显示或隐藏一些对象，数量达到一百多次之多。这类操作的CPU开销很大（尤其是NGUI的UIWidget在激活的时候会做很多初始化工作），而且会触发大量GC。后来我们改变了显示和隐藏对象的方法——让对象一直保持激活状态（activeInHierarchy为true），而原来的SetActive(false)改为将对象移到屏幕外，SetActive(true)改为将对象移回屏幕内。这样性能就好多了。</p>
 
         </div>
         
@@ -904,7 +301,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.591Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.825Z">2019-05-17</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/Unity优化/">Unity优化</a>
@@ -914,7 +311,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    2 分钟 读完 (大约 352 个字)
+                    11 分钟 读完 (大约 1578 个字)
                 </span>
                 
                 
@@ -923,21 +320,38 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/使用link-xml来控制strippinglevel减少dll库大小技巧、优化安装包大小/">使用link-xml来控制strippinglevel减少dll库大小技巧、优化安装包大小</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/unity性能优化规范/">unity性能优化规范</a>
             
         </h1>
         <div class="content">
-            <p>无论从减少安装包大小还是迎合unity64位IL2CPP默认就会打开StrippingLevel功能，通过库剖离来减少DLL的空间大小。</p>
-<p>那么问题是我们自定义库使用了一些type，例如xml，或者webclient c#封装的http请求等，如果被任性解剖出去，那么肯定是不允许的。</p>
-<p>可以在Assets/下添加link.xml文件来手动排除不被剖离的类。</p>
- <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&lt;linker&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       &lt;assembly fullname=&quot;mscorlib&quot;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Reflection&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Security.Cryptography&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Runtime.CompilerServices&quot;&gt;</span><br><span class="line">preserve=&quot;all&quot;/</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Runtime.InteropServices&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Diagnostics&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Security&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Security.Permissions&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       &lt;/assembly&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &lt;/linker&gt;</span><br></pre></td></tr></table></figure>
-
-<p>如上我们保持link.xml里面的格式这样既可<br>assembly其实就是dll库名，我们要排除这个dll库里面的1：整个命名空间；2：某个命名空间里面的某个具体类</p>
-<p>补充针对排除整个命名空间可以这样加：</p>
- <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;assembly fullname=&quot;JsonDotNet&quot;&gt;</span><br><span class="line"></span><br><span class="line">                 &lt;namespace fullname=&quot;Newtonsoft.Json&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"> &lt;/assembly&gt;</span><br></pre></td></tr></table></figure>
-
-<p>关于查看dll库可以用默认的mono编辑器或者vs点进目录文件分类的dll就能看见了。</p>
-<p>关于如何知道什么类或者命名空间你需要添加进去link.xml，只能你使用这个特殊命名空间才知道了。或者你通过xcode debug出错、eclipse<br>debug真机运行时出错来查看那些类空间报错添加进去即可。</p>
+            <p>和java不同 能用for就不用foreach,因为foreach会使用迭代器并会产生额外几kb的gc。</p>
+<p>和findViewById一样 GameObject.Find和Transform.Find尽量少调用 在Awake和Start只获取一次对象或组件。</p>
+<p>与java不同 函数名首字母大写。</p>
+<p>工具类声明为 static class 静态类。</p>
+<p>开启monoDevelop的代码分析功能 并根据提示尽量优化代码。使用Profile工具进行性能分析测试。</p>
+<p>有光照的情况下，烘焙场景和物体可以节约计算资源 你把物体模型放进了场景里之后， 引擎会计算光线，光线照到你的物体的表面形成反光和阴影。 如果不烘焙，<br>游戏运行的时候，这些反光和阴影都是由显卡和CPU计算出来的。你烘焙之后，这些反光和阴影都记录到了你的模型里，变成了新的贴图了，运行的时候，显卡和CPU不需要进行对环境光效果的运算了，节约CPU资源<br>。</p>
+<p>字符串连接用StringBuilder 。</p>
+<p>不要直接访问gameobject的tag属性。比如if (go.tag == “human”)最好换成if (go.CompareTag<br>(“human”))。因为访问物体的tag属性会在堆上额外的分配空间 。</p>
+<p>对比通过方法GetComponent()获取Transform组件,<br>通过MonoBehavor的transform属性去取，后者更快，但GetComponent又快于Find 。</p>
+<p>善于使用OnBecameVisible()和OnBecameInVisible来控制物体的update()函数的执行以减少开销。</p>
+<p>使用内建的数组，比如用Vector3.zero而不是new Vector(0, 0, 0)。</p>
+<p>在c#里面List速度优于ArrayList 而且类型安全。</p>
+<p>资源及代码都尽量继承和复用framework下的。</p>
+<p>尝试使用IL2CPP。</p>
+<p>设置贴图压缩格式以优化安装包大小及运行效率：iOS上尽量使用PVRTC，Android上使用ETC 或者<br>选择自动压缩，但需要在显示质量和性能进行权衡，每家的GPU支持不同的压缩格式，但他们都兼容ETC格式，对于透明贴图，我们只能选择RGBA 16bit<br>或者RGBA 32bit。如果不调用SetPixels或GetPixels函数，最好关闭Read/Write<br>enable开关，否则会复制一份贴图到内存中，内存占用会大两倍，这个属性的实质是决定了这个贴图的存放位置，是在内存上还是在显存上。（虽说在移动设备上显存和内存是共用的，但数据不直接互通）<br>如果可读写，那么这个贴图既在显存上，又在内存上，而且还必须得是非压缩的格式（ARGB32，ARGB4444之类）。用getPixel(s)，setPixel(s)之类的方法，读取或设置的数据，都是内存上的数据，但其他属性不区分内存还是显存。Apply方法的作用是把这个贴图在内存上的传给显存。Apply方法的第二个参数，决定了这个这个贴图是否还可读写，换种说法就是内存上这部分数据在执行完这个方法之后还要不要。</p>
+<p>代码能加namespace的尽量都加namespace。</p>
+<p> 在ProjectSetting-&gt;<br>Quality中的，关闭垂直同步。可以考虑降低FPS，降低FPS的好处：1）省电，减少手机发热的情况；2）能都稳定游戏FPS，减少出现卡顿的情况。当我们设置了FPS后，再调整下Fixed<br>timestep这个参数，这个参数在ProjectSetting-&gt;Time中，目的是减少物理计算的次数，来提高游戏性能。可以考虑待机时，调整游戏的FPS为1（手动设置帧率可以用Application.targetFrameRate），节省电量。</p>
+<p>尽量少使用Update LateUpdate<br>FixedUpdate，这样也可以提升性能和节省电量。多使用事件（不是SendMessage，使用自己写的，或者C#中的事件委托）。</p>
+<p>把大部分图片打成图集减少draw<br>call，可以用unity自带的工具打<a href="http://www.xuanyusong.com/archives/3304" target="_blank" rel="noopener">http://</a><a href="http://www.xuanyusong.com/archives/3304" target="_blank" rel="noopener">www.xuanyusong.com/archives/3304</a>也可以用TexturePackerGUI。图集大小最好不要高于1024，否则游戏安装之后、低端机直接崩溃、原因是手机系统版本低于2.2、超过1000的图集无法读取、导致。2.2<br>以上没有遇见这个情况。注意手机的RAM 与 ROM、小于 512M的手机、直接放弃机型适配。</p>
+<p>RectMask2D性能好于Mask。</p>
+<p>考虑使用Occlusion Culling遮挡剔除技术，减少绘制。</p>
+<p>对象最好复用同一个材质，并且保证缩放一致，unity会自动进行动态批处理，减少draw<br>call。Lightmap对象由于多了光照烘焙材质，以及有阴影的对象，不会被批处理。对静止的物体勾选static，就会自动静态批处理，比动态批处理更节约资源。但无论是动态批处理还是静态批处理，都是空间换时间的操作，所以会更占内存，需要权衡利弊。</p>
+<p>避免使用顶点过多的对象，减少计算量。</p>
+<p>避免使用过于复杂的数学函数，且整形类型计算优于浮点型。</p>
+<p>使用有规则的碰撞体，比如长方形，球形，胶囊形，效率高于网格碰撞体。</p>
+<p>Image组件的RaycastTarget勾选以后会消耗一些效率，为了节省效率就不要勾选它了，不仅Image组件Text组件也有这样的问题。<br>一般UI里也就是按钮才需要接收响应事件，那么大部分image和text是是不需要开RaycastTarget的。<a href="http://www.xuanyusong.com/archives/4006" target="_blank" rel="noopener">http://www.xuanyusong.com/archives/4006</a></p>
+<p>按界面分离canvas，减少界面刷新，按静态和动态物体分离canvas，减少界面刷新。</p>
+<p>若使用了AndroidJavaXXX类则需要使用using语句或者Dispose函数来确保资源会被释放回收</p>
 
         </div>
         
@@ -977,7 +391,7 @@ var _hmt = _hmt || [];
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/37/">37</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/43/">43</a></li>
             
         </ul>
     </nav>
@@ -1025,7 +439,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        111
+                        128
                     </p>
                 </div>
             </div>
@@ -1035,7 +449,7 @@ var _hmt = _hmt || [];
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        11
+                        12
                     </p>
                 </div>
             </div>
@@ -1045,7 +459,7 @@ var _hmt = _hmt || [];
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        19
+                        23
                     </p>
                 </div>
             </div>
@@ -1104,6 +518,14 @@ var _hmt = _hmt || [];
             </span>
             <span class="level-end">
                 <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/ReactNative/">
+            <span class="level-start">
+                <span class="level-item">ReactNative</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">17</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/Unity/">
@@ -1189,7 +611,7 @@ var _hmt = _hmt || [];
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13.75px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11.25px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 17.5px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 18.75px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11.25px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 15px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11.25px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11.25px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11.25px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16.25px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12.5px;">网络安全</a>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/ReactNative/" style="font-size: 17px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 15px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
     </div>
 </div>
 
@@ -1208,10 +630,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/Web/GithubPage+Hexo搭建个人主页/" class="has-link-black-ter is-size-6">GithubPage+Hexo搭建个人主页</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1221,10 +643,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1234,10 +656,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1247,10 +669,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1260,10 +682,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1287,7 +709,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">111</span>
+                    <span class="level-item tag">128</span>
                 </span>
             </a>
         </li>
@@ -1329,6 +751,34 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Google/">
                         <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative/">
+                        <span class="tag">ReactNative</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative优化/">
+                        <span class="tag">ReactNative优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative库/">
+                        <span class="tag">ReactNative库</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
+                        <span class="tag">ReactNative插件</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1465,10 +915,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/Web/GithubPage+Hexo搭建个人主页/" class="has-link-black-ter is-size-6">GithubPage+Hexo搭建个人主页</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1478,10 +928,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1491,10 +941,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1504,10 +954,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1517,10 +967,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1544,7 +994,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">111</span>
+                    <span class="level-item tag">128</span>
                 </span>
             </a>
         </li>
@@ -1586,6 +1036,34 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Google/">
                         <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative/">
+                        <span class="tag">ReactNative</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative优化/">
+                        <span class="tag">ReactNative优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative库/">
+                        <span class="tag">ReactNative库</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
+                        <span class="tag">ReactNative插件</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>

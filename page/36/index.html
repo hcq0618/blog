@@ -153,7 +153,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.433Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.665Z">2019-05-17</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
@@ -163,7 +163,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    8 分钟 读完 (大约 1179 个字)
+                    24 分钟 读完 (大约 3674 个字)
                 </span>
                 
                 
@@ -172,38 +172,126 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/Unity资源清理工具Asset-Cleaner/">Unity资源清理工具Asset-Cleaner</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/Strumpy-Shader-Editor入门教程/">Strumpy-Shader-Editor入门教程</a>
             
         </h1>
         <div class="content">
-            <p>Unity Global Support部门制作了一些实用的小工具免费供大家使用，前面已经分享过了<a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651038011&idx=1&sn=a6695849c1aaa87cfcad56534ec83dbf&scene=21#wechat_redirect" target="_blank" rel="noopener">批量处理资源的Asset<br>Auditing</a>，今天继续为大家推荐用于批量清理资源的小工具：Asset<br>Cleaner。</p>
-<p>Unity Global<br>Support部门主要负责对使用Unity引擎的企业级VIP客户提供技术支持，大中华区已实现全面覆盖，目前包括腾讯，网易，巨人，完美世界等公司已属于Unity的企业级VIP客户。<br>Asset Cleaner主要用于查找并删除没有被引用的资源，简单易用，且具有高度可扩展性。</p>
-<h1 id="项目背景"><a href="#项目背景" class="headerlink" title="项目背景"></a>项目背景</h1><p>在Unity项目中，我们习惯将所有的资源统称为Asset。Asset一般存放在Assets目录及其子目录。随着项目的研发进度，Asset数量也会爆发式地增长，资源管理面临很大的挑战。如何查找并区分有效和无效的资源，是很多项目管理者非常重视的事情。本文介绍的这个工具可以自动分析查找项目中未使用到的资源，在选择删除的时候还可以将这些文件打包备份，确保资源的安全性、提高项目管理的效率。</p>
-<h1 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h1><p>该工程只有四个CS文件，需存放在Editor目录下。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-bf2544dff8e4c04e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>FindUnusedAssets是这个工具的主要入口，实现了编辑器的扩展菜单及其内部调用。</p>
-<p>AssetCollector是总的工具类，用来收集所有的asset文件</p>
-<p>ClassReferenceCollection用来收集所有的.cs脚本文件。</p>
-<p>ShaderReferenceCollection用来收集所有的Shader文件。</p>
-<h1 id="AssetCollector"><a href="#AssetCollector" class="headerlink" title="AssetCollector"></a>AssetCollector</h1><p>AssetCollector实现了这个工具的核心代码，点击菜单时会调用定义在它内部的Collection函数。AssetCollector中声明了两个变量，useCodeStrip和saveEditorExtensions。useCodeStrip用来控制要不要删除未使用的脚本文件，saveEditorExtensions用来控制检测资源是否被Editor脚本引用。工具中提供了三个菜单项，分别是only<br>resource、unused by editor、unused by<br>game。这三个菜单项执行的代码就是通过设置useCodeStrip和saveEditorExtensions为不同的值来控制过滤的方式。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c8d82a48bd35c054.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<h1 id="资源搜集"><a href="#资源搜集" class="headerlink" title="资源搜集"></a>资源搜集</h1><p>Collection函数内实现了各种类型资源文件的搜索过滤。</p>
-<p>Directory.GetFiles()获取“Asset”目录及其子目录下所有相关资源的名字,通过Linq语法进行过滤，获取需要的文件类型。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-5d3ae04b50d153d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>依赖关系获取</p>
-<p>通过AssetDatabase.GetDependencies获取当前有效的场景文件及场景依赖文件。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-24de90cca04d50b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<h1 id="使用介绍"><a href="#使用介绍" class="headerlink" title="使用介绍"></a>使用介绍</h1><p>首先我们要保证当前工程中存在有效的场景文件，因为Asset资源的有效性依赖于是否被场景引用。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-5f429b5eb4ed5b9b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>使用时需要找到这个菜单项Assets-&gt;Delete Unused Assets,如下图所示。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-e1b0ce5422ad4937.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>Delete Unused Assets下有三个选项，分别是删除未使用的资源文件（only resource），删除编辑器未使用的Asset（unused<br>by editor）和删除游戏未使用的Asset（unused by game）。</p>
-<h1 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h1><p>在开始使用该工具时，要保证有效的EditorBuildSettings.scenes</p>
-<p>选择Delete Unused Assets下“only resource”选项，弹出对应的删除列表。如下图所示：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-633690095fbc78c4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>显示在删除列表中文件。单击“Delete”，列表中的文件从项目中移除，工具会把这些文件作为一个UnityPackage导出到“../<br>BackupUnusedAssets/”。这个包作为被删除文件的备份，如果后期发现有资源丢失，可以从这个包内找到对应的资源文件重新导入。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-957a25fafe467c39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>上面简单介绍了Asset Cleaner工程的工作原理及使用方式。在实战中，我们可以根据需求自定义查找文件的格式。</p>
+            <p>对于3D游戏来说，有很多绚丽的效果，都是靠shader（着色器）来实现的。不过很多朋友估计都不会编写shader，阿赵我自己也只是看了个入门，明白了它的原理，很多具体的效果都写不出来的。这次来介绍一个Unity3D的第三方shader编辑器：Strumpy。这个编辑器是完全可视化编辑，使用起来相对简单一点。</p>
+<p>先来看看我们这次需要做的例子：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a68abfd8e88342bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>我们需要使用Strumpy，编辑出这样一个shader：包括了漫反射通道、法线通道、高光通道，以及在模型的边缘运动的光效。</p>
+<p>很显然，Unity3D自带的shader没有能直接实现这样的功能的，最多也只能使用法线和高光通道而已。</p>
+<pre><code>由于这个例子稍微复杂，所以我们先来做一个更简单的例子，来熟悉一下strumpy的界面和基本操作。</code></pre><p>首先肯定是要先下载Strumpy插件了。在Asset Store里面有，免费下载的。我这里使用的是4.0a版本。</p>
+<p>下载完之后导入，会看到多了一个选项：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-b0ca2dd525a05043.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>选择之后打开了Strumpy的编辑窗口：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-5a08cfb866179d29.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-98dfba326ba5eeb4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Flie的功能很直观，新建，读取，保存和导出的功能，我们可以先看看读取功能</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ff237f8eeba1a64a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>插件自带了一些已经编辑好的范例，有兴趣的朋友可以逐个看看，会有很大的收益。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c5c3f36c56204c65.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>然后我们来正式开始做这个简单的例子，我们准备了一张带有透明通道的贴图（拿斩首大刀的阿赵），接下来我们做一个shader，把这张贴图显示在一个面片上面，使它实现漫反射通道和透明通道的显示。</p>
+<p>我们新建一个着色器编辑：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6f7b5bdc47c1234c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p> 注意看，新建时，在Settings的标签是红色的，然后Shader<br>Name也是红色的，这是提醒我们，每一个shader必须要先有一个名称，而这个名称就是以后你在材质栏里面选择的材质名称了。比如你可以用“myshader/test”，这样test材质会出现在myshader下面。</p>
+<p>输入材质名词之后，我们先来Inputs里面，新建一个输入。这个输入，就是我们平常在Unity自带的材质球里面看到的输入通道了。假如我们需要它能调节颜色，那么就要新建一个颜色的输入，假如需要调用贴图，就要新建一个贴图的输入。这里我们新建一个Unity预设的MainTexture。熟悉用脚本替换材质贴图的朋友估计很熟悉这个标签的含义了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-11496dbb1c0dc1e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-af76026aea9c1182.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>新建之后，我们可以看到，出现了一个贴图选择的通道，就像我们平常操作的自带材质球一样。</p>
+<p>接下来我们会新建一些节点，然后对他们进行编辑。</p>
+<p>创建节点的方式有两种：</p>
+<p>第一种是在Nodes里面选择相应的节点：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-41356f3dbb427707.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>第二种是在节点编辑的窗口鼠标右键单击，选择相应的节点。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7288f066e2956ae8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>我个人比较习惯第二种方法。</p>
+<p>我们选择了一个Sampler2D的输入</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a65e9ac8bedd33f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>刚生成的时候，这个节点是红色的，因为我们没有指定输入的来源。想起刚才我们新建的Input了吧？那个MainTexture指定在这里。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-d0d29147dc6b8496.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>在选中该节点的情况下，来到Node的标签，会看到提示错误了</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-297c148f7408a062.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>我们选择_MainTex</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-09168c299b5ea973.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>这时候，节点就不再是红色了，而是出现了两项输出，分别是2D采样和UV信息。节点名称里面，也会相应的显示出_MainTex，也就是我们刚才新建的Input的名称。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a2eea10fcb7cc15a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>接下来我们新建一个Tex2D方法节点。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-5890bc05786aea9f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>然后像上图一样，用鼠标把他们之间连起来。</p>
+<p>这时候，把我们预先准备好的贴图指定在贴图通道里面</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3112708d85300c07.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-320be879b54686fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>点击预览窗口的Update Preview，会看到预览的物体上面出现了我们的贴图</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-2c1679eaf2d4f416.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>为了便于观察，我们选择一个片面模型。这时候，漫反射通道已经完成了，接下来我们继续做透明通道。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a0b91d3b6f1db10b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>如上图一样，把A连接到Alpha通道。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-d9bb45c23495d433.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>然后来到Settings，按上图设置一下。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7bc2218d713e7c8b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>打开背景显示，会看到透明通道已经生效了。</p>
+<p>在完成了以上的小例子之后，我们正式来解释一下Strumpy各个部分的意思吧。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6bce62b455c5c4c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>在master里面，分别是各个通道的最终输出。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-b513255d2b62b748.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>节点是通过有方向性的线条来连接的，分为输入端和输出端，上图是一个单向输入输出的例子。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c2ce88dbd4a38e8a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>再来是一个运算的例子，Add是相加的操作，这里是两个输入端进入了相加，然后输出一个结果。</p>
+<p>在这里要说明一下的是，这些操作很大一部分都是数学运算的方法，比如加减乘除、sin、cos之类，各位在学习之前最好要先理解他们的意思。比如相加就是互相叠加，两张图相加会整张图都变得更亮。相乘是波峰波谷的叠加，两张图相乘，会使亮的地方更亮，暗的地方更暗。其他的方法请各位自行百度去查阅了，就不一一说明。</p>
+<p>再来看看设置的选项</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-93eb7277d6f6b1be.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>如果曾经自己写过shader的朋友，对于这些选项应该是很熟悉的。比如很多朋友问的双面显示，其实就是把CullMode选择为Off就行。</p>
+<p>介绍完基本功能，我们正式的来做这次的目标例子了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-95f6dad75a2f1dae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>这里我们准备了一个模型。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-715290413e9180f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>模型带有了漫反射贴图和法线贴图。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-82a587c2a4f68de0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>首先新建一个着色器编辑，然后给shader起名为：myShader</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-07468e6b2d136bc9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>按照第一个例子的操作，我们完成了漫反射通道。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6d1b37e0db1c6106.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>为了应用在我们的模型上，我们需要先生成一个shader。选择导出（Export As）</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-eb46664af6561331.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>给shader起一个文件名。这个名称没有太大的意义。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7afb457949f1a224.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>导出之后，我们来到材质球选择的地方，会看到了我们新建的myShader，选择它。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-75a2603a238cdf50.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>然后指定漫反射贴图，我们的模型变成了上图的效果。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-b185837cf2198810.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>接下来，我们在Inputs里面新建一个凹凸贴图的输入</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7f3d3c51fad4da49.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>然后完成法线通道节点的编辑。由于需要使用法线贴图，所以需要加入一个UnPackNormal的节点。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-f3e6cdd38af0b619.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>这时候，我们会发现输入通道处多了Normalmap通道，我们把法线贴图赋予上去。模型变成上图的效果。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-b4c9e4fa184558bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>我们再新建一个颜色输入，作为高光的颜色。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ca35f62ab7b3e356.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>完成高光通道和光泽强度的节点编辑。</p>
+<p>这里我用了一个Multiply（相乘），目的是让光泽强度范围的对比度更大，显得高光会更尖锐一点。高光颜色直接连接到Specular通道。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ad3eab3b1a68f64f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>现在我们的模型已经拥有了一定的质感了。由于模型原来是没有法线贴图的，我拿了漫反射贴图来直接转换，所以效果差了点，有兴趣的朋友可以自己做法线贴图增强效果。</p>
+<p>接下来做有动画效果的光。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-21d5315bcb24b121.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>我们新建了几个输入：发光颜色（_LightColor），一个发光颜色的遮罩贴图（_Light），一个浮点（_dir）作为光运动的方向，一个范围选择（_RimPow）作为发光强度的控制。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c3100934cd06ffe7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>这张是发光遮罩贴图，是一张黑白的梯度图。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-2f7dbc1523463f2a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>这一个步骤的节点编辑有点复杂，基本的思路是将颜色和遮罩贴图混合在一起，并用时间控制UV动画：</p>
+<p>1、遮罩贴图我用了ViewDirection和Fresnel结合控制显示方向，并用_RimPow作为显示方向的次幂控制显示强度。</p>
+<p>2、为了让光会随着时间自己做动画，我是用来Time和_dir相乘，这样可以控制动画的速度和方向。</p>
+<p>3、为了让UV移动做动画，我用了UV_Pan。记得UV_Pan需要选择输入的轴，这里我选择了Y轴。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-cdf50a94cfb8bc56.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>4、最后，我把发光颜色和遮罩运算的结果相乘，达到叠加波峰改变颜色的目的。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-b898f38de3f313d9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>最后，发布shader，根据需要选择相应的遮罩贴图，指定发光的颜色、强度和方向，我们的例子就完成了。</p>
+<p>补充说明几点：</p>
+<p>1、可能很多功能自带的shader都有，不过有时候你就是会需要一些功能特殊一点的shader，具体需要什么输入通道，和怎样的操作，请根据实际情况考虑。</p>
+<p>2、关于即时镜面反射的shader，估计很多朋友都很感兴趣。不过我这里不打算详细介绍，因为unity没有直接即时反射运算的shader。</p>
+<p>简单说明一下其原理：</p>
+<p>在自带的水面和愤怒机器人场景里面，我们都看到了类似镜面反射的效果，其实这都是一种欺骗。做法不算复杂，其实是根据了当前摄像机的位置，新建了一个相对角度的反射摄像机，并把反射摄像机看到的内容渲染成RenderTexture。最后把RenderTexture和位置矩阵输入到普通材质的贴图通道，达到好像即时反射的效果。水面的例子做法会傻一点，因为它是针对水面物体自己生成了一个反射摄像机，所以的反射效果只会对水面本身有效果，每个可以反射的面，都要单独生成。而愤怒机器人里面的例子会聪明很多，它会在摄像机的脚本里面根据预先选择的可反射的图层，统一生成了一张RenderTexture，并让所有可以反射的shader使用。</p>
+<p>结合着即时反射这个例子，可以看出实际上很多特殊的效果，都不是单独的shader能直接实现的，还需要到其他的脚本去配合。</p>
 
         </div>
         
@@ -225,7 +313,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.421Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.639Z">2019-05-17</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
@@ -235,7 +323,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    9 分钟 读完 (大约 1304 个字)
+                    9 分钟 读完 (大约 1288 个字)
                 </span>
                 
                 
@@ -244,41 +332,80 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/VR效果神器，Unity精品相机插件/">VR效果神器，Unity精品相机插件</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/FingerGestures/">FingerGestures</a>
             
         </h1>
         <div class="content">
-            <p>今天向大家推荐几款强大易用的相机插件，可以用于录制高清VR游戏视频、实现各种炫酷的相机特效，甚至有便利实现移动VR环境的移动解决方案。</p>
-<h1 id="Helios"><a href="#Helios" class="headerlink" title="Helios"></a>Helios</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-fdac312f305497a4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>Helios是用于录制高清流畅视频的插件，不但支持普通的2D视频、3D视频，而且有适用于VR环境的全景视频，还可以同时录制音频。Helios利用特别设计的着色器来获取场景截图，并将这些图片转换为适用于各种3D及全景视频平台所需的视频格式。</p>
-<p>目前Helios仅支持在Unity编辑器模式下使用。相比其它的全景视频解决方案，Helios功能更加完善，而且支持主流的VR头盔包括Oculus、Gear<br>VR、HTC Vive、Google<br>Cardboard。同时，全景视频平台如Facebook和YouTube。Helios可以直接导出6种不同质量的视频，最高支持90FPS的8K全景视频。当然，它还可以导出高清的GIF、JPEG或PNG图片。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c50db0b6679632db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>使用Helios也非常简单，其中已经内置好了用于录制不同视频的预制件（Prefab），并包含所有必需的脚本，只需将这些预制件添加到场景中，再简单进行一些设置即可。以录制3D视频为例，只需将Helios3D预制件拖拽至场景，然后在检视面板中设置Helios脚本的参数，以选择视频类型、质量、特效及存储目录等。剩下的就等Helios自动完成即可。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-40e007df16a5e140.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>下载地址：</p>
-<p><a href="https://www.assetstore.unity3d.com/en/#!/content/63643" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/63643</a></p>
-<h1 id="Camera-Transitions"><a href="#Camera-Transitions" class="headerlink" title="Camera Transitions"></a>Camera Transitions</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-f210c078e7076c5c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>Camera<br>Transitions可用来实现一系列的相机变换特效，适用于各种画面切换效果，包括缩放、盒式切换、渐变、闪现、翻转、翻页、折叠、抖动、线性模糊等等。Camera<br>Transitions几乎可以满足所有的全画面变换需求。</p>
-<p>Camera Transitions需要硬件GPU支持Shader Model<br>3.0及以上版本，基本上只要是2009年以后面世的GPU就没有问题。有些效果在移动设备上可能消耗比较大，例如翻页。类似的注意事项都已标示在插件网页上，使用时可以作为参考。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-250281f3e6907680.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>使用Camera Transitions首先需要在场景中新建一个空GameObject，然后为其添加Camera Transitions脚本。Camera<br>Transitions脚本会对所有特效做全局设置，如自动或手动切换、更新频率、特效的范围等。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-80655fab050a536c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>针对所有特效的使用代码，作者也给出了示例，只需调用一句代码即可。以圆圈扩散特效为例，只需调用DoTransition函数即可，其参数分别表示变换类型、原始相机、目标相机、变换时间以及一些可选的传入参数：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ec3b45c0c518e4c4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>上面的代码可实现如下效果：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-177bb8dce44ea717.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>而除了代码调用外，还可以利用CameraAssistantTransitions组件直接在检视面板中进行设置，免去手动编写代码的步骤。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-fa9da4d30941b425.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>下载地址：</p>
-<p><a href="https://www.assetstore.unity3d.com/en/#!/content/36055" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/36055</a></p>
-<h1 id="Mobile-VR-Movement-Pack"><a href="#Mobile-VR-Movement-Pack" class="headerlink" title="Mobile VR Movement Pack"></a>Mobile VR Movement Pack</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-1087903426222419.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>Mobile VR Movement<br>Pack提供了5种移动VR环境下的移动方案示例，包括路径点系统、导航网格、摇杆控制、自动行走及视线控制（向下看行走，向上看停止）几种方式。每个都提供了示例场景，可以支持Gear<br>VR、Google VR、Cardboard及Daydream平台。</p>
-<p>使用Mobile VR Movement Pack非常简单，插件提供了代表不同移动方式的预制件，只需将这些预制件拖拽至场景，然后删除场景中的其它相机即可。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-722d5eb9da5cbd0f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>插件还包括一系列用于实现各种不同效果的简明脚本。例如，添加了VR<br>WalkableSuface脚本的对象会被导航网格视为“可通过的”，以便找到正确的路径。VR Waypoint脚本则用来设置路径点。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ef1cb677599406e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>下载地址：</p>
-<p><a href="https://www.assetstore.unity3d.com/en/#!/content/69041" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/69041</a></p>
+            <p>FingerGestures是一款强大的手势识别插件，支持鼠标和触控。跨平台，最新的3.0版本支持自定义手势识别。</p>
+<p>其中CustomGestures的识别还是挺准的。测试画个一笔五角星，能被容易的识别。</p>
+<p>直接解压包，里面还有samples和对playerMaker拓展 2个子包。</p>
+<h1 id="二-导入Sample包"><a href="#二-导入Sample包" class="headerlink" title="二.导入Sample包"></a>二.导入Sample包</h1><p>在搜索栏里输入 t:scene,  然后全选场景并拖入Build Setting里的Scenes in Build</p>
+<p>把’Sample Browser’场景调整到第一个场景</p>
+<p>也可在player setting里把屏幕设置为600x400</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-15840cd3f641eccb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<h1 id="三-基本识别"><a href="#三-基本识别" class="headerlink" title="[三.基本识别"></a>[三.基本识别</h1><p>GestureRecognizers(检测用户输入并发送事件)](<a href="http://photo.blog.sina.com.cn/showpic.html#blogid=471132920101hlwt&amp;url=http://s14.sinaimg.cn/orignal/47113292gd94359d9fddd" target="_blank" rel="noopener">http://photo.blog.sina.com.cn/showpic.html#blogid=471132920101hlwt&amp;url=http://s14.sinaimg.cn/orignal/47113292gd94359d9fddd</a>)</p>
+<p>场景里必须只有一个FingerGestures组件示例。它相当于Manager。</p>
+<p>(1)直接新建GameObject起名Manager，并加FingerGestures脚本</p>
+<p>(2)直接新建GameObject起名Gestures，并加TapRecognizer脚本</p>
+<p>直接新建TapTutorial.cs 并放到Gestures上</p>
+<p>Gestures里TapRecognizer面板下，点”Copy Event To Clipboard”<br>把对应代码拷贝到粘贴板上，并在TapTutorial脚本里粘贴代码。</p>
+<p>当recognizer检测对应输入到后， 会在obj上发对应的SendMessage消息。但是SendMessage开销大<br>，可以自己实现开销更小的delegate-based events.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9fbab1de22861328.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>(5)打输出debug信息的代码</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using System.Collections;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> publicclass TapTutorial : MonoBehaviour</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  OnTap(TapGesture gesture)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   Debug.Log( &quot;Tap gesture detected at &quot; + gesture.Position +</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             &quot;. It was sent by &quot; + gesture.Recognizer.name );</span><br></pre></td></tr></table></figure>
+
+<p>识别单击物体</p>
+<p>(1)创建球，确保有collider或者trigger,位置(0,1,0),缩放(4,4,4)</p>
+<p>(2)Gesture物体上加  <strong>ScreenRaycaster</strong></p>
+<p>当Ray Thickness为0时  可以是collider或者trigger，</p>
+<p>当Ray Thickness不为0时  必须是collider， 可以模拟厚手指的操作。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-717d287f0070d2c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>(2)  脚本变为</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using System.Collections;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> public class TapTutorial : MonoBehaviour</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> OnTap( TapGesture gesture )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     ( gesture.Selection )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         Debug.Log( &quot;Tapped object: &quot; + gesture.Selection.name );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         Debug.Log( &quot;No object was tapped at &quot; + gesture.Position );</span><br></pre></td></tr></table></figure>
+
+<p>之后就能检测到点击物体了，并且被点击的圆球同样的收到同名事件</p>
+<p>识别2手指Tap3下</p>
+<p>设置 Required Finger Count为2</p>
+<p>设置 Required Taps为3</p>
+<p>如果是电脑运行，用鼠标左右键同时按模拟</p>
+<p>四.FingerEventDetector</p>
+<p>检测单手指的按下 松开 经过 移动 静止，与GesturesRecognizers类似，发消息，用ScreenRaycaster与物体互动。</p>
+<p>FingerEventDetector是抽象类，各种finger event detectors继承自它。</p>
+<p>也可以提供finger index跟踪某指定手指。</p>
+<p>(1)新场景，加FingerGestures管理</p>
+<p>(2)新物体起名FingerEvent，并加FingerDownDetector</p>
+<p>(3)新建脚本FingerEventTutor.cs, 并从FingerDownDetector拷贝粘贴脚本</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using System.Collections;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> public class FingerEventTutor : MonoBehaviour</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> OnFingerDown(FingerDownEvent e)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> Debug.Log( e.Finger + &quot; Down at &quot; + e.Position + &quot; on object:&quot; + e.Selection</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>点击运行，即可检测任何手指按下的事件。</p>
+<p>每个手指事件都要添加对应的detector</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-da96ac7817738bca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using System.Collections;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> public class FingerEventTutor : MonoBehaviour</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> OnFingerDown(FingerDownEvent e)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> Debug.Log( e.Finger + &quot; Down at &quot; + e.Position + &quot; on object:&quot; + e.Selection</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> OnFingerUp( FingerUpEvent e )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // time the finger has been held down before being released</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     float elapsedTime = e.TimeHeldDown;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> Debug.Log( e.Finger + &quot; Up at &quot; + e.Position + &quot; on object:&quot; + e.Selection</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h1 id="五-自定义手势识别"><a href="#五-自定义手势识别" class="headerlink" title="五.自定义手势识别"></a>五.自定义手势识别</h1><p>3.0后可以用PointCloudRecognizer来识别自定义手势。算法使用的是$P recognizer. 现在只支持single-<br>stroke(单手指单次画)，将会支持multi-strokes.</p>
+<p>PointCloudRecognizer将会对比一些gesture模板并返回最接近的 匹配图形，并返回分数和距离值。</p>
+<p>PointCloud<br>gestures手势，和缩放以及画的方向无关。但是图形的旋转必须是固定的，例如一个正着摆放的三角形你必须画正的，你画一个倒着摆放的三角形它是不能被识别的。</p>
+<p>绘制PointCloud</p>
+<p>(1)在Assets栏下，创建 PointCloud Gesture Template,起名MyPCGesture</p>
+<p>(2)点击Edit,绘制图形，然后Apply</p>
+<p>使用PointCloud</p>
+<p>(1)新场景，加FingerGestures管理</p>
+<p>(2)创建新的物体起名Gestures</p>
+<p>Gestures加  <strong>PointCloudRecognizer 组件。</strong></p>
+<p>Max Match Distance 用户画的图形distance必须在该值之下， 设定得越小，画得就必须越精确。</p>
+<p>Sampling Distance  两个连续手指位置的最小间距。越小表示越精确，但更多的采样</p>
+<p>Gesture Template List  要去匹配的图形库</p>
+<p>MyPCGesture加至 Gesture Template List</p>
+<p>(5) 创建PointCloudTutorial.cs脚本并添加至Gestures物体下</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"> using UnityEngine;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using System.Collections;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> public class PointCloudTutorial : MonoBehaviour</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      OnCustomGesture( PointCloudGesture gesture )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         Debug.Log( &quot;Recognized custom gesture: &quot; +</span><br><span class="line">gesture.RecognizedTemplate.name +</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             &quot;, match score: &quot; + gesture.MatchScore +</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             &quot;, match distance: &quot; + gesture.MatchDistance );</span><br></pre></td></tr></table></figure>
+
+<p>PointCloudGesture. RecognizedTemplate 对应画出的图形模板</p>
+<p>PointCloudGesture. MatchScore 匹配百分比，1代表完美匹配</p>
+<p>PointCloudGesture. MatchDistance 与图形有多接近</p>
+<p>当然也可以从代码绘制PointCloudGestureTemplate</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"> Awake()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     PointCloudGestureTemplate triangle =</span><br><span class="line">ScriptableObject.CreateInstance&lt;PointCloudGestureTemplate();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     triangle.name = &quot;Triangle Gesture Template&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     triangle.BeginPoints();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     triangle.AddPoint( , , );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     triangle.AddPoint( , , );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     triangle.AddPoint( , , );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     triangle.AddPoint( , , );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     triangle.EndPoints();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     PointCloudGestureTemplate square =</span><br><span class="line">ScriptableObject.CreateInstance&lt;PointCloudGestureTemplate();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     square.name = &quot;Square Gesture Template&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     square.BeginPoints();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     square.AddPoint( , , );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     square.AddPoint( , , );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     square.AddPoint( , , );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     square.AddPoint( , , );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     square.AddPoint( , , );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     square.EndPoints();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     PointCloudRegognizer recognizer =</span><br><span class="line">gameObject.AddComponent&lt;PointCloudRegognizer();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     recognizer.AddTemplate( triangle );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     recognizer.AddTemplate( square );</span><br></pre></td></tr></table></figure>
+
+<p>AddPoint的第一个参数代表第几画，但是现在只支持一笔画出来的图形，所以该值只填0。当EndPoints()被调用的时候，所有点都会被单位化至(0,1)的范围。</p>
 
         </div>
         
@@ -300,7 +427,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.410Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.621Z">2019-05-17</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
@@ -310,7 +437,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    8 分钟 读完 (大约 1270 个字)
+                    13 分钟 读完 (大约 2006 个字)
                 </span>
                 
                 
@@ -319,37 +446,102 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/Unity酷炫特效脚本插件/">Unity酷炫特效脚本插件</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/2D-Toolkit/">2D-Toolkit</a>
             
         </h1>
         <div class="content">
-            <p>上周为大家介绍了Asset<br>Store中非常受欢迎的<a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651039228&idx=1&sn=54505a8bbdb8b8988d8d5a5b53eb73cf&chksm=bd1a92cd8a6d1bdbe00ca42e8f128ffef14eb4d8ade97ae6d371ffdc218f4b45cfd2dff3a704&scene=21#wechat_redirect" target="_blank" rel="noopener">不同游戏类型的完整模板</a>，今天则分享一些脚本插件，用来实现各类酷炫的特效，包括爆炸、闪电及天空盒等。</p>
-<h1 id="Exploder"><a href="#Exploder" class="headerlink" title="Exploder"></a>Exploder</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-ee2bb64160017b2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>看名字就知道了，Exploder就是用来在Unity中实现各种爆炸效果的脚本插件。它可以实时分解网格，在几毫秒内将任意对象分崩离析。由于是实时计算，所以不需要预定义游戏对象作为碎片，所有过程仅需调用一行代码即可瞬间完成。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-8a1c0ce1024c6e9b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>该插件带有强大的网格切割器，会查找游戏对象上的网格将其切割为小碎片，在游戏对象上添加Rigidbody组件再设置好加速度即可实现爆炸效果。出于性能的考虑，这些小碎片会存放于预先分配的对象池中，以尽可能减少创建及初始化游戏对象的次数。</p>
-<p>使用Exploder非常简单，正如之前所说，仅需一行代码即可完成。首先，将插件Prefabs目录下的Exploder预制件拖拽至层级视图。然后从检视面板中调整爆炸相关的参数，例如碎片的数量等等。这一步也可以使用代码完成。为需要爆炸的目标对象添加ExploderOption脚本。接下来只需在任意脚本中调用ExplodeObject函数即可。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-56515fa422f627e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>Exploder还提供了FPS游戏示例场景，包含了FPS游戏的基本机制如瞄准、换武器及扔手榴弹等等。该插件同样支持移动平台，但建议针对不同机型使用不同的配置。</p>
-<p>下载地址：</p>
-<p><a href="https://www.assetstore.unity3d.com/en/#!/content/9771" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/9771</a></p>
-<h1 id="TENKOKU-Dynamic-Sky"><a href="#TENKOKU-Dynamic-Sky" class="headerlink" title="TENKOKU Dynamic Sky"></a>TENKOKU Dynamic Sky</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-642afb5ef1efa0b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>TENKOKU Dynamic<br>Sky是用于实现高度精确天气系统的插件，可以按照24小时循环实时动态设置天空场景。支持动态调整大气属性，例如白天与夜晚的天空亮度、雾效距离、云层密度、灰蒙程度、降雨、降雪及彩虹等等，几乎所有天气相关的属性都可以直接进行设置。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-498054e498457575.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>TENKOKU Dynamic Sky提供了很方便的编辑面板，所以不需编写代码也能轻松使用该插件。首先将Prefabs目录下的Tenkoku<br>DynamicSky预制件拖拽至场景，放置于(0,0,0)的位置，然后在相机上添加特效脚本Tenkoku Fog等，还可以根据实际需求加入其它的特效脚本。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c9d0304caa1d1d5c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>TENKOKU所有的核心代码都位于TenkokuModule脚本中，上述提到的各种天气属性也可以通过脚本进行修改。但请注意，该插件暂不支持移动平台。</p>
-<p>下载地址：</p>
-<p><a href="https://www.assetstore.unity3d.com/en/#!/content/34435" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/34435</a></p>
-<h1 id="Procedural-Lightning-2D-and-3D"><a href="#Procedural-Lightning-2D-and-3D" class="headerlink" title="Procedural Lightning (2D and 3D)"></a>Procedural Lightning (2D and 3D)</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-4ba5b44a391e769a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>Procedural Lightning用来实现各种闪电特效，当然也可以生成游戏所需的普通线性特效。该插件比较简单，仅需一个Draw<br>Call即可完成所有的淡入淡出、生长及发光等效果。整个渲染在GPU上完成，相比CPU渲染效率更高，并且支持一些配置较低的移动设备。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-8fd4951998f23f16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>使用该插件也非常简单，将插件核心脚本LightningBoltScript加入场景中的对象，设置好闪电及发光的材质，指定起始位置与结束位置，调整一些闪电属性，剩下的就交给Procedural<br>Lightning来完成。LightningBoltScript提供了非常多的属性设置，包括闪电路径数量等等都是可以预先设置的，调整这些参数让闪电达到理想的效果。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7917f010fb2761e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>Procedural Lightning同时支持2D及3D，其中也提供了19种不同的示例，除了常见的2D闪电，还演示了立体闪电特效。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-af1e38a648af7cfc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>下载地址：</p>
-<p><a href="https://www.assetstore.unity3d.com/en/#!/content/34217" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/34217</a></p>
+            <p>2D Toolkit插件在2D中的地位，犹如UI中NGUI对Unity<br>GUI一样：虽然官方原生的2D还不错，但这是最近1年新版本才有的功能，2年前Unity 2D的王道还是得用插件的，故《2D<br>Toolkit》就成了目前商业不错的选择。</p>
+<p>在上周刚开始看的时候，就给自己提了3个问题 (1周后，自己给自己尝试做了回答)：</p>
+<p> <strong>2D Toolkit是类似NGUI的东西吗？</strong></p>
+<p>答：是的，类似NGUI；2D toolkit是第三方插件，广泛用于2D的游戏开发；其还包括了UI，可不用NGUI就能进行不错的UI开发。</p>
+<p> <strong>对比Unity Native 2D，2D Toolkit是否优势已经丧失；或者是类似UGUI和NGUI关系？</strong></p>
+<p>答：这个目前不得知。 粗浅的看，Unity Native 2D比较简单，开发起来便捷，毕竟和Unity无缝集成的，且原生，另外还省钱；但是2D<br>Toolkit都演变到2.5.2版本了，商用应该比较成熟，如其tk2dCamera简直无敌了–能自适应各种屏幕、大大节约了编码。</p>
+<p> <strong>2D Toolkit能够和Unity Native 2D同存否？</strong></p>
+<p>答：目前不知道。应该可以吧，2D toolkit已经于2015.5.24 发布2.5.2版本，声明支持Unity 5了。</p>
+<p>2D ToolKit简历</p>
+<p>2D ToolKit是第三方2D插件，能处理图集打包(Atlas Package)、精灵渲染(Sprite)、2D动画(Sprite<br>Animator)、2D UI，目前中文资料少得可怜。</p>
+<p>2D<br>Toolkit简称为TK2D，其功能据说是2D下最强大的，assetstore的下载点评竟然超过1200个，这个数据非常惊人，要知道售价价格要75美金呢。其插件提供了C#代码，源码之内，了无秘密。</p>
+<p>TK2D的厂家是Unikron Software<br>Ltd，官方网站为<a href="http://unikronsoftware.com/" target="_blank" rel="noopener">http://unikronsoftware.com</a></p>
+<p>TK2D在assetstore的”编辑器扩充/2D与图片管理”分类下，<a href="https://www.assetstore.unity3d.com/cn/#!/category/142/sortby/popularity" target="_blank" rel="noopener">排名第一</a>。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9f774a895d945669.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>我摘录了部分官方官网assetStore点评：</p>
+<p>low draw calls</p>
+<p>pixel perfect camera：Unity 4.6 pro sprite package</p>
+<p>get a response with 24 hours</p>
+<p>manages multiple resolutions of sprite images (1x, 2x, 4x)</p>
+<p>Very nice package</p>
+<p>greatly sped up my animating process.</p>
+<p>really streamlined my workflow.</p>
+<p>organise all your sprites how you like in collections.</p>
+<p>It’s fast at updating and rendering too.– opitimization</p>
+<p>The best support、comunity</p>
+<p>other：spline、NGUI</p>
+<p>其点评大多集中在以下几个方便</p>
+<p>降低了DC</p>
+<p>正版的售后服务好</p>
+<p>图集打包很爽</p>
+<p>2D下效率高</p>
+<p>正文开始–本文就官方教程《<a href="http://unikronsoftware.com/2dtoolkit/docs/2.4/tutorial/whack_a_mole/index.html" target="_blank" rel="noopener">Whack a<br>Mole</a>》进行小结：</p>
+<p>注：因为官方问答截图、文字描写清楚，我这里为节约大家时间，不会写的很细，请先预览一下官方教程。</p>
+<p>官方提供的Whack a Mole<br>材质<a href="http://www.2dtoolkit.com/docs_extras/wam_tutorial21/whackamole_assets_part1.zip" target="_blank" rel="noopener">下载地址</a></p>
+<p>步骤1：了解官方文档对TK2D做的系统概括：</p>
+<p>Tk2D在编辑期间生成脚本–Assets目录</p>
+<p>Tk2D运行脚本生成对象–场景</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-fcca5d8d2408a45d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>上面这张图包含了TK2D的7个知识点 (术语) 的6个（除了Tilemaps外）</p>
+<p>Sprite Collections: 精灵(2D下的图片)集合，用于组织图片，一般同z轴值的放在一起，效率高。</p>
+<p>Sprites：精灵，任何需要在Scene显示的均需要精灵组件，目前包含4种Sprite</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-706cb971c52e1521.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Static Sprite Batcher：静态化精灵–不参与碰撞的，可明显减少DC</p>
+<p>Sprite Animations：动画精灵</p>
+<p>Fonts：字体</p>
+<p>Text Meshes:显示文本</p>
+<p>Tilemaps</p>
+<p>步骤2：tk2d camera 自动布局的摄像机 删除新建Unity 2D工程的Main Camera，添加tk2dCamera，并设置tag为“Main<br>Camera”。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ddfddc16cc2465f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>修改tk2dCamera参数如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-bdf2aeba64cb93aa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Native Resolution ：1024*768</p>
+<p>Projection：Orthographic</p>
+<p>Type：Pixels Per Meter</p>
+<p>Pixels Per Meter：1</p>
+<p>Origin：Bottom Left</p>
+<p>pixel per meter – so 100×100 world units = 100×100 pixels from the bottom left</p>
+<p>tk2dCamera实际上是对Unity的Camera进行了扩展，<br><a href="http://unikronsoftware.com/2dtoolkit/docs/2.4/tutorial/choosing_camera.html" target="_blank" rel="noopener">这里</a>有详细的对比说明和tip技巧。</p>
+<p>步骤3：精灵集合(Sprite Collections)、精灵(Sprite )、静态精灵批处理(Static Sprite Batcher)<br>要使用图片，则需要首先添加Sprite Collections，它有3个作用：</p>
+<p>1 把图片组织管理起来–如果你有上百个图片就会发现它的价值。</p>
+<p>2 同z轴的组织起来，方便Unity引擎优化降低DC</p>
+<p>3 自动进行图集打包–减少图片占用空间 为什么要用Sprite Collection？ 我认为比Unity Native<br>2D的默认能生成精灵而言，多了2个步骤。</p>
+<p>要添加精灵，需要先Check out–如我这里使用Perforce源码管理。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-56daa4592ecdef1f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>添加精灵很简单，选择、拖放即可：</p>
+<p>针对当前Sprite Collection，进行Settings，然后一定要记得Commit：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-93cf6f7faf434675.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>注意：这里的Size和Pixels Per Meter，需要和上面的tk2DCamera保障一致。<br>Settings最下面有Platforms的设置，这个我没有看明白：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-71d5d557a25f7d51.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>网上搜了一段代码，好像是为了适应不同屏幕的全局设置：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-49accf5156fe0705.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>点击Commit后，就生成1了文件夹，包含3个文件：<em>.prefab 、</em>.png、*.mat。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-959ab98c668701f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>使用Sprite就简单多了，添加Tk2D Sprite对象或者添加TK2D Sprite组件，选择Collection和Sprite即可：<br>如果有n个Sprite，需要组织管理起来，默认会想到空的对象(EGO), 如果不参与碰撞等动态监测，可使用Static Sprite Batcher。<br>选择需要静态化的Sprite，拖放为Batcher的子物体，在Inspator视图点击Commit，即可完成处理。 有2点  <strong>神奇</strong> 之处：</p>
+<p>1 原来n个Sprite变为1个了，即仅仅是Static Sprite Batcher可见，其子物体消失了(点击Edit即可编辑)</p>
+<p>2 明显的减少了DC。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-2abc8a1e42aa4268.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-126d0f1fa320777f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>步骤4： 代码实现 Clipped Sprite</p>
+<p>Clipped Sprite是Sprite的一种，可动态实现隐藏、可见。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-fef5e35d3d4037a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>通过动态设置Clipped Sprite的ClipRect的y值（y值范围0.0~1.0f之间）<br>同时调整其localPostion的y轴，可模拟图片的隐藏、显示效果。 另外，这个思想也挺有趣的，使用n个return<br>null代替waitforSecond.</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">private IEnumerator WaitForHit()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> float time = 0.0f;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> while (!whacked &amp;&amp; time &lt; timeLimit)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> time += Time.deltaTime;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> yield return null;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>步骤5：精灵动画（Sprite Animation）</p>
+<p>Sprite Animation也是基于Sprite Collection的。</p>
+<p>显示动画，需要用Sprite With Animator组件，下面这张图一览无余：</p>
+<p>[本文的整理到这里就结束了，完整的请参阅官方教程–《](<a href="http://www.xifarm.com/wp-" target="_blank" rel="noopener">http://www.xifarm.com/wp-</a><br>content/uploads/2015/05/image52.png)<a href="http://unikronsoftware.com/2dtoolkit/docs/2.4/tutorial/whack_a_mole/index.html" target="_blank" rel="noopener">Whack a<br>Mole</a>》</p>
+<p>注，本文使用的开发环境：</p>
+<p>Unity 4.6.3</p>
+<p>2D toolkit 2.4.0</p>
+<p>转载请注明转自《 <a href="http://www.xifarm.com/tk2d_whackamole/" target="_blank" rel="noopener">C#程序员整理的Unity 3D笔记（二十）：2D Toolkit之官方教程《Whack a<br>Mole》</a>》</p>
 
         </div>
         
@@ -386,6 +578,10 @@ var _hmt = _hmt || [];
             <li><a class="pagination-link is-current" href="/blog/page/36/">36</a></li>
             
             <li><a class="pagination-link has-text-black-ter" href="/blog/page/37/">37</a></li>
+            
+            <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/43/">43</a></li>
             
         </ul>
     </nav>
@@ -433,7 +629,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        111
+                        128
                     </p>
                 </div>
             </div>
@@ -443,7 +639,7 @@ var _hmt = _hmt || [];
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        11
+                        12
                     </p>
                 </div>
             </div>
@@ -453,7 +649,7 @@ var _hmt = _hmt || [];
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        19
+                        23
                     </p>
                 </div>
             </div>
@@ -512,6 +708,14 @@ var _hmt = _hmt || [];
             </span>
             <span class="level-end">
                 <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/ReactNative/">
+            <span class="level-start">
+                <span class="level-item">ReactNative</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">17</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/Unity/">
@@ -597,7 +801,7 @@ var _hmt = _hmt || [];
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13.75px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11.25px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 17.5px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 18.75px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11.25px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 15px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11.25px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11.25px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11.25px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16.25px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12.5px;">网络安全</a>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/ReactNative/" style="font-size: 17px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 15px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
     </div>
 </div>
 
@@ -616,10 +820,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/Web/GithubPage+Hexo搭建个人主页/" class="has-link-black-ter is-size-6">GithubPage+Hexo搭建个人主页</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -629,10 +833,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -642,10 +846,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -655,10 +859,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -668,10 +872,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -695,7 +899,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">111</span>
+                    <span class="level-item tag">128</span>
                 </span>
             </a>
         </li>
@@ -737,6 +941,34 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Google/">
                         <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative/">
+                        <span class="tag">ReactNative</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative优化/">
+                        <span class="tag">ReactNative优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative库/">
+                        <span class="tag">ReactNative库</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
+                        <span class="tag">ReactNative插件</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -873,10 +1105,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/Web/GithubPage+Hexo搭建个人主页/" class="has-link-black-ter is-size-6">GithubPage+Hexo搭建个人主页</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -886,10 +1118,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -899,10 +1131,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -912,10 +1144,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -925,10 +1157,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -952,7 +1184,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">111</span>
+                    <span class="level-item tag">128</span>
                 </span>
             </a>
         </li>
@@ -994,6 +1226,34 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Google/">
                         <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative/">
+                        <span class="tag">ReactNative</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative优化/">
+                        <span class="tag">ReactNative优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative库/">
+                        <span class="tag">ReactNative库</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
+                        <span class="tag">ReactNative插件</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>

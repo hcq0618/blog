@@ -153,17 +153,17 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-18T07:35:42.988Z">2019-05-18</time>
+                <time class="level-item has-text-grey" datetime="2019-05-25T12:39:13.318Z">2019-05-25</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    14 分钟 读完 (大约 2117 个字)
+                    14 分钟 读完 (大约 2163 个字)
                 </span>
                 
                 
@@ -172,103 +172,89 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/18/后端/如何在开发过程中搭建简单的假数据服务器/">如何在开发过程中搭建简单的假数据服务器</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/25/React-Native/React-Native国际化多语言/">React-Native国际化多语言</a>
             
         </h1>
         <div class="content">
-            <p>在开发一块新功能的过程中，我们通常会涉及到与后端接口联调的问题。新的界面、新的后端接口，这时候在开发的时候往往前端就很尴尬，后端不依赖前端，但是前端十分依赖后端。  </p>
-<p>大部分应用都会有或多或少地依赖后端数据，有的界面只需要简单搞个假数据传入即可，但是我们还需要应对很多复杂情况，比如：</p>
-<ul>
-<li><p>处理无数据、返回错误、各类非正常的状态；</p>
-</li>
-<li><p>处理分页数据的情况；</p>
-</li>
-<li><p>模拟一个请求中、请求失败、请求结果返回的情景；</p>
-</li>
-</ul>
-<p>这时候如果能够写一个简单的服务器，你请求真实的接口url，只需要给手机设置一个代理，就返回你设置的假数据。这样你就可以完全抛开其他依赖的顾虑，可以像正常情况一样开发、校验结果，而不是依赖写死在代码里的各种假逻辑（这样做也会为后面的开发带来一些隐患）。</p>
-<p>实际上服务器本身的逻辑是非常简单的，但是要真正得搭建成你所需要的环境，需要一些复杂功夫。本文以[nodejs](<a href="http://blog.desmondyao.com" target="_blank" rel="noopener">http://blog.desmondyao.com</a><br>/fake-server/node)为例，具体描述一下如何在本机上搭建测试服务器。</p>
-<h2 id="使用node搭建起简单的服务器脚本"><a href="#使用node搭建起简单的服务器脚本" class="headerlink" title="使用node搭建起简单的服务器脚本"></a>使用node搭建起简单的服务器脚本</h2><h3 id="1-安装"><a href="#1-安装" class="headerlink" title="1. 安装"></a>1. 安装</h3><p>Unix 用户可以使用<a href="http://blog.desmondyao.com/fake-server/node-install" target="_blank" rel="noopener">命令行</a>安装nodejs。</p>
-<p>Windows 用户可以直接下载<a href="http://blog.desmondyao.com/fake-server/node-download" target="_blank" rel="noopener">安装包</a>。</p>
-<p>安装成功后如果在命令行下输入node -v能够打印出版本信息，说明安装成功了。</p>
-<h3 id="2-简单服务器"><a href="#2-简单服务器" class="headerlink" title="2. 简单服务器"></a>2. 简单服务器</h3><p>Node 服务器可以运行在“IP:PORT”上，我们可以通过如下代码来在127.0.0.1:2333端口上搭建起一个简单的服务器：</p>
-<p>server.js</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">const http = require(&apos;http&apos;);</span><br><span class="line"></span><br><span class="line">http.createServer( (req, res) =&gt; &#123;</span><br><span class="line"></span><br><span class="line">// 返回码200，返回头中标识内容为json</span><br><span class="line"></span><br><span class="line">res.writeHead(200, &#123;&apos;Content-Type&apos;: &apos;text/json&apos;&#125;);</span><br><span class="line"></span><br><span class="line">let resp = &#123;</span><br><span class="line"></span><br><span class="line">code : 0,</span><br><span class="line"></span><br><span class="line">time : 1469981217,</span><br><span class="line"></span><br><span class="line">data : &#123;</span><br><span class="line"></span><br><span class="line">name : &apos;desmond&apos;,</span><br><span class="line"></span><br><span class="line">gender : &apos;male&apos;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">res.end(JSON.stringify(resp)); // 将resp转换为JSON字符串返回。</span><br><span class="line"></span><br><span class="line">&#125;).listen(2333, &apos;127.0.0.1&apos;, )</span><br></pre></td></tr></table></figure>
+            <h1 id="库属性介绍"><a href="#库属性介绍" class="headerlink" title="库属性介绍"></a>库属性介绍</h1><p>项目地址：&lt;<a href="https://github.com/AlexanderZaytsev/react-native-i18n" target="_blank" rel="noopener">https://github.com/AlexanderZaytsev/react-native-i18n</a></p>
+<p>属性                                                            解释</p>
+<p>支持RN版本                                            所有版本</p>
+<p>支持平台                                                iOS+Android</p>
+<p>是否需要NativeModule                                是</p>
+<p>是否可移植                                                    是</p>
+<p>是否含有jni模块                                            否</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>1.install（略，git里都写着了，就是npm那些事）</p>
+<p>2.项目中使用</p>
+<p>因为是一些静态属性引用，所以你用redux做储存替换也可以，直接做饮用也可以(本文拿en,zh为例)。</p>
+<p>首先是建英文版本的配置文件，en/index.js</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line">exportdefault&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> home:&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> greeting:&apos;Greeting in en&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> tab_home:&apos;Home&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> tab_donate:&apos;Donate&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> tab_demo:&apos;Demo&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> language:&apos;language&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> live_demo:&apos;Live Demo&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> buy_me_coffee:&apos;Buy me a coffee&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> gitee:&apos;Gitee&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> star_me:&apos;Star me&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> donate:&apos;donate&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> exit:&apos;exit?&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> donate:&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> donate:&apos;donate us~~~&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> donate_desc:&apos;© 2017 Pactera Technology International Limited. All rights</span><br><span class="line">reserved.&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> demo:&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> dialog:&apos;dialog&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> button:&apos;button&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> switch:&apos;switch&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> action_sheet:&apos;Action Sheet&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure>
 
+<p>然后是中文的zh/index.js</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line"> exportdefault&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> home:&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> greeting:&apos;Greeting in zh&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> tab_home:&apos;首页&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> tab_donate:&apos;捐赠&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> tab_demo:&apos;例子&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> language:&apos;语言&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> live_demo:&apos;例子&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> buy_me_coffee:&apos;请我一杯coffee&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> gitee:&apos;Gitee&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> star_me:&apos;关注我&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> donate:&apos;贡献&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> exit:&apos;是否退出?&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> donate:&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> donate:&apos;支持我们～~&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> donate_desc:&apos;© 2017 Pactera Technology International Limited. All rights</span><br><span class="line">reserved.&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> demo:&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> dialog:&apos;提示框&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> button:&apos;按钮&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> switch:&apos;开关&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> action_sheet:&apos;&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure>
 
+<p>属性名，结构是一致的只是属性不同，当然这里是静态的2个文件，如果场景需要可以服务端下发json,那就是完全动态的了，这部分看业务需求了。</p>
+<h2 id="默认的语言环境"><a href="#默认的语言环境" class="headerlink" title="默认的语言环境"></a>默认的语言环境</h2><p>我们在上面写了2种语言配置，那么哪种作为初始化的呢？在业务层调用前，我们可以先进行预设</p>
+<p>i18n/index.js</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">import i18nfrom&apos;react-native-i18n&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> import enfrom&apos;./en&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> import zhfrom&apos;./zh&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> i18n.defaultLocale =&apos;en&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> i18n.fallbacks = true;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> i18n.translations = &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> en,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> zh,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> export &#123;i18n&#125;;</span><br></pre></td></tr></table></figure>
 
+<p>这边进行了一些预设，默认语境为en，允许fallbacks状态（为true时，顺序向下遍历翻译），预设转换的文件就2个，一个en一个zh，这个你也可以自行后续添加根据需求而定。</p>
+<h2 id="业务层调用"><a href="#业务层调用" class="headerlink" title="业务层调用"></a>业务层调用</h2><p>先是倒包</p>
+<p> import {i18n} from ‘你预设的index的目录’;</p>
+<p>调用(拿一个Toast做个例子)</p>
+<p> ToastAndroid.show(i18n.t(‘home.exit’),ToastAndroid.SHORT);</p>
+<h1 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h1><p>这个库的实现分为2部分，一部分是Native的版本判断等功能以及js部分的核心实现fnando/i18n-js</p>
+<p>i18n-js是一个轻量级的js翻译库，他支持各种格式和内容的换算和语言内容的切换，地址如下：&lt;<a href="https://github.com/fnando" target="_blank" rel="noopener">https://github.com/fnando</a><br>/i18n-js</p>
+<p>那么翻译转换这块是 I18n.js做的那么Native做了些啥呢？我们来一探究竟(以安卓为例，苹果看不懂，抱歉)</p>
+<p>Native代码就两个类，所以我之前说你直接把Native代码copy走然后项目依赖I18n.js也能达到这个效果</p>
+<p>RNI18nPackage是一个普通的Package类，它的作用就是把我们的module加到主应用的getPackages()方法中的列表里，然后一起打进包里而已。</p>
+<p>具体功能都在RNI18nModule里</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br></pre></td><td class="code"><pre><span class="line">publicclassRNI18nModuleextendsReactContextBaseJavaModule&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> publicRNI18nModule(ReactApplicationContext reactContext) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> super(reactContext);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //RN调用的控件名</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> @Override</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> publicStringgetName() &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> return&quot;RNI18n&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //对取出的Locale列表进行格式化的方法</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> privateStringtoLanguageTag(Locale locale) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> if(Build.VERSION.SDK_INT = Build.VERSION_CODES.LOLLIPOP) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> returnlocale.toLanguageTag();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> StringBuilder builder =newStringBuilder();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> builder.append(locale.getLanguage());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> if(locale.getCountry() !=null) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> builder.append(&quot;-&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> builder.append(locale.getCountry());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> returnbuilder.toString();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> privateWritableArraygetLocaleList() &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> WritableArray array = Arguments.createArray();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> if(Build.VERSION.SDK_INT = Build.VERSION_CODES.N) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //获取区域设置列表。这是获取区域的首选方法。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> LocaleList locales = getReactApplicationContext()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> .getResources().getConfiguration().getLocales();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> for(inti =0; i &lt; locales.size(); i++) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> array.pushString(this.toLanguageTag(locales.get(i)));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;else&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> array.pushString(this.toLanguageTag(getReactApplicationContext()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> .getResources().getConfiguration().locale));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> returnarray;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //js端可获取属性的列表</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> @Override</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> publicMap&lt;String, ObjectgetConstants() &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> HashMap&lt;String, Object constants =newHashMap&lt;String,Object();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> constants.put(&quot;languages&quot;,this.getLocaleList());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> returnconstants;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //提供给js端调用的方法，用来获取默认的语言环境，回调方式用的是promise</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> @ReactMethod</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> publicvoidgetLanguages(Promise promise) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> try&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> promise.resolve(this.getLocaleList());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;catch(Exception e) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> promise.reject(e);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 
+<p>加一个toast看下locale会出现什么</p>
+<p> Toast.makeText(getReactApplicationContext(),”locales.get(i)<br>“+locales.get(i),Toast.LENGTH_LONG).show();</p>
+<p>本想一探究竟内部的实现，结果是个不公开的类</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>首先Native那里获取本手机的LocaleList然后格式化取第一个元素交由I18n.js处理，然后I18n.js根据key选用一套有效的语言规则，再之后流程就和使用时候的顺序一样了。</p>
+<p>整个库集成难度较低，使用起来比较简便，使用下来没碰到大坑，配合redux更美味。</p>
+<h1 id="准备阶段"><a href="#准备阶段" class="headerlink" title="准备阶段"></a>准备阶段</h1><p>[react-native-i18n](<a href="https://github.com/AlexanderZaytsev/react-native-" target="_blank" rel="noopener">https://github.com/AlexanderZaytsev/react-native-</a><br>i18n)第三方多语言库</p>
+<p>安装:yarn add react-native-i18n</p>
+<p>[react-native-device-<br>info](<a href="https://www.jianshu.com/p/%5Bhttps://github.com/rebeccahughes/react-" target="_blank" rel="noopener">https://www.jianshu.com/p/%5Bhttps://github.com/rebeccahughes/react-</a><br>native-device-info%5D(<a href="https://github.com/rebeccahughes/react-native-device-" target="_blank" rel="noopener">https://github.com/rebeccahughes/react-native-device-</a><br>info))用户获取系统本地语言环境</p>
+<p>安装:yarn add react-native-device-infoandreact-native link react-native-device-<br>info</p>
+<p>实践阶段：</p>
+<p>在项目中创建zh.js、en.js、I18n.js三个js文件，DataRepository.js是一个我自定义的数据持久化类，在这个demo中的作用是存取用户改变后的语言环境，直接拷贝过去就可以用(不是必须的)。</p>
+<p>代码分别为：</p>
+<p>zh.js</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">exportdefault&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> english:&apos;英文&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> chinese:&apos;中文&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> changeToEnglish:&apos;切换到英文&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> changeToChinese:&apos;切换到中文&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> changeToSystem:&apos;切换到系统语言&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 
-<p>之后输入node server.js，然后我们到浏览器中访问localhost:2333就可以看见：</p>
-<p><a href="http://blog.desmondyao.com/image/fake-server-0.png" target="_blank" rel="noopener"><img src="/blog/2019/05/18/后端/如何在开发过程中搭建简单的假数据服务器/7B7DBB7B-FB8F-464B-9CDE-D69DFF8D1E22.png" alt>  
-</a></p>
-<p>具体的信息可以参考<a href="https://nodejs.org/dist/latest-v6.x/docs/api/http.html" target="_blank" rel="noopener">Nodejs-http</a>.</p>
-<h3 id="3-IDE配置"><a href="#3-IDE配置" class="headerlink" title="3. IDE配置"></a>3. IDE配置</h3><p>从IDE环境切换到脚本环境来写代码总会不顺手，推荐一个我认为比较容易上手的配置吧：</p>
-<h2 id="Nginx反向代理"><a href="#Nginx反向代理" class="headerlink" title="Nginx反向代理"></a>Nginx反向代理</h2><p><a href="http://blog.desmondyao.com/fake-server/nginx" target="_blank" rel="noopener">nginx</a><br>搭建服务器的强大处之一就是它的代理能力，配置也十分简洁。</p>
-<p>如果要模拟最终的请求的话，我们应该是原封不动的保留请求url: ‘<a href="http://www.desmond.com/api/something’。首先我们需要" target="_blank" rel="noopener">www.desmond.com/api/something’。首先我们需要</a><br>在手机上设置代理，将ip配置到自己电脑上，端口配为80<br>。但是你的电脑识别到这个请求后，怎么让它导流到你的node服务器，这是一个问题。如果你代码写死的ip+端口来访问，未免有点太low了，我们既然折腾了这么多，那可以继续往下走一步：<a href="https://zh.wikipedia.org/wiki/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86" target="_blank" rel="noopener">反向代理</a>。</p>
-<p>反向代理，简而言之，就是一个分发请求的代理。前向代理<br>是直接发给目标服务器，但是它会做一些额外的处理工作。反向代理不一样，它自己相当于是一个服务器，请求到它手里，它根据请求去不同服务器上拉取数据。</p>
-<h3 id="1-安装Nginx"><a href="#1-安装Nginx" class="headerlink" title="1. 安装Nginx"></a>1. 安装Nginx</h3><p>Linux用户可以使用命令行:</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line"></span><br><span class="line">apt-get install nginx</span><br></pre></td></tr></table></figure>
+<p>en.js</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">exportdefault&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> english:&apos;english&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> chinese:&apos;chinese&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> changeToEnglish:&apos;change to english&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> changeToChinese:&apos;change to chinese&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> changeToSystem:&apos;change to System&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 
-<p>OSX用户可以用Homebrew:</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install nginx</span><br></pre></td></tr></table></figure>
+<p>I18n.js</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">importI18n,&#123; getLanguages &#125;from&apos;react-native-i18n&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> importDeviceInfofrom&apos;react-native-device-info&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> importDataRepositoryfrom&apos;../dao/DataRepository&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> importenfrom&apos;./en&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> importzhfrom&apos;./zh&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> I18n.defaultLocale =&apos;en&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> I18n.fallbacks =true;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> I18n.translations = &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> en,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> zh,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> I18n.localeLanguage =()=&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> newDataRepository().fetchLocalRepository(&apos;localLanguage&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> .then((res)=&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> I18n.locale = res;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> .catch((error)=&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> I18n.locale = DeviceInfo.getDeviceLocale();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> returnI18n.locale;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> export&#123; I18n, getLanguages &#125;;</span><br></pre></td></tr></table></figure>
 
+<p>重点方法、属性讲解</p>
+<p>I18n.t(): 使用频率是最高的，举个栗子：</p>
+<p> &lt;Textstyle={styles.welcome}</p>
+<p> {I18n.t(‘english’)}</p>
+<p> &lt;/Text</p>
+<p>以上I18n.t(‘english’)中的english参数就是在zh.js、en.js文件中的语言配置项</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-bff22bd8361f8dbd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-d3a0ae910943a8c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>具体显示内容会随着语言环境调用相应的语言配置文件，呈现给用户相应的语言内容。</p>
+<p>I18n.getLanguages获取用户首选的语言环境</p>
+<p>I18n.locale: 设置本地语言环境。</p>
+<p>I18n.defaultLocale首选默认语言</p>
+<p>I18n.fallbacks: 看文档说明我理解的意思是：如果获取到的系统语言类似en_USen-GB这样的，插件初始化的时候发现没有en_US.jsen-<br>GB.js，这个时候如果设置了I18n.fallbacks =<br>true;系统就会按这样的（en_USen.js）顺序去查找文件，就会去找有一个en.js这样的文件， 官方建议使用I18n.fallbacks =<br>true;</p>
+<p>更多关于i18n-js的属性和方法请<a href="https://github.com/fnando/i18n-js#setting-up" target="_blank" rel="noopener">点击这里查看</a></p>
+<h1 id="ios需要配置语言环境"><a href="#ios需要配置语言环境" class="headerlink" title="ios需要配置语言环境"></a>ios需要配置语言环境</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-bff44df987d83437.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>使用过程中发现一个刷新的问题：</p>
+<p>我在使用过程中发现调用了I18n.locale=‘我设置的语言’后，当前的界面语言并没有改变，而其他界面的语言已经改变了，就比如说我上面截图的侧滑菜单，当我在侧滑菜单切换语言后发现侧滑菜单里面的语言并没有发现变化，而首页的语言环境已经改变了，我不知道为什么，摸索最后找到了一种解决方案（可能不是最佳方案，但是解决了刷新当前界面语言的问题，如果有更好的方法欢迎分享），解决方案：调用一下setState（无论设置的这个state属性在render中有没有被使用，都有效）。<br>具体代码看App.js，我项目中有使用localeLanguage所以我把改变后的语言存到state中</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">this.setState(&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> localeLanguage: I18n.locale</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;);</span><br></pre></td></tr></table></figure>
 
-
-<p>Windows用户可以<a href="http://nginx.org/en/docs/windows.html" target="_blank" rel="noopener">下载安装包</a></p>
-<h3 id="2-配置代理"><a href="#2-配置代理" class="headerlink" title="2. 配置代理"></a>2. 配置代理</h3><p>我们希望针对’<a href="http://www.desmond.com/api/something’下的url交由node服务器(2333端口)处理，其他情况下继续发送，可以在nginx.conf里面这么配置（可以在命令行下输入nginx" target="_blank" rel="noopener">www.desmond.com/api/something’下的url交由node服务器(2333端口)处理，其他情况下继续发送，可以在nginx.conf里面这么配置（可以在命令行下输入nginx</a><br>-t找到配置文件位置）：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line"></span><br><span class="line">listen 本机ip:80;</span><br><span class="line"></span><br><span class="line">server_name www.desmond.com;</span><br><span class="line"></span><br><span class="line">#charset koi8-r;</span><br><span class="line"></span><br><span class="line">access_log /Users/desmond/Nginx/api.access.log;</span><br><span class="line"></span><br><span class="line">error_log /Users/desmond/Nginx/api.error.log;</span><br><span class="line"></span><br><span class="line">location / &#123; //默认情况原路继续</span><br><span class="line"></span><br><span class="line">resolver 8.8.8.8;</span><br><span class="line"></span><br><span class="line">proxy_pass http://$http_host$request_uri;</span><br><span class="line"></span><br><span class="line">proxy_set_header Host $http_host;</span><br><span class="line"></span><br><span class="line">proxy_connect_timeout 5;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location /api &#123; //检测到api路径下的，转发到端口2333</span><br><span class="line"></span><br><span class="line">proxy_pass http://localhost:2333;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#error_page 404 /404.html;</span><br><span class="line"></span><br><span class="line"># redirect server error pages to the static page /50x.html</span><br><span class="line"></span><br><span class="line">#</span><br><span class="line"></span><br><span class="line">error_page 500 502 503 504 /50x.html;</span><br><span class="line"></span><br><span class="line">location = /50x.html &#123;</span><br><span class="line"></span><br><span class="line">root html;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>这里如果希望原路继续的那些url域名解析配合你的host（此处使用8.8.8.8来做DNS解析），你可以参考[StackOverflow的一个提问](<a href="http://stackoverflow.com/questions/8305015" target="_blank" rel="noopener">http://stackoverflow.com/questions/8305015</a><br>/when-using-proxy-pass-can-etc-hosts-be-used-to-resolve-domain-names-instead-<br>of)。</p>
-<p>这样一来，你所有手机上访问的<a href="http://www.desmond.com/api/something就导到你的nodejs服务器上啦，尽情配置假数据来测试吧" target="_blank" rel="noopener">www.desmond.com/api/something就导到你的nodejs服务器上啦，尽情配置假数据来测试吧</a>~~</p>
-<h3 id="4-配合Charles使用"><a href="#4-配合Charles使用" class="headerlink" title="4. 配合Charles使用"></a>4. 配合Charles使用</h3><p>如果使用Charles的话，手机上一般配的代理是”ip:8888”，那么此时需要做一件事：本地的host设置本机ip<br><a href="http://www.desmond.com，这样才能保证" target="_blank" rel="noopener">www.desmond.com，这样才能保证</a> <a href="http://www.desmond.com域名下的请求被导流到nginx服务器，从而导流到自己的nodejs服务器上。" target="_blank" rel="noopener">www.desmond.com域名下的请求被导流到nginx服务器，从而导流到自己的nodejs服务器上。</a></p>
-<h2 id="最终搭建"><a href="#最终搭建" class="headerlink" title="最终搭建"></a>最终搭建</h2><p>直接使用node，还是有一些繁琐的。既然我们的目的是“简单”，那么可以考虑一下使用<a href="https://expressjs.com/" target="_blank" rel="noopener">express</a><br>。它封装了很多API，然呢使用起来非常方便。其中一项就是路由(Route)。它意思简单来说就是： <a href="http://www.desmond.com/api/a" target="_blank" rel="noopener">www.desmond.com/api/a</a> 由 a<br>的逻辑处理，<a href="http://www.desmond.com/api/b" target="_blank" rel="noopener">www.desmond.com/api/b</a> 由 b 的逻辑处理。</p>
-<p>我相信一个新模块的服务器接口肯定不止一个，假如我们现在接口文档上写着：</p>
-<p>1. 提交个人信息：<a href="http://www.desmond.com/api/personal" target="_blank" rel="noopener">www.desmond.com/api/personal</a></p>
-<p>方法：POST</p>
-<p>返回示例：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">code : 0,</span><br><span class="line"></span><br><span class="line">time : 1469981217</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>2. 获取未来n天天气信息：<a href="http://www.desmond.com/api/weather" target="_blank" rel="noopener">www.desmond.com/api/weather</a></p>
-<p>方法：GET</p>
-<p>参数：day 未来天数</p>
-<p>返回示例：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">code : 0,</span><br><span class="line"></span><br><span class="line">time : 1469981217,</span><br><span class="line"></span><br><span class="line">data : &#123;</span><br><span class="line"></span><br><span class="line">items : [</span><br><span class="line"></span><br><span class="line">date : &apos;2016-08-02&apos;,</span><br><span class="line"></span><br><span class="line">state : &apos;sunny&apos;</span><br><span class="line"></span><br><span class="line">],</span><br><span class="line"></span><br><span class="line">//...</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-<p>那么你可以使用来做一个简单的ROUTE+请求处理：</p>
-<p>server.js</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">const express = require(&apos;express&apos;);</span><br><span class="line"></span><br><span class="line">const url = require(&apos;url&apos;);</span><br><span class="line"></span><br><span class="line">let app = express();</span><br><span class="line"></span><br><span class="line">app.post(&apos;/api/personal&apos;, function (req, res) &#123; //针对/api/personal 的 post请求返回</span><br><span class="line"></span><br><span class="line">    res.writeHead(200, &#123;&apos;Content-Type&apos;: &apos;text/json;charset=utf-8&apos;&#125;);</span><br><span class="line"></span><br><span class="line">    res.end(JSON.stringify(&#123;</span><br><span class="line"></span><br><span class="line">code : 0,</span><br><span class="line"></span><br><span class="line">time : 1469981217</span><br><span class="line"></span><br><span class="line">&#125;));</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.get(&apos;/api/weather&apos;, function (req, res) &#123; //针对/api/weather 的 get请求返回</span><br><span class="line"></span><br><span class="line">    res.writeHead(200, &#123;&apos;Content-Type&apos;: &apos;text/json;charset=utf-8&apos;&#125;);</span><br><span class="line"></span><br><span class="line">let count = url.parse(req.url, true).query.day; //解析传入的day参数</span><br><span class="line"></span><br><span class="line">if(count) &#123; //若有，根据day参数生成item</span><br><span class="line"></span><br><span class="line">let tmpList = [];</span><br><span class="line"></span><br><span class="line">let tmpDate = newDate();</span><br><span class="line"></span><br><span class="line">for(let i = 0; i &lt; count; i++ ) &#123;</span><br><span class="line"></span><br><span class="line">tmpDate.setDate(tmpDate.getDate() + 1);</span><br><span class="line"></span><br><span class="line">tmpList.push(&#123;</span><br><span class="line"></span><br><span class="line">date : `$&#123;tmpDate.getFullYear()&#125;-$&#123;tmpDate.getMonth() +</span><br><span class="line">1&#125;-$&#123;tmpDate.getDate()&#125;`,</span><br><span class="line"></span><br><span class="line">state : `sunny - $&#123;i&#125;`</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">res.end(JSON.stringify(&#123;</span><br><span class="line"></span><br><span class="line">code : 0,</span><br><span class="line"></span><br><span class="line">time : 1469981217,</span><br><span class="line"></span><br><span class="line">items : tmpList</span><br><span class="line"></span><br><span class="line">&#125;));</span><br><span class="line"></span><br><span class="line">&#125; else &#123; //若无，则返回错误信息</span><br><span class="line"></span><br><span class="line">res.end(JSON.stringify(&#123;</span><br><span class="line"></span><br><span class="line">code : -1,</span><br><span class="line"></span><br><span class="line">msg: &apos;you must send param \&quot;day\&quot;&apos;,</span><br><span class="line"></span><br><span class="line">time : 1469981217</span><br><span class="line"></span><br><span class="line">&#125;));</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.listen(2333, function(req, res) &#123;</span><br><span class="line"></span><br><span class="line">    console.log(`You have run node host.`);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-
-
-<p>注意：不要忘记安装express，（npm install express –save)即可。</p>
-<p>编辑结束后运行一下node server.js，你可以看到输出：</p>
-<blockquote>
-<p>You have run node host.</p>
-</blockquote>
-<p>这时我们可以尝试请求一下 localhost:2333，可以看到返回：</p>
-<p><a href="http://blog.desmondyao.com/image/fake-server.png" target="_blank" rel="noopener"><img src="/blog/2019/05/18/后端/如何在开发过程中搭建简单的假数据服务器/817790C4-5971-403B-8A23-8D5D5F09EB00.png" alt>  
-</a></p>
-<p>大功告成~~</p>
-<p>如果希望node server一直在后台跑（使用node<br>server.js时shell会卡在当前运行中），可以使用<a href="https://github.com/foreverjs/forever" target="_blank" rel="noopener">ForeverJS</a>。</p>
-<h2 id="更简单的办法"><a href="#更简单的办法" class="headerlink" title="更简单的办法"></a>更简单的办法</h2><p>如果不想折腾太多，可以直接写一个json静态文件去返回：</p>
-<p>data.json</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&quot;code&quot; : 0,</span><br><span class="line"></span><br><span class="line">&quot;time&quot; : 1469981217</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>*注意：手写json的话，里面的 key 必须以字符串形式（双冒号包围）存在。</p>
-<p>server.js</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">const fs = require(&apos;fs&apos;);</span><br><span class="line"></span><br><span class="line">const express = require(&apos;express&apos;);</span><br><span class="line"></span><br><span class="line">let app = express();</span><br><span class="line"></span><br><span class="line">app.get(&apos;/api/weather&apos;, function (req, res) &#123; //针对/api/weather 的 get请求返回</span><br><span class="line"></span><br><span class="line">res.writeHead(200, &#123;&apos;Content-Type&apos;: &apos;text/json;charset=utf-8&apos;&#125;);</span><br><span class="line"></span><br><span class="line">fs.readFile(&apos;data.json&apos;, &apos;utf8&apos;, (err, data) =&gt; &#123; //读取data.json</span><br><span class="line"></span><br><span class="line">if(err) &#123; //错误时返回异常</span><br><span class="line"></span><br><span class="line">res.end(JSON.stringify(&#123;</span><br><span class="line"></span><br><span class="line">code : -1,</span><br><span class="line"></span><br><span class="line">msg : &apos;Read File error!&apos;</span><br><span class="line"></span><br><span class="line">&#125;));</span><br><span class="line"></span><br><span class="line">return;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">res.end(data);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.listen(2333, function(req, res) &#123;</span><br><span class="line"></span><br><span class="line">console.log(`You have run node host.`);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-
-
-<p>这样就非常简单，不过缺点就是无法动态地处理。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-867fa9db46b8b45f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-92d2154acd865e3e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>请注意，js的名字最好都是语言的缩写，下面提供参考：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3593a655a97142fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>突然有个想法看看没有支持的语言会变成什么：看来如果没有支持某种语言就会默认使用英语，我曾经试过分别调换这两个的引入顺序发现结果还是英语</p>
 
         </div>
         
@@ -290,17 +276,17 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-18T07:35:42.815Z">2019-05-18</time>
+                <time class="level-item has-text-grey" datetime="2019-05-25T12:39:13.262Z">2019-05-25</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    1 小时 读完 (大约 10179 个字)
+                    2 分钟 读完 (大约 362 个字)
                 </span>
                 
                 
@@ -309,338 +295,23 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/">黑客为什么不攻击支付宝？</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/25/React-Native/TypeScript-跟-ReactNative-开发的关系/">TypeScript-跟-ReactNative-开发的关系</a>
             
         </h1>
         <div class="content">
-            <p>“支付宝被黑客搞了！！！”</p>
-<p>女票发给我一段视频。</p>
-<p>中哥我虎躯一震，这么大的事儿居委会咋没通知我？？赶紧打开视频。</p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_1.gif" alt>  </p>
-<p>我去，这是黑客吗？谁来解释一下，明明是黑客，为神马穿得这么白，连脸都是白的。。。</p>
-<p>还有，你带着那个面具敲代码，能看清鬼啊？这是在练盲打么？？闭着眼睛攻击支付宝，是为了表现一种蔑视和侮辱么？？？</p>
-<p>往后看了五分钟，冷静了一下，我不禁三呼卧槽。这是一个叫做《智造将来》的节目，浙江卫视的。虽说黑客的装束槽点满满，但干的事情还是很刺激的：</p>
-<p>他们在试图推倒三个身娇体柔的支付宝账户，把账户里的钱偷偷转走。。。</p>
-<p>主持人说，他们之所以搞得这么硬核，就是为了现场检测一下支付宝的安全性能到底好不好，你的钱放在支付宝里到底安不安全。</p>
-<blockquote>
-<p>为了让大家舒爽看片，这里中哥插一嘴：</p>
-</blockquote>
-<blockquote>
-<p>支付宝怎么保护大家的账户安全呢？并不是你想的那样，在杭州有一个脸上贴着“支”的敢死队，每天在网上和黑客手动硬刚。</p>
-</blockquote>
-<blockquote>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_8.jpg" alt>  </p>
-</blockquote>
-<blockquote>
-</blockquote>
-<p>真实情况是，“安保工作”是由安全部门的童鞋开发的一套“风控系统”来自动完成的。这套风控系统有点像参加高考的你，在之前的学习阶段有“老师”各种辅导，但是一旦被推到实战场景里，就只能靠自己“自动滑行”了。</p>
-<blockquote>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640.gif" alt>  </p>
-</blockquote>
-<p>回到节目现场，情况很是危急。一边是黑客奋力攻击，一边是受害者支付宝各种殊死抵抗。</p>
-<p>就在我为支付宝捏一把汗的时候，剧情突然走向癫狂：受害者家属也来到了现场！</p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_22.jpg" alt>  </p>
-<p>这个男人叫雄文，是支付宝风控部门的老大，蚂蚁金服的副总裁。支付宝的安全系统，就是他团队的作品。一堆头衔你也记不住，这么说吧，如果你支付宝里钱丢了，就找他赔。</p>
-<p>看到雄文这个名字我就震精了，目测支付宝安全老大，应该管理很多码农。不叫“佳娃”（Java）或者“稀加”（C+），居然叫雄文，这是摆明了有野心跟中哥抢夺10w+啊。。。</p>
-<p>对不起跑偏了，继续看节目。</p>
-<blockquote>
-<p>对第一个账户的攻击开始惹。黑客攻击主持人蒋昌建的支付宝。他们事先通过钓鱼 Wi-Fi<br>收集了他的手机号，然后又利用近场读卡器偷到了他的银行卡号。用这些信息尝试 <strong>重置他的支付宝密码</strong><br>。然而，重置支付宝密码还需要身份证，黑客并没有办法拿到蒋昌建的身份证号。于是登录他的支付宝 <strong>失败</strong> 。</p>
-</blockquote>
-<blockquote>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_2.jpg" alt>  </p>
-</blockquote>
-<p>对第二个账户的攻击开始惹。黑客攻击的是嘉宾王孟秋的支付宝。这次攻击的对象黑客通过“撞库”拿到了王孟秋的支付宝登录密码，顺利登陆。但是由于不知道支付宝支付密码，所以转账失败。</p>
-<blockquote>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_15.jpg" alt>  </p>
-</blockquote>
-<p>对第三个账户的攻击开始惹。这次攻击目标是现场一位观众的支付宝。由于提前在这部手机里植入了木马，黑客可以完全控制这部手机，所以他们使用手机验证码就直接登陆了支付宝。然后黑客选择修改支付密码，修改支付密码需要验证个人信息，黑客又通过手机里存储的银行卡和身份证照片，成功修改了支付密码。转账眼看就要成功。</p>
-<blockquote>
-<p>我满心激动，等着看黑客使出最后的杀手锏一击致命。。。</p>
-</blockquote>
-<blockquote>
-<p>然后。。。突然。。。转账失败了！节目结束了！结束了！束了！了！<br><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_18.jpg" alt>  </p>
-</blockquote>
-<p>纳尼？XX都X了你就给我看这个？我期待中支付宝被黑客干翻在地的场景被XX总局吃了吗？</p>
-<p>我突然想起了一个新闻：</p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_1.jpg" alt>  </p>
-<p>女棋士赢了。。。</p>
-<p>用了好久，我才接受支付宝真的赢了这个事实。虽说在节目上支付宝赢了，然而，在日常和黑客的乱斗中，支付宝难道就没有输的时候吗？我不信。</p>
-<p>于是，中哥下定决心要去和雄文聊聊，写一篇雄文背后故事的雄文，让大家认识一下我雄文里的雄文到底是怎样的雄文。</p>
-<p>几天后，在支付宝童鞋的引荐下，我坐在了雄文大叔的对面。我不是要和他下棋，而是要探究一下支付宝背后的秘密。</p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_5.jpg" alt>  </p>
-<p>雄文</p>
-<p> <strong>（一）</strong> <strong>支付宝能不能扛住“黑客围殴”？</strong></p>
-<p>“老实说，节目上被攻击的支付宝，是不是假的支付宝？”我劈头盖脸就问。</p>
-<p>“当然是真的支付宝。”雄文云淡风轻。</p>
-<p>“你怎么证明？”我说。</p>
-<p>“为了电视节目，如果要模拟一个假的支付宝，还要做出一套假的风控系统，要开发好多代码。太麻烦了。还不如用真的。况且真的风控系统我们做了十几年，干嘛要用假的。。。”他说。</p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640.jpg" alt>  </p>
-<p>“所以，被攻击的那三个账户，也是真的咯？”我问。</p>
-<p>“如假包换”他说。“支付宝账户都是实名制，背后挂着身份证的。不仅用不了假的，做节目的时候，连真的都差点用不了。。。”</p>
-<p>纳尼？雄文大叔在说什么？</p>
-<p>原来，在节目录制之前，需要进行一次彩排。彩排时候选定了三个账户被黑客一顿锤，支付宝防住了，一切都没问题。结果第二天要正式录制的时候，奇特的事情发生了——这三个账户被支付宝风控系统判定为受攻击高危账户，直接保护起来了，暂时限制对外转账功能一段时间。。。无奈，节目组只能另外换三个账户。也就是最终出现在节目上的那三个。</p>
-<p>“系统都是自动运行的，被封住的账户，就连我也无权解开。。。”雄文一摊手。</p>
-<p>我去，你是魔鬼吗？支付宝风控系统疯起来连自己人都刚啊，六亲不认，肃然起敬。</p>
-<p>“这支付宝的风控系统，叫个啥名？”</p>
-<p>“叫 AlphaRisk！”他说。</p>
-<p>“账户是真的，攻击是真的，AlphaRisk 的防御也完全是自动化的，那么也就是说在节目现场，你根本不知道它能不能挡住黑客的进攻咯？”我问。</p>
-<p>“是的。”</p>
-<p>“那你慌么？”</p>
-<p>“有点。”</p>
-<p>“。。。”</p>
-<p>雄文这么不按套路出牌的坦诚，让我本来准备好的一万个质疑都瞬间失效。</p>
-<p>“录节目时你最慌的是什么时候？”</p>
-<p>“AlphaRisk<br>判断一个账户是不是被盗用，是要综合很多指标来判断的。其中一个重要的维度就是看转走多少钱。结果在节目彩排的时候，黑客强行登录支付宝账号以后，居然只转5块钱！说实话，这么少的金额，是有可能被<br>AlphaRisk 放过的。转这么少钱，也没跟我商量，当时我真是捏了一把汗。还好支付宝给力，拦住了。”雄文吐槽。</p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_8.gif" alt>  </p>
-<p>感觉白衣黑客们费劲气力，才看清5这个按键在哪。。。</p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_5.gif" alt>  </p>
-<p> <strong>雄文当时的表情是这样的。</strong></p>
-<p>看看，在节目上黑客攻击三个支付宝账户都功败垂成时，雄文有多开心。</p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_6.gif" alt>  </p>
-<p>支付宝曾对外发布了一个数据：资损率低于千万分之五。意思就是，存在支付宝里的钱，出问题的概率低于千万分之五。</p>
-<p>千万分之五，真牛X！等等，好像哪里不对。。。假如我就是那倒霉的千万分之五，我是不是要去杭州上访？</p>
-<p>“不用，如果你的支付宝真的没被拦住，被盗了，我们赔给你就是了。”雄文淡定地说。</p>
-<p>确实，我记得支付宝从2004年上线之后，就有一个口号叫“你敢付，我敢赔。”只不过说实话这么多年中哥的支付宝账户也没丢过钱，不知道他们到底是赔不赔。。。既然今天支付宝副总裁都这么说了，那我放心了。</p>
-<p> <strong>也就是说，理论上支付宝并不能保证防御住每一次具体的黑客攻击，但这对于普通用户来说那不重要，因为每个人的钱都是绝对安全的。</strong></p>
-<p>说实话，见到雄文之前，我是没想到他会这么坦诚的。好不容易逮到他，得多问点电视台不让播的内容。</p>
-<p>接下来就到了中哥硬核科普时间了，今天的话题是：</p>
-<p> **  
-**</p>
-<p>你家支付宝的门神——AlphaRisk——到底是咋工作的？</p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_7.jpg" alt>  </p>
-<p> <strong>（二）黑客偷钱，总共分三步</strong></p>
-<blockquote>
-<p>你可以简单想象一下，用支付宝转账，要过三道大门：</p>
-</blockquote>
-<blockquote>
-<p> <strong>第一道：登录密码；</strong></p>
-</blockquote>
-<blockquote>
-<p> <strong>第二道：支付密码；</strong></p>
-</blockquote>
-<blockquote>
-<p> <strong>第三道：AlphaRisk 风险控制系统。</strong></p>
-</blockquote>
-<p>雄文说。</p>
-<p>来，我们一道一道地科普。</p>
-<p>第一关、登录密码</p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_19.jpg" alt>  </p>
-<p>这个很简单。你登录支付宝的时候，要输入登录密码，证明你是你。</p>
-<p>你可能会杠说，不对啊，我每次在手机上登录支付宝，不用输入密码，直接就打开了啊！没错，那是因为你经常登录，并且没有换手机。这种情况下，你账户有风险的概率很低。支付宝没有必要每次都打扰你，让你输密码。</p>
-<p>这里，我们学到了今天最重要的一个概念：打扰率。</p>
-<blockquote>
-<p>一个<br>App，每要求你做一件事，比如输入密码，比如让你接收一个短信验证码，这都算一次打扰。而在用户体验中，打扰是要扣分的。所以，通过频繁打扰用户的方式来保证你的“绝对安全”，并不是个好办法。</p>
-</blockquote>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_7.gif" alt>  </p>
-<p>由上图可知，频繁打扰是一件很烦的事，这个问题涉及到深奥的产品哲学，我们在最后还会详细讨论。</p>
-<p>我们继续说登录密码。</p>
-<p>如果你在一部手机里很久都没有登录支付宝，那是需要重新输入密码的。如果你换了一部新手机登录支付宝，那么不仅要输入密码，还要二次校验（短信验证码或者回答安全问题）。</p>
-<p>所以，黑客单单偷到了你的支付宝登录密码，是无法直接登录你的支付宝的。那他们是怎么做的呢？中哥可以告诉你几种可能性：</p>
-<p> <strong>1）你的身份信息泄露严重。</strong></p>
-<p>刚才我说到，支付宝密码是可以被重置的，需要提供身份证、银行卡等一系列信息。如果这些信息隐私信息都被黑产掌握了，那么从某种程度上说，他就是你了。没办法，你的密码也会被重置，他可以登录。</p>
-<p> <strong>2）你的手机丢了。</strong></p>
-<p>你的手机丢了的意思是——你的手机不仅丢了，并且没有设置开屏密码或指纹解锁。否则坏人解不开你的手机，就跟没丢一样。</p>
-<p>反正黑客只要进入你的手机主屏，接下来就有两种情况：</p>
-<blockquote>
-<p>你在几天内用过支付宝，那么，黑客不用输入密码，就像你本人使用一样，能直接登陆。</p>
-</blockquote>
-<blockquote>
-<p>你最近没有登录支付宝，那么支付宝会要求你输入密码，此时黑客可以选择重置密码，选择手机接收验证码，也是可以重置密码成功登录的。</p>
-</blockquote>
-<p>此乃第一关。</p>
-<p> <strong>第二关、支付密码</strong></p>
-<p> **  
-**</p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_6.jpg" alt>  </p>
-<p>如果坏人破解了你的登录密码，那么接下来他想把钱转走，就要遇到“支付密码”这道关口。</p>
-<p>你记得不，支付宝会要求你的支付密码和登录密码不同，目的就是为了防止坏人破解了你的登录密码，直接就能攻破你的支付密码。</p>
-<p>这里有个小细节：支付宝最近几年会鼓励你用指纹代替支付密码。当然，用户也可以手动选择切换——这次支付不用指纹，就用密码。这关实际上挡不住黑客，但是你要记住这个细节，一会儿有用。</p>
-<p>接下来我们继续说黑客怎么攻破你的支付密码：</p>
-<p> <strong>1）用你之前泄露的其他登录密码尝试。</strong></p>
-<p>一般人不会把支付宝支付密码和其他应用的登录密码设置为一个，这种方法成功率从实战数据中看比较低。</p>
-<p> <strong>2）重置你的支付密码。</strong></p>
-<p>重置你的密码，需要你的个人信息，或者需要你的手机。如果黑客已经掌握了这些，那么他很可能重置支付密码成功。</p>
-<p>你一定以为：黑客破了我的支付密码，钱就会被转走了噜。</p>
-<p>错！图样图森破！黑客的噩梦才刚刚开始。</p>
-<p>马上就会进入第三步骤：AlphaRisk。</p>
-<p> <strong>第三关、AlphaRisk</strong></p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_9.jpg" alt>  </p>
-<p>前面两步，黑客的所有操作，其实 AlphaRisk 都在默默看着，只是它没说话而已。</p>
-<p>当前两个密码都输入正确后，AlphaRisk 会作为最后一道门神，像尉迟恭和秦叔宝一样，决定放不放走这个钱。</p>
-<p>那么，AlphaRisk 判断的依据是什么呢？</p>
-<p>举个栗子：一个老警察靠在公交车站，他如何发现一个正在挤上车的小伙是个贼呢？他会通过几个维度：眼神、举止、穿着、和前人之间的距离、是否遮挡手上的行为等等等等。有经验的警察不用等到“偷钱”那个动作发生，就已经能准确判断谁是小偷。</p>
-<p>同样，AlphaRisk 也像一个老警察，它也会从一些维度来观察一笔交易。比如：设备、环境、偏好、行为、关系、账户、身份、交易，等等。</p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_2.gif" alt>  </p>
-<p>如果其中所有维度任何一个或者多个有异常，都会引起 AlphaRisk 的警觉，直接强制操作者进行人脸活体验证，手机验证码，或者干脆就截断交易。</p>
-<p>不知你感受到了没。日常你用支付宝转账给别人，你觉得非常自由，支付宝从来不添乱，恰恰是因为 AlphaRisk<br>对每一笔交易都做了极其细致的评估之后，觉得没问题才不拦着的。</p>
-<p>你可能会问，为神马 AlphaRisk 等到那么惊险的最后一步才起作用呢？早点出来这个“哔——”就装得不够到位吗？</p>
-<p>这个地方又涉及到刚才的概念——打扰率，如果支付宝在输入交易密码之前就用 AlphaRisk 跳出一堆人脸验证手机验证码，那就会让你觉得很烦。作为一个有尊严的<br>App，支付宝把安全性最强的 AlphaRisk 放到最后一步，就是为了最少的打扰。</p>
-<p>下面说 AlphaRisk 的工作细节。</p>
-<p>以《制造将来》里面的操作举例。攻击第三个手机的时候，黑客已经拿到了登录密码和交易密码，并且是照着身份证的照片把身份证号一次输入正确的，为神马<br>AlphaRisk 会认为这个交易有风险呢？</p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_12.jpg" alt>  </p>
-<p>用大家都能理解的话说，大概是酱：</p>
-<blockquote>
-<p>首先，支付宝是在陌生的手机上登陆的；</p>
-</blockquote>
-<blockquote>
-<p>其次，支付宝的登录密码是刚刚被重置过的；</p>
-</blockquote>
-<blockquote>
-<p>再次，支付宝的支付密码也刚刚被重置过；</p>
-</blockquote>
-<blockquote>
-<p>还有，转出账户和被转入账户之间没有任何人际关联；</p>
-</blockquote>
-<blockquote>
-<p>还有，转出账户所在城市和被转入账户所在城市，本身就很少存在转账行为；</p>
-</blockquote>
-<blockquote>
-<p>等等等等。</p>
-</blockquote>
-<p>其实，还有很多不正常的维度可供 AlphaRisk 参考。</p>
-<p>比如刚才我故意卖了关子的一个细节：操作者本来习惯用指纹支付，突然今天强制改成了密码支付。这一个蛛丝马迹，起码说明事出有因，足够让 AlphaRisk<br>关注到这次交易的风险。</p>
-<p>啊，说了这么多，终于大概解释清楚了支付宝风控的三道关。</p>
-<p>雄文告诉我，支付宝也不是一开始就有这么强大的智能风控能力的。</p>
-<p>在2004年，支付宝刚上线，他们就大喊“你敢付，我敢赔”的口号。实际上在那个时候，支付宝还真是“敢赔”。意思是，虽说风控技术有点糙，但我们胆子大，敢赔钱给用户而已。。。</p>
-<p>“那后来你们是怎么一步步提高风控能力的呢？”我好奇的地问。</p>
-<p>“你要是那么哗哗地赔钱，你也会拼了老命提高风控能力的！”</p>
-<p>“。。。”</p>
-<p> <strong>（三）偷不到钱，那骗钱行不行？</strong></p>
-<p>有一个问题其实很值得一说。</p>
-<p>宽泛来说，支付宝账户受损失，有两种情况：1、账户被盗；2、你被诈骗之后主动转钱给别人。</p>
-<p>当然，你的账户被盗，支付宝会赔钱给你。但如果你被骗，用支付宝主动转钱给骗子，就没办法找支付宝赔钱了。毕竟，被骗不能赖钱包。</p>
-<p>但是雄文告诉我，作为一个有追求的钱包，这两年支付宝恰恰在“识别诈骗”方面苦练技巧。</p>
-<p>这种对诈骗的识别能力，同样在 AlphaRisk 身上。</p>
-<p>骗子骗人，一般都是直接打电话，或者在微信上骗，那些过程支付宝肯定不知道。它只能看到一个账户给另一个账户转了钱。。。通过这么少的信息，它怎么能判断你是不是被骗了呢？？</p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_20.jpg" alt>  </p>
-<p>雄文给我讲了一个真实的例子。</p>
-<p>一个妈妈，她的孩子在外地打工，做快递小哥。突然有一天，她接到了一个陌生电话，告诉她儿子出了车祸，急需抢救，需要她打钱过来。妈妈开始没相信，把电话挂了。但是身边的电视正好播出了一条新闻，说他儿子所在的城市，有一个送货小哥出了严重车祸。这下她着急了，赶快给对方回电话，要把钱转过去。</p>
-<p>就在这位妈妈把钱转给骗子的时候，AlphaRisk<br>判断了风险，并且弹出了提示，告诉她有这笔转账可能是被骗了。妈妈选择无视，关掉弹窗继续转账。这次，AlphaRisk<br>判断强风险，直接阻断了交易，锁定账户两小时。</p>
-<p>这位妈妈非常生气，觉得自己的儿子出了事，支付宝却不让转账，于是拨打客服理论。正在这时，他的儿子碰巧打电话给妈妈，这才揭穿了骗子的骗局。</p>
-<p>在这个例子中，AlphaRisk 是凭什么判断转账存在诈骗风险呢？</p>
-<p>雄文说，至少有三点：</p>
-<blockquote>
-<p>1、妈妈平常的支出，都是小额的日常生活，买菜超市，突然一下转几万块显得很异常。</p>
-</blockquote>
-<blockquote>
-<p>2、对方的收款账户是新注册的。而且近几日只有大额收款和提现，并没有日常消费。</p>
-</blockquote>
-<blockquote>
-<p>3、这两个账户之间从未有过直接转账。</p>
-</blockquote>
-<p> <strong>你看，基础逻辑和判断账户被盗差不多，只不过，判断被骗可以利用的信息比判断被盗少得多，所以难得多。</strong></p>
-<p>但最让雄文头疼的是，截断用户付款固然好，但是万一截错了，用户是要跟支付宝拼命地。。。支付宝但凡截断用户的交易，必须证据确凿。如果没有百分百的证据，一般会选择弹窗提示。然鹅，很多时候即使支付宝弹出了警视窗，用户都会选择直接关掉，没啥作用。</p>
-<p>即使是这样，雄文团队也对弹窗内容改了又改，可谓是苦口婆心啊。</p>
-<p>这是修改前的 <strong>↓↓↓</strong></p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_16.jpg" alt>  </p>
-<p>这是修改后的↓↓↓</p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_13.jpg" alt>  </p>
-<p>前两天，雄文和团队突然找到了一个好方法，他们和地方反诈骗中心“合作弹窗”。例如你是重庆人，在支付宝判断你的一笔交易有风险时，弹出的内容不是“支付宝提醒您注意诈骗”，而是“重庆反诈骗中心提醒您，这个交易有可能是诈骗。”</p>
-<p>“这样一下，用户终止交易的比率大大增加！”改了几个字，就能让好多人少上当。雄文老激动了，这两天从地方到中央找反诈中心公安局各种合作。</p>
-<p>“到目前为止，用户遭受诈骗，有85-90% 都能收到弹窗提示。”雄文大叔开心地说。</p>
-<p>现在是这样↓↓↓</p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_4.jpg" alt>  </p>
-<p>说到这，雄文大叔给我普及了一个金融小常识：</p>
-<blockquote>
-</blockquote>
-<p>一般的在线交易系统，对于转账这个操作，只涉及“转出”和“到账”两个状态。这边转出之后，那边就到账。就像一盏灯只存在“开”和“关”两个状态。不可能存在“这边钱扣掉，那边还不到账”的情况。</p>
-<p>但是支付宝为了防止诈骗，开发了第三个状态：类似“预授权“。如果你觉得这次转账有风险，可以设置2小时或者24小时延时到账。这种情况下资金就在“预授权”状态。在这个期间如果你发现被诈骗，可以报警并向支付宝申请冻结资金。</p>
-<p>“预授权“状态的钱，按理说到时之后就会顺利进入转入账户。但只要有公安机关的相关凭证，就可以退回到转出账户。</p>
-<p>别看只是加了一个“预授权”的状态，这相当于给了受害者一个“时光机”，回到过去，改变那个无可挽回的错误。</p>
-<p>雄文说，为了增加这个新状态，他们两年里对支付宝底的层代码做了很大的修改。虽然大动干戈，但这件事非常值得。</p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_14.jpg" alt>  </p>
-<p> <strong>（四）玩漂移的老司机</strong></p>
-<p>讲真，人类对一台机器的要求是很变态的。好的机器不仅要代替人，还要比人更精神。</p>
-<p>毕竟是亲生的， 说到 AlphaRisk，雄文特别开心。他觉得如果2017年支付宝没有开始研究<br>AlphaRisk，现在很多风控策略还靠人肉的话，一定会被“时代的洪流”所击垮。</p>
-<p>如今，AlphaRisk 有两个杀手锏：</p>
-<p> <strong>1、和人比，它厉害到不知哪里去了。</strong></p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_3.gif" alt>  </p>
-<p>你可能已经知道，AlphaRisk 就是一种“人工智能。你作为一个人每天家长里短悲欢离合其实本质都是判断，人工智能每天也是做一件事：判断。</p>
-<p>人工智能判断事情的标准，和人又像又不像。这里涉及到一个大家普遍理解得不好的技术梗，中哥正好以 AlphaRisk 为例简单科普几句：</p>
-<blockquote>
-<p>人工智能和人各自做一个判断，有点像两个大厨分别做一桌菜给你吃。这分为三步：</p>
-</blockquote>
-<blockquote>
-<p>1、他们使用的原料种类都是一样的青椒、萝卜、鸡肉等等。（这意味着人工智能和人用于判断一件事情的基础数据是一样的。）</p>
-</blockquote>
-<p>2、但是，他们炒菜的路数可就不一样了。人类可能会做出鱼香肉丝、宫保鸡丁、水果拼盘，但是机器会根据自己的理解做出西瓜披萨，苹果蒸蛋、巧克力烧茄子等等常人不能想象的饭菜。（这意味着人工智能的判断模型和人既相似又不同。）</p>
-<blockquote>
-<p>3、最后，两桌菜分别上来，食客们会发现，两种菜虽然不一样，但是都能填饱肚子，而且机器做的明显更好吃更营养。（这意味着人工智能判断的准确度比人类还高。）</p>
-</blockquote>
-<p>简单总结人工智能的工作原理：通过人类看都看不过来的数据，用风骚的机器思维，做出一击致命的判断。</p>
-<p>这里给你几个数据你感受一下。</p>
-<p>AlphaRisk<br>用来判断的风险点有几千个（如交易金额、支付宝注册地、交易时间、使用密码支付还是指纹支付等）。把这么多数据进行惨无人道的交叉运算，总运算量是巨大的。</p>
-<p>在平时，每秒钟全世界都会用支付宝进行上万次的交易。如果在双十一这种狂欢节，每秒支付宝要处理25万笔交易。你想想看，就像商场的收银台后面，排队排了25万个顾客，每一笔交易，AlphaRisk<br>都还要计算无数次来判断它是不是有风险，这得累计多大的计算量。。。</p>
-<p>如果这些计算量交给人来做，等到算完，估计已经到了9102年双11了吧。</p>
-<p>这么疯狂的机器，日常得有不少码农为它检修上油吧。。。</p>
-<p>雄文说哈哈哈NO！因为，这两年他们已经搞出了一套“自动驾驶”系统。</p>
-<p>纳尼？支付宝也会开车了么？求车牌号！其实，不是你想的那样，这就到了 AlphaRisk 的第二个逆天优势。</p>
-<p> <strong>2、这是个会自动驾驶的老司机。</strong></p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_4.gif" alt>  </p>
-<p>那些做坏事的黑客，连过年都不休息，天天“苦炼内功”，不断升级自己盗取支付宝账户和诈骗用户的技术。这是为什么？因为他们知道，如果能早几天研究出一个盗取支付宝的方法，那赚的钱可比在支付宝上班的码农加班费多多了。</p>
-<p>对手那么疯狂，AlphaRisk 也要加油才行啊。正常情况下，AlphaRisk 想要学会新的反诈骗套路，要工程师手动输入代码。</p>
-<p>但是，雄文和支付宝安全团队的队员很“懒”，他们觉得，AlphaRisk 已经长大了，不能每天晚上给它“检查作业”，它要自己学习新的知识了。</p>
-<p>所以过去两年，攻城狮们很少砍柴，主要磨刀。他们建立了一个自动建模的系统。每天都会有一些用户损失通过投诉渠道反馈到支付宝风控团队，这个自动建模系统就可以通过学习这些AlphaRisk<br>没有拦截成功的案例来建立新的风险模型，然后把这个模型输入到 AlphaRisk 里，下次再遇到同样的问题，AlphaRisk 就能一眼识别。</p>
-<p>自动建模还不是全部。</p>
-<p>你知道，每年双11的时候，支付宝会像雷峰塔一样，承受一下交易量水漫金山的感觉。这个时候，如果还执行原来的风控策略，就会导致计算力严重不足的情况。本来人家零点秒杀，结果支付宝算了十秒钟，跟人家说没问题去付钱吧。结果秒杀的限量款衣服早都被人家抢得毛都不剩。这会造成大批群众到杭州上访的。。。</p>
-<p>所以，支付宝需要根据不同的情景，调整 AlphaRisk 的风控策略。这就像一辆车，根据路况不同，切换12345档。</p>
-<p>原来每到双11，攻城狮们就会写一套新的风控策略，为 AlphaRisk 手动换挡。从2017年开始，完全不用了。AlphaRisk<br>学会了骚气的自动换挡。交易量巨大的时候，就自动切换为高档，交易量低的时候，就瞬间调回来。</p>
-<p>这不就和汽车的自动驾驶是一回事么。。。</p>
-<p>我第一次发现，原来自动驾驶不仅仅是汽车领域的人工智能。凡是需要复杂人工智能的场景，其实都有自动驾驶的一席之地。甭管是人是机，反正这个世界缺不了老司机。</p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_17.jpg" alt>  </p>
-<p> <strong>（五）三个“隐秘战场”</strong></p>
-<p>其实，中哥知道，科普半天支付宝 AlphaRisk 的风险识别技术，你也未必听得进去，因为我已经提前剧透了，反正你丢了钱支付宝会赔给你。</p>
-<p>不过，要是你以为雄文和支付宝风控团队只玩技术，那就太小看他们了。</p>
-<p>有道是：“科学的尽头是哲学。”</p>
-<p>这句话不无道理。好多事是科学解决不了的。比如你女票天天吵着要买钻石戒指，你告诉她从科学角度说那玩意儿其实就是碳，那你当晚必定自己睡。</p>
-<p>虽说支付宝的风控做得很科学，但是雄文却每天都面临三个哲学问题：</p>
-<p> <strong>第一，打扰率和资损率如何平衡？</strong></p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_11.jpg" alt>  </p>
-<p>之前我们已经介绍过这个重要概念“打扰率”，就是支付宝为了保障你账户的安全，弹出来一些验证提示等等打扰你的行为的概率。</p>
-<p>当然技术水平是在不断进步的。但假设在技术保持不变的情况下，这是个跷跷板。打扰率越高，资损率就越低。</p>
-<p>如果让中哥这样的抠门来做决定，那估计是要把资损率降到极限，对用户的打扰率有多高。。。爱咋咋地。。。因为这样能保证赔出去的钱最少。</p>
-<p>当然，支付宝没有这样做。他们在资损率降低到千万分之五之后，转而把技术重心放在了降低打扰率和诈骗识别上。</p>
-<blockquote>
-<p>资损率低到千万分之五的时候，我们就认为被盗是小概率事件了。即使被盗，也能做到全额赔付。这个时候，我们要用技术的进步让用户体验到温度。</p>
-</blockquote>
-<p>雄文说。</p>
-<p>正所谓：“有技术的 App 千篇一律，有温度的 App 万里挑一”。表面上看，这是一个产品哲学和技术取舍。但在这个天平上，你其实可以测量用户的重量。</p>
-<p> <strong>第二，赔付与不赔付如何平衡？</strong></p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_10.jpg" alt>  </p>
-<p>你可能会说，不是刚刚都说了么，被盗就赔，自己转给骗子不赔。</p>
-<p>没错，但是在现实生活中，总有那些让人哭笑不得的中间地带。</p>
-<p>我随便给你举两个例子。</p>
-<p>第一个例子：卖早点的老张，把自己的收款码放在早餐车柜台上，结果有一天，一个混球突然把老张的收款码偷偷换成自己的。老张忙着做早点，结果半个小时才发现。他联系支付宝客服，你是支付宝的话，你赔还是不赔？</p>
-<p>直接说答案，赔。原因很简单，做生意不容易，虽然二维码被偷梁换柱不是支付宝的责任，但是支付宝不想让诚实的人受损失。</p>
-<p>别看雄文说得轻描淡写，当初决定二维码偷换也要赔的时候，所有人可是下了老大的决心的。因为，付款码偷换的整个流程，都不是支付宝能监督控制的，所以他们不知道如果赔的话，要赔出去多少钱。</p>
-<p>雄文记得，那时候他跟支付宝老大井贤栋商量这件事，井贤栋立刻就同意了，他说：“我们准备个几亿，先赔着。”支付宝还专门给小摊主设计了一个语音播报的功能，收到款手机就会大声喊出来。</p>
-<p>当然，事后证明广大摊主并没有那么粗心，自己的二维码被偷换了还不知道。数据显示，真正因此受损失的小商家很少。</p>
-<p>第二个例子：小美联系支付宝客服要求赔偿，说一觉醒来支付宝里几万块的余额不翼而飞。但是支付宝通过数据查看， 这笔钱是用她的手机，在她家的 Wi-Fi<br>环境里，密码根本没有被重置，都是一次输入正确而被转走的。AlphaRisk 认为这很可能不是被盗，说白了，有可能是“监守自盗”，如果你是支付宝，你赔不赔？</p>
-<p>直接说答案，不一定赔。原因也很简单，因为大家都要诚实。如果涉及到欺诈，支付宝并不能蒙受不白之冤。</p>
-<p>这是个真实的案例。后来的警察调查发现，这是她交往十年的男朋友，因为沾上了赌博不敢说，趁她睡觉的时候偷偷把钱转走的。</p>
-<p>雄文告诉我，支付宝风控部门有一个专门的团队，就是处理这种介于赔偿和不赔偿之间的中间地带。如果确实有警方介入，没有发现是监守自盗或亲友作案，那么支付宝就会赔付。</p>
-<p> <strong>第三，安全和安全感之间如何平衡？</strong></p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_21.jpg" alt>  </p>
-<p>你有没有过这样的经历：给别人转好大一笔钱，结果支付宝问都没问，直接放行了你的转账。这时你的心里会闪过一丝不安全感，就像穿着短裙的女装大佬，总感觉空空荡荡的。</p>
-<p>其实，AlphaRisk 在背后已经帮你掐指一算，判断了你的转账没有风险，只不过没有明确告诉你。</p>
-<p>雄文说，这是他们团队最近在努力思考的问题：“安全”没问题，但是用户的“安全感”有问题，这要怎么平衡？</p>
-<p>其实有关“安全”和“安全感”的问题，历史上有个经典公案。汽车门关上的时候，本来是没有声音的，但是广大司机们听不到声音，总觉得车门没关好，百爪挠心。于是，索性各大车厂专门设计了一个机关，让车门关闭的时候发出坚实的“砰——”。然后，天下太平。。。</p>
-<p>“所以，你们也要在某些不需要打扰用户的时候，弹出验证消息吗？”我问。</p>
-<p>“谁说得准呢？”雄文笑了。</p>
-<p>没想到，每天我打开支付宝只是付个钱买个余额宝，其实它背后正在发生着无数秘密战争——支付宝风控团队带着 AlphaRisk<br>时刻在改进风控技术，并且在这样那样的平衡之间精确腾挪。</p>
-<p>告别雄文。走在杭州冬天温润的空气里，我突然觉得心情很舒畅。</p>
-<p>一次偶然的电视节目，却让我认识了这么一位温暖的大叔，还有背后守护我们的工程师们。</p>
-<p>我记得曾经在网上看到过这样一个帖子：“黑客这么厉害，为什么不去攻击支付宝？”</p>
-<p>现在我觉得自己大概能回答这个问题了：他们攻击了，只是你不知道，因为有人在替你负重前行。</p>
-<p>很多备受推崇的产品经理在介绍经验时，总是强调“人心”二字。当时，我未免觉得这是一种政治正确的姿态。但当我和无数大佬聊过之后，越来越发现一个真理：</p>
-<p> **  
-**</p>
-<blockquote>
-<p>技术可以打下世界， 但只有良知可以赢得人心。</p>
-</blockquote>
-<p>世界辽阔，而且，没有想象中那么糟。</p>
-<p><img src="/blog/2019/05/18/其他/黑客为什么不攻击支付宝？/640_3.jpg" alt>  </p>
-<p>O，对了，想看这期节目的，可以上优酷搜索“智造将来”，2019年2月3日那期。</p>
+            <p>你用 TypeScript 语法写的 .ts .tsx 等后缀的程序是不能直接运行的，而是会被 tsconfig.json 配置中的 “target”:<br>“es6”, 这项配置转换为 es6 语法的 .js 文件。</p>
+<p>TypeScript 中的 import 只会加载 .ts .tsx 后缀的文件，而 Javascript 中的 import 只能加载 .js<br>等后缀的文件，</p>
+<p>所以，当 ReactNative 启动时，首先加载入口文件，如 index.android.js ,代码如下：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> import&#123; AppRegistry &#125; from&apos;react-native&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> importIndexNavigator</span><br><span class="line">from&apos;./application/src/controller/navigator/IndexNavigator&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> AppRegistry.registerComponent(&apos;mogudan&apos;, () = IndexNavigator);</span><br></pre></td></tr></table></figure>
+
+<p>其中 import IndexNavigator from … 这一行加载的不是 IndexNavigator.ts 而是编译后生成的<br>IndexNavigator.js 文件，下面对比两个文件的差异：</p>
+<p> IndexNavigator.ts</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> * Created by ZHOUZ on 2016-08-26.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> import* as React from&apos;react&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> import&#123;Navigator&#125;  from&apos;react-native&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> importIndexPage from&apos;../page/IndexPage&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> exportdefaultclassIndexNavigatorextendsReact.Component&lt;any,any &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     render() &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         let defaultName =&apos;IndexPage3311113&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         let defaultComponent = IndexPage;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        return(</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             &lt;Navigator</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 initialRoute=&#123;&#123; name: defaultName, component:</span><br><span class="line">defaultComponent &#125;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 configureScene=&#123;(route) =</span><br><span class="line">Navigator.SceneConfigs.VerticalDownSwipeJump &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 renderScene=&#123;(route: any, navigator) = &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> let Component =[route.component;](http://route.component%3B/)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                    return&lt;Component &#123;...route.params&#125; navigator=&#123;navigator&#125;</span><br><span class="line">/</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &#125;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             /</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>IndexNavigator.js</p>
+<p>为自动编译后生成的es6语法的 javascript 代码</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line">&quot;use strict&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> var__assign = (this&amp;&amp;this.__assign) ||Object.assign ||function(t)&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    for(vars, i =1, n =arguments.length; i &lt; n; i++) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         s =arguments[i];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        for(varpins)if(Object.prototype.hasOwnProperty.call(s, p))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             t[p] = s[p];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    returnt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> /**</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> * Created by ZHOUZ on 2016-08-26.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> constReact =require(&apos;react&apos;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> constreact_native_1 =require(&apos;react-native&apos;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> constIndexPage_1 =require(&apos;../page/IndexPage&apos;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> classIndexNavigator extends[React.Component](http://react.component/)&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     render() &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        letdefaultName =&apos;IndexPage3311113&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        letdefaultComponent = IndexPage_1.default;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        return(React.createElement(react_native_1.Navigator, &#123;initialRoute: &#123;</span><br><span class="line">name: defaultName, component: defaultComponent &#125;, configureScene: (route) =</span><br><span class="line">react_native_1.Navigator.SceneConfigs.VerticalDownSwipeJump, renderScene:</span><br><span class="line">(route, navigator) = &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            letComponent =[route.component;](http://route.component%3B/)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            returnReact.createElement(Component, __assign(&#123;&#125;, route.params,</span><br><span class="line">&#123;navigator: navigator&#125;));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#125;&#125;));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> Object.defineProperty(exports,&quot;__esModule&quot;, &#123; value:true&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> exports.default = IndexNavigator;</span><br></pre></td></tr></table></figure>
+
 
         </div>
         
@@ -662,17 +333,17 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-18T07:35:42.682Z">2019-05-18</time>
+                <time class="level-item has-text-grey" datetime="2019-05-25T12:39:13.245Z">2019-05-25</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    2 分钟 读完 (大约 225 个字)
+                    4 分钟 读完 (大约 637 个字)
                 </span>
                 
                 
@@ -681,30 +352,20 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/18/后端/直播平台整体架构/">直播平台整体架构</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/25/React-Native/Reat-Native拓展/">Reat-Native拓展</a>
             
         </h1>
         <div class="content">
-            <h2 id="直播平台整体架构"><a href="#直播平台整体架构" class="headerlink" title="直播平台整体架构"></a><strong>直播平台整体架构</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/1535867952868e18945c7e8" alt></p>
-<h2 id="视频直播链路"><a href="#视频直播链路" class="headerlink" title="视频直播链路"></a><strong>视频直播链路</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/15358679530037a60ec8deb" alt></p>
-<h2 id="视频流转换成不同清晰度"><a href="#视频流转换成不同清晰度" class="headerlink" title="视频流转换成不同清晰度"></a><strong>视频流转换成不同清晰度</strong></h2><h2 id="不同的端，不同的网络环境，需要不同码率，以保流畅"><a href="#不同的端，不同的网络环境，需要不同码率，以保流畅" class="headerlink" title="不同的端，不同的网络环境，需要不同码率，以保流畅"></a><strong>不同的端，不同的网络环境，需要不同码率，以保流畅</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/1535867952784af9caca33c" alt></p>
-<h2 id="播放器的基本实现"><a href="#播放器的基本实现" class="headerlink" title="播放器的基本实现"></a><strong>播放器的基本实现</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/1535867952823f205c9cdb6" alt></p>
-<h2 id="SDK在播放器上做层管理"><a href="#SDK在播放器上做层管理" class="headerlink" title="SDK在播放器上做层管理"></a><strong>SDK在播放器上做层管理</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/15358679529403b696c06bb" alt></p>
-<h2 id="视频相关技术细节"><a href="#视频相关技术细节" class="headerlink" title="视频相关技术细节"></a><strong>视频相关技术细节</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/15358679527144b9bed22ff" alt></p>
-<h2 id><a href="#" class="headerlink" title=" "></a> </h2><h2 id="消息发送流程"><a href="#消息发送流程" class="headerlink" title="消息发送流程"></a><strong>消息发送流程</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/15358679531845543fb4199" alt></p>
-<h2 id="不同消息通道的优劣对比"><a href="#不同消息通道的优劣对比" class="headerlink" title="不同消息通道的优劣对比"></a><strong>不同消息通道的优劣对比</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/1535867953331537afd74b2" alt></p>
-<h2 id="-1"><a href="#-1" class="headerlink" title=" "></a> </h2><h2 id="心跳及房间结构"><a href="#心跳及房间结构" class="headerlink" title="心跳及房间结构"></a><strong>心跳及房间结构</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/1535867953146faab4800d4" alt></p>
-<h2 id="用户按需分桶"><a href="#用户按需分桶" class="headerlink" title="用户按需分桶"></a><strong>用户按需分桶</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/15358679532924f0774329b" alt></p>
-<h2 id="固定分桶与按需分桶对比"><a href="#固定分桶与按需分桶对比" class="headerlink" title="固定分桶与按需分桶对比"></a><strong>固定分桶与按需分桶对比</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/1535867953344f218310755" alt></p>
-<h2 id="-2"><a href="#-2" class="headerlink" title=" "></a> </h2><h2 id="关键词及垃圾文本过滤"><a href="#关键词及垃圾文本过滤" class="headerlink" title="关键词及垃圾文本过滤"></a><strong>关键词及垃圾文本过滤</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/15358679535110f1b1854de" alt></p>
-<h2 id="-3"><a href="#-3" class="headerlink" title=" "></a> </h2><h2 id="大促风险控制"><a href="#大促风险控制" class="headerlink" title="大促风险控制"></a><strong>大促风险控制</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/1535867953551feb529dc15" alt></p>
-<p> <strong>平台化的挑战</strong></p>
-<p><img src="/blog/2019/05/18/后端/直播平台整体架构/1535867953457d07a82709a" alt></p>
-<p> <strong>想了解可以私信我！</strong></p>
-<p> <strong>1 SpringBoot+ 高并发消息处理 EDM?项目 实战</strong></p>
-<p> <strong>2 SpringBoot ELK?分布式 数据分析</strong></p>
-<p> <strong>3 Netty?高 并发 UTS?项目实战</strong></p>
-<p> <strong>4 SpringCloud?微服务+NoSQL+ 负载均衡平台设计</strong></p>
+            <h1 id="腾讯微信小程序"><a href="#腾讯微信小程序" class="headerlink" title="腾讯微信小程序"></a>腾讯微信小程序</h1><p>注：手机QQ未来也预期会开放一套类似的开放平台</p>
+<p> <strong>React Native</strong></p>
+<p>没有公开的文档在说明，但据打听和一些资料显示手机QQ和手机QQ浏览器都不同程度使用了 React<br>Native，QQ浏览器是在首页的feed流使用了RN；其中手机QQ团队应该还在自研一套动态化技术方案（柏拉图），未来会开放。</p>
+<h1 id="百度轻应用"><a href="#百度轻应用" class="headerlink" title="百度轻应用"></a>百度轻应用</h1><p>百度在 2013 年百度世界大会上宣布推出“轻应用”（Light App），百度提供了配套基础设施将移动网站快速转化成轻应用。轻应用本质上是<br>WebApp，类似微信的公众平台，用户体验受当年手机性能的极大制约，以至于后来日渐式微。</p>
+<p> <strong>React Native → HtmlNative</strong></p>
+<p>贴吧微粉2016年曾经全量采用 React Native，在去年爆发 Facebook 协议事件之后，百度内部出现了大量替代 React Native<br>的轮子，重写了部分涉及协议冲突的组件。目前手机百度采用 HtmlNative 方案，定制了 Webkit 的增强版。</p>
+<h1 id="京东-JDReact"><a href="#京东-JDReact" class="headerlink" title="京东-JDReact"></a>京东-JDReact</h1><p>京东采用 React Native 的定制方案 JDReact，对 React Native<br>的核心库做了裁剪和二次开发，搭建了后台功能支撑平台，同时结合京东的业务特点封装了包括 UI 在内的公共组件库，实现了三端融合，目前已经推广到了20多个业务。</p>
+<h1 id="携程-Ctrip-React-Native"><a href="#携程-Ctrip-React-Native" class="headerlink" title="携程-Ctrip React Native"></a>携程-Ctrip React Native</h1><p>携程采用 React Native 的定制方案 CRN（Ctrip React Native），从2016年4月份开始，携程开始小范围使用 React<br>Native，实现了站内信和机票低价订阅，随后开始大规模在各个 BU 推广，有超过15 个业务模块在使用，涉及页面在50个以上，据称已经达到了 85%<br>的双端代码复用率。</p>
+<h1 id="去哪儿-Qunar-React-Native"><a href="#去哪儿-Qunar-React-Native" class="headerlink" title="去哪儿-Qunar React Native"></a>去哪儿-Qunar React Native</h1><p>去哪儿采用 React Native 的定制方案 QRN（Qunar React<br>Native），抹平了平台差异，降低了开发成本，广泛应用于机票、酒店等核心业务，据称已经达到了 95% 的双端代码复用率。</p>
+<h1 id="艺龙-Enjoy-React-Native"><a href="#艺龙-Enjoy-React-Native" class="headerlink" title="艺龙-Enjoy React Native"></a>艺龙-Enjoy React Native</h1><p>艺龙采用 React Native 的定制方案 ERN，基于 web → Native 的思路，将纯 Html 标签转换为 Native<br>组件，从而抹平了平台差异，降低开发成本。</p>
 
         </div>
         
@@ -744,7 +405,7 @@ var _hmt = _hmt || [];
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/37/">37</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/43/">43</a></li>
             
         </ul>
     </nav>
@@ -792,7 +453,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        111
+                        128
                     </p>
                 </div>
             </div>
@@ -802,7 +463,7 @@ var _hmt = _hmt || [];
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        11
+                        12
                     </p>
                 </div>
             </div>
@@ -812,7 +473,7 @@ var _hmt = _hmt || [];
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        19
+                        23
                     </p>
                 </div>
             </div>
@@ -871,6 +532,14 @@ var _hmt = _hmt || [];
             </span>
             <span class="level-end">
                 <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/ReactNative/">
+            <span class="level-start">
+                <span class="level-item">ReactNative</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">17</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/Unity/">
@@ -956,7 +625,7 @@ var _hmt = _hmt || [];
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13.75px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11.25px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 17.5px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 18.75px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11.25px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 15px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11.25px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11.25px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11.25px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16.25px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12.5px;">网络安全</a>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/ReactNative/" style="font-size: 17px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 15px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
     </div>
 </div>
 
@@ -975,10 +644,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/Web/GithubPage+Hexo搭建个人主页/" class="has-link-black-ter is-size-6">GithubPage+Hexo搭建个人主页</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -988,10 +657,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1001,10 +670,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1014,10 +683,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1027,10 +696,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1054,7 +723,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">111</span>
+                    <span class="level-item tag">128</span>
                 </span>
             </a>
         </li>
@@ -1096,6 +765,34 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Google/">
                         <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative/">
+                        <span class="tag">ReactNative</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative优化/">
+                        <span class="tag">ReactNative优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative库/">
+                        <span class="tag">ReactNative库</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
+                        <span class="tag">ReactNative插件</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1232,10 +929,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/Web/GithubPage+Hexo搭建个人主页/" class="has-link-black-ter is-size-6">GithubPage+Hexo搭建个人主页</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1245,10 +942,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1258,10 +955,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1271,10 +968,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1284,10 +981,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1311,7 +1008,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">111</span>
+                    <span class="level-item tag">128</span>
                 </span>
             </a>
         </li>
@@ -1353,6 +1050,34 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Google/">
                         <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative/">
+                        <span class="tag">ReactNative</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative优化/">
+                        <span class="tag">ReactNative优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative库/">
+                        <span class="tag">ReactNative库</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
+                        <span class="tag">ReactNative插件</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>

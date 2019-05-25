@@ -153,7 +153,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.812Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.036Z">2019-05-17</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
@@ -163,7 +163,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    11 分钟 读完 (大约 1698 个字)
+                    2 分钟 读完 (大约 249 个字)
                 </span>
                 
                 
@@ -172,47 +172,25 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/Android全自动打包生成apk/">Android全自动打包生成apk</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/Prefab里面的Prefab关联问题/">Prefab里面的Prefab关联问题</a>
             
         </h1>
         <div class="content">
-            <p>Unity自动打包Android其实要比IOS容易得多，因为Android不用先生成java工程，然后在构建.apk包，我先说说Android打包的步骤。</p>
-<p>1.把sdk拷贝至Plugins/Android下。</p>
-<p>如下图所示，如果你做过Android源生开发，我相信下面的东西你不会陌生。可是如果你没做过Android原生开发，我还是详细说明以下。</p>
-<p>AndroidManifest：这是Android程序必不可少的文件，这里记录着应用程序的启动Activity。Activity就是Android的一个界面，一般应用程序会有很多Acitivty，来回切换界面。但是游戏就不太一样了，因为游戏只需要一个Activity<br>一个View就可以了。（扯远了）</p>
-<p>AndroidManifest：里面还记录着应用程序的权限，Service啊什么的，，有兴趣的同学可以谷歌搜一搜。</p>
-<p>每次打包的时候Unity会用它默认的AndroidManifest，它默认的AndroidManifest在<br>unity.app/Contents/PlaybackEngines/AndroidPlayer下面。当你在进行打包apk的时候<br>unity会拷贝该路径下的所有参数。</p>
-<p>在ProjectSetting里面勾选一些权限的时候，Unity会自动帮你修改AndroidManifest里面的权限，但是如果某个权限不能在Unity工程里面修改，那么就需要自己手动替换。如下图所示，我们把AndroidManifest放在Plugins/Android下面，<br>这样Unity在进行打包的时候就不会用它默认的，而是用我自己新写的打包。。这样就方便灵活很多了。。</p>
-<p>bin:下面就记录着sdk用到的第三方jar</p>
-<p>res：下面就是安卓的一些图片，资源啊什么。</p>
-<p>你可以随便解开一个android的APK看看它的目录结构就明白了。。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-023b15f9b35219c4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>这样在打包的时候unity就会自动把Plugins/Android下面的所有资源打包在你的APK里面了。但是如果你做渠道包的时候，每个包用的是不同的sdk，所以你需要在打包不同渠道的时候把相关的文件拷贝在Plugins/Android下面。</p>
-<p>如下图所示，我在根目录下创建一个文件夹名子叫91，当我自动化打包的时候自动把91文件夹下面的资源先拷贝在Plugins/Android下面，然后在自动打包。。打完包以后再把Plugins/Andoird文件夹清空即可。。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4cc6d58eb949859e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>Ok上脚本。。代码和上一篇文章的第一步差不多，我就不多余注释，，执行下面shell脚本将自动打开unity，然后执行ProjectBuild.BuidForAndroid方法。。<br>project-$1 就是传入的参数。。</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">#参数判断</span><br><span class="line">if [ $# != 1 ];then</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo &quot;需要一个参数。 参数是游戏包的名子&quot;</span><br><span class="line">exit</span><br><span class="line"></span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">#UNITY程序的路径#</span><br><span class="line"></span><br><span class="line">UNITY_PATH=/Applications/Unity/Unity.app/Contents/MacOS/Unity</span><br><span class="line"></span><br><span class="line">#游戏程序路径#</span><br><span class="line"></span><br><span class="line">PROJECT_PATH=/Users/MOMO/commond</span><br><span class="line"></span><br><span class="line">#在Unity中构建apk#</span><br><span class="line"></span><br><span class="line">$UNITY_PATH -projectPath $PROJECT_PATH -executeMethod</span><br><span class="line">ProjectBuild.BuildForAndroid project-$1 -quit</span><br><span class="line"></span><br><span class="line">echo &quot;Apk生成完毕&quot;</span><br></pre></td></tr></table></figure>
+            <p>最近造了个轮子可以批量替换prefab里的prefab，欢迎大家测试～&lt;<a href="https://bitbucket.org/xuanyusong/prefab-" target="_blank" rel="noopener">https://bitbucket.org/xuanyusong/prefab-</a><br>replace&gt;</p>
+<p>最近在做UI部分中遇到了这样的问题，就是Prefab里面预制了Prefab。可是在Unity里面一旦Prefab预制了Prefab那么内部的Prefab就失去关联。导致与如果要改内部的Prefab需要把所有引用的地方全部改一遍。今天在逛国外网站看到了一个老外的思路，原文在这里&lt;<a href="http://framebunker.com/blog" target="_blank" rel="noopener">http://framebunker.com/blog</a><br>/poor-mans-nested-prefabs/&gt;</p>
+<p>下面直接上代码</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">#if UNITY_EDITOR</span><br><span class="line"> using UnityEditor;</span><br><span class="line"> using UnityEditor.Callbacks;</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">using System.Collections.Generic;</span><br><span class="line"></span><br><span class="line">[ExecuteInEditMode]</span><br><span class="line">public class PrefabInstance : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    public GameObject prefab;</span><br><span class="line"></span><br><span class="line">#if UNITY_EDITOR</span><br><span class="line"> // Struct of all components. Used for edit-time visualization and gizmo drawing</span><br><span class="line"> public struct Thingy &#123;</span><br><span class="line"> public Mesh mesh;</span><br><span class="line"> public Matrix4x4 matrix;</span><br><span class="line"> public List&lt;Material materials;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> [System.NonSerializedAttribute] public List&lt;Thingy things = new</span><br><span class="line">List&lt;Thingy ();</span><br><span class="line"></span><br><span class="line"> void OnValidate () &#123;</span><br><span class="line"></span><br><span class="line"> things.Clear();</span><br><span class="line"></span><br><span class="line"> if (enabled)</span><br><span class="line"> Rebuild (prefab, Matrix4x4.identity);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> void OnEnable () &#123;</span><br><span class="line"> things.Clear();</span><br><span class="line"> if (enabled)</span><br><span class="line"> Rebuild (prefab, Matrix4x4.identity);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> void Rebuild (GameObject source, Matrix4x4 inMatrix) &#123;</span><br><span class="line"></span><br><span class="line"> if (!source)</span><br><span class="line"> return;</span><br><span class="line"></span><br><span class="line"> Matrix4x4 baseMat = inMatrix * Matrix4x4.TRS (-source.transform.position,</span><br><span class="line">Quaternion.identity, Vector3.one);</span><br><span class="line"> foreach (MeshRenderer mr in source.GetComponentsInChildren(typeof</span><br><span class="line">(Renderer), true))</span><br><span class="line"> &#123;</span><br><span class="line"></span><br><span class="line"> things.Add(new Thingy () &#123;</span><br><span class="line"> mesh = mr.GetComponent&lt;MeshFilter().sharedMesh,</span><br><span class="line"> matrix = baseMat * mr.transform.localToWorldMatrix,</span><br><span class="line"> materials = new List&lt;Material (mr.sharedMaterials)</span><br><span class="line"> &#125;);</span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> foreach (PrefabInstance pi in source.GetComponentsInChildren(typeof</span><br><span class="line">(PrefabInstance), true))</span><br><span class="line"> &#123;</span><br><span class="line"> if (pi.enabled &amp;&amp; pi.gameObject.activeSelf)</span><br><span class="line"> Rebuild (pi.prefab, baseMat * pi.transform.localToWorldMatrix);</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> // Editor-time-only update: Draw the meshes so we can see the objects in the</span><br><span class="line">scene view</span><br><span class="line"> void Update () &#123;</span><br><span class="line"> if (EditorApplication.isPlaying)</span><br><span class="line"> return;</span><br><span class="line"> Matrix4x4 mat = transform.localToWorldMatrix;</span><br><span class="line"> foreach (Thingy t in things)</span><br><span class="line"> for (int i = 0; i &lt; t.materials.Count; i++)</span><br><span class="line"> Graphics.DrawMesh (t.mesh, mat * t.matrix, t.materials[i], gameObject.layer,</span><br><span class="line">null, i);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> // Picking logic: Since we don&apos;t have gizmos.drawmesh, draw a bounding cube</span><br><span class="line">around each thingy</span><br><span class="line"> void OnDrawGizmos () &#123; DrawGizmos (new Color (0,0,0,0)); &#125;</span><br><span class="line"> void OnDrawGizmosSelected () &#123; DrawGizmos (new Color (0,0,1,.2f)); &#125;</span><br><span class="line"> void DrawGizmos (Color col) &#123;</span><br><span class="line"></span><br><span class="line"> if (EditorApplication.isPlaying)</span><br><span class="line"> return;</span><br><span class="line"></span><br><span class="line"> Gizmos.color = col;</span><br><span class="line"> Matrix4x4 mat = transform.localToWorldMatrix;</span><br><span class="line"> foreach (Thingy t in things)</span><br><span class="line"> &#123;</span><br><span class="line"> Gizmos.matrix = mat * t.matrix;</span><br><span class="line"> Gizmos.DrawCube(t.mesh.bounds.center, t.mesh.bounds.size);</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> // Baking stuff: Copy in all the referenced objects into the scene on play</span><br><span class="line">or build</span><br><span class="line"> [PostProcessScene(-2)]</span><br><span class="line"> public static void OnPostprocessScene() &#123;</span><br><span class="line"> foreach (PrefabInstance pi in UnityEngine.Object.FindObjectsOfType (typeof</span><br><span class="line">(PrefabInstance)))</span><br><span class="line">      BakeInstance (pi);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> public static void BakeInstance (PrefabInstance pi) &#123;</span><br><span class="line"> if(!pi.prefab || !pi.enabled)</span><br><span class="line"> return;</span><br><span class="line"></span><br><span class="line"> pi.enabled = false;</span><br><span class="line"> GameObject go = PrefabUtility.InstantiatePrefab(pi.prefab) as GameObject;</span><br><span class="line"> Quaternion rot = go.transform.localRotation;</span><br><span class="line"> Vector3 scale = go.transform.localScale;</span><br><span class="line"> go.transform.parent = pi.transform;</span><br><span class="line"> go.transform.localPosition = Vector3.zero;</span><br><span class="line"> go.transform.localScale = scale;</span><br><span class="line"> go.transform.localRotation = rot;</span><br><span class="line"> pi.prefab = null;</span><br><span class="line"></span><br><span class="line"> foreach (PrefabInstance childPi in</span><br><span class="line">go.GetComponentsInChildren&lt;PrefabInstance())</span><br><span class="line"> BakeInstance (childPi);</span><br><span class="line"> &#125;</span><br><span class="line">#endif</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>在关闭unity的情况下运行。在命令行里面执行这一条脚本， 参数一个参数 91。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7a4cc479b9e26605.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.IO;</span><br><span class="line">using UnityEditor;</span><br><span class="line">using UnityEngine;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System;</span><br><span class="line"></span><br><span class="line">class ProjectBuild : Editor</span><br><span class="line">&#123;</span><br><span class="line">    //在这里找出你当前工程所有的场景文件，假设你只想把部分的scene文件打包 那么这里可以写你的条件判断 总之返回一个字符串数组。</span><br><span class="line">    static string[] GetBuildScenes()</span><br><span class="line">    &#123;</span><br><span class="line">        List&lt;string&gt; names = new List&lt;string&gt;();</span><br><span class="line">        foreach (EditorBuildSettingsScene e in EditorBuildSettings.scenes)</span><br><span class="line">        &#123;</span><br><span class="line">            if (e == null)</span><br><span class="line">                continue;</span><br><span class="line">            if (e.enabled)</span><br><span class="line">                names.Add(e.path);</span><br><span class="line">        &#125;</span><br><span class="line">        return names.ToArray();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static void BuildForAndroid()</span><br><span class="line">    &#123;</span><br><span class="line">        Function.DeleteFolder(Application.dataPath + &quot;/Plugins/Android&quot;);</span><br><span class="line">        if (Function.projectName == &quot;91&quot;)</span><br><span class="line">        &#123;</span><br><span class="line">            Function.CopyDirectory(Application.dataPath + &quot;/91&quot;, Application.dataPath + &quot;/Plugins/Android&quot;);</span><br><span class="line">            PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android,</span><br><span class="line">           &quot;USE_SHARE&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        string path = Application.dataPath + &quot;/&quot; + Function.projectName + &quot;.apk&quot;;</span><br><span class="line">        BuildPipeline.BuildPlayer(GetBuildScenes(), path, BuildTarget.Android,</span><br><span class="line">       BuildOptions.None);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>程序会执行BuildForAndroid的方法，这里我把shell传入的参数取出来。根据传入的不同参数来初始化打包的一些设置。。</p>
-<p>最终BuildPlayr就开始构建apk，第二个参数就是打包出apk保存的路径。 在打包之前你可以处理一些 游戏包名， 游戏icon<br>等等一些平台之间的特殊性 ，也可以设置一些 预定义标签，。</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#if UNITY_EDITOR</span><br><span class="line"> using UnityEditor;</span><br><span class="line"> using UnityEditor.Callbacks;</span><br><span class="line"> using UnityEditor.XCodeEditor;</span><br><span class="line"> using System.Xml;</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">using System.IO;</span><br><span class="line">public static class XCodePostProcess</span><br><span class="line">&#123;</span><br><span class="line">#if UNITY_EDITOR</span><br><span class="line">     [PostProcessBuild (100)]</span><br><span class="line">     public static void OnPostProcessBuild (BuildTarget target, string</span><br><span class="line">pathToBuiltProject)</span><br><span class="line">     &#123;</span><br><span class="line">    if (target == BuildTarget.Android)</span><br><span class="line">    &#123;</span><br><span class="line">    Function.DeleteFolder(Application.dataPath+&quot;/Plugins/Android&quot;);</span><br><span class="line">    if(Function.projectName== &quot;91&quot;) &#123;</span><br><span class="line">              //当我们在打91包的时候 这里面做一些 操作。</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">#endif</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>**** 在回到XUPortr里面，当Android打包完毕后，这里我们清空Plugins/Android文件夹。。或者你也可以做一些操作。。</p>
-<p>Function.cs 用到的一个工具类</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line">using System.Collections;</span><br><span class="line">using System.IO;</span><br><span class="line">public class Function</span><br><span class="line">&#123;</span><br><span class="line">    //得到项目的名称</span><br><span class="line">    public static string projectName</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            //在这里分析shell传入的参数， 还记得上面我们说的哪个 project-$1 这个参数吗？</span><br><span class="line">            //这里遍历所有参数，找到 project开头的参数， 然后把-符号 后面的字符串返回，</span><br><span class="line">            //这个字符串就是 91 了。。</span><br><span class="line">            foreach (string arg in System.Environment.GetCommandLineArgs())</span><br><span class="line">            &#123;</span><br><span class="line">                if (arg.StartsWith(&quot;project&quot;))</span><br><span class="line">                &#123;</span><br><span class="line">                    return arg.Split(&quot;-&quot;[0])[1];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return &quot;test&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void DeleteFolder(string dir)</span><br><span class="line">    &#123;</span><br><span class="line">        foreach (string d in Directory.GetFileSystemEntries(dir))</span><br><span class="line">        &#123;</span><br><span class="line">            if (File.Exists(d))</span><br><span class="line">            &#123;</span><br><span class="line">                FileInfo fi = new FileInfo(d);</span><br><span class="line">                if (fi.Attributes.ToString().IndexOf(&quot;ReadOnly&quot;) != -1)</span><br><span class="line">                    fi.Attributes = FileAttributes.Normal;</span><br><span class="line">                File.Delete(d);</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                DirectoryInfo d1 = new DirectoryInfo(d);</span><br><span class="line">                if (d1.GetFiles().Length != 0)</span><br><span class="line">                &#123;</span><br><span class="line">                    DeleteFolder(d1.FullName);////递归删除子文件夹</span><br><span class="line">                &#125;</span><br><span class="line">                Directory.Delete(d);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void CopyDirectory(string sourcePath, string destinationPath)</span><br><span class="line">    &#123;</span><br><span class="line">        DirectoryInfo info = new DirectoryInfo(sourcePath);</span><br><span class="line">        Directory.CreateDirectory(destinationPath);</span><br><span class="line">        foreach (FileSystemInfo fsi in info.GetFileSystemInfos())</span><br><span class="line">        &#123;</span><br><span class="line">            string destName = Path.Combine(destinationPath, fsi.Name);</span><br><span class="line">            if (fsi is System.IO.FileInfo)</span><br><span class="line">                File.Copy(fsi.FullName, destName);</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                Directory.CreateDirectory(destName);</span><br><span class="line">                CopyDirectory(fsi.FullName, destName);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如下图所示，脚本运行完毕，你打包的APK就静静的放在了这里，怎么样？简单吧？嘿嘿。。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-86fc0aea58f9bcb0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>注意事项：</p>
-<p>1、因为你的工程可能比较大，如果IOS和Android同时打包的话切个平台都要半个多小时，我建议的svn在本地check out 两个工程，一个切在ios<br>一个切在Android  打包的时候分开打。</p>
-<p>2.执行shell脚本的时候请关闭保存unity工程。</p>
-<p>3.Android 因为不受证书的限制，我上传的工程建议你下载下来看看，肯定可以直接打出来包。。</p>
-<p>4.我建议打包的机器使用mac。 因为windows不能打包IOS 而MAC可以同时 打包 IOS 和 Android</p>
-<p>工程下载地址：<a href="http://pan.baidu.com/s/1o6OATcu" target="_blank" rel="noopener">http://pan.baidu.com/s/1o6OATcu</a></p>
+<p>用法比较简单，比如我有两个Prefab，inside嵌入在Big里面。如下图所示，把PrefabInstance脚本挂在Big上，然后把inside拖入下方。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-96725fd31f44b3f7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>OK 无论怎么修改inside这个Prefab，当实例化Big的时候都能得到最新修改的Inside这个Prefab。</p>
+<p>持续思考：</p>
+<p>界面预览问题，就是我在布界面的时候，我需要把子集Prefab界面控件拖进来预览效果。如果用上述思路UI的Prefab就必须通过脚本自动生成。一份是预览用的也就是不需要脚本的，一份是只带脚本运行时动态生成的。在处理自动生成UIPrefab的时候可以利用tag<br>比如像这种需要内嵌的Prefab标记一个特殊的tag，在Editor下完成Prefab的导出。另外布界面的时候不需要绑定脚本，而上述脚本的绑定也应该由Editor导出Prefab的时候完成。</p>
+<p>总之一切布界面的时候只操作Prefab不操作脚本。</p>
+<p>最近造了个轮子可以批量替换prefab里的prefab，欢迎大家测试～&lt;<a href="https://bitbucket.org/xuanyusong/prefab-" target="_blank" rel="noopener">https://bitbucket.org/xuanyusong/prefab-</a><br>replace&gt;</p>
+<p>如果有更好的方法欢迎各位朋友在下面给我留言，谢谢。</p>
+<p>本文固定链接: <a href="https://www.xuanyusong.com/archives/3042" target="_blank" rel="noopener">https://www.xuanyusong.com/archives/3042</a></p>
+<p>转载请注明: <a href="https://www.xuanyusong.com/archives/author/xuanyusong" target="_blank" rel="noopener">雨松MOMO</a><br>2014年07月31日 于 <a href="https://www.xuanyusong.com/" target="_blank" rel="noopener">雨松MOMO程序研究院</a> 发表</p>
 
         </div>
         
@@ -234,7 +212,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.786Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.015Z">2019-05-17</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
@@ -244,7 +222,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    10 分钟 读完 (大约 1548 个字)
+                    4 分钟 读完 (大约 627 个字)
                 </span>
                 
                 
@@ -253,66 +231,37 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/在Unity中实现小地图（Minimap）/">在Unity中实现小地图（Minimap）</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/Canvas/">Canvas</a>
             
         </h1>
         <div class="content">
-            <h1 id="小地图的基本概念"><a href="#小地图的基本概念" class="headerlink" title="小地图的基本概念"></a>小地图的基本概念</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-ec6f1999c85fce86.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>众所周知，小地图（或雷达）是用于显示周围环境信息的。首先，小地图是以主角为中心的。其次，小地图上应该用图标来代替真实的人物模型，因为小地图通常很小，玩家可能无法看清真实的模型。</p>
-<p>大多数小地图都是圆形的，所以本文也将创建圆形小地图。通常小地图周围还会有一些按钮和标签，本文也会介绍。</p>
-<h1 id="创建场景"><a href="#创建场景" class="headerlink" title="创建场景"></a>创建场景</h1><p>新建场景，导入Unity Chan模型作为玩家，导入两个机器人作为敌人。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6d769f4455cbd080.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<h1 id="游戏视图"><a href="#游戏视图" class="headerlink" title="游戏视图"></a>游戏视图</h1><p>添加一个新的相机。依次点击菜单项GameObject -&gt; Camera新建相机并命名为Minimap Camera。然后将该相机设为Unity<br>Chan的子对象，并将其坐标设为Unity Chan上方10个单位，把相机对准Unity Chan模型。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-75b26582fabb0924.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<h1 id="设置Minimap-Camera"><a href="#设置Minimap-Camera" class="headerlink" title="设置Minimap Camera"></a>设置Minimap Camera</h1><p>为了达到更好的效果，将position设为(0, 10, 0)，rotation设为(90, 0, 0)。现在相机显示效果如下：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4be3e33d1b0f27d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>但这还不是小地图。现在运行场景，你可以看到只有上图中的内容显示出来。我们必须把小地图做成一个UI元素。</p>
-<h1 id="渲染到UI层"><a href="#渲染到UI层" class="headerlink" title="渲染到UI层"></a>渲染到UI层</h1><p>这里需要用到Render Texture来实现。依次点击菜单项Assets -&gt; Create -&gt; Render Texture新建Render<br>Texture并命名为Minimap Render Texture。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-864f566e5c5af9b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>选中Minimap Camera后在检视面板将Target Texture字段设为Minimap Render Texture。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-279aa0dc04d82b23.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>现在运行场景会发现Minimap Camera中的内容不见了，这是因为它被显示到了新建的Render Texture中。</p>
-<p>下面新建Canvas来添加UI元素。依次点击菜单项GameObject -&gt; UI -&gt; Canvas来新建Canvas。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0ba8cfeaab714dfa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>这里需要使用Raw Image在Canvas中显示Render Texture的内容。依次点击菜单项GameObject -&gt; UI -&gt; Raw<br>Image新建Raw Image，然后命名为Minimap Image，在检视面板中将Texture字段设为Minimap Render Texture。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3435654af4af757f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>现在Minimap Camera相机中的内容可以作为UI来显示了！</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-cd3b2d7c72585244.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>下面将小地图变为圆形。这里需要用到一张简单的遮罩纹理：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-568fbb00966b7937.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>新建Image并为其添加Mask组件，将Image的Source Image字段设为上面的遮罩图片，并将Minimap Image设为Mask的子对象。</p>
-<p>注意：为了达到更好的视觉效果，记得禁用遮罩纹理的Mipmap。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-aed332c254c5fd23.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>现在小地图显示效果如下：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9304337bf6a53e0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>小地图的白色背景看起来不太美观，给它加一个边框：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-15b6f67134f06b2e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-16e6590df9d36fa8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>为了让整个小地图移动起来更方便，新建一个空的GameObject命名为Minimap，并将所有对象设为Minimap子对象。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-dbad70d367fcc83e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>最后将小地图移至屏幕右上角。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-153a6a121210c7f7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>效果不错吧？但这还不是真正意义上的小地图，只是相机从顶部取景的图像而已。接下来通过Layer来做一些设置！</p>
-<h1 id="设置Layer"><a href="#设置Layer" class="headerlink" title="设置Layer"></a>设置Layer</h1><p>这里需要新建一个Layer。依次点击菜单项Edit -&gt; Project Settings -&gt; Tags and<br>Layers新建Layer命名为Minimap。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-f96f6a1a4c01bae2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>然后新建三个球体。一个设为蓝色代表Unity Chan。将该球体设为Unity Chan的子对象，并将其Layer设为Minimap。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-dfdc8f16823fbf32.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>对两个机器人进行同样的操作，将球体改为红色。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4b34ec3b3279e6aa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>现在最关键的一步来了！选中Main Camera并确保其Culling Mask中不包括Minimap这一层。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-1eb8533ebe757f7d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>然后选中Minimap Camera让其Culling Mask只包括Minimap这一层。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-e16613658b088db8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>现在这个小地图看起来就比较完善了！</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-694ef4f538aae2e1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<h1 id="最后步骤"><a href="#最后步骤" class="headerlink" title="最后步骤"></a>最后步骤</h1><p>还可以做一些调整。首先将Minimap Camera的Clear Flags设为Solid<br>Color并将其颜色改为浅灰色，以便让小地图背景与小球的对比度更强。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-45846eed67c63e6d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>还可以添加一些UI元素来操作小地图。这里使用标签作为示例，最后结果如下：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7aeb79400ddd9827.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>当角色或机器人移动时，小地图上的小球也会即时更新位置。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-f97d835fe2d7b272.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>到此整个制作小地图的教程就结束了，如有任何问题，欢迎来下方评论区留言！</p>
-<p>本文来源于：<a href="http://blog.theknightsofunity.com" target="_blank" rel="noopener">http://blog.theknightsofunity.com</a>   作者：Piotr Korzuszek</p>
+            <p>每个UI元素都必须处于一个Canvas的子级中；</p>
+<p>一个场景中可以存在多个Canvas；</p>
+<p>render mode 渲染模式</p>
+<p>Render Mode-Screen Overlay</p>
+<p>画布总会铺满整个屏幕，总是渲染在所有元素的最上层</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a90d6e33192f545a?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-f277612a083a438b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>，画布的RectTransform的大小有屏幕决定；</p>
+<p>Pixel Perfect选项会让UI边缘锐利；</p>
+<p>Render Mode-Camera</p>
+<p>在没有指定摄像机的时候，和Sreen<br>Overlay效果完全一样。指定了摄像机以后，画布会自动调整到相机可视范围内，比Canvas更靠近相机的3Dobject会被渲染在前面，比Canvas远离相机的3dObject会被遮挡</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-09e01122123aae22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7f674c8e88edbcba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-32bd755b18812652.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-10edc5778fa5329a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>画布全权交由这个摄像机来渲染，多个相机的渲染次序，相机类型等都会对该画布的元素有影响。此模式下画布的RectTransform完全受到相机的ViewPort<br>Rect影响；</p>
+<p>Pixel Perfect和Screen Overlay模式下的作用一样；</p>
+<p>Plane Distance 决定Canvas与渲染相机的距离；</p>
+<p>该模式可能有如下场景应用：</p>
+<h4 id="1-如果渲染Canvas的相机是透视的，可以调整Canvas内某些元素的旋转角度，产生透视和深度效果；"><a href="#1-如果渲染Canvas的相机是透视的，可以调整Canvas内某些元素的旋转角度，产生透视和深度效果；" class="headerlink" title="1.如果渲染Canvas的相机是透视的，可以调整Canvas内某些元素的旋转角度，产生透视和深度效果；"></a>1.如果渲染Canvas的相机是透视的，可以调整Canvas内某些元素的旋转角度，产生透视和深度效果；</h4><p><img src="http://upload-images.jianshu.io/upload_images/17266280-5e73315232471dc3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<h4 id="2-可以通过不同相机的sorting-layer和渲染的图层来实线UI上方的粒子特效等。"><a href="#2-可以通过不同相机的sorting-layer和渲染的图层来实线UI上方的粒子特效等。" class="headerlink" title="2.可以通过不同相机的sorting layer和渲染的图层来实线UI上方的粒子特效等。"></a>2.可以通过不同相机的sorting layer和渲染的图层来实线UI上方的粒子特效等。</h4><p>Render Mode-World Space</p>
+<p>画布的Rect Transform完全自由，不受任何约束，可以自行设置大小、位置；</p>
+<p>可以放置于物体的子级，常用作气泡、对话框等；</p>
+<p>EventCamera 该选项决定该UI接受哪个相机的事件，如果该项为None，则默认接受主相机的事件。如果指定某个相机，则只接受该相机的事件。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-777fdce8d0f4214a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4fd33b946b8efdb2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c99766f1318214e1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
 
         </div>
         
@@ -334,7 +283,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.767Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.006Z">2019-05-17</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
@@ -344,7 +293,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    1 分钟 读完 (大约 130 个字)
+                    7 分钟 读完 (大约 984 个字)
                 </span>
                 
                 
@@ -353,15 +302,43 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/从Android读取Unity-assets下的图片并保存为Bitmap格式/">从Android读取Unity-assets下的图片并保存为Bitmap格式</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/5分钟使用Unity制作AR应用/">5分钟使用Unity制作AR应用</a>
             
         </h1>
         <div class="content">
-            <p>在unity工程下，建立文件夹“Plugins/Android/assets”，然后把需要的图片放在这个文件夹下，并取一个好用的名字</p>
-<p>（”Logo.png”），这个名字在Android这边是需要用到的，unity的工作做完之后，在Android这边写代码：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">AssetManager asm = getAssets();</span><br><span class="line"></span><br><span class="line">InputStream inputStream =null;</span><br><span class="line"></span><br><span class="line"> try &#123;</span><br><span class="line"></span><br><span class="line">     inputStream = asm.open(&quot;Logo.png&quot;);</span><br><span class="line"></span><br><span class="line"> &#125;catch (IOException e) &#123;</span><br><span class="line">     // TODO Auto-generated catch block</span><br><span class="line"></span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Drawable d =Drawable.createFromStream(inputStream,null);</span><br><span class="line"></span><br><span class="line">Bitmap B = ((BitmapDrawable) d).getBitmap();</span><br></pre></td></tr></table></figure>
-
-<p>这样就完成了unity图片的读取与转化Bitmap。</p>
+            <p>今天这篇课程将为大家介绍使用Unity结合Vuforia<br>SDK制作AR应用的过程，非常简单且容易上手，适合Unity初学者。最后效果是制作出向上跳跃的Unity酱。</p>
+<p>注意：本文教程使用Unity 5.3.4制作，Unity编辑器及Android设备测试通过。</p>
+<hr>
+<h1 id="第一步-注册Vuforia"><a href="#第一步-注册Vuforia" class="headerlink" title="第一步 注册Vuforia"></a>第一步 注册Vuforia</h1><p>首先需要到Vuforia官网进行注册，注册成功后跳转至License Manager页面。</p>
+<p>然后点击“Add License<br>Key”按钮创建许可证，创建过程中需要输入应用名称、设备及许可证类型。这里应用名称任意填写，设备选择Mobile，许可证类型使用免费版即可。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-e77a8ae9ad1efdd7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>点击下一步并同意条款后再点击“Confirm”按钮确认注册应用。成功注册后点击应用会显示License Key，后面会用到。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-656cd94bac3044c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<hr>
+<h1 id="第二步-下载SDK并导入Unity"><a href="#第二步-下载SDK并导入Unity" class="headerlink" title="第二步 下载SDK并导入Unity"></a>第二步 下载SDK并导入Unity</h1><p>在Vuforia官网的下载页面找到Download for<br>Unity下载供Unity使用的SDK，本文使用最新版5.5.9。下载完成后双击打开文件，点击“Import”按钮将下载的SDK导入Unity项目。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4a29799e8090fc87.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<hr>
+<h1 id="第三步-添加并设置ARCamera"><a href="#第三步-添加并设置ARCamera" class="headerlink" title="第三步 添加并设置ARCamera"></a>第三步 添加并设置ARCamera</h1><p>新建场景并将Prefabs文件夹下的ARCamera预设体拖拽至场景，如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-d2ac62c821ffc83d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>将Vuforia网页上的License Key信息复制到Vuforia Behaviour脚本的App License Key字段，如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-291a0fcaa659cef6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<hr>
+<h1 id="第四步-添加识别标记"><a href="#第四步-添加识别标记" class="headerlink" title="第四步 添加识别标记"></a>第四步 添加识别标记</h1><p>首先挑一张分辨率高且比较有特点（尽量少有重复）的图。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-2cc047cb5a8b9c73.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>然后打开Vuforia网页的Target Manager网页点击“Add<br>Database”按钮，随意填写名称并选择类型为“Device”。点击新创建的Database名称，会出现Add Target界面，设置如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-b8cd556bbd06b99c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>将Width设为1并随意命名后点击“Add”按钮。回到列表页会发现Database中多了个5星级的识别标记。</p>
+<p>点击页面上的“Download Dataset(All)”按钮，选择开发平台为Unity Editor后下载该资源。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-31151350cc7717a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>将下载的资源导入Unity项目，然后选中层级视图中的ARCamera，勾选Database Load Behaviour脚本下的“Load XX<br>Database”与“Active”。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-443e52a50ea29fa8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>将Prefabs文件夹下的ImageTarget预设体拖拽至场景，然后点击Image Target<br>Behaviour脚本下的“Type”下拉列表，将类型设为“Predefined”，分别在“Database”和“ImageTarget”下拉列表中选择之前创建的Database和识别标记。此时场景示意图如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-12750fa48fe1413d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<hr>
+<h1 id="第五步-添加目标物体"><a href="#第五步-添加目标物体" class="headerlink" title="第五步 添加目标物体"></a>第五步 添加目标物体</h1><p>接下来将UnityChan的模型作为目标物体添加为ImageTarget的子对象，可以按照自己的喜好调整UnityChan的位置及旋转角度或添加动画等。UnityChan的模型资源可在Asset<br>Store中免费下载，添加UnityChan后的场景如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6d5ac48f38520b3c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>到此就大功告成了，接下来打包运行，最终效果如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-52b85dc0dc2a21f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
 
         </div>
         
@@ -401,7 +378,7 @@ var _hmt = _hmt || [];
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/37/">37</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/43/">43</a></li>
             
         </ul>
     </nav>
@@ -449,7 +426,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        111
+                        128
                     </p>
                 </div>
             </div>
@@ -459,7 +436,7 @@ var _hmt = _hmt || [];
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        11
+                        12
                     </p>
                 </div>
             </div>
@@ -469,7 +446,7 @@ var _hmt = _hmt || [];
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        19
+                        23
                     </p>
                 </div>
             </div>
@@ -528,6 +505,14 @@ var _hmt = _hmt || [];
             </span>
             <span class="level-end">
                 <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/ReactNative/">
+            <span class="level-start">
+                <span class="level-item">ReactNative</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">17</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/Unity/">
@@ -613,7 +598,7 @@ var _hmt = _hmt || [];
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13.75px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11.25px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 17.5px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 18.75px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11.25px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 15px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11.25px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11.25px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11.25px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16.25px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12.5px;">网络安全</a>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/ReactNative/" style="font-size: 17px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 15px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
     </div>
 </div>
 
@@ -632,10 +617,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/Web/GithubPage+Hexo搭建个人主页/" class="has-link-black-ter is-size-6">GithubPage+Hexo搭建个人主页</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -645,10 +630,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -658,10 +643,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -671,10 +656,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -684,10 +669,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -711,7 +696,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">111</span>
+                    <span class="level-item tag">128</span>
                 </span>
             </a>
         </li>
@@ -753,6 +738,34 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Google/">
                         <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative/">
+                        <span class="tag">ReactNative</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative优化/">
+                        <span class="tag">ReactNative优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative库/">
+                        <span class="tag">ReactNative库</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
+                        <span class="tag">ReactNative插件</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -889,10 +902,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/Web/GithubPage+Hexo搭建个人主页/" class="has-link-black-ter is-size-6">GithubPage+Hexo搭建个人主页</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -902,10 +915,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -915,10 +928,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -928,10 +941,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -941,10 +954,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -968,7 +981,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">111</span>
+                    <span class="level-item tag">128</span>
                 </span>
             </a>
         </li>
@@ -1010,6 +1023,34 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Google/">
                         <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative/">
+                        <span class="tag">ReactNative</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative优化/">
+                        <span class="tag">ReactNative优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative库/">
+                        <span class="tag">ReactNative库</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
+                        <span class="tag">ReactNative插件</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>

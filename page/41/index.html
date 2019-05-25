@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Hcq0618&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="A blog for bookmarking and recording technology">
+<meta name="keywords" content="Android,Flutter,Kotlin,ReactNative,VR,Unity,Python,C#,Backend,NodeJs,Javascript,TypeScript,Hexo,Framework,Architecture,Java,MiniProgram">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hcq0618&#39;s Blog">
+<meta property="og:url" content="https://hcq0618.github.io/blog/page/41/index.html">
+<meta property="og:site_name" content="Hcq0618&#39;s Blog">
+<meta property="og:description" content="A blog for bookmarking and recording technology">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://hcq0618.github.io/blog/images/og_image.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hcq0618&#39;s Blog">
+<meta name="twitter:description" content="A blog for bookmarking and recording technology">
+<meta name="twitter:image" content="https://hcq0618.github.io/blog/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/blog/images/logo.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/blog/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?844bc0c79484177c3822e7a30257f8a3";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/blog/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/blog/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/blog/">
+            
+                <img src="/blog/images/logo.svg" alt="Hcq0618&#39;s Blog" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/blog/">主页</a>
+                
+                <a class="navbar-item" href="/blog/archives">文章</a>
+                
+                <a class="navbar-item" href="/blog/categories">分类</a>
+                
+                <a class="navbar-item" href="/blog/tags">标签</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/hcq0618/blog/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.462Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    13 分钟 读完 (大约 1934 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/屏幕特效插件分析/">屏幕特效插件分析</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="FxPro-Bloom-amp-DOF-Mobile-Ready"><a href="#FxPro-Bloom-amp-DOF-Mobile-Ready" class="headerlink" title="FxPro: Bloom&amp;DOF, Mobile-Ready"></a>FxPro: Bloom&amp;DOF, Mobile-Ready</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-d65d79038d4e074b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>FxPro是一款历史比较悠久的特效插件，从大部分开发者的反馈来看为当前功能较全、性能较好Unity屏幕特效插件之一。FxPro支持多种常见的屏幕特效，例如Bloom、景深<br>（Depth-of-Field）、色差效果（Chromatic Aberration）、镜头形变等。</p>
+<p>FxPro的使用是通过Component-&gt;Image Effects-&gt;FxPro为需要的摄像机添加FxPro组件。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a63b5ea100df93fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>FxPro集众多特效于一身，具有非常多的可调参数。我们这里选取一些重要的设置选项和某些特效的参数进行简单说明：</p>
+<p> <strong>1. Quality</strong></p>
+<p>FxPro允许我们为不同的目标平台设置不同等级的画面质量，支持High、Normal、Fast、Fastest四种等级。</p>
+<p> <strong>2. Half Resolution</strong></p>
+<p>当我们选择了Fast或Fastest等级时，就会出现该选项。如果在移动设备上仍然有性能问题，可以选择开启该选项来降低计算特效使用的分辨率，进一步提高效率。</p>
+<p> <strong>3. Bloom</strong></p>
+<p>Visualize：调试模式，勾选该选项可以让我们看到场景中的哪些部分会被Bloom。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-93a47be19c6e7a33.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Bloom Tint：Bloom时使用的颜色。</p>
+<p>Bloom<br>Threshold：设置计算Bloom时的阈值，当屏幕像素的亮度超过该值时就会把该像素加入到Bloom的计算中。因此该值越小，屏幕看起来就越“梦幻”。</p>
+<p>Bloom Intensity：Bloom的强度。注意，不同设备上的真实强度会有所不同，我们可能需要根据当前设备在脚本里手动设置该值的大小。</p>
+<p>Bloom Softness：调整Bloom效果的渐变程度。该值越高，模糊程度越大。</p>
+<p> <strong>4. Depth-of-Field</strong></p>
+<p>Visualize：调试模式，勾选该选项可以让我们看到会聚焦到场景的有哪些部分。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-552e4accd680a546.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Blur COC：在物体的边界处增强效果。</p>
+<p>Auto-<br>Focus：让摄像机自动对焦到屏幕中央的物体。需要注意的是，我们需要为可以对焦的物体添加碰撞体（Collider），否则自动对焦功能无法实现。当勾选了自动对焦后，还可以设置对焦时的Layer和对焦速度。</p>
+<p>Target：当没有开启自动对焦时，可以把需要对焦的物体拖拽到该选项上。</p>
+<p>Focal Length Multiplier：设置焦距长度的系数。</p>
+<p>Depth Compression：压缩深度缓冲。</p>
+<p>DOF Strength：调整景深模糊的半径大小。该值越高，非对焦区域的模糊程度越大。</p>
+<p>Double Intensity：让景深效果更加明显。该选项在开启时对性能会有影响。</p>
+<h1 id="真机测试"><a href="#真机测试" class="headerlink" title="真机测试"></a><strong>真机测试</strong></h1><p>手机：三星 Galaxy S4, iPhone 6</p>
+<p>测试场景：如下图，Quality选择最低等级Fastest，并勾选Half<br>Resolution降低分辨率。我们测试了单独开启Bloom和景深效果时的真机性能。</p>
+<p> **  
+**</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-de03f0e0bd6d92bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><strong>下图是三星 Galaxy S4上只开启Bloom特效时的Profiler截图：</strong></p>
+<p> **  
+**</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-af7378d9ee7cbd6a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>**  
+**</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-f335468ee332aa98.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><strong>下图是iPhone 6上只开启Bloom特效前后的GPU Report：</strong></p>
+<p> <strong>使用前</strong></p>
+<p> **  
+**</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-85071efcc46eb970.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><strong>使用后</strong></p>
+<p> **  
+**</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0181cb731c6cadd4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><strong>下图是三星 Galaxy S4上只开启景深效果时的Profiler截图：</strong></p>
+<p> **  
+**</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-be15a195c49bebcf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>**  
+**</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-57fbe5d6aa90574a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><strong>下图是iPhone 6上只开启景深效果前后的GPU Report：</strong></p>
+<p> <strong>使用前</strong></p>
+<p> **  
+**</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-fc17ad8ea3203060.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><strong>使用后</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4587f0e5f39979ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>可以看出，分辨率对性能的影响非常重要。开启了Half Resolution的两种特效在真机上表现都还不错，可以考虑在中高端设备上选择开启部分特效。</p>
+<h1 id="Beautify"><a href="#Beautify" class="headerlink" title="Beautify"></a><strong>Beautify</strong></h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-85b31bb16de27a44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Beautify是一个轻量级的屏幕特效插件，它的主要功能是加强细节表现（原理是在深度纹理上进行边缘检测后进行锐化操作），此外还提供了对饱和度、对比度和亮度的调节功能。</p>
+<p>该插件的使用方法非常简单，直接在Camera上添加Beautify组件即可：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-dedc8a70767af7b6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Beautify提供的参数有：</p>
+<p> <strong>1. Quality</strong></p>
+<p>共两种选项，Mobile和Desktop，区别是Desktop会采样每个像素周围4个额外的像素点（上下左右），而Mobile只会采样额外两个（上下）。因此Mobile在性能上要比Desktop更高。</p>
+<p> <strong>2. Preset</strong></p>
+<p>Preset中提供了4个提前调好效果的参数设置集合：Soft、Medium、Strong和Exaggerated。我们可以在此基础上自定义（Custom）参数或关闭效果（Disable）。</p>
+<p> <strong>3. Sharpen</strong></p>
+<p>画面细节的锐化程度。Beautify提供了4个参数来进一步调整锐化效果：</p>
+<p>Min/Max<br>Depth：定义了效果作用的深度范围，任何不在该深度范围内的像素都不会受到锐化效果的影响。这个范围允许我们实现一些类似于景深的效果，即只在特定物体周围加强细节。</p>
+<p>Depth Threshold：当某个像素周围的深度差超过这个值时，锐化效果会减弱。</p>
+<p>Luminance Relax：类似上面的Depth<br>Threshold，当某个像素周围的保护度差超过这个值时，锐化效果会减弱，从而保护那些具有较高饱和度的像素不会被过分锐化。</p>
+<p>Clamp：定义像素颜色的调整范围。</p>
+<p> <strong>4. Dither</strong></p>
+<p>控制Dither程度，Dither可以用于移除由于渐变产生的一些明显的渐变带问题。</p>
+<p>Min Depth：只会移除深度值超过该值的像素产生的渐变带。比如当我们只想移除天空盒子上的渐变带问题时，可以把该值设置0.99。</p>
+<p> <strong>5. Saturate</strong>  调整画面饱和度。</p>
+<p> <strong>6. Contrast</strong>  调整画面对比度。</p>
+<p> <strong>7. Brightness</strong>  调整画面亮度。</p>
+<h1 id="真机测试-1"><a href="#真机测试-1" class="headerlink" title="真机测试"></a><strong>真机测试</strong></h1><p>手机：三星 Galaxy S4，iPhone 6</p>
+<p>测试场景：和之前相同的测试场景，Quality选择最低等级Mobile。</p>
+<p>三星 Galaxy S4使用插件后的Profiler截图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-bda8b6347fa42094.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-5898b599847820ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>iPhone 6使用插件前后的GPU Report（Xcode）</p>
+<p> <strong>使用前</strong></p>
+<p> **  
+**</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-b7fc534b799a3cc3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><strong>使用后</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-dad76df9304a794e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>根据如上真机测试，目前我们建议只考虑在高端iOS机上选择使用该插件，而不在Android机上使用。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.443Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    10 分钟 读完 (大约 1441 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/给力的Unity脚本插件/">给力的Unity脚本插件</a>
+            
+        </h1>
+        <div class="content">
+            <p>Unity的Asset<br>Store中除了拥有非常强大的Unity编辑器扩展工具之外，还有一些让开发过程事半功倍的脚本插件。今天为大家介绍几款饱受好评的脚本插件。</p>
+<h1 id="Pro-Camera-2D"><a href="#Pro-Camera-2D" class="headerlink" title="Pro Camera 2D"></a>Pro Camera 2D</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-8f37992cdc62fa84.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Pro Camera<br>2D是为2D及2.5D游戏量身定制的相机插件，可以快速在Unity中为任意类型2D游戏设置合适的相机。它支持三个坐标轴方向，也支持正交及透视两种相机模式。另外该插件从制作之初就一直非常注重性能及可扩展性，所以即便是配置较低的老式移动设备也可放心使用。开发者也可以很方便地扩展该插件以适应游戏的特殊需求。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0722f23eb7d0f63f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Pro Camera 2D主要分为三大块：</p>
+<p>Core：轻量级且极度优化的插件核心部分，仅关注相机的目标对象及目的地。</p>
+<p>Extensions：包含一系列已定义好的扩展，可以很方便地增加一些相机设置如边框、镜头转换、焦点设置、边界及速度设置、抖动及缩放等等，目前共有17个。这些扩展是在Core的基础上实现的，但不包含在Core中，所以不需要的扩展可以禁用，这样也不会影响性能。</p>
+<p>Triggers：触发器，与Extensions类似，增加相机的额外功能。触发器是独立于相机存在的，它会在相机接触到游戏中的目标物体时触发一些事件。自定义触发器也很简单。</p>
+<p>使用Pro Camera 2D的方式非常简单，只需在场景的主相机上添加Pro Camera 2D脚本，然后进行一些简单的设置即可：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0714741ea81d63dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Pro Camera<br>2D支持跟踪多个目标，并且可以设置各个目标相对相机的偏移。另外所有的Extensions及Triggers都可以很方便的在检视面板中点击按钮进行启用与添加，它会自动将所需的脚本绑定到相机对象上。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-804ead7c1603e87d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>下载地址：<a href="https://www.assetstore.unity3d.com/#!/content/42095" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/#!/content/42095</a></p>
+<h1 id="Ultimate-Rope-Editor"><a href="#Ultimate-Rope-Editor" class="headerlink" title="Ultimate Rope Editor"></a>Ultimate Rope Editor</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-66586d536cb6a5c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>顾名思义，Ultimate Rope<br>Editor就是用来解决游戏中所有绳索相关问题的。它能生成各种类型的绳索，并将绳索物理应用到已有的网格上。更方便的是，绳索的物理参数可以在运行时实时调整，然后复制到编辑器模式下，从而帮助节省大量的迭代时间。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c4198c50c788c2a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Ultimate Rope<br>Editor是一个非常轻量级的插件，它将创建绳索的过程简化到了极致。只需一个脚本就能完成所有的设置，并且具有非常逼真的物理特性。使用Ultimate<br>Rope Editor只需在绳索对象上添加Utilmate Rope脚本，然后设置绳索的类型、起始点、材质及其物理属性即可。</p>
+<p>这里可以选择三种类型的绳索：</p>
+<p>Procedural：系统自动生成绳索，包含物理特性与网格信息。</p>
+<p>Linked Objects：链式绳索，由一个个小的部位链接。</p>
+<p>Import Bones：从已有的骨骼信息生成绳索的物理，常用于处理头发。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-62cfa9749237b416.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>下载地址：<a href="https://www.assetstore.unity3d.com/cn/#!/content/7279" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/cn/#!/content/7279</a></p>
+<h1 id="Chronos-Time-Control"><a href="#Chronos-Time-Control" class="headerlink" title="Chronos - Time Control"></a>Chronos - Time Control</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-20e8f4210e14c2cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Chronos - Time Control是用于控制游戏中各种时钟的插件，也是Unity Awards<br>2015优秀插件大奖得主。该插件小巧易用且优化过性能，可以搞定游戏中所有的时钟控制。支持时间的暂停、倒退、减速及加速，并且每个对象都有单独的时间线，还可以按区域来同时控制多个对象。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0211c34094c8f82c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Chronos - Time Control非常简单，能够很好的应用于自定义脚本，并且完全兼容对象的物理属性，能够自动适应动画、粒子效果、Nav Mesh<br>Agent及音效。该插件主要包含三种类型的脚本：</p>
+<p>Timekeeper：追踪场景全局时钟的单例，一个场景仅需一个Timekeeper。</p>
+<p>Clock：所有类型时钟的基类。共有三种时钟：Global Clock（全局时钟）、Local Clock（本地时钟）及Area Clock（区域时钟）。</p>
+<p>Timeline：整合一个或多个时钟来单独控制某一个游戏对象的Delta Time和Time<br>Scale等属性。每个需要使用Chronos控制的游戏对象都要绑定该脚本。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-8a9e7901e708eb7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Chronos - Time Control适合实现一些游戏角色的特殊技能，如操控时间的魔法或科幻技能等。不论2D或3D游戏均能完美支持，且适用于任何平台。</p>
+<p>下载地址：<a href="https://www.assetstore.unity3d.com/cn/#!/content/31225" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/cn/#!/content/31225</a></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.433Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    8 分钟 读完 (大约 1179 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/Unity资源清理工具Asset-Cleaner/">Unity资源清理工具Asset-Cleaner</a>
+            
+        </h1>
+        <div class="content">
+            <p>Unity Global Support部门制作了一些实用的小工具免费供大家使用，前面已经分享过了<a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651038011&idx=1&sn=a6695849c1aaa87cfcad56534ec83dbf&scene=21#wechat_redirect" target="_blank" rel="noopener">批量处理资源的Asset<br>Auditing</a>，今天继续为大家推荐用于批量清理资源的小工具：Asset<br>Cleaner。</p>
+<p>Unity Global<br>Support部门主要负责对使用Unity引擎的企业级VIP客户提供技术支持，大中华区已实现全面覆盖，目前包括腾讯，网易，巨人，完美世界等公司已属于Unity的企业级VIP客户。<br>Asset Cleaner主要用于查找并删除没有被引用的资源，简单易用，且具有高度可扩展性。</p>
+<h1 id="项目背景"><a href="#项目背景" class="headerlink" title="项目背景"></a>项目背景</h1><p>在Unity项目中，我们习惯将所有的资源统称为Asset。Asset一般存放在Assets目录及其子目录。随着项目的研发进度，Asset数量也会爆发式地增长，资源管理面临很大的挑战。如何查找并区分有效和无效的资源，是很多项目管理者非常重视的事情。本文介绍的这个工具可以自动分析查找项目中未使用到的资源，在选择删除的时候还可以将这些文件打包备份，确保资源的安全性、提高项目管理的效率。</p>
+<h1 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h1><p>该工程只有四个CS文件，需存放在Editor目录下。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-bf2544dff8e4c04e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>FindUnusedAssets是这个工具的主要入口，实现了编辑器的扩展菜单及其内部调用。</p>
+<p>AssetCollector是总的工具类，用来收集所有的asset文件</p>
+<p>ClassReferenceCollection用来收集所有的.cs脚本文件。</p>
+<p>ShaderReferenceCollection用来收集所有的Shader文件。</p>
+<h1 id="AssetCollector"><a href="#AssetCollector" class="headerlink" title="AssetCollector"></a>AssetCollector</h1><p>AssetCollector实现了这个工具的核心代码，点击菜单时会调用定义在它内部的Collection函数。AssetCollector中声明了两个变量，useCodeStrip和saveEditorExtensions。useCodeStrip用来控制要不要删除未使用的脚本文件，saveEditorExtensions用来控制检测资源是否被Editor脚本引用。工具中提供了三个菜单项，分别是only<br>resource、unused by editor、unused by<br>game。这三个菜单项执行的代码就是通过设置useCodeStrip和saveEditorExtensions为不同的值来控制过滤的方式。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c8d82a48bd35c054.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<h1 id="资源搜集"><a href="#资源搜集" class="headerlink" title="资源搜集"></a>资源搜集</h1><p>Collection函数内实现了各种类型资源文件的搜索过滤。</p>
+<p>Directory.GetFiles()获取“Asset”目录及其子目录下所有相关资源的名字,通过Linq语法进行过滤，获取需要的文件类型。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-5d3ae04b50d153d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>依赖关系获取</p>
+<p>通过AssetDatabase.GetDependencies获取当前有效的场景文件及场景依赖文件。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-24de90cca04d50b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<h1 id="使用介绍"><a href="#使用介绍" class="headerlink" title="使用介绍"></a>使用介绍</h1><p>首先我们要保证当前工程中存在有效的场景文件，因为Asset资源的有效性依赖于是否被场景引用。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-5f429b5eb4ed5b9b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>使用时需要找到这个菜单项Assets-&gt;Delete Unused Assets,如下图所示。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-e1b0ce5422ad4937.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Delete Unused Assets下有三个选项，分别是删除未使用的资源文件（only resource），删除编辑器未使用的Asset（unused<br>by editor）和删除游戏未使用的Asset（unused by game）。</p>
+<h1 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h1><p>在开始使用该工具时，要保证有效的EditorBuildSettings.scenes</p>
+<p>选择Delete Unused Assets下“only resource”选项，弹出对应的删除列表。如下图所示：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-633690095fbc78c4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>显示在删除列表中文件。单击“Delete”，列表中的文件从项目中移除，工具会把这些文件作为一个UnityPackage导出到“../<br>BackupUnusedAssets/”。这个包作为被删除文件的备份，如果后期发现有资源丢失，可以从这个包内找到对应的资源文件重新导入。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-957a25fafe467c39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>上面简单介绍了Asset Cleaner工程的工作原理及使用方式。在实战中，我们可以根据需求自定义查找文件的格式。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+    
+<div class="card card-transparent">
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        <div class="pagination-previous">
+            <a class="is-flex-grow has-text-black-ter" href="/blog/page/40/">上一页</a>
+        </div>
+        <div class="pagination-next">
+            <a class="is-flex-grow has-text-black-ter" href="/blog/page/42/">下一页</a>
+        </div>
+        <ul class="pagination-list is-hidden-mobile">
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/">1</a></li>
+            
+            <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/40/">40</a></li>
+            
+            <li><a class="pagination-link is-current" href="/blog/page/41/">41</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/42/">42</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/43/">43</a></li>
+            
+        </ul>
+    </nav>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/blog/images/avatar.jpeg" alt="hcq0618">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        hcq0618
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Grab
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Beijing</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        128
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        12
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        23
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/hcq0618" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/hcq0618">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Instagram" href="https://instagram.com/reeves_huang">
+                
+                <i class="fab fa-instagram"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/blog/categories/AR/">
+            <span class="level-start">
+                <span class="level-item">AR</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/C/">
+            <span class="level-start">
+                <span class="level-item">C#</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/ReactNative/">
+            <span class="level-start">
+                <span class="level-item">ReactNative</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">17</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity/">
+            <span class="level-start">
+                <span class="level-item">Unity</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">31</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity优化/">
+            <span class="level-start">
+                <span class="level-item">Unity优化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">24</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity插件/">
+            <span class="level-start">
+                <span class="level-item">Unity插件</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">26</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/VR/">
+            <span class="level-start">
+                <span class="level-item">VR</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Web/">
+            <span class="level-start">
+                <span class="level-item">Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/其他/">
+            <span class="level-start">
+                <span class="level-item">其他</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/后端/">
+            <span class="level-start">
+                <span class="level-item">后端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/小程序/">
+            <span class="level-start">
+                <span class="level-item">小程序</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/网络/">
+            <span class="level-start">
+                <span class="level-item">网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/ReactNative/" style="font-size: 17px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 15px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen is-sticky">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/blog/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">128</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/AR/">
+                        <span class="tag">AR</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C/">
+                        <span class="tag">C#</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C-优化/">
+                        <span class="tag">C#优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Google/">
+                        <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative/">
+                        <span class="tag">ReactNative</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative优化/">
+                        <span class="tag">ReactNative优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative库/">
+                        <span class="tag">ReactNative库</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
+                        <span class="tag">ReactNative插件</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/UML/">
+                        <span class="tag">UML</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity/">
+                        <span class="tag">Unity</span>
+                        <span class="tag is-grey">31</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity优化/">
+                        <span class="tag">Unity优化</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity插件/">
+                        <span class="tag">Unity插件</span>
+                        <span class="tag is-grey">26</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/VR/">
+                        <span class="tag">VR</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web/">
+                        <span class="tag">Web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/后端/">
+                        <span class="tag">后端</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/小程序/">
+                        <span class="tag">小程序</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/开源/">
+                        <span class="tag">开源</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/数据库/">
+                        <span class="tag">数据库</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/移动支付/">
+                        <span class="tag">移动支付</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络/">
+                        <span class="tag">网络</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络安全/">
+                        <span class="tag">网络安全</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/blog/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">128</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/AR/">
+                        <span class="tag">AR</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C/">
+                        <span class="tag">C#</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C-优化/">
+                        <span class="tag">C#优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Google/">
+                        <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative/">
+                        <span class="tag">ReactNative</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative优化/">
+                        <span class="tag">ReactNative优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative库/">
+                        <span class="tag">ReactNative库</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
+                        <span class="tag">ReactNative插件</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/UML/">
+                        <span class="tag">UML</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity/">
+                        <span class="tag">Unity</span>
+                        <span class="tag is-grey">31</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity优化/">
+                        <span class="tag">Unity优化</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity插件/">
+                        <span class="tag">Unity插件</span>
+                        <span class="tag is-grey">26</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/VR/">
+                        <span class="tag">VR</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web/">
+                        <span class="tag">Web</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/后端/">
+                        <span class="tag">后端</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/小程序/">
+                        <span class="tag">小程序</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/开源/">
+                        <span class="tag">开源</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/数据库/">
+                        <span class="tag">数据库</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/移动支付/">
+                        <span class="tag">移动支付</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络/">
+                        <span class="tag">网络</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络安全/">
+                        <span class="tag">网络安全</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/blog/">
+                
+                    <img src="/blog/images/logo.svg" alt="Hcq0618&#39;s Blog" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Hcq0618&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/hcq0618/blog/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/blog/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/blog/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/blog/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/blog/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/blog/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/blog/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/blog/js/insight.js" defer></script>
+<link rel="stylesheet" href="/blog/css/search.css">
+<link rel="stylesheet" href="/blog/css/insight.css">
+    
+</body>
+</html>

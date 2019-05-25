@@ -153,17 +153,17 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.504Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.730Z">2019-05-17</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
+                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    6 分钟 读完 (大约 905 个字)
+                    13 分钟 读完 (大约 1978 个字)
                 </span>
                 
                 
@@ -172,36 +172,34 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/那些你不得不用的好插件/">那些你不得不用的好插件</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/VR环境下的语音识别/">VR环境下的语音识别</a>
             
         </h1>
         <div class="content">
-            <p><img src="http://upload-images.jianshu.io/upload_images/17266280-0e4ab2105ff37a8c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>在手机上插入电影已经是当下非常普及的需求了，在比较了各种视频集成插件后，我们认为Mobile Movie Texture能实现非常不错的效果。它的特点在于：</p>
-<p>功能比较丰富，支持播放、暂停，播放点拖动等操作。</p>
-<p>性能非常高效。如下图，在红米2只要1.16ms即可完成整个函数的调用，非常快速。</p>
-<p> **  
-**</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-51d99a9d15c5e737.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><strong>支持透明区域分离</strong> 。在如下的爆炸视频中，Mobile Movie<br>Texture将Alpha通道剔除，使得视频本身能更好地和背景融合。该剔除总耗时1.86ms，即使在每帧都有个decode的情况下，总耗时基本上依然不会超过2ms。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-b9f710fd8fde4157.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-436c098b4ba6a7de.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>虽然该插件目前仅支持Ogg和Ogv格式，但是我们可以通过工具把其他格式转换成Ogv格式导入Unity使用。</p>
-<p> <strong>注意</strong> ：和所有视频插件一样，Mobile Movie Texture也不支持URL播放，如优酷的URL是不支持的。</p>
-<h1 id="Dynamic-Bone"><a href="#Dynamic-Bone" class="headerlink" title="Dynamic Bone"></a><strong>Dynamic Bone</strong></h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-139f2146827859b4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>为了增加角色运动的真实代入感，我们常常需要某些主体的附属物能跟随主体的运动自然地发生变化，如头发、衣服的运动等，这时候Dynamic<br>Bone就能满足我们的需求，从而避免了美术设计师费时费力地重复工作，并且性能表现非常高效。该插件是源码开放的，适合移动设备。</p>
-<p>如下图，该插件的使用非常简单，开发者只需要在此设置一些根节点等相关参数。原理也不难理解：对于每个附属物体，获取骨骼根节点和控制节点的Transform信息。根据这两个结点信息，根据设定参数将运动传播出去。</p>
-<p> **  
-**</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-80b3c95af822acec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>**  
-**</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-cbb0ab9ccf9d76bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<h1 id="Magic-Splitscreen"><a href="#Magic-Splitscreen" class="headerlink" title="Magic Splitscreen"></a><strong>Magic Splitscreen</strong></h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-7f5d600a2ef1264a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>随着电视游戏走入寻常百姓家，两人甚至多人同屏游戏的需求已经相当普遍，如赛车、枪战类等游戏。这时候我们就希望游戏能达到自动分屏的效果，Magic<br>Splitscreen恰能满足这点。</p>
-<p>该插件支持多个Player分屏（图例是两个），开发者只要选定分屏的Camera、主camera以及设定Trigger<br>Distance（距离多远的时候分屏）等参数，即可达到分屏效果。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c7a151f5271fd7ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>该插件的工作原理：当镜头拉远的时候，去创建一个Camera去渲染另一个物体，比如创建了一个分相机并调整它的透视矩阵，该矩阵根据距离的远近选择合适的角度去切这个场景，将得到的结果以Mask的形式贴到原来的主Camera上，从而实现这样的效果。</p>
+            <blockquote>
+<p><strong>语音识别对于VR领域格外重要，因为它不仅能模拟AI与用户对话，还为用户提供了与任意应用进行沟通的更多选择。</strong><br>手动输入指令可能不太现实，并且应用如果拥有太多按钮或其它GUI元素，也会很快让用户手足无措。但只要能语音控制，那么在VR环境中就很容易开口去进行各种操作。</p>
+</blockquote>
+<p><a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651038501&idx=1&sn=4cc05ecc25c196ecdfa95df66ad2b0a3&chksm=bd1a94148a6d1d0266ceb762a2c5ff879260800acd8b23d99095d63841d947a3c137e939d8ce&scene=21#wechat_redirect" target="_blank" rel="noopener">Unity<br>Labs</a>的虚拟现实（VR）授权平台Carte<br>Blanche将发布一个名为U的个人助理系统，用户可以通过语音控制它，很便利地执行一些操作。<a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651038501&idx=1&sn=4cc05ecc25c196ecdfa95df66ad2b0a3&chksm=bd1a94148a6d1d0266ceb762a2c5ff879260800acd8b23d99095d63841d947a3c137e939d8ce&scene=21#wechat_redirect" target="_blank" rel="noopener">Unity<br>Labs研发团队</a>一直在研究可以实现这种声控命令的语音识别与分析工具。</p>
+<p>观看下面的视频了解Carte Blanche中的个人助理系统U：</p>
+<p>本文第一部分将介绍语音识别的概念和理论。它将简单介绍其相关概念和参考，以帮助读者了解更多关于语音识别方面的信息。第二部分将简单介绍在Unity Asset<br>Store的安装包以及公开的代码库，我们封装了几个语音转文本的解决方案，还有一些用于对比各API的文本翻译的示例场景。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3173ef4da215a655.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>如果想详细了解语音识别的概念和理论以及更多相关的研究，请进入Unity官方中文社区。下面简单为大家介绍语音识别与语义分析的原理，以及<a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651038501&idx=1&sn=4cc05ecc25c196ecdfa95df66ad2b0a3&chksm=bd1a94148a6d1d0266ceb762a2c5ff879260800acd8b23d99095d63841d947a3c137e939d8ce&scene=21#wechat_redirect" target="_blank" rel="noopener">Unity<br>Labs</a>为大家提供的语音识别插件。</p>
+<h1 id="语音识别与语义分析的原理"><a href="#语音识别与语义分析的原理" class="headerlink" title="语音识别与语义分析的原理"></a>语音识别与语义分析的原理</h1><p> <strong>语音识别，顾名思义就是通过程序将语音转换成文本</strong> 。而 <strong>语义分析是其下一步，即将转换出来的文本进一步分析</strong><br>，并确定文本想要表达的意思。即使是目前最好的语音识别和语义分析程序也远称不上完美。虽然人们能直截了当并毫不费力地处理这样的任务，但是当我们试图让程序去执行这两个步骤时，困难程度真的是难以想象。</p>
+<p>目前基于统计学的语音识别最重要的部分就是声学建模（Acoustic<br>Modeling）。这个过程中用于识别声音开始时不同的波形，或者是语音结束时的一些音节。对于声学模型而言，通过查看声波输出，并尝试找出最可能输入的音节是什么，<br>从而分析出说话者究竟想表达什么。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6dbf93becd0581a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>如上图所示，这是声学模型中“x”的发音模型。椭圆表示我们正在尝试识别的音节。它们无法被直接观察到，但它们产生的概率波形（底部）是可以被完整观察到的。因此，波形自身是可以观察的，但必须及时从可观察的状态中分辨出音节。</p>
+<p>假设语音已经被成功转换成了文本，现在程序需要分辨该文本究竟是什么“意思”，这时语义分析就可以登场了。人们日常生活中就无时不刻地在进行着语义分析。例如，在阅读这句话之前，你可能已经猜到接下来会是人们如何进行语义分析练习的例子。那是因为你能利用上一句（例如“人们日常生活中就无时不刻地在进行着语义分析”）作为上下文线索，从而很好地预测后续几句。因此，如果想要拥有非常逼真的VR体验，AI必须善于分析玩家的语句并给予正确的反馈。</p>
+<h1 id="语音转文本的工具"><a href="#语音转文本的工具" class="headerlink" title="语音转文本的工具"></a>语音转文本的工具</h1><p>Labs最初研究的语音识别涉及了对现有语音转文本解决方案的评估。我们开发了整合部分解决方案的Unity C#脚本插件并分享在Unity Asset<br>Store。里面包含了示例场景，可以依次对比每个API转换的文本内容，同时允许用户从给定的列表中选定短语，并查看说出该短语后程序判定的准确程度。该代码也可以从Unity代码库中获得。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-949ee34bda7dbab8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>我们提供的插件是对比目前Unity中几大语音转文本解决方案的简便方法，也很容易将其整合至你的项目。如果想在Unity中尝试其他API，使用该插件也非常简单<br>，只需新建类继承自Speech-To-<br>Text的Service基类，然后即成到示例场景或小部件即可。除了单独的语音文本转换SDK，插件还包括多个辅助类与函数（记录管理器，音频文件的创建和转换等等），以便集成和比较更多的API。</p>
+<p>各大语音文本都各有特色，如果有兴趣，可以查看关于 <strong>Windows dictation recognition, Google Cloud Speech,<br>IBM Watson, 以及Wit.ai</strong> 四种语音识别解决方案的具体信息。</p>
+<h1 id="总结与未来规划"><a href="#总结与未来规划" class="headerlink" title="总结与未来规划"></a>总结与未来规划</h1><p>语音识别很难精准的原因在于有太多的变量需要考虑。对于每一种要识别的语言都需要储存大量的数据，包括所有现存的单词（包括俚语及简写形式），这些单词相互如何结合，语调和口音也可能影响发音，所有人类语言的冗余和矛盾等等更多因素。</p>
+<p>发布至Asset Store的自Speech-To-<br>Text插件目前仅集成了几个语音文本转换解决方案，但这些足以用来比较现有语音识别工具的优缺点了。对Unity开发者而言，该插件只是起点，还可以根据具体需求来加入更多功能。</p>
+<p> _  
+_</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-fba39273d54d4f4e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><em>SimSensei，一款由南加州（USC）学院创新研究部（ICT）开发出来的模拟治疗程序</em></p>
+<p>这项研究源于Carte<br>Blanche项目最初集成AI机器人U来响应声控命令的计划。这涉及到语音文本的转换以及关键字识别。另一个有趣却艰难的挑战是创造出能与用户“对话”的机器人。人们在日常对话中经常包含类似于“嗯”或者是“啊”之类的语气词来表达感受。如果VR应用中的AI机器人不仅能够理解关键字，还能理解人类回话的各个部分，那它将让VR环境的沉浸感进入全新的层次。</p>
 
         </div>
         
@@ -223,17 +221,17 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.497Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.719Z">2019-05-17</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
+                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    10 分钟 读完 (大约 1452 个字)
+                    6 分钟 读完 (大约 884 个字)
                 </span>
                 
                 
@@ -242,86 +240,36 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/Unity-AssetBundle可视化构建工具/">Unity-AssetBundle可视化构建工具</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/unity生命周期/">unity生命周期</a>
             
         </h1>
         <div class="content">
-            <p>Unity 全球技术支持部门制作了一些实用的小工具免费供大家使用，此前已为大家推荐了用于<a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651038011&idx=1&sn=a6695849c1aaa87cfcad56534ec83dbf&scene=21#wechat_redirect" target="_blank" rel="noopener">批量处理资源文件的Asset<br>Auditing</a>。今天要给大家推荐的是一款名叫AssetGraph的插件，可以帮助开发者方便地定制AssetBundle构建规则并进行可视化的管理。</p>
-<h1 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h1><p>在Unity<br>5.x中构建AssetBundle的流程已经比4.x时代大大简化，开发者不用在资源的依赖关系上花费太多时间，但是在实际大型项目中，开发者可能会发现仅靠引擎自带的功能对AssetBundle进行管理还有不太方便的地方。例如：如果希望为不同平台对AssetBundle的构建设置不同的规则（包括打入AssetBundle内的资源，资源的导入设置等），那么开发者可能会在两套不同方案的切换中花费不少的时间，或者需要自己编写一套对应于项目需要的AssetBundle打包工具。鉴于此我们开发了AssetGraph，让开发者可以根据实际需求可视化地定制AssetBundle打包规则并有效地进行管理。</p>
-<h1 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h1><p> <strong>添加节点</strong></p>
-<p>打开AssetGraph窗口，在AssetGraph的画布上点击鼠标右键会弹出可以添加的节点列表，每个添加的节点都可以在其Inspector中设置对应的属性值。而首先要添加的是Loader节点，这个节点用来指示哪个文件夹下的Assets会作为Output输送给接下来的节点以进行设置或过滤直至最后打入AssetBundle中。</p>
-<p> **  
-**</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-5987583bd0364a23.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><strong>连接节点</strong></p>
-<p>当创建了两个以上的节点时，可以通过点击并拖动节点上的小圆点到另一个节点上来创建两个节点之间的link，这时一个节点的Output即成为另一个节点的Input。通过点击link，我们可以在link的inspector窗口中实时查看此时通过此link的Asset。</p>
-<p> **  
-**</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-78fa08cfeb68930f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><strong>设置节点属性</strong></p>
-<p>通过点击一个节点，你可以在其inspector窗口中设置你所需要的AssetBundle构建规则属性。例如Filter节点允许你设置Asset的过滤规则，而Importer节点则允许你设置需要应用到这个节点的Input<br>Assets上的导入设置。</p>
-<p> **  
-**</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-62fd265bce3981c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><strong>构建AssetBundle</strong></p>
-<p>最后只要点击AssetGraph上的Build按钮，就能构建出基于你所设定规则的AssetBundle了。如此，AssetGraph让你可以简单方便地管理不同的构建需求并通过可视化界面实时验证结果是否正确。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-20870fe4699bfefb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<h1 id="节点介绍"><a href="#节点介绍" class="headerlink" title="节点介绍"></a>节点介绍</h1><p> <strong>Loader</strong></p>
-<p>Loader定义了Asset的最初源头，你可以指定一个根目录（也可以指定Assets/外部的目录）</p>
-<p>IN: 无</p>
-<p>OUT：指定目录下的所有Asset</p>
-<p> **  
-**</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-154864d36281ad00.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><strong>Filter</strong></p>
-<p>Filter用于过滤输入的Asset，你可以在inspector窗口中设置多条过滤的规则。</p>
-<p>IN: 上个节点输出的Asset</p>
-<p>OUT：符合过滤规则的Asset</p>
-<p> **  
-**</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9e9076e6c2300cfd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><strong>Importer</strong></p>
-<p>Importer可以重载输入Asset的导入设置（注意只是在构建AssetBundle的时候改变了导入设置，原来的导入设置其他时候仍然生效）</p>
-<p>IN：上个节点输出的Asset</p>
-<p>OUT：应用了所设导入设置的Asset</p>
-<p> **  
-**</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ebaac45b178f9162.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><strong>Grouping</strong></p>
-<p>Grouping可以根据设定的关键字把输入的Asset进行分组，而“*”星号可以作为关键字的一个通配符。</p>
-<p>IN：上个节点输出的Asset</p>
-<p>OUT：根据关键字设置的Asset分组列表</p>
-<p> **  
-**</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3695240b298ba890.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>**  
-**</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-43e22c87c74272d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><strong>Prefabricator</strong></p>
-<p>Prefabricator可以把输入的Asset创建成Prefab。可以通过扩展AssetGraph.PrefabricatorBase类来定制自己的Prefab创建方式，具体代码示例请参见项目GitHub说明页面。</p>
-<p>IN：上个节点输出的Asset</p>
-<p>OUT：包含了新生成的Prefab的Asset（Prefab被分配在对应的group中）</p>
-<p> **  
-**</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6a611a07a3e23bcd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><strong>Bundlizer</strong></p>
-<p>Bundlizer用来把输入的Assets指定到特定的AssetBundle中并设置AssetBundle的命名，其中“*”星号可以适配Grouping节点的通配符。</p>
-<p>IN：上个节点输出的Asset</p>
-<p>OUT：包含了输入Asset的AssetBundle</p>
-<p> **  
-**</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6aee72deda434eae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><strong>BundleBuilder</strong></p>
-<p>BundleBuilder用于实际构建AssetBundle。通过使用Bundlizer和BundleBuilder,你可以同时构建带有不同设置的AssetBundle（比如说压缩及非压缩）。</p>
-<p>IN：上个节点输出的AssetBundle</p>
-<p>OUT：构建出来的AssetBundle文件</p>
-<p> **  
-**</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4bfba564c6bef8fb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><strong>Exporter</strong></p>
-<p>Exporter可以把输入的AssetBundle或Asset文件保存到指定的文件夹中（可以指定Assets/外部的目录）。</p>
-<p>IN：上个节点输出的Asset或AssetBundle文件</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0e42f745ceefa1f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+            <p> 继承MonoBehavior的生命周期</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-01392e56e46956f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-72e1e272c117dfc4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3d6a398fa366ceda.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>主要的生命周期：</p>
+<p>Reset : 用户第一次添加组件时或用户点击见组件面板上的Reset按钮时调用</p>
+<p>OnAwake:<br>当脚本实例被载入时Awake被调用，一般可以在这个地方将当前脚本禁用:this.enable=false，如果这样做了，则会直接跳转到OnDisable方法执行一次，然后其它的任何方法，都将不再被执行。如果当前脚本处于可用状态，则正常的执行顺序是继续向下执行OnEnable，当然我们可以在另外一个脚本中实现这个脚本组件的启动：this.enab=true;</p>
+<p>OnStart:  Start仅在Update函数第一次被调用前调用。</p>
+<p>OnUpdate：渲染一帧之前被调用。这里是大部分游戏行为代码被执行的地方，除了物理代码。</p>
+<p>LateUpdate:<br>是在所有Update函数调用后被调用。这可用于调整脚本执行顺序。例如:当物体在Update里移动时，跟随物体的相机可以在LateUpdate里实现。如果后面写了Reset，则会又回到Update</p>
+<p>OnGUI:  渲染和处理GUI事件时调用，当然，如果你使用了NGUI，这个生命周期的事情就不用考虑了。</p>
+<p>FixedUpdate:<br>这个函数在每个物理时间步被调用一次。这是处理基于物理游戏行为的地方。常用于移动模型等操作。不受帧率影响，默认0.02s，如果卡帧了Update就不会再执行，而FixedUpdate则继续执行。</p>
+<p>Edit-&gt;preject setting -&gt;Time -&gt; (Inspector监测视图）Fixed Timestep 设置刷新时间</p>
+<p>OnDisable:<br>当对象变为不可用或非激活状态时此函数被调用。这个时候，脚本并不会被销毁，在这个状态下，可以重新回到OnEnable状态（enable=true）。</p>
+<p>OnDestroy: 当MonoBehaviour将被销毁时，这个函数被调用。当前脚本的生命周期结束。</p>
+<p>建议一般在Awake中做一些初始化，在Start中获取游戏对象</p>
+<p>其他的生命周期：</p>
+<p>OnPreCull:在相机剔除场景之前调用此函数。相机可见的对象取决于剔除。OnPreCull 函数调用发生在剔除之前。</p>
+<p>OnBecameVisible/OnBecameInvisible:在对象对于相机可见/不可见时调用此函数。</p>
+<p>OnWillRenderObject:如果对象可见，则为每个相机调用一次此函数。</p>
+<p>OnPreRender:在相机开始渲染场景之前调用此函数。</p>
+<p>OnRenderObject:在完成所有常规场景渲染后调用此函数。此时，可使用 GL 类或 Graphics.DrawMeshNow 绘制自定义几何图形。</p>
+<p>OnPostRender:在相机完成场景渲染后调用此函数。</p>
+<p>OnRenderImage（仅限专业版）：在完成场景渲染后调用此函数，以便对屏幕图像进行后处理。</p>
+<p>OnGUI:在每帧上多次调用此函数，以响应 GUI 事件。程序首先将处理 Layout 和 Repaint 事件，然后再处理每个输入事件的 Layout 和<br>keyboard/鼠标事件。</p>
+<p>OnDrawGizmos: 用于在场景视图中绘制小图示 (Gizmos)，以实现可视化目的。</p>
 
         </div>
         
@@ -343,7 +291,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.484Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.713Z">2019-05-17</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
@@ -353,7 +301,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    9 分钟 读完 (大约 1401 个字)
+                    9 分钟 读完 (大约 1353 个字)
                 </span>
                 
                 
@@ -362,38 +310,43 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/Unity实用小工具：Asset-Auditing/">Unity实用小工具：Asset-Auditing</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/三款Unity插件带您玩转人脸识别与模拟/">三款Unity插件带您玩转人脸识别与模拟</a>
             
         </h1>
         <div class="content">
-            <p>Unity Global Support部门制作了一些实用的小工具免费供大家使用，今天要推荐的就是用于批量处理资源的小工具：Asset Auditing。</p>
-<p>Unity Global<br>Support部门主要负责对使用Unity引擎的企业级VIP客户提供技术支持，大中华区已实现全面覆盖，目前包括腾讯，网易，巨人，完美世界等公司已属于Unity的企业级VIP客户。</p>
-<p>Asset Auditing主要用于执行各资源的审核工作，比如导入贴图时按照统一既定格式进行批次设置，简单易用，且具有高度可扩展性。</p>
-<p>今后Unity中国区Github也会免费提供一些常用的开发工具。</p>
-<h1 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h1><p>在开发Unity项目的时候，很多开发者都会遇到资源管理的问题。比如因为一些疏忽，你可能忘记把一张超大的4096分辨率的贴图设置成压缩格式，另外也有可能不小心把Mesh文件设置成了Read/Write模式。靠人工来检查资源的导入设置往往是不靠谱的，因此我们开发了一个小工具，你可以用它来监督所有资源的导入设置，减少因为不正确的导入设置带来的问题。</p>
-<h1 id="导入设置"><a href="#导入设置" class="headerlink" title="导入设置"></a>导入设置</h1><p>在Unity中，所有要导入到引擎的资源都有各种不同的导入选项。这些选项用来调整资源的属性、导入精度、以及压缩方法等等。某些设置还会包含一些重要的平台相关的选项。比如在iOS平台，你所使用的纹理有可能需要和Android平台使用不同的设置，如果使用手工来管理这些设置会是非常困难的，可能会导致很多错误。因此，通过自动化的管理工具来执行这些操作是一个非常必要的方式。</p>
-<p>如下图所示，这是一张纹理的导入设置：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-adbe247b845fd127.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<h1 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h1><p>Unity引擎提供了资源导入的回调函数，这些回调函数是通过AssetPostprocessor<br>API来实现的。AssetPostprocessor中的这些函数会按照一定的顺序执行，它们的执行顺序如下：</p>
-<p> <strong>OnPreprocess</strong><br>是导入过程中最早执行到的，你可以在这里重新指定新的导入设置。我们在工具中会设置相同类型的资源使用统一的设置就是在这里完成的。</p>
-<p>一旦模型和材质导入完成之后，引擎会根据资源内的数据创建GameObject层级。每个GameObject会拿到它对应的MeshFilter、MeshRenderer、MeshCollider组件等等。在把材质赋值给MeshRenderer之前会调用<br><strong>OnAssignMaterialModel</strong> 函数。</p>
-<p>在GameObject初始化MeshRenderer和用户数据之后，<br><strong>OnPostprocessGameObjectWithUserProperties</strong> 会被调用。这会在它的子GameObject生成之前调用。</p>
-<p>如果前面没有禁止动画生成设置的话（请查看ModelImporter.generateAnimation），接下来会生成SkinnedMesh和Animation。如果可能的话，Avatar也会被创建出来并且执行GameObject的层级优化，然后会调用<br><strong>OnPostprocessModel</strong> 函数。</p>
-<p>对SpeedTree资源来说会调用 <strong>OnPreprocessSpeedTreee</strong> 和 <strong>OnPostprocessSpeedTree</strong><br>函数，这和OnPreprocessModel以及OnPostprocessModel函数是类似的。</p>
-<h1 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h1><p>正确使用该工具，大致分为以下步骤；</p>
-<p>一、将AssetAuditing工具导入到工程。</p>
-<p>二、创建资源导入格式文件。</p>
-<p>点击Unity编辑器的Assets/Create Asset Auditing Rule菜单，在编辑器的Project窗口里会创建一个New Asset<br>Rule文件。如下图所示：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a53293c545765735.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>在上图中，Asset Rule Type包括Any，Texture，Mesh三个选项。TEXTURE<br>SETTINGS下属内容对应贴图属性信息，即所有对应的Texture都将应用该面板中的属性设置。例如勾选下方的Generate Mip<br>Maps则表示所有的Texture都将生成Mip Map。MESH<br>SETTINGS下属内容对应网格的属性信息，即所有对应的Mesh都将应用该面板中的属性设置。</p>
-<p>相应信息设置完毕后，只要点击Apply按钮就会对相应的资源类型执行相关的设置。</p>
-<p>如果希望对该功能进行扩展，可以对Editor目录下的AssetRuleInspector脚本进行简单修改，以达到实际需求。</p>
-<p>三、设置导入参数。</p>
-<p>导入格式文件跟其所在的文件夹相对应，如下图所示，Texture目录下对应的贴图都会统一采用Texture Rule格式文件所设置的属性信息：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9d6395fc9ebe9349.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>同理，如果需要设置模型数据的导入格式，则如下图所示，只需要在模型文件所处的文件夹下存储一份格式文件即可：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a85ce6a9c74ac10e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>设置完参数后请点击Apply按钮，然后工具会自动化处理相关的资源文件，将他们的导入设置按照配置文件的内容进行统一设置，并且重新导入资源文件。</p>
+            <p>若想让游戏或电影中的虚拟角色表现得更加真实，面部表情是至关重要的。人脸识别技术则借助真人表演来为虚拟角色赋予丰富的表情与面部动作，小至皱眉带动眼部肌肉的抽动，大致对话时嘴唇的张合，均可通过人脸识别技术来实现。</p>
+<p>本文为大家介绍三款在Unity中实现人脸识别的插件，再结合Unity引擎的实时渲染功能，轻松定制出次世代的虚拟角色。</p>
+<h1 id="NaturalFront-3D-Face-Animation-Plugin-Pro"><a href="#NaturalFront-3D-Face-Animation-Plugin-Pro" class="headerlink" title="NaturalFront 3D Face Animation Plugin Pro"></a>NaturalFront 3D Face Animation Plugin Pro</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-ced7ccb429aaf812.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>如果想要构建三维人脸模型，却没有Kinect这类动作捕捉硬件，别担心，Unity可以用一张照片帮助您实现人脸模型构建。NaturalFront 3D<br>Face Animation Plugin<br>Pro可以帮您以FBX格式导出自定义的高质量3D头部模型及逼真的动画，能为动画设计师与爱好者们节省大量建模和动画制作的时间。</p>
+<p>整个建模、生成动画及导出FBX文件的过程均可在Unity编辑器中完成。您也可以根据需求快速调整面部表情及唇部动作。虽然功能如此强大，但构建模型的过程并不复杂。首先需要上传一张人脸的照片，按照参考图选定人脸的标志点，例如眼角、嘴角、鼻翼等。接下来就是等待计算的过程，您会得到一张如下图所示的人脸模型。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-d36949fcf054b0af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>所有步骤仅需动动鼠标或滑动建模工具栏的滑块即可完成，实现自定义表情与嘴型，无需进行骨骼绑定、设置关键帧或动作捕捉。</p>
+<p>下载链接：</p>
+<p><a href="https://www.assetstore.unity3d.com/en/#!/content/82488" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/82488</a></p>
+<h1 id="Cloud-Face-Detection"><a href="#Cloud-Face-Detection" class="headerlink" title="Cloud Face Detection"></a>Cloud Face Detection</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-0565cd53929ea8cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>这是一款免费的AI脚本插件，它非常适用于刚接触Unity人脸识别，想在短时间内完成一些好玩应用的开发者。Cloud Face<br>Detection包括两个易学易用的人脸识别Demo，可以直接应用到您自己的Unity工程中。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-50351847a7a8fb20.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>该插件不仅可以检测人脸，Demo中还包括了性别、年龄和微笑程度评估。这个功能的意义在于，您可以有根据地在运行时调节游戏进度，追求最佳的用户体验。它支持多人脸识别模式，甚至支持识别侧脸。该插件使用了Microsoft<br>Azure 的识别服务，同时支持Unity Personal个人版与Unity Pro专业版。</p>
+<p>下载地址：</p>
+<p><a href="https://www.assetstore.unity3d.com/en/#!/content/54489" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/54489</a></p>
+<h1 id="Fruit-With-Faces-3D-Pack"><a href="#Fruit-With-Faces-3D-Pack" class="headerlink" title="Fruit With Faces 3D Pack"></a>Fruit With Faces 3D Pack</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-b0e450545b019430.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>如果您想为自己的游戏塑造一些可以引起玩家共鸣的角色，就需要对游戏角色的面部表情下功夫。Fruit With Faces 3D<br>Pack这款插件为您提供了37种常见水果与蔬菜Q版模型，以及12种可爱的表情动画，包括困惑、快乐、古怪、生气、震惊、悲伤等常见的人类表情。</p>
+<p> _  
+_</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6aa4a642e6bd767e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><em>以苹果为例的12种表情动画</em></p>
+<p>模型虽然小巧精致，但也极具灵活性，您可以根据需求任意组合，甚至上传其他自制的模型，为它们赋予特定的表情。因为水果模型与表情模型是相互独立的预制件，使用起来也十分方便。</p>
+<p> _  
+_</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-8d8b9b2a9db91bad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><em>独立的表情模型和蔬果模型，便于分开使用</em></p>
+<p>素材具有1024x1024的精美手绘纹理，且提供.blend文件便于您的再次编辑。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c9c3b59cb2b5df90.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>快来试用一下，一起来打造拟人化的游戏角色吧！</p>
+<p>下载地址：</p>
+<p><a href="https://www.assetstore.unity3d.com/en/#!/content/34854" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/34854</a></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>其实本文所介绍的人脸识别与模拟插件有很大的延展空间，您可以借助它们为自己的应用增加崭新的内容与炫目的效果，还可以在此基础上进一步完善与修改，与现有的项目进行集成。借助上述插件，您可能实现属于自己的人脸模型和人脸识别解决方案，或者塑造拟人化的模型。</p>
+<p>如果您有好的案例，不妨成为Asset<br>Store资源商店的发布者，将您的创意与来自世界的开发者分享，为您的游戏开发提供动力。您可以点击【阅读原文】进入Unity官方中文社区(forum.china.unity3d.com)了解更多相关内容和精品插件。</p>
 
         </div>
         
@@ -431,9 +384,9 @@ var _hmt = _hmt || [];
             
             <li><a class="pagination-link has-text-black-ter" href="/blog/page/35/">35</a></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/36/">36</a></li>
+            <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/37/">37</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/43/">43</a></li>
             
         </ul>
     </nav>
@@ -481,7 +434,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        111
+                        128
                     </p>
                 </div>
             </div>
@@ -491,7 +444,7 @@ var _hmt = _hmt || [];
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        11
+                        12
                     </p>
                 </div>
             </div>
@@ -501,7 +454,7 @@ var _hmt = _hmt || [];
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        19
+                        23
                     </p>
                 </div>
             </div>
@@ -560,6 +513,14 @@ var _hmt = _hmt || [];
             </span>
             <span class="level-end">
                 <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/ReactNative/">
+            <span class="level-start">
+                <span class="level-item">ReactNative</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">17</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/Unity/">
@@ -645,7 +606,7 @@ var _hmt = _hmt || [];
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13.75px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11.25px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 17.5px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 18.75px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11.25px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 15px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11.25px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11.25px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11.25px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16.25px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12.5px;">网络安全</a>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/ReactNative/" style="font-size: 17px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 15px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
     </div>
 </div>
 
@@ -664,10 +625,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/Web/GithubPage+Hexo搭建个人主页/" class="has-link-black-ter is-size-6">GithubPage+Hexo搭建个人主页</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -677,10 +638,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -690,10 +651,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -703,10 +664,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -716,10 +677,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -743,7 +704,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">111</span>
+                    <span class="level-item tag">128</span>
                 </span>
             </a>
         </li>
@@ -785,6 +746,34 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Google/">
                         <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative/">
+                        <span class="tag">ReactNative</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative优化/">
+                        <span class="tag">ReactNative优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative库/">
+                        <span class="tag">ReactNative库</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
+                        <span class="tag">ReactNative插件</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -921,10 +910,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/Web/GithubPage+Hexo搭建个人主页/" class="has-link-black-ter is-size-6">GithubPage+Hexo搭建个人主页</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -934,10 +923,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T10:35:50.788Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/iPic图床/" class="has-link-black-ter is-size-6">图床及iPic</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -947,10 +936,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/" class="has-link-black-ter is-size-6">DB主从一致性架构优化4种方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -960,10 +949,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/后端/MySQL 常用30种SQL查询语句优化方法/" class="has-link-black-ter is-size-6">MySQL 常用30种SQL查询语句优化方法</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -973,10 +962,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-18T07:35:43.416Z">2019-05-18</time></div>
-                    <a href="/blog/2019/05/18/其他/手机没联网，支付宝也支付成功了，原理是什么 ？/" class="has-link-black-ter is-size-6">手机没联网，支付宝也支付成功了，原理是什么 ？</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
+                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                     </p>
                 </div>
             </div>
@@ -1000,7 +989,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">111</span>
+                    <span class="level-item tag">128</span>
                 </span>
             </a>
         </li>
@@ -1042,6 +1031,34 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Google/">
                         <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative/">
+                        <span class="tag">ReactNative</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative优化/">
+                        <span class="tag">ReactNative优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative库/">
+                        <span class="tag">ReactNative库</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
+                        <span class="tag">ReactNative插件</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
