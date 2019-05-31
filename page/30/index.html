@@ -153,252 +153,6 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.066Z">2019-05-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    23 分钟 读完 (大约 3421 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/各种移动GPU压缩纹理的使用方法/">各种移动GPU压缩纹理的使用方法</a>
-            
-        </h1>
-        <div class="content">
-            <p><img src="http://upload-images.jianshu.io/upload_images/17266280-a5b11ca81bf78d8c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<h1 id="1-移动GPU大全"><a href="#1-移动GPU大全" class="headerlink" title="1. 移动GPU大全"></a>1. 移动GPU大全</h1><p>目前移动市场的GPU主要有四大厂商系列：</p>
-<h2 id="1）Imagination-Technologies的PowerVR-SGX系列"><a href="#1）Imagination-Technologies的PowerVR-SGX系列" class="headerlink" title="1）Imagination Technologies的PowerVR SGX系列"></a>1）Imagination Technologies的PowerVR SGX系列</h2><p><img src="http://upload-images.jianshu.io/upload_images/17266280-1e6e5e642b0c94bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>代表型号：PowerVR SGX 535、PowerVR SGX 540、PowerVR SGX 543MP、PowerVR SGX 554MP等</p>
-<p>代表作 ：Apple iPhone全系、iPad全系，三星I9000、P3100等</p>
-<h2 id="2）Qualcomm-高通-的Adreno系列"><a href="#2）Qualcomm-高通-的Adreno系列" class="headerlink" title="2）Qualcomm(高通)的Adreno系列"></a>2）Qualcomm(高通)的Adreno系列</h2><p><img src="http://upload-images.jianshu.io/upload_images/17266280-9ee4d1c5a8f505f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>代表型号：Adreno 200、Adreno 205、Adreno 220、Adreno 320等</p>
-<p>代表作 ：HTC G10、G14，小米1、2等</p>
-<h2 id="3）ARM的Mali系列"><a href="#3）ARM的Mali系列" class="headerlink" title="3）ARM的Mali系列"></a>3）ARM的Mali系列</h2><p><img src="http://upload-images.jianshu.io/upload_images/17266280-2c545ed953743eb1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>代表型号：Mali-400、Mali-T604等</p>
-<p>代表作 ：三星Galaxy SII、Galaxy SIII、Galaxy Note1、Galaxy Note2(亚版)等</p>
-<h2 id="4）nVIDIA-英伟达-的Tegra系列"><a href="#4）nVIDIA-英伟达-的Tegra系列" class="headerlink" title="4）nVIDIA(英伟达)的Tegra系列"></a>4）nVIDIA(英伟达)的Tegra系列</h2><p><img src="http://upload-images.jianshu.io/upload_images/17266280-ae5934eb260ad1f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>代表型号：nVIDIA Tegra2、nVIDIA Tegra3等</p>
-<p>代表作 ：Google Nexus 7，HTC One X等</p>
-<h1 id="2-压缩纹理的必要性"><a href="#2-压缩纹理的必要性" class="headerlink" title="2. 压缩纹理的必要性"></a>2. 压缩纹理的必要性</h1><h2 id="1）首先要说一下图像文件格式和纹理格式的区别。"><a href="#1）首先要说一下图像文件格式和纹理格式的区别。" class="headerlink" title="1）首先要说一下图像文件格式和纹理格式的区别。"></a>1）首先要说一下图像文件格式和纹理格式的区别。</h2><p>常用的图像文件格式有BMP，TGA，JPG，GIF，PNG等；</p>
-<p>常用的纹理格式有R5G6B5，A4R4G4B4，A1R5G5B5，R8G8B8, A8R8G8B8等。</p>
-<p>文件格式是图像为了存储信息而使用的对信息的特殊编码方式，它存储在磁盘中，或者内存中，但是并不能被GPU所识别，因为以向量计算见长的GPU对于这些复杂的计算无能为力。这些文件格式当被游戏读入后，还是需要经过CPU解压成R5G6B5，A4R4G4B4，A1R5G5B5，R8G8B8,<br>A8R8G8B8等像素格式，再传送到GPU端进行使用。</p>
-<p>纹理格式是能被GPU所识别的像素格式，能被快速寻址并采样。</p>
-<p>举个例子，DDS文件是游戏开发中常用的文件格式，它内部可以包含A4R4G4B4的纹理格式，也可以包含A8R8G8B8的纹理格式，甚至可以包含DXT1的纹理格式。在这里DDS文件有点容器的意味。</p>
-<p>OpenGL ES 2.0支持以上提到的R5G6B5，A4R4G4B4，A1R5G5B5，R8G8B8，A8R8G8B8等纹理格式，其中<br>R5G6B5，A4R4G4B4，A1R5G5B5每个像素占用2个字节(BYTE)，R8G8B8每个像素占用3个字节，A8R8G8B8每个像素占用 4个字节。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-afc478ca46e0683e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>对于一张512<em>512的纹理的话，R5G6B5格式的文件需要占用512KB的容量，A8R8G8B8格式的文件需要占用1MB的容量；如果是1024</em>1024的纹理，则各需要2M和4M的容量，这对于动辄需要几十、几百张甚至更多纹理的游戏，上G容量的游戏在移动平台上是不容易被接受的(当然，还是有1、2G的大作的，里面包含了几千张的纹理)。</p>
-<p>聪明的设计师们在想，有没有其他办法，既能表现丰富的色彩和细节，又能是最小失真的情况下，达到更小的纹理容量呢。压缩纹理格式应运而生(当然，并不是在移动平台后才有的产物)。</p>
-<h1 id><a href="#" class="headerlink" title=" "></a> </h1><h1 id="3-常见的压缩纹理格式"><a href="#3-常见的压缩纹理格式" class="headerlink" title="3. 常见的压缩纹理格式"></a>3. 常见的压缩纹理格式</h1><p>基于OpenGL ES的压缩纹理有常见的如下几种实现：</p>
-<p>1）ETC1（Ericsson texture compression)</p>
-<p>2）PVRTC (PowerVR texture compression)</p>
-<p>3）ATITC (ATI texture compression)</p>
-<p>4）S3TC (S3 texture compression)</p>
-<p> <strong>ETC1:</strong></p>
-<p>ETC1格式是OpenGL ES图形标准的一部分，并且被所有的Android设备所支持。</p>
-<p>扩展名为: GL_OES_compressed_ETC1_RGB8_texture，不支持透明通道，所以仅能用于不透明纹理。</p>
-<p>当加载压缩纹理时， 参数支持如下格式：</p>
-<p>GL_ETC1_RGB8_OES(RGB，每个像素0.5个字节)</p>
-<p> <strong>PVRTC:</strong></p>
-<p>支持的GPU为Imagination Technologies的PowerVR SGX系列。</p>
-<p>OpenGL ES的扩展名为: GL_IMG_texture_compression_pvrtc。</p>
-<p>当加载压缩纹理时， 参数支持如下几种格式：</p>
-<p>GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG (RGB，每个像素0.5个字节)</p>
-<p>GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG (RGB，每个像素0.25个字节)</p>
-<p>GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG (RGBA，每个像素0.5个字节)</p>
-<p>GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG (RGBA，每个像素0.25个字节)</p>
-<p> <strong>ATITC:</strong></p>
-<p>支持的GPU为Qualcomm的Adreno系列。</p>
-<p>支持的OpenGL ES扩展名为: GL_ATI_texture_compression_atitc。</p>
-<p>当加载压缩纹理时， 参数支持如下类型的纹理：</p>
-<p>GL_ATC_RGB_AMD (RGB，每个像素0.5个字节)</p>
-<p>GL_ATC_RGBA_EXPLICIT_ALPHA_AMD (RGBA，每个像素1个字节)</p>
-<p>GL_ATC_RGBA_INTERPOLATED_ALPHA_AMD (RGBA，每个像素1个字节)</p>
-<p> <strong>S3TC:</strong></p>
-<p>也被称为DXTC，在PC上广泛被使用，但是在移动设备上还是属于新鲜事物。支持的GPU为NVIDIA Tegra系列。</p>
-<p>OpenGL ES扩展名为:</p>
-<p>GL_EXT_texture_compression_dxt1和GL_EXT_texture_compression_s3tc。</p>
-<p>当加载压缩纹理时， 的参数有如下几种格式：</p>
-<p>GL_COMPRESSED_RGB_S3TC_DXT1 (RGB，每个像素0.5个字节)</p>
-<p>GL_COMPRESSED_RGBA_S3TC_DXT1 (RGBA，每个像素0.5个字节)</p>
-<p>GL_COMPRESSED_RGBA_S3TC_DXT3 (RGBA，每个像素1个字节)</p>
-<p>GL_COMPRESSED_RGBA_S3TC_DXT5 (RGBA，每个像素1个字节)</p>
-<p>由此可见，Mali系列GPU只支持ETC1格式的压缩纹理，而且该纹理不支持透明通道，有一定局限性。</p>
-<p>以上压缩纹理格式每个像素大小相对A8R8G8B8格式的比例，最高压缩比是16:1，最低压缩比是4:1，对于减小纹理的数据容量有明显作用，相应在显存带宽上也有明显优势，从而提高游戏的运行效率(此特性没有绝对数值，根据每个游戏的用法和瓶颈点不同而有差别)。</p>
-<h1 id="-1"><a href="#-1" class="headerlink" title=" "></a> </h1><h1 id="4-OpenGL中相关API的使用"><a href="#4-OpenGL中相关API的使用" class="headerlink" title="4. OpenGL中相关API的使用"></a>4. OpenGL中相关API的使用</h1><h2 id="1）-获得GPU的型号"><a href="#1）-获得GPU的型号" class="headerlink" title="1） 获得GPU的型号"></a>1） 获得GPU的型号</h2><blockquote>
-<p>glGetString(GL_RENDERER)</p>
-</blockquote>
-<h2 id="2）-获得GPU的生产厂商"><a href="#2）-获得GPU的生产厂商" class="headerlink" title="2） 获得GPU的生产厂商"></a>2） 获得GPU的生产厂商</h2><blockquote>
-<p>glGetString(GL_VENDOR);</p>
-</blockquote>
-<h2 id="3）-获取GPU支持哪些压缩纹理"><a href="#3）-获取GPU支持哪些压缩纹理" class="headerlink" title="3） 获取GPU支持哪些压缩纹理"></a>3） 获取GPU支持哪些压缩纹理</h2><blockquote>
-<p>string extensions = (const char*)glGetString(GL_EXTENSIONS);</p>
-</blockquote>
-<p>a. 判断是否支持ETC1格式的压缩纹理</p>
-<blockquote>
-<p>return (extensions.find(“GL_OES_compressed_ETC1_RGB8_texture”)!=<br>string::npos);</p>
-</blockquote>
-<p>b. 判断是否支持DXT格式的压缩纹理</p>
-<blockquote>
-<p>return (extensions.find(“GL_EXT_texture_compression_dxt1”)!= string::npos ||</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>extensions.find(“GL_EXT_texture_compression_s3tc”)!= string::npos);</p>
-</blockquote>
-<p>c. 判断是否支持PVRTC格式的压缩纹理</p>
-<blockquote>
-<p>return (extensions.find(“GL_IMG_texture_compression_pvrtc”)!= string::npos);</p>
-</blockquote>
-<p>d. 判断是否支持ATITC格式的压缩纹理</p>
-<blockquote>
-<p>return (extensions.find(“GL_AMD_compressed_ATC_texture”)!= string::npos ||</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>extensions.find(“GL_ATI_texture_compression_atitc”)!= string::npos);</p>
-</blockquote>
-<h2 id="4）-填充压缩纹理数据"><a href="#4）-填充压缩纹理数据" class="headerlink" title="4） 填充压缩纹理数据"></a>4） 填充压缩纹理数据</h2><blockquote>
-<p>void glCompressedTexImage2D (</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>GLenum target,</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>GLint level,</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>GLenum internalformat,</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>GLsizei width,</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>GLsizei height,</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>GLint border,</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>GLsizei imageSize,</p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>const GLvoid * data);</p>
-</blockquote>
-<p>这里的参数不做详细解释，其中internalformat即是压缩纹理格式的类型。</p>
-<h1 id="-2"><a href="#-2" class="headerlink" title=" "></a> </h1><h1 id="5-压缩纹理工具的使用"><a href="#5-压缩纹理工具的使用" class="headerlink" title="5. 压缩纹理工具的使用"></a>5. 压缩纹理工具的使用</h1><p>每种压缩纹理以及相应的厂商都提供了压缩纹理的工具，工具都分两个版本：</p>
-<p>a. 可视化转换工具 (给美工或小白少量使用)</p>
-<p>b. 命令行转换工具 (给程序批量使用)</p>
-<p>下面对每个工具的用法进行说明。</p>
-<h2 id="1）Imagination-Technologies-PowerVR"><a href="#1）Imagination-Technologies-PowerVR" class="headerlink" title="1）Imagination Technologies PowerVR"></a>1）Imagination Technologies PowerVR</h2><p>工具下载地址</p>
-<p><a href="http://www.imgtec.com/powervr/insider/sdkdownloads/index.asp?installer=Windows%20Installer" target="_blank" rel="noopener">http://www.imgtec.com/powervr/insider/sdkdownloads/index.asp?installer=W…</a></p>
-<p>可视化转换界面</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-35c50cd1fd618328.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>命令行转换脚本</p>
-<blockquote>
-<p>for %%i in (*.tga) do PVRTexTool.exe -f PVRTC4 -i %%i</p>
-</blockquote>
-<p>(将本目录下的所有tga文件，转换成”PVRTC4”编码格式的pvr文件，不带mipmap)</p>
-<p>详细使用说明：PvrTexTool.exe /?</p>
-<h2 id="2）Qualcomm-Adreno"><a href="#2）Qualcomm-Adreno" class="headerlink" title="2）Qualcomm Adreno"></a>2）Qualcomm Adreno</h2><p>工具下载地址</p>
-<p>[<a href="https://developer.qualcomm.com/mobile-development/mobile-" target="_blank" rel="noopener">https://developer.qualcomm.com/mobile-development/mobile-</a><br>technologies/ga…](<a href="https://developer.qualcomm.com/mobile-development/mobile-" target="_blank" rel="noopener">https://developer.qualcomm.com/mobile-development/mobile-</a><br>technologies/gaming-graphics-optimization-adreno/tools-and-resources)</p>
-<p>可视化转换界面</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-36c46a0c34eb288d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>命令行转换脚本</p>
-<blockquote>
-<p>for %%i in (*.tga) do QCompressCmd.exe %%i %%i.ktx “ATC RGBA Explicit” yes</p>
-</blockquote>
-<p>(将本目录下的所有tga文件，转换成”ATC RGBA Explicit”编码格式的ktx文件，带mipmap)</p>
-<p>详细使用说明：QCompressCmd.exe /?</p>
-<h2 id="3）ARM-Mali"><a href="#3）ARM-Mali" class="headerlink" title="3）ARM Mali"></a>3）ARM Mali</h2><p>工具下载地址</p>
-<p>[<a href="http://malideveloper.arm.com/develop-for-mali/mali-gpu-texture-" target="_blank" rel="noopener">http://malideveloper.arm.com/develop-for-mali/mali-gpu-texture-</a><br>compressi…](<a href="http://malideveloper.arm.com/develop-for-mali/mali-gpu-texture-" target="_blank" rel="noopener">http://malideveloper.arm.com/develop-for-mali/mali-gpu-texture-</a><br>compression-tool/)</p>
-<p>可视化转换界面</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4ebfa9d4786cd7a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>命令行转换脚本</p>
-<blockquote>
-<p>for %%i in (*.tga) do PVRTexTool.exe -f ETC -i %%i</p>
-</blockquote>
-<p>(将本目录下的所有tga文件，转换成”ETC”编码格式的pvr文件，不带mipmap这里还是使用的PVRTexTool.exe，也可以使用QCompressCmd.exe)</p>
-<p>详细使用说明：PVRTexTool.exe /?</p>
-<h2 id="4）nVIDIA-Tegra"><a href="#4）nVIDIA-Tegra" class="headerlink" title="4）nVIDIA Tegra"></a>4）nVIDIA Tegra</h2><p>可以使用DirectX SDK中自带的DirectX Texture Tool进行转换</p>
-<p>可视化转换界面</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-b6363ea714f2057c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>命令行转换脚本</p>
-<blockquote>
-<p>for %%i in (*.tga) do texconv.exe -f DXT5 %%i</p>
-</blockquote>
-<p>(将本目录下的所有tga文件，转换成”DXT5”编码格式的dds文件，不带mipmap)</p>
-<p>详细使用说明：TexConv.exe /?</p>
-<p>本文来源： <a href="http://www.cnblogs.com/luming1979/archive/2013/02/04/2891421.html" target="_blank" rel="noopener">http://www.cnblogs.com/luming1979/archive/2013/02/04/2891421.html</a></p>
-<p> <strong>主流纹理压缩标准：ETC、PVRTC、S3TC</strong></p>
-<p>首先说OpenGL ES标准中的，2.0版规范中将ETC(Ericsson Texture<br>Compression)作为基本的纹理压缩标准，这是大部分移动GPU都会支持的纹理标准。OpenGL ES<br>3.0中还引入了ETC2、EAC纹理压缩格式，二者基本一致，只不过EAC主要用于1-2通道数据的情况。目前ECT2还在改进中，除了高通的Adreno<br>320之外还没有移动GPU支持，Tgera 4也不行。</p>
-<p>此外，OpenGL ES 3.0中还有一种可选纹理压缩格式——ASTC(Adaptive Scalable Texture<br>Compression，自适应扩展纹理压缩)，这是ARM提出的，去年被Khronos组织认可，纳入到标准中来，不过并不是强制性的，目前也只有Mali-<br>T600系列支持。</p>
-<p> <strong>Imagination旗下的PowerVR GPU支持的是PVRTC(PowerVR texture<br>compression)和ETC，高通的Adreno 2xx系列支持ETC之外还有3Dc和ATITC。</strong> 后两者都是原来的ATI开发的，Adreno<br>320除了前面三种标准之外还支持ETC2纹理压缩。</p>
-<p> <strong>ARM的Mali-300/400系列支持ETC，Mali-T600还多了ASTC纹理支持。</strong></p>
-<p>NVIDIA的Tegra系列更有趣。之前的说法称Tegra支持自己的纹理格式， <strong>实际上除了通用的ETC之外，Tegra支持的纹理叫做S3TC(S3<br>Texture Compression)，也被称为DXTn或者DXTC。</strong> S3TC是S3公司在1999年引入的，后来被DX 6.0和OpenGL<br>1.3吸收为官方标准，DXTC相当于Windows版的名字，S3TC是OpenGL中的名字。</p>
-<p>说到S3TC，之前苹果和HTC大打专利战的时候就涉及到了这个标准。S3已经归为VIA威盛旗下，HTC和威盛又有同一个老板——王雪红。为了支援HTC打专利战，威盛去年就把S3部门出售给了HTC，算是左手倒右手吧。</p>
-<p>S3TC是DX显卡都支持的标准，NVIDIA也在Tegra中支持了这个标准，S3TC根据不同算法又分为DXT1-DXT5这五个级别，Terga支持的实际上是DXT1、DXT3和DXT5。</p>
-<p> <strong>Vivante的GC系列也支持ETC和S3TC，跟NVIDIA的Tegra路线相同。</strong> 以前都说Vivante支持的是NVIDIA<br>Tegra的纹理数据，实际上二者是选择了共同的路线而已，DXT也不是NVIDIA的专利。</p>
-<p>目前来说我们能常用到的纹理压缩主要是ETC、PVRTC、S3TC、ATITC这四种种。</p>
-<p> <strong>主流紋理压缩格式优缺点</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-e966558af279a67c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>常见的TC格式压缩比</p>
-<p>先来看压缩比。如果无失真的PNG容量是5.4MB，那么S3TC和ETC都能压缩到1.1MB，PVRTC压缩最高，可压缩到528KB，不过PVRTC的问题在于它只支持PowerVR系列GPU，有排他性，高通的Adreno支持的ATITC同样有排他性，其他厂商并不支持。</p>
-<p> **  
-**</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0738096c692324d9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><strong>ETC是最通用的纹理压缩格式，不过ETC并不招厂商待见，因为ETC纹理压缩不支持Alpha通道，只能用于压缩不透明的材质，不过ETC也有自己的优点，几乎所有的安卓设备都可以支持ETC压缩的GPU加速。</strong></p>
-<p>S3TC无论压缩速度还是压缩比都不错，也支持GPU加速，而且是桌面显卡通用的压缩格式，看起来是最完美的选择，可惜的是移动市场跟PC不一样，大家各自为王，NVIDIA现在还没强大到让其他GPU厂商低头采用S3TC标准的程度，因为<br><strong>S3TC说到底还是一种私有的标准，有专利上的麻烦。</strong></p>
-<p><strong>ETC2压缩标准补全了ETC1不支持Alpha通道的缺陷，支持更高质量的RGBA(RGB+Alpha)压缩，而ARM提出的ASTC标准在压缩速度和质量上比S3TC要好，但是这两种压缩格式都是新出的，支持的厂商实在太少了。</strong></p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.041Z">2019-05-17</time>
                 
                 <div class="level-item">
@@ -506,6 +260,77 @@ var _hmt = _hmt || [];
 
 
 
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.015Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 分钟 读完 (大约 627 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/Canvas/">Canvas</a>
+            
+        </h1>
+        <div class="content">
+            <p>每个UI元素都必须处于一个Canvas的子级中；</p>
+<p>一个场景中可以存在多个Canvas；</p>
+<p>render mode 渲染模式</p>
+<p>Render Mode-Screen Overlay</p>
+<p>画布总会铺满整个屏幕，总是渲染在所有元素的最上层</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a90d6e33192f545a?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-f277612a083a438b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>，画布的RectTransform的大小有屏幕决定；</p>
+<p>Pixel Perfect选项会让UI边缘锐利；</p>
+<p>Render Mode-Camera</p>
+<p>在没有指定摄像机的时候，和Sreen<br>Overlay效果完全一样。指定了摄像机以后，画布会自动调整到相机可视范围内，比Canvas更靠近相机的3Dobject会被渲染在前面，比Canvas远离相机的3dObject会被遮挡</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-09e01122123aae22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7f674c8e88edbcba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-32bd755b18812652.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-10edc5778fa5329a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>画布全权交由这个摄像机来渲染，多个相机的渲染次序，相机类型等都会对该画布的元素有影响。此模式下画布的RectTransform完全受到相机的ViewPort<br>Rect影响；</p>
+<p>Pixel Perfect和Screen Overlay模式下的作用一样；</p>
+<p>Plane Distance 决定Canvas与渲染相机的距离；</p>
+<p>该模式可能有如下场景应用：</p>
+<h4 id="1-如果渲染Canvas的相机是透视的，可以调整Canvas内某些元素的旋转角度，产生透视和深度效果；"><a href="#1-如果渲染Canvas的相机是透视的，可以调整Canvas内某些元素的旋转角度，产生透视和深度效果；" class="headerlink" title="1.如果渲染Canvas的相机是透视的，可以调整Canvas内某些元素的旋转角度，产生透视和深度效果；"></a>1.如果渲染Canvas的相机是透视的，可以调整Canvas内某些元素的旋转角度，产生透视和深度效果；</h4><p><img src="http://upload-images.jianshu.io/upload_images/17266280-5e73315232471dc3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<h4 id="2-可以通过不同相机的sorting-layer和渲染的图层来实线UI上方的粒子特效等。"><a href="#2-可以通过不同相机的sorting-layer和渲染的图层来实线UI上方的粒子特效等。" class="headerlink" title="2.可以通过不同相机的sorting layer和渲染的图层来实线UI上方的粒子特效等。"></a>2.可以通过不同相机的sorting layer和渲染的图层来实线UI上方的粒子特效等。</h4><p>Render Mode-World Space</p>
+<p>画布的Rect Transform完全自由，不受任何约束，可以自行设置大小、位置；</p>
+<p>可以放置于物体的子级，常用作气泡、对话框等；</p>
+<p>EventCamera 该选项决定该UI接受哪个相机的事件，如果该项为None，则默认接受主相机的事件。如果指定某个相机，则只接受该相机的事件。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-777fdce8d0f4214a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4fd33b946b8efdb2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c99766f1318214e1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
     
 <div class="card card-transparent">
@@ -530,7 +355,7 @@ var _hmt = _hmt || [];
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/47/">47</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/46/">46</a></li>
             
         </ul>
     </nav>
@@ -578,7 +403,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        139
+                        138
                     </p>
                 </div>
             </div>
@@ -704,7 +529,7 @@ var _hmt = _hmt || [];
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -769,19 +594,6 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -830,6 +642,19 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -848,7 +673,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -981,7 +806,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 
@@ -1096,19 +921,6 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -1157,6 +969,19 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -1175,7 +1000,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -1308,7 +1133,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 

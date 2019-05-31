@@ -153,76 +153,6 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.719Z">2019-05-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    6 分钟 读完 (大约 884 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/unity生命周期/">unity生命周期</a>
-            
-        </h1>
-        <div class="content">
-            <p> 继承MonoBehavior的生命周期</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-01392e56e46956f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-72e1e272c117dfc4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3d6a398fa366ceda.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>主要的生命周期：</p>
-<p>Reset : 用户第一次添加组件时或用户点击见组件面板上的Reset按钮时调用</p>
-<p>OnAwake:<br>当脚本实例被载入时Awake被调用，一般可以在这个地方将当前脚本禁用:this.enable=false，如果这样做了，则会直接跳转到OnDisable方法执行一次，然后其它的任何方法，都将不再被执行。如果当前脚本处于可用状态，则正常的执行顺序是继续向下执行OnEnable，当然我们可以在另外一个脚本中实现这个脚本组件的启动：this.enab=true;</p>
-<p>OnStart:  Start仅在Update函数第一次被调用前调用。</p>
-<p>OnUpdate：渲染一帧之前被调用。这里是大部分游戏行为代码被执行的地方，除了物理代码。</p>
-<p>LateUpdate:<br>是在所有Update函数调用后被调用。这可用于调整脚本执行顺序。例如:当物体在Update里移动时，跟随物体的相机可以在LateUpdate里实现。如果后面写了Reset，则会又回到Update</p>
-<p>OnGUI:  渲染和处理GUI事件时调用，当然，如果你使用了NGUI，这个生命周期的事情就不用考虑了。</p>
-<p>FixedUpdate:<br>这个函数在每个物理时间步被调用一次。这是处理基于物理游戏行为的地方。常用于移动模型等操作。不受帧率影响，默认0.02s，如果卡帧了Update就不会再执行，而FixedUpdate则继续执行。</p>
-<p>Edit-&gt;preject setting -&gt;Time -&gt; (Inspector监测视图）Fixed Timestep 设置刷新时间</p>
-<p>OnDisable:<br>当对象变为不可用或非激活状态时此函数被调用。这个时候，脚本并不会被销毁，在这个状态下，可以重新回到OnEnable状态（enable=true）。</p>
-<p>OnDestroy: 当MonoBehaviour将被销毁时，这个函数被调用。当前脚本的生命周期结束。</p>
-<p>建议一般在Awake中做一些初始化，在Start中获取游戏对象</p>
-<p>其他的生命周期：</p>
-<p>OnPreCull:在相机剔除场景之前调用此函数。相机可见的对象取决于剔除。OnPreCull 函数调用发生在剔除之前。</p>
-<p>OnBecameVisible/OnBecameInvisible:在对象对于相机可见/不可见时调用此函数。</p>
-<p>OnWillRenderObject:如果对象可见，则为每个相机调用一次此函数。</p>
-<p>OnPreRender:在相机开始渲染场景之前调用此函数。</p>
-<p>OnRenderObject:在完成所有常规场景渲染后调用此函数。此时，可使用 GL 类或 Graphics.DrawMeshNow 绘制自定义几何图形。</p>
-<p>OnPostRender:在相机完成场景渲染后调用此函数。</p>
-<p>OnRenderImage（仅限专业版）：在完成场景渲染后调用此函数，以便对屏幕图像进行后处理。</p>
-<p>OnGUI:在每帧上多次调用此函数，以响应 GUI 事件。程序首先将处理 Layout 和 Repaint 事件，然后再处理每个输入事件的 Layout 和<br>keyboard/鼠标事件。</p>
-<p>OnDrawGizmos: 用于在场景视图中绘制小图示 (Gizmos)，以实现可视化目的。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.713Z">2019-05-17</time>
                 
                 <div class="level-item">
@@ -377,6 +307,77 @@ _</p>
 
 
 
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.688Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    10 分钟 读完 (大约 1504 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/借助Unity特效插件创造史诗级大作/">借助Unity特效插件创造史诗级大作</a>
+            
+        </h1>
+        <div class="content">
+            <p>本文为大家推荐几款Asset Store资源商店中流行的特效插件，帮助大家改善特效制作流程，提高开发效率，让您的作品脱胎换骨，成就史诗级大作。</p>
+<p>游戏的特效表现对整个用户体验有着至关重要的影响，除了需要炫酷的视觉效果之外，还得保证整个特效的流畅度。游戏开发过程中，特效制作会涉及到美术与程序之间的磨合，讲究的是质量与效率的平衡。以下三款插件十分适合用于制作特效，一起来看看吧。</p>
+<h1 id="SE-Natural-Bloom-amp-Dirty-Len"><a href="#SE-Natural-Bloom-amp-Dirty-Len" class="headerlink" title="SE Natural Bloom &amp; Dirty Len"></a>SE Natural Bloom &amp; Dirty Len</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-5613a009501c4591.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>该插件简称为SENBDL，是一款用于在Unity中实现散光及脏镜头特效的插件，可以模拟相机镜头内部的表面对光的散射，渲染出逐像素的脏镜头效果。请注意，该特效不支持移动设备。</p>
+<p>现实世界中根据光照亮度不同，散射光也会有差别，但SENBDL采用了另外的做法，让散射光与光照亮度无关。SENBDL通过在场景中生成一些大型的，完美而流畅的高光，以便明亮物体可以被更明晰地呈现出来。这种做法也要比常规的散光特效带来的消耗更小。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-08e204beea1a3fd5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>SENBDL适用于线性颜色空间的HDR场景，也能完美结合基于物理的着色。该插件生成逐像素的特效，并且对场景中所有可见对象均生效，无关场景复杂度。SENBDL包含16个高清的脏镜头纹理，指定光在表面的不同散射方式。还包含一些自发光与粒子着色器，用于创建无与伦比的高光效果。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-2faa1b928a2492b4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>下载地址：</p>
+<p><a href="https://www.assetstore.unity3d.com/en/#!/content/17324" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/17324</a></p>
+<h1 id="Camera-Filter-Pack"><a href="#Camera-Filter-Pack" class="headerlink" title="Camera Filter Pack"></a>Camera Filter Pack</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-135ae1ebce8dae8c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Camera Filter<br>Pack是用于Unity项目的相机滤镜特效合集，可以简单理解为供游戏使用的“美图秀秀”。每个特效均以脚本形式提供，使用方式非常简单，只需将所选特效脚本绑定到场景中的主相机上，即可即时改变整个场景的视觉效果。</p>
+<p>该插件现已包含300多种全屏后处理特效，因为都是脚本，所以也便于开发者自行调整，在原有基础上打磨出适合自己场景的特效。其中部分特效包括：3D矩阵、3D扫描、3D雨雪、3D黑洞、铅笔画、复古电视机等。轻轻松松就能让游戏呈现出电影大片即视感。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9a8ccfb2e0b9ed88.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>下载地址：</p>
+<p><a href="https://www.assetstore.unity3d.com/en/#!/content/18433" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/18433</a></p>
+<h1 id="Volumetric-Fog-amp-Mist"><a href="#Volumetric-Fog-amp-Mist" class="headerlink" title="Volumetric Fog &amp; Mist"></a>Volumetric Fog &amp; Mist</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-3b2711b83613cfff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>这是一款用于在Unity中制作体积雾的插件，支持定义各种浓度的逼真雾特效，来衬托场景的氛围。该插件以视觉特效及灵活性为重，可以借用光照及发光特效来调整雾效区域及云层。</p>
+<p>Volumetric Fog &amp;<br>Mist提供了大量预置配置，方便开发者快速设置雾效，其中包括：薄雾、带风的薄雾、低云、云海、地表雾、湖面雾、浓雾、烟雾及沙尘暴等特效。另外还可以自定义雾效的各种属性，例如浓度、噪声强度、规模、透明度及反射度、颜色、阈值及强度、风速与方向、湍急气流等等。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-bf9a166087580335.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>体积雾可以指定雾效出现的区域，并自动改变雾效的透明度。该功能在游戏中非常实用，可以根据玩家靠近目标地点的距离来实时控制雾效显示或隐藏。该插件利用Unity标准着色器来控制雾效的透明度及渐变渲染，支持与透明物体共同渲染而不影响对象层次。还支持基于深度的模糊来加强场景光照的散射效果。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c9cfa289b341dda2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>该插件提供了10多个示例场景，可以通过这些场景来了解插件的具体功能。使用插件的方式也很简单，只需在场景主相机上添加VolumetricFrog脚本，然后在检视面板中调整雾效的各个属性即可。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-bb4a81c276a99045.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>下载地址：</p>
+<p><a href="https://www.assetstore.unity3d.com/en/#!/content/49858" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/49858</a></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>本文为大家推荐的几款特效插件均为全屏效果，比较适用于大型游戏场景，但不建议用于移动设备。有了这些特效插件的帮助，美术设计师可以轻松调整出适用于游戏场景的特效，也便于开发者进行进一步优化。这三款特效插件也是Asset<br>Store资源商店中久经大多数开发者实战考验的插件，希望对大家有用。我们还会在Unity官方中文社区（forum.china.unity3d.com）为大家分享更多加快Unity项目开发流程的优秀插件，请保持关注。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
     
 <div class="card card-transparent">
@@ -401,7 +402,7 @@ _</p>
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/47/">47</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/46/">46</a></li>
             
         </ul>
     </nav>
@@ -449,7 +450,7 @@ _</p>
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        139
+                        138
                     </p>
                 </div>
             </div>
@@ -575,7 +576,7 @@ _</p>
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -640,19 +641,6 @@ _</p>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -701,6 +689,19 @@ _</p>
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -719,7 +720,7 @@ _</p>
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -852,7 +853,7 @@ _</p>
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 
@@ -967,19 +968,6 @@ _</p>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -1028,6 +1016,19 @@ _</p>
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -1046,7 +1047,7 @@ _</p>
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -1179,7 +1180,7 @@ _</p>
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 

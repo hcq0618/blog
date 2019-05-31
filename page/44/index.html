@@ -153,78 +153,6 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.484Z">2019-05-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    9 分钟 读完 (大约 1401 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/Unity实用小工具：Asset-Auditing/">Unity实用小工具：Asset-Auditing</a>
-            
-        </h1>
-        <div class="content">
-            <p>Unity Global Support部门制作了一些实用的小工具免费供大家使用，今天要推荐的就是用于批量处理资源的小工具：Asset Auditing。</p>
-<p>Unity Global<br>Support部门主要负责对使用Unity引擎的企业级VIP客户提供技术支持，大中华区已实现全面覆盖，目前包括腾讯，网易，巨人，完美世界等公司已属于Unity的企业级VIP客户。</p>
-<p>Asset Auditing主要用于执行各资源的审核工作，比如导入贴图时按照统一既定格式进行批次设置，简单易用，且具有高度可扩展性。</p>
-<p>今后Unity中国区Github也会免费提供一些常用的开发工具。</p>
-<h1 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h1><p>在开发Unity项目的时候，很多开发者都会遇到资源管理的问题。比如因为一些疏忽，你可能忘记把一张超大的4096分辨率的贴图设置成压缩格式，另外也有可能不小心把Mesh文件设置成了Read/Write模式。靠人工来检查资源的导入设置往往是不靠谱的，因此我们开发了一个小工具，你可以用它来监督所有资源的导入设置，减少因为不正确的导入设置带来的问题。</p>
-<h1 id="导入设置"><a href="#导入设置" class="headerlink" title="导入设置"></a>导入设置</h1><p>在Unity中，所有要导入到引擎的资源都有各种不同的导入选项。这些选项用来调整资源的属性、导入精度、以及压缩方法等等。某些设置还会包含一些重要的平台相关的选项。比如在iOS平台，你所使用的纹理有可能需要和Android平台使用不同的设置，如果使用手工来管理这些设置会是非常困难的，可能会导致很多错误。因此，通过自动化的管理工具来执行这些操作是一个非常必要的方式。</p>
-<p>如下图所示，这是一张纹理的导入设置：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-adbe247b845fd127.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<h1 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h1><p>Unity引擎提供了资源导入的回调函数，这些回调函数是通过AssetPostprocessor<br>API来实现的。AssetPostprocessor中的这些函数会按照一定的顺序执行，它们的执行顺序如下：</p>
-<p> <strong>OnPreprocess</strong><br>是导入过程中最早执行到的，你可以在这里重新指定新的导入设置。我们在工具中会设置相同类型的资源使用统一的设置就是在这里完成的。</p>
-<p>一旦模型和材质导入完成之后，引擎会根据资源内的数据创建GameObject层级。每个GameObject会拿到它对应的MeshFilter、MeshRenderer、MeshCollider组件等等。在把材质赋值给MeshRenderer之前会调用<br><strong>OnAssignMaterialModel</strong> 函数。</p>
-<p>在GameObject初始化MeshRenderer和用户数据之后，<br><strong>OnPostprocessGameObjectWithUserProperties</strong> 会被调用。这会在它的子GameObject生成之前调用。</p>
-<p>如果前面没有禁止动画生成设置的话（请查看ModelImporter.generateAnimation），接下来会生成SkinnedMesh和Animation。如果可能的话，Avatar也会被创建出来并且执行GameObject的层级优化，然后会调用<br><strong>OnPostprocessModel</strong> 函数。</p>
-<p>对SpeedTree资源来说会调用 <strong>OnPreprocessSpeedTreee</strong> 和 <strong>OnPostprocessSpeedTree</strong><br>函数，这和OnPreprocessModel以及OnPostprocessModel函数是类似的。</p>
-<h1 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h1><p>正确使用该工具，大致分为以下步骤；</p>
-<p>一、将AssetAuditing工具导入到工程。</p>
-<p>二、创建资源导入格式文件。</p>
-<p>点击Unity编辑器的Assets/Create Asset Auditing Rule菜单，在编辑器的Project窗口里会创建一个New Asset<br>Rule文件。如下图所示：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a53293c545765735.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>在上图中，Asset Rule Type包括Any，Texture，Mesh三个选项。TEXTURE<br>SETTINGS下属内容对应贴图属性信息，即所有对应的Texture都将应用该面板中的属性设置。例如勾选下方的Generate Mip<br>Maps则表示所有的Texture都将生成Mip Map。MESH<br>SETTINGS下属内容对应网格的属性信息，即所有对应的Mesh都将应用该面板中的属性设置。</p>
-<p>相应信息设置完毕后，只要点击Apply按钮就会对相应的资源类型执行相关的设置。</p>
-<p>如果希望对该功能进行扩展，可以对Editor目录下的AssetRuleInspector脚本进行简单修改，以达到实际需求。</p>
-<p>三、设置导入参数。</p>
-<p>导入格式文件跟其所在的文件夹相对应，如下图所示，Texture目录下对应的贴图都会统一采用Texture Rule格式文件所设置的属性信息：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9d6395fc9ebe9349.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>同理，如果需要设置模型数据的导入格式，则如下图所示，只需要在模型文件所处的文件夹下存储一份格式文件即可：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a85ce6a9c74ac10e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>设置完参数后请点击Apply按钮，然后工具会自动化处理相关的资源文件，将他们的导入设置按照配置文件的内容进行统一设置，并且重新导入资源文件。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.476Z">2019-05-17</time>
                 
                 <div class="level-item">
@@ -448,6 +376,83 @@ var _hmt = _hmt || [];
 
 
 
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.443Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    10 分钟 读完 (大约 1441 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/给力的Unity脚本插件/">给力的Unity脚本插件</a>
+            
+        </h1>
+        <div class="content">
+            <p>Unity的Asset<br>Store中除了拥有非常强大的Unity编辑器扩展工具之外，还有一些让开发过程事半功倍的脚本插件。今天为大家介绍几款饱受好评的脚本插件。</p>
+<h1 id="Pro-Camera-2D"><a href="#Pro-Camera-2D" class="headerlink" title="Pro Camera 2D"></a>Pro Camera 2D</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-8f37992cdc62fa84.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Pro Camera<br>2D是为2D及2.5D游戏量身定制的相机插件，可以快速在Unity中为任意类型2D游戏设置合适的相机。它支持三个坐标轴方向，也支持正交及透视两种相机模式。另外该插件从制作之初就一直非常注重性能及可扩展性，所以即便是配置较低的老式移动设备也可放心使用。开发者也可以很方便地扩展该插件以适应游戏的特殊需求。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0722f23eb7d0f63f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Pro Camera 2D主要分为三大块：</p>
+<p>Core：轻量级且极度优化的插件核心部分，仅关注相机的目标对象及目的地。</p>
+<p>Extensions：包含一系列已定义好的扩展，可以很方便地增加一些相机设置如边框、镜头转换、焦点设置、边界及速度设置、抖动及缩放等等，目前共有17个。这些扩展是在Core的基础上实现的，但不包含在Core中，所以不需要的扩展可以禁用，这样也不会影响性能。</p>
+<p>Triggers：触发器，与Extensions类似，增加相机的额外功能。触发器是独立于相机存在的，它会在相机接触到游戏中的目标物体时触发一些事件。自定义触发器也很简单。</p>
+<p>使用Pro Camera 2D的方式非常简单，只需在场景的主相机上添加Pro Camera 2D脚本，然后进行一些简单的设置即可：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0714741ea81d63dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Pro Camera<br>2D支持跟踪多个目标，并且可以设置各个目标相对相机的偏移。另外所有的Extensions及Triggers都可以很方便的在检视面板中点击按钮进行启用与添加，它会自动将所需的脚本绑定到相机对象上。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-804ead7c1603e87d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>下载地址：<a href="https://www.assetstore.unity3d.com/#!/content/42095" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/#!/content/42095</a></p>
+<h1 id="Ultimate-Rope-Editor"><a href="#Ultimate-Rope-Editor" class="headerlink" title="Ultimate Rope Editor"></a>Ultimate Rope Editor</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-66586d536cb6a5c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>顾名思义，Ultimate Rope<br>Editor就是用来解决游戏中所有绳索相关问题的。它能生成各种类型的绳索，并将绳索物理应用到已有的网格上。更方便的是，绳索的物理参数可以在运行时实时调整，然后复制到编辑器模式下，从而帮助节省大量的迭代时间。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c4198c50c788c2a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Ultimate Rope<br>Editor是一个非常轻量级的插件，它将创建绳索的过程简化到了极致。只需一个脚本就能完成所有的设置，并且具有非常逼真的物理特性。使用Ultimate<br>Rope Editor只需在绳索对象上添加Utilmate Rope脚本，然后设置绳索的类型、起始点、材质及其物理属性即可。</p>
+<p>这里可以选择三种类型的绳索：</p>
+<p>Procedural：系统自动生成绳索，包含物理特性与网格信息。</p>
+<p>Linked Objects：链式绳索，由一个个小的部位链接。</p>
+<p>Import Bones：从已有的骨骼信息生成绳索的物理，常用于处理头发。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-62cfa9749237b416.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>下载地址：<a href="https://www.assetstore.unity3d.com/cn/#!/content/7279" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/cn/#!/content/7279</a></p>
+<h1 id="Chronos-Time-Control"><a href="#Chronos-Time-Control" class="headerlink" title="Chronos - Time Control"></a>Chronos - Time Control</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-20e8f4210e14c2cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Chronos - Time Control是用于控制游戏中各种时钟的插件，也是Unity Awards<br>2015优秀插件大奖得主。该插件小巧易用且优化过性能，可以搞定游戏中所有的时钟控制。支持时间的暂停、倒退、减速及加速，并且每个对象都有单独的时间线，还可以按区域来同时控制多个对象。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0211c34094c8f82c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Chronos - Time Control非常简单，能够很好的应用于自定义脚本，并且完全兼容对象的物理属性，能够自动适应动画、粒子效果、Nav Mesh<br>Agent及音效。该插件主要包含三种类型的脚本：</p>
+<p>Timekeeper：追踪场景全局时钟的单例，一个场景仅需一个Timekeeper。</p>
+<p>Clock：所有类型时钟的基类。共有三种时钟：Global Clock（全局时钟）、Local Clock（本地时钟）及Area Clock（区域时钟）。</p>
+<p>Timeline：整合一个或多个时钟来单独控制某一个游戏对象的Delta Time和Time<br>Scale等属性。每个需要使用Chronos控制的游戏对象都要绑定该脚本。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-8a9e7901e708eb7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Chronos - Time Control适合实现一些游戏角色的特殊技能，如操控时间的魔法或科幻技能等。不论2D或3D游戏均能完美支持，且适用于任何平台。</p>
+<p>下载地址：<a href="https://www.assetstore.unity3d.com/cn/#!/content/31225" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/cn/#!/content/31225</a></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
     
 <div class="card card-transparent">
@@ -471,8 +476,6 @@ var _hmt = _hmt || [];
             <li><a class="pagination-link has-text-black-ter" href="/blog/page/45/">45</a></li>
             
             <li><a class="pagination-link has-text-black-ter" href="/blog/page/46/">46</a></li>
-            
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/47/">47</a></li>
             
         </ul>
     </nav>
@@ -520,7 +523,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        139
+                        138
                     </p>
                 </div>
             </div>
@@ -646,7 +649,7 @@ var _hmt = _hmt || [];
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -711,19 +714,6 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -772,6 +762,19 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -790,7 +793,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -923,7 +926,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 
@@ -1038,19 +1041,6 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -1099,6 +1089,19 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -1117,7 +1120,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -1250,7 +1253,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 

@@ -153,70 +153,6 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.639Z">2019-05-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Unity优化/">Unity优化</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 分钟 读完 (大约 321 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/Unity-Profiler性能分析器的使用/">Unity-Profiler性能分析器的使用</a>
-            
-        </h1>
-        <div class="content">
-            <p>长话短说，我整理了一下mac版Unity3D<br>pro下的Profiler连接Android的使用。注意是专业版的Unity3D。在Window下会有Profiler</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9eb4cfdebc873de1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>这个工具的意义是，游戏在客户端跑然后UnityProfile测试一些参数</p>
-<p>连接手机有两种方式。</p>
-<p>1.wifi：让手机和电脑痛处于同一局域网内。</p>
-<p>2.数据线连接（下好各种驱动），一般只要Unity中 Build And Run 时游戏能在客户端跑  就基本连接没问题</p>
-<p>1.File-&gt;Build Setting</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6a6264a5921acf6c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>注意勾选 Development  Build</p>
-<p>点击 Player Settings  找到ProductName 记录下来</p>
-<p>2.数据线连接手机，File-&gt;Build And Run</p>
-<p>3.打开终端，找到adb的文件</p>
-<p>cd /Applications/android/adt-bundle-mac-x86_64-20140702/sdk/platform-tools</p>
-<p>每个mac  不一样</p>
-<p>./adb forward tcp:54999 localabstract:Unity-&lt;包名&gt;</p>
-<p>4.window-&gt;profiler 同时手机运行游戏</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-2247239bbaf353df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>如果用wifi连接 先Enter IP 输入手机在局域网中ip即会成为2</p>
-<p>如果是数据线 直接选一</p>
-<p>ok，随玩游戏随测，数据线连接的话 ，注意不要断开连接。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.633Z">2019-05-17</time>
                 
                 <div class="level-item">
@@ -962,6 +898,61 @@ var _hmt = _hmt || [];
 
 
 
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.591Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity优化/">Unity优化</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    2 分钟 读完 (大约 352 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/使用link-xml来控制strippinglevel减少dll库大小技巧、优化安装包大小/">使用link-xml来控制strippinglevel减少dll库大小技巧、优化安装包大小</a>
+            
+        </h1>
+        <div class="content">
+            <p>无论从减少安装包大小还是迎合unity64位IL2CPP默认就会打开StrippingLevel功能，通过库剖离来减少DLL的空间大小。</p>
+<p>那么问题是我们自定义库使用了一些type，例如xml，或者webclient c#封装的http请求等，如果被任性解剖出去，那么肯定是不允许的。</p>
+<p>可以在Assets/下添加link.xml文件来手动排除不被剖离的类。</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&lt;linker&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       &lt;assembly fullname=&quot;mscorlib&quot;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Reflection&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Security.Cryptography&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Runtime.CompilerServices&quot;&gt;</span><br><span class="line">preserve=&quot;all&quot;/</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Runtime.InteropServices&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Diagnostics&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Security&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Security.Permissions&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       &lt;/assembly&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &lt;/linker&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如上我们保持link.xml里面的格式这样既可<br>assembly其实就是dll库名，我们要排除这个dll库里面的1：整个命名空间；2：某个命名空间里面的某个具体类</p>
+<p>补充针对排除整个命名空间可以这样加：</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;assembly fullname=&quot;JsonDotNet&quot;&gt;</span><br><span class="line"></span><br><span class="line">                 &lt;namespace fullname=&quot;Newtonsoft.Json&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"> &lt;/assembly&gt;</span><br></pre></td></tr></table></figure>
+
+<p>关于查看dll库可以用默认的mono编辑器或者vs点进目录文件分类的dll就能看见了。</p>
+<p>关于如何知道什么类或者命名空间你需要添加进去link.xml，只能你使用这个特殊命名空间才知道了。或者你通过xcode debug出错、eclipse<br>debug真机运行时出错来查看那些类空间报错添加进去即可。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
     
 <div class="card card-transparent">
@@ -986,7 +977,7 @@ var _hmt = _hmt || [];
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/47/">47</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/46/">46</a></li>
             
         </ul>
     </nav>
@@ -1034,7 +1025,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        139
+                        138
                     </p>
                 </div>
             </div>
@@ -1160,7 +1151,7 @@ var _hmt = _hmt || [];
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -1225,19 +1216,6 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -1286,6 +1264,19 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -1304,7 +1295,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -1437,7 +1428,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 
@@ -1552,19 +1543,6 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -1613,6 +1591,19 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -1631,7 +1622,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -1764,7 +1755,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 

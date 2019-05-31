@@ -164,143 +164,6 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-31T08:27:02.114Z">2019-05-31</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    8 分钟 读完 (大约 1129 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/blog/2019/05/31/Web/Javascript优化总结/">Javascript优化总结</a>
-            
-        </h1>
-        <div class="content">
-            <h2 id="Javascript中声明变量速度的研究"><a href="#Javascript中声明变量速度的研究" class="headerlink" title="Javascript中声明变量速度的研究"></a>Javascript中声明变量速度的研究</h2><h2 id="声明变量到底要不要var"><a href="#声明变量到底要不要var" class="headerlink" title="声明变量到底要不要var"></a>声明变量到底要不要var</h2><p>使用var语句多次声明一个变量不仅是合法的，而且也不会造成任何错误。</p>
-<p>如果重复使用的一个声明有一个初始值，那么它担当的不过是一个赋值语句的角色。</p>
-<p>如果重复使用的一个声明没有一个初始值，那么它不会对原来存在的变量有任何的影响。</p>
-<p>没有var声明的变量，是作为全局变量存在的；有var声明的变量，属于局部变量，尤其是在函数内部。并且，经过测试，带var声明比不带var速度要快，比如：”var<br>a”比”a”具有更快的执行速度。我们有理由推测，局部变量的声明比全局变量的声明效率更高。</p>
-<h2 id="直接量与new"><a href="#直接量与new" class="headerlink" title="直接量与new"></a>直接量与new</h2><p>变量有好几种类型，但是同一类型的变量创建的方式可能不一样，比如string、Object、Array等这些类型的变量声明或者创建。</p>
-<p>经过测试，通过直接量声明的速度明显快于通过new声明的速度，比如”var a={} “比”var a=new Object()”具有更快的执行速度。</p>
-<h2 id="局部变量与全局变量"><a href="#局部变量与全局变量" class="headerlink" title="局部变量与全局变量"></a>局部变量与全局变量</h2><p>现在笔者来告诉你，函数内尽量多设局部变量，这样即安全又快速，变量操作也更加合理，不会因为函数内胡乱操作全局变量而导致逻辑错误。</p>
-<p>写个例子说明下，先建立一个全局变量：var m=1; ，接着我读取这个全局变量1000000次</p>
-<p>全局变量：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for(var i=1000000;i--;)</span><br><span class="line"></span><br><span class="line">&#123;a=m;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>局部变量：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(function ()&#123;</span><br><span class="line"></span><br><span class="line">    var n=m;</span><br><span class="line"></span><br><span class="line">    for(var i=1000000;i--;)</span><br><span class="line"></span><br><span class="line">    &#123;a=n;&#125;</span><br><span class="line"></span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
-
-<p>执行速度2&gt;1</p>
-<p>通过上面测试表明，先将m这个全局变量的值存给局部变量n，在将n赋值给a具有更快的速度。</p>
-<h2 id="变量名长度"><a href="#变量名长度" class="headerlink" title="变量名长度"></a>变量名长度</h2><p>变量名是自己取的，为了照顾语义和规范，变量名可能稍长，但是注意了，变量名的长度也会影响代码的执行速度。</p>
-<p>经过测试，长的变量名声明的执行速度没有短的快，比如”var a=1”比”var<br>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=1”具有更快的执行速度。</p>
-<p>所以，我们在声明变量的时候，尽量缩写一些单词，并记忆一些常见的缩写，以下是缩写示例：</p>
-<table>
-<thead>
-<tr>
-<th>单词</th>
-<th>缩写</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>array（数组）</td>
-<td>arr</td>
-</tr>
-<tr>
-<td>string（字符串）</td>
-<td>str</td>
-</tr>
-<tr>
-<td>number（数量/数字）</td>
-<td>num</td>
-</tr>
-<tr>
-<td>function（函数）</td>
-<td>fun</td>
-</tr>
-<tr>
-<td>message（消息/信息）</td>
-<td>mes</td>
-</tr>
-<tr>
-<td>userNumber（会员数量）</td>
-<td>userNum/uNum</td>
-</tr>
-<tr>
-<td>parentElement（父级节点/父级元素）</td>
-<td>parentEle</td>
-</tr>
-<tr>
-<td>returnArray（返回的数组）</td>
-<td>returnArr</td>
-</tr>
-</tbody></table>
-<hr>
-<p>优化JS中的条件分支语句</p>
-<h2 id="一、将条件分支，按可能性顺序从高到低排列"><a href="#一、将条件分支，按可能性顺序从高到低排列" class="headerlink" title="一、将条件分支，按可能性顺序从高到低排列"></a>一、将条件分支，按可能性顺序从高到低排列</h2><p>说明：可以减少解释器对条件的探测次数。</p>
-<h2 id="二、在同一条件子的多（-gt-2）条件分支时，使用switch优于if"><a href="#二、在同一条件子的多（-gt-2）条件分支时，使用switch优于if" class="headerlink" title="二、在同一条件子的多（&gt;2）条件分支时，使用switch优于if"></a>二、在同一条件子的多（&gt;2）条件分支时，使用switch优于if</h2><p>说明：switch分支选择的效率高于if，在IE下尤为明显。4分支的测试，IE下switch的执行时间约为if的一半。</p>
-<h2 id="三、使用三目运算符替代条件分支"><a href="#三、使用三目运算符替代条件分支" class="headerlink" title="三、使用三目运算符替代条件分支"></a>三、使用三目运算符替代条件分支</h2><p>使用前：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (a &gt; b)</span><br><span class="line"></span><br><span class="line">&#123; num = a; &#125;</span><br><span class="line"></span><br><span class="line">else</span><br><span class="line"></span><br><span class="line">&#123; num = b; &#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用后：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">num = a &gt; b ? a : b;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>字符串拼接</p>
-<p>如果要连接多个字符串，应该少使用+=，如</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s+=a;</span><br><span class="line"></span><br><span class="line">s+=b;</span><br><span class="line"></span><br><span class="line">s+=c;</span><br></pre></td></tr></table></figure>
-
-<p>应该写成s+=a + b + c；</p>
-<p>而如果是收集字符串，比如多次对同一个字符串进行+=操作的话，最好使用一个缓存，使用JavaScript数组来收集，最后使用join方法连接起来</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var buf = [];</span><br><span class="line"></span><br><span class="line">        for (var i = 0; i &lt; 100; i++) &#123;</span><br><span class="line"></span><br><span class="line">            buf.push(i.toString());</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        var all = buf.join(&quot;&quot;);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>数字转成字符串</p>
-<p>一般最好用”” + 1来将数字转换成字符串，虽然看起来比较丑一点，但事实上这个效率是最高的，性能上来说：</p>
-<p>(“” +) &gt; String() &gt; .toString() &gt; new String()</p>
-<hr>
-<ul>
-<li><p>for()语句性能优于for(…in…)语句</p>
-</li>
-<li><p>避免重复创建函数，避免使用闭包。推荐使用prototype追加方法</p>
-</li>
-<li><p>使用{}创建对象</p>
-</li>
-<li><p>使用[]创建数组,如果你不知道数组长度，使用Array#push。当你需要复制数组的时候，请使用Array#slice</p>
-</li>
-</ul>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-05-31T08:27:02.071Z">2019-05-31</time>
                 
                 <div class="level-item">
@@ -884,7 +747,7 @@ forEachProtocolImplementingProtocol(m_class,  exportProtocol,  ^(Protocol  *prot
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        139
+                        138
                     </p>
                 </div>
             </div>
@@ -1010,7 +873,7 @@ forEachProtocolImplementingProtocol(m_class,  exportProtocol,  ^(Protocol  *prot
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -1075,19 +938,6 @@ forEachProtocolImplementingProtocol(m_class,  exportProtocol,  ^(Protocol  *prot
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -1136,6 +986,19 @@ forEachProtocolImplementingProtocol(m_class,  exportProtocol,  ^(Protocol  *prot
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -1154,7 +1017,7 @@ forEachProtocolImplementingProtocol(m_class,  exportProtocol,  ^(Protocol  *prot
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -1287,7 +1150,7 @@ forEachProtocolImplementingProtocol(m_class,  exportProtocol,  ^(Protocol  *prot
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 
@@ -1402,19 +1265,6 @@ forEachProtocolImplementingProtocol(m_class,  exportProtocol,  ^(Protocol  *prot
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -1463,6 +1313,19 @@ forEachProtocolImplementingProtocol(m_class,  exportProtocol,  ^(Protocol  *prot
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -1481,7 +1344,7 @@ forEachProtocolImplementingProtocol(m_class,  exportProtocol,  ^(Protocol  *prot
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -1614,7 +1477,7 @@ forEachProtocolImplementingProtocol(m_class,  exportProtocol,  ^(Protocol  *prot
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 

@@ -153,281 +153,6 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-18T07:35:43.127Z">2019-05-18</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    43 分钟 读完 (大约 6390 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/blog/2019/05/18/其他/两步认证技术/">两步认证技术</a>
-            
-        </h1>
-        <div class="content">
-            <h3 id="什么是两步认证"><a href="#什么是两步认证" class="headerlink" title="什么是两步认证"></a>什么是两步认证</h3><p>在介绍两步认证之前，首先来看下目前主流的几种认证方式。</p>
-<p>[<img src="/blog/2019/05/18/其他/两步认证技术/ebc07cdb-948e-434f-ae4f-d14a81c7893d.png" alt><br>](<a href="https://dn-coding-net-production-pp.codehub.cn/ebc07cdb-948e-434f-ae4f-" target="_blank" rel="noopener">https://dn-coding-net-production-pp.codehub.cn/ebc07cdb-948e-434f-ae4f-</a><br>d14a81c7893d.png)</p>
-<p>上图中的认证方式大体上可以分为三大类</p>
-<p>1.You know ： 比如密码，这种只有我们知道的</p>
-<p>2.You are ： 比如指纹，这种只有我们拥有的</p>
-<p>3.You have ： 比如信用卡，这种只属于你的</p>
-<p>了解上面所说的三大类之后，我们就很容易的理解下面几点。</p>
-<h4 id="什么是两步认证？"><a href="#什么是两步认证？" class="headerlink" title="什么是两步认证？"></a>什么是两步认证？</h4><p>两步验证，对应的英文是 Two-factor Authentication（2FA）,从名字可以看出，「两步」是 2FA 的重点，而两步就是我们上面所提到的<br>You know + You Have ，也就是 密码 + 一次性密码（One Time Password，OTP）</p>
-<h4 id="为什么我们需要两步验证？"><a href="#为什么我们需要两步验证？" class="headerlink" title="为什么我们需要两步验证？"></a>为什么我们需要两步验证？</h4><p>传统的密码认证方式，如果在用户名密码在其他网站上泄露，任何用户都可以使用你的账号密码进行登陆做任何操作。但有了两步认证就能在一定程度上有效的避免这种情况的发生。因为在每次登录时，不仅需要输入您的帐户密码，还需输入移动设备为您生成的一次性动态验证码</p>
-<h3 id="OTP"><a href="#OTP" class="headerlink" title="OTP"></a>OTP</h3><p>前面说过，2FA 中使用的是一次性密码（One Time Password，OTP），也被称作动态密码。一般 OTP 有两种策略：HOTP ( HMAC-<br>based One Time Password) 和TOTP ( Time-based One-time Password)<br>。目前被广泛使用的正是后者这种基于时间的动态密码生成策略。</p>
-<p>算法大体是这样：</p>
-<ol>
-<li><p>客户端和服务器事先协商好一个SECRET，用于一次性密码的生成过程，此密钥不被任何第三方所知道。此外，客户端和服务器都采用时间做计数器。</p>
-</li>
-<li><p>客户端对密钥和计数器的组合(SECRET,time/30)使用HMAC（Hash-based Message Authentication Code）算法计算一次性密码，公式如下：HMAC-SHA-1(SECRET, time/30)</p>
-</li>
-<li><p>各种算法加特效后成6位数字</p>
-</li>
-</ol>
-<p>在这里就只简要介绍该算法，如想深入了解</p>
-<p>==&gt; <a href="https://tools.ietf.org/html/rfc6238" target="_blank" rel="noopener">https://tools.ietf.org/html/rfc6238</a></p>
-<p>基于TOTP的密码有如下特点</p>
-<ol>
-<li><p>无需记忆，不会产生password这样的泄漏问题</p>
-</li>
-<li><p>动态生成,每30s生成一个，安全性大大提高</p>
-</li>
-<li><p>对网络无要求，离线下仍可正常使用</p>
-</li>
-<li><p>成本低，无需购买硬件和软件</p>
-</li>
-</ol>
-<h3 id="两步认证流程"><a href="#两步认证流程" class="headerlink" title="两步认证流程"></a>两步认证流程</h3><ol>
-<li><p>服务器随机生成一个类似于『DPI45HKISEXU6HG7』的密钥，并且把这个密钥保存在数据库中。</p>
-</li>
-<li><p>在页面上显示一个二维码，内容是一个URI地址（otpauth://totp/账号?secret=密钥?issuer=厂商）</p>
-</li>
-<li><p>客户端扫描二维码，把密钥『DPI45HKISEXU6HG7』保存在客户端。</p>
-</li>
-<li><p>客户端每30秒使用密钥『DPI45HKISEXU6HG7』和时间戳通过TOTP『算法』生成一个6位数字的一次性密码</p>
-</li>
-</ol>
-<h3 id="两步认证的其他情况"><a href="#两步认证的其他情况" class="headerlink" title="两步认证的其他情况"></a>两步认证的其他情况</h3><p>然后仅仅只是做好上面这种正常的验证流程是不够的，Coding 的两步认证在一些异常情况下做了很多处理。</p>
-<ol>
-<li><p>生成的 OPT 应该是不能复用的，也就是用户在登陆或者危险操作时输入完一次 OPT 后，手机端 OPT 仍然未刷新时，在进行登陆或者危险操作时输入刚才的OPT是无效的，必须等待手机上OPT的刷新。</p>
-</li>
-<li><p>既然可以离线使用，那么怎么保证时间的差异性，我们服务端会兼容服务器时间的前后30s。从而有效的避免细微时间上差异而导致的验证失败，同时也避免了用户刚输入完 OPT 后还未做提交操作时 OPT 刷新而引起验证失败。</p>
-</li>
-<li><p>在遇到使用遍历所有6位数数字进行暴力破解 OPT 时，我们会对错误次数进行限制，90s 限制其错误次数能有效避免暴力破解的出现。</p>
-</li>
-<li><p>在开启两部认证后，其他所有登陆的客户端都会因为开启两部认证而过期，必须重新登陆。</p>
-</li>
-</ol>
-<h3 id="两部认证的实现"><a href="#两部认证的实现" class="headerlink" title="两部认证的实现"></a>两部认证的实现</h3><p>目前 Coding 采用的 <a href="https://github.com/wstrange/GoogleAuth" target="_blank" rel="noopener">https://github.com/wstrange/GoogleAuth</a> 实现的TOTP 算法，在提供 TOTP<br>算法之外，该库提供了可以存储用户 secret 的接口，采用的 ServiceLoader 方式，ServiceLoader<br>方式可以通过链接了解更多==&gt;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/ServiceLoader.html" target="_blank" rel="noopener">http://docs.oracle.com/javase/6/docs/api/java/util/ServiceLoader.html</a></p>
-<hr>
-<p>在对外网开放的后台管理系统中，使用静态口令进行身份验证可能会存在如下问题：</p>
-<p>　　　　（1） 为了便于记忆，用户多选择有特征作为密码，所有静态口令相比动态口令而言，容易被猜测和破解；</p>
-<p>　　　　（2） 黑客可以从网上或电话线上截获静态密码，如果是非加密方式传输，用户认证信息可被轻易获取；</p>
-<p>　　　　（3） 内部工作人员可通过合法授权取得用户密码而非法使用；</p>
-<p>静态口令根本上不能确定用户的身份，其结果是，个人可以轻松地伪造一个假身份或者盗用一个已有使用者的身份，给企业造成巨大的经济和声誉损失。本文主要介绍并实现了一种动态口令（OTP）的实现方式。</p>
-<p>　　动态口令（OTP，One-Time<br>Password）又称一次性密码，是使用密码技术实现的在客户端和服务器之间通过共享秘密的一种认证技术，是一种强认证技术，是增强目前静态口令认证的一种非常方便技术手段，是一种重要的双因素认证技术，动态口令认证技术包括客户端用于生成口令产生器的，动态令牌，是一个硬件设备，和用于管理令牌及口令认证的后台动态口令认证系统组成。</p>
-<p> otp从技术来分有三种形式， <a href="http://baike.baidu.com/view/100292.htm" target="_blank" rel="noopener">时间同步</a>、事件同步、挑战/应答。</p>
-<p>（1） <a href="http://baike.baidu.com/view/100292.htm" target="_blank" rel="noopener">时间同步</a></p>
-<p>原理是基于 <a href="http://baike.baidu.com/view/2525104.htm" target="_blank" rel="noopener">动态令牌</a>和
-<a href="http://baike.baidu.com/view/1793866.htm" target="_blank" rel="noopener">动态口令</a>验证服务器的时间比对，基于<br><a href="http://baike.baidu.com/view/100292.htm" target="_blank" rel="noopener">时间同步</a>的
-<a href="http://baike.baidu.com/view/544102.htm" target="_blank" rel="noopener">令牌</a>，一般每60秒产生一个新口令，要求服务器能够十分精确的保持正确的时钟，同时对其令牌的晶振频率有严格的要求，这种技术对应的终端是硬件令牌。</p>
-<p>（2）事件同步</p>
-<p>基于事件同步的令牌，其原理是通过某一特定的事件次序及相同的种子值作为输入，通过HASH算法中运算出一致的密码。</p>
-<p>（3）挑战/应答</p>
-<p>常用于的网上业务，在网站/应答上输入 <a href="http://baike.baidu.com/view/1087294.htm" target="_blank" rel="noopener">服务端</a>下发的<br><a href="http://baike.baidu.com/view/1587048.htm" target="_blank" rel="noopener">挑战码</a>，
-<a href="http://baike.baidu.com/view/2525104.htm" target="_blank" rel="noopener">动态令牌</a>输入该挑战码，通过内置的算法上生成一个6/8位的随机数字，口令一次有效，这种技术目前应用最为普遍，包括刮刮卡、短信密码、动态令牌也有挑战/应答形式。</p>
-<p>使用阿里云身份宝（或者Google Authenticator）时间同步实现OTP动态口令</p>
-<p><img src="/blog/2019/05/18/其他/两步认证技术/153891-20170612032521540-59848474.png" alt>  </p>
-<p>如上图，是一种基于时间同步的OTP计算方式，是通过客户端和服务器持有相同的密钥并基于时间基数，服务端和客户端采用相同的Hash算法，计算出长度为六位的校验码。当客户端和服务端计算出的校验码相同是，那么验证通过。</p>
-<p> 　　由于客户端需要存储密钥和计算校验码的载体，阿里云的身份宝（或者Google<br>的Authenticator）提供了手机端的APP进行密钥存储和校验码计算。下面我们以这两款客户端为例，实现在应用采用OTP进行权限验证，主要流程如下图：</p>
-<p><img src="/blog/2019/05/18/其他/两步认证技术/153891-20170612032640962-1262511912.jpg" alt>  </p>
-<p>流程关键代码如下，（更详细代码，请Git下载:<a href="https://github.com/suyin58/otp-demo" target="_blank" rel="noopener">https://github.com/suyin58/otp-demo</a>）</p>
-<p>1           用户注册：</p>
-<p>1.1          生成OTP密钥：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String secretBase32 = TotpUtil.getRandomSecretBase32(64);</span><br><span class="line"></span><br><span class="line">oper.setOtpSk(secretBase32);</span><br></pre></td></tr></table></figure>
-
-<p>1.2          生成OTP扫描用字符串：</p>
-<p>约定字符串格式如下：</p>
-<ul>
-<li><a href="otpauth://totp/" target="_blank" rel="noopener">otpauth://totp/</a>[客户端显示的账户信息]?secret=[secretBase32]</li>
-</ul>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String totpProtocalString = TotpUtil.generateTotpString(operCode, host,</span><br><span class="line">secretBase32);</span><br></pre></td></tr></table></figure>
-
-
-
-<p>1.3          将1.2中生成的字符串生成二维码，通过邮件发送给用户</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">String host = &quot;otptest@wjs.com&quot;; // 自定义</span><br><span class="line"></span><br><span class="line">            String totpProtocalString = TotpUtil.generateTotpString(operCode,</span><br><span class="line">host, secretBase32);</span><br><span class="line"></span><br><span class="line">            String filePath = f_temp;</span><br><span class="line"></span><br><span class="line">            String fileName = Long.toString(System.currentTimeMillis()) +</span><br><span class="line">&quot;.png&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            try&#123;</span><br><span class="line"></span><br><span class="line">                QRUtil.generateMatrixPic(totpProtocalString, 150, 150,</span><br><span class="line">filePath, fileName);</span><br><span class="line"></span><br><span class="line">            &#125;catch (Exception e)&#123;</span><br><span class="line"></span><br><span class="line">                throw new RuntimeException(&quot;生成二维码图片失败:&quot; + e.getMessage());</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            String content = &quot;用户名：&quot;+operCode+&quot;&lt;/br&gt;&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                    +&quot;系统使用密码 +</span><br><span class="line">动态口令双因素认证的方式登录。&lt;/br&gt;请按以下方式激活手机动态口令：&lt;/br&gt;安卓用户请点击&lt;a</span><br><span class="line">href=&apos;http://otp.aliyun.com/updates/shenfenbao.apk&apos;&gt;下载&lt;/a&gt;，&quot;</span><br><span class="line"></span><br><span class="line">+&quot;&lt;/br&gt;苹果手机在AppStore中搜索【身份宝】（Alibaba）。下载安装后，通过扫描以下二维码激活动态口令。&lt;/br&gt;&quot;</span><br><span class="line"></span><br><span class="line">                    +&quot;&lt;img src=\&quot;cid:image\&quot;&gt;&quot;;</span><br><span class="line"></span><br><span class="line">            EmailBaseLogic emailBaseLogic = new EmailBaseLogic();</span><br><span class="line"></span><br><span class="line">//            String to, String title, String content, String imagePath</span><br><span class="line"></span><br><span class="line">            emailBaseLogic.sendWithPic(email,&quot;账户开立通知&quot;, content, filePath + &quot;/&quot;</span><br><span class="line">+ fileName);</span><br></pre></td></tr></table></figure>
-
-
-
-<p>1.4          将用户注册信息与1.1的OTP密钥存储到数据库中</p>
-<p>数据存储代码（略）</p>
-<p>2           客户端工具使用</p>
-<p>2.1          下载APP</p>
-<p>安卓用户下载地址：<a href="http://otp.aliyun.com/updates/shenfenbao.apk" target="_blank" rel="noopener">http://otp.aliyun.com/updates/shenfenbao.apk</a></p>
-<p>苹果手机在AppStore中搜索【身份宝】（Alibaba），或者Google Authenticator</p>
-<p>2.2          扫描二维码</p>
-<p>使用下载的APP，扫描1.3邮件中的二维码，客户端获取密钥。APP使用密钥基于时间算出6位校验码（每分钟变化）。</p>
-<p><img src="/blog/2019/05/18/其他/两步认证技术/153891-20170612033035103-1059335377.png" alt>  </p>
-<p>1           用户登录</p>
-<p>客户端输入登录用户名、用户密码，以及2.2客户端工具中的6位校验码。</p>
-<p>1.1          服务端根据用户名和用户密码获取用户信息和密钥</p>
-<p>代码参考略</p>
-<p>1.2          服务端使用密钥基于时间算出6位校验码</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">String secretHex = &quot;&quot;;</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line"></span><br><span class="line">            secretHex = HexEncoding.encode(Base32String.decode(secretBase32));</span><br><span class="line"></span><br><span class="line">        &#125; catch (Base32String.DecodingException e) &#123;</span><br><span class="line"></span><br><span class="line">            LOGGER.error(&quot;解码&quot; + secretBase32 + &quot;出错，&quot;, e);</span><br><span class="line"></span><br><span class="line">            throw new RuntimeException(&quot;解码Base32出错&quot;);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        long X = 30;</span><br><span class="line"></span><br><span class="line">        String steps = &quot;0&quot;;</span><br><span class="line"></span><br><span class="line">        DateFormat df = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span><br><span class="line"></span><br><span class="line">        df.setTimeZone(TimeZone.getTimeZone(&quot;UTC&quot;));</span><br><span class="line"></span><br><span class="line">        long currentTime = System.currentTimeMillis() / 1000L;</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line"></span><br><span class="line">            long t = currentTime / X;</span><br><span class="line"></span><br><span class="line">            steps = Long.toHexString(t).toUpperCase();</span><br><span class="line"></span><br><span class="line">            while (steps.length() &lt; 16) steps = &quot;0&quot; + steps;</span><br><span class="line"></span><br><span class="line">            return generateTOTP(secretHex, steps, &quot;6&quot;,</span><br><span class="line"></span><br><span class="line">                    &quot;HmacSHA1&quot;);</span><br><span class="line"></span><br><span class="line">        &#125; catch (final Exception e) &#123;</span><br><span class="line"></span><br><span class="line">            LOGGER.error(&quot;生成动态口令出错：&quot; + secretBase32, e);</span><br><span class="line"></span><br><span class="line">            throw new RuntimeException(&quot;生成动态口令出错&quot;);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-
-<p>1.3          比较客户端和客户端校验码是否一致</p>
-<p>代码参考略</p>
-<p>其他，Demo中的例子可以使用身份 + 密码，先进行密码验证，在通过动态口令进行二次验证，使系统登录更加安全可靠。</p>
-<hr>
-<p>Google<br>Authenticator是谷歌推出的一款动态口令工具，旨在解决大家Google账户遭到恶意攻击的问题，在手机端生成动态口令后，在Google相关的服务登陆中除了用正常用户名和密码外，需要输入一次动态口令才能验证成功，此举是为了保护用户的信息安全。那么，Authenticator采用了哪些算法？又是如何实现的？且看本文技术解读。</p>
-<p><a href="http://cms.csdnimg.cn/article/201409/19/541be3f512623.jpg" target="_blank" rel="noopener"></a></p>
-<p><a href="http://cms.csdnimg.cn/article/201409/19/541be3f512623.jpg" target="_blank" rel="noopener"><img src="http://cms.csdnimg.cn/article/201409/19/541be3f512623.jpg" alt></a></p>
-<p><a href="http://cms.csdnimg.cn/article/201409/19/541be3f512623.jpg" target="_blank" rel="noopener"></a></p>
-<p>很多手机用户会使用 [Google Authenticator](<a href="https://code.google.com/p/google-" target="_blank" rel="noopener">https://code.google.com/p/google-</a><br>authenticator/)（谷歌身份认证）来生成认证令牌，与传统单因子密码不同，其采用的是更安全的双因子（2FA <a href="http://tools.ietf.org/html/rfc6238" target="_blank" rel="noopener">two-factor<br>authentication</a>）认证。FA是指结合密码以及实物（信用卡、SMS手机、令牌或指纹等生物标志）两种条件对用户进行认证的方法。只需要在手机上安装如此高大上的密码生成应用程序，就可以生成一个随着时间变化的一次性密码，用于帐户验证，而且这个应用程序不需要连接网络即可工作。</p>
-<p>实际上Google Authenticator采用的算法是TOTP（Time-Based One-Time<br>Password基于时间的一次性密码），其核心内容包括以下三点：</p>
-<p>一个共享密钥（一个比特序列）；</p>
-<p>当前时间输入；</p>
-<p>一个签署函数。</p>
-<p>共享密钥</p>
-<p>共享密码用于在手机端上建立账户。密码内容可以是通过手机拍照二维码或者手工输入，并会被进行base32加密。</p>
-<p>手工密码的输入格式如下：</p>
-<p>xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx</p>
-<p>包含该令牌的二维码的内容是一个URL：</p>
-<p>otpauth://totp/Google%3Ayourname@gmail.com?secret=xxxx&amp;issuer=Google</p>
-<p>时间输入(当前时间)</p>
-<p>输入的时间值来自于手机本身，一旦我们获得密钥后，就无需与服务器再进行通信了。但是最重要一点是务必确保手机上的时间是正确的，因为往后的步骤服务器会多次重复使用之前得到的时间值，服务器只会认准这个值。进一步说，服务器会比对所有提交的令牌以确认哪一个是你输入并提交的。</p>
-<p>签署</p>
-<p>签署所使用的方法是HMAC-SHA1。HMAC的全称是Hash-based message authentication<br>code(哈希运算消息认证码)，以一个密钥和一个消息为输入，生成一个消息摘要作为输出，这里以SHA1作为消息输入。使用HMAC的原因是：只有用户本身知道正确的输入密钥，因此会得到唯一的输出。其算法可以简单表示为：</p>
-<p>hmac = SHA1(secret + SHA1(secret + input))</p>
-<p>事实上，TOTP是HMAC-OTP（基于HMAC的一次密码生成）的超集，区别是TOTP以当前时间作为输入，而HMAC-<br>OTP以自增计算器作为输入，该计数器使用时需要进行同步。</p>
-<p>算法</p>
-<p>首先，要进行密钥的base32加密。虽然谷歌上的密钥格式是带空格的，不过base32拒绝空格输入，并只允许大写。所以要作如下处理：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">original_secret = xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx</span><br><span class="line"></span><br><span class="line">secret = BASE32_DECODE(TO_UPPERCASE(REMOVE_SPACES(original_secret)))</span><br></pre></td></tr></table></figure>
-
-
-
-<p>第二步要获取当前时间值，这里使用的是<a href="https://en.wikipedia.org/wiki/Unix_time" target="_blank" rel="noopener">UNIX<br>time</a>函数，或者可以用纪元秒。</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">input = CURRENT_UNIX_TIME()</span><br></pre></td></tr></table></figure>
-
-
-
-<p>在Google Authenticator中，input值拥有一个有效期。因为如果直接根据时间进行计算，结果将时刻发生改变，那么将很难进行复用。Google<br>Authenticator默认使用30秒作为有效期(时间片)，最后input的取值为从Unix epoch（1970年1月1日<br>00:00:00）来经历的30秒的个数。</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">input = CURRENT_UNIX_TIME() / 30</span><br></pre></td></tr></table></figure>
-
-
-
-<p>最后一步是进行HMAC-SHA1运算</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">original_secret = xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx</span><br><span class="line"></span><br><span class="line">secret = BASE32_DECODE(TO_UPPERCASE(REMOVE_SPACES(original_secret)))</span><br><span class="line"></span><br><span class="line">input = CURRENT_UNIX_TIME() / 30</span><br><span class="line"></span><br><span class="line">hmac = SHA1(secret + SHA1(secret + input))</span><br></pre></td></tr></table></figure>
-
-
-
-<p>至此，2FA所需的两个因子都已准备就绪了。但是HMAC运算后的结果会是20字节即40位16进制数，应该没有人会愿意每次都输入这么长的密码。我们需要的是常规6位数字密码！</p>
-<p>要实现这个愿望，首先要对20字节的SHA1进行瘦身。我们把SHA1的最后4个比特数（每个数的取值是0~15）用来做索引号，然后用另外的4个字节进行索引。因此，索引号的操作范围是15+4=19，加上是以零开始，所以能完整表示20字节的信息。4字节的获取方法是：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">four_bytes = hmac[LAST_BYTE(hmac):LAST_BYTE(hmac) + 4]</span><br></pre></td></tr></table></figure>
-
-
-
-<p>然后将它转化为标准的32bit无符号整数(4 bytes = 32 bit)：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">large_integer = INT(four_bytes)</span><br></pre></td></tr></table></figure>
-
-
-
-<p>最后再进行7位数(1百万)取整，就可得到6位数字了：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">large_integer = INT(four_bytes)</span><br><span class="line"></span><br><span class="line">small_integer = large_integer % 1,000,000</span><br></pre></td></tr></table></figure>
-
-
-
-<p>这也是我们最后要的目标结果，整个过程总结如下：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">original_secret = xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx</span><br><span class="line"></span><br><span class="line">secret = BASE32_DECODE(TO_UPPERCASE(REMOVE_SPACES(original_secret)))</span><br><span class="line"></span><br><span class="line">input = CURRENT_UNIX_TIME() / 30</span><br><span class="line"></span><br><span class="line">hmac = SHA1(secret + SHA1(secret + input))</span><br><span class="line"></span><br><span class="line">four_bytes = hmac[LAST_BYTE(hmac):LAST_BYTE(hmac) + 4]</span><br><span class="line"></span><br><span class="line">large_integer = INT(four_bytes)</span><br><span class="line"></span><br><span class="line">small_integer = large_integer % 1,000,000</span><br></pre></td></tr></table></figure>
-
-
-
-<p>我在这里准备了一个完整可执行的GO语言程序，感兴趣的朋友请点击点击 [这里](<a href="https://github.com/robbiev/two-factor-" target="_blank" rel="noopener">https://github.com/robbiev/two-factor-</a><br>auth)进行查看。</p>
-<p>英文出自： [Garbagecollected](<a href="http://garbagecollected.org/2014/09/14/how-google-" target="_blank" rel="noopener">http://garbagecollected.org/2014/09/14/how-google-</a><br>authenticator-works/)  </p>
-<hr>
-<p>当你使用网银时，网站要求提供六位数动态口令。那么网站是如何验证这六位数是不是正确的呢？验证原理是什么？</p>
-<p>令牌实际相当于一个密码本，输进去AAA得到BBB，BBB是正确答案，验证通过。实际用的时候还会令牌会有一个时间有效性的问题，在不同的时间里输入AAA得到的答案是不同的，服务器端认为的正确答案是在随时间变动的，前一分钟有可能是DDD，后一分钟可能是MMM，一般在一个有效时间段（一般为一分钟）才会得到的答案BBB，</p>
-<p>每个令牌都有不同ID，帐号先与令牌ID绑定，令牌会根据自身的特定ID与当前时间来计算出6位的随机码。服务器端程序因为<br>有了令牌ID，所以也可以根据这个令牌的特征和当前时间来生成同样的随机码，然后你提交令牌生成的验证码，服务器会验证与它自己生成的是否一致，一致就通过，不一致就提示错误……</p>
-<p>动态口令牌使用唯一的128位种子将其初始化；其内部芯片每分钟都会使用一种算法，组合该种子与当前时间，生成一个随机的数字。而在认证服务器则采取和这个动态密码器同一种算法产生该随机数字，保证动态密码器和我行网银服务器的单一认证，就像每个客户都有了世界上独一无二的身份认证，保证客户使用网银的安全性。</p>
-<p>服务器端和每个对应的“动态口令牌”都使用同样的一套算法，可以自定义计算数组的时间间隔。每批次“动态口令牌”都拥有唯一的序列号，然后服务器端和“动态口令牌”执行相同的计算程序，在设定好的相同的更新时间计算出新的数组.</p>
-<p>其实上网输入密码服务器验证时跟这个动态口令牌没有有直接物理联系，唯一有联系就是二者根据唯一的序列号，利用公式，你算你的，我算我的。但同一时间算出的数字都是一样的，要不就会验证不能通过，这个6位阿拉伯数字的计算过程中时间是一个很重要的参数，使用时间参数时2者的时间必须要保持一致，要不就会时间不同步导致动态口令牌失效！</p>
-<p>对于失去时间同步的令牌，目前可以通过增大偏移量的技术（前后10分钟）来进行远程同步，确保其能够继续使用，降低对应用的影响，但对于超出默认（共20分钟）的时间同步令牌，将无法继续使用或进行远程同步，必须返厂或送回服务器端另行处理。</p>
-<p>原理</p>
-<p>动态密码的密码其实不是随机的，而是由规律的。当下动态密码分为两类，时间性和事件性。何为时间性动态密码?该类令牌产出动态密码是以时间为参数的，而事件性一般以使用次数为参数的。我们以时间性动态为主要说明对象。整个验证的过程如下：</p>
-<p>1.动态密码令牌产生动态密码 以时间和种子为参数，进行迭代，得出动态密码，这里的时间一般是秒数。每个时间性动态密码令牌中会内置一个时钟芯片。</p>
-<p>2.服务器校验动态密码。 服务器读取系统时间加上种子，以相同的迭代方法得出动态密码，然后双方进行比对。</p>
-<p>讲到这边，可能有所怀疑难道令牌的时间和服务器的时间一定会一致吗？我的答案肯定是不一致的。那怎么能检验的过去呢？原来很简单，服务器校验是是在一个时间区间里校验的，比如现在是12：00，服务器会生成11：55-12：05中所有的动态密码，然后和令牌产生的动态密码比对，这样不就解决了时间不一致的问题了。另外服务器会把令牌和服务器相差的时间记录下来，下次检验的会先把这个偏移值记录下来，以减少动态密码迭代次数，这样就完成了另外一个比较重要的功能，偏移值自动调整。</p>
-<p>动态口令，又叫动态令牌、动态密码。它的主要原理是:<br>用户登录前，依据用户私人身份信息，并引入随机数产生随机变化的口令，使每次登录过程中传送的口令信息都不同，以提高登录过程中用户身份认证的安全性。</p>
-<p>　　银行通常提供给用户两种动态口令:<br>一种是固定数量的动态口令，最常见的就是刮刮卡。用户每次根据银行提示，刮开卡上相应区域的涂层，即可获得一个口令。刮刮卡成本低廉，使用方法简单，因此很多银行采用这种方法，如工商银行;<br>另一种是硬件形式的动态口令，即电子令牌，它采用专用硬件，每次可以用自带的密码生成芯片得到一个当前可用的一次性动态密码，交通银行等就采用这种方式。一般来讲，每个客户端的电子令牌都有一个唯一的密钥，该密钥同时存放在服务器端，每次认证时令牌与服务器分别根据同样的密钥，同样的随机数和同样的<a href="http://lib.csdn.net/base/datastructure" title="算法与数据结构知识库" target="_blank" rel="noopener">算法</a>计算出认证时的动态口令，从而确保口令的一致性和认证的成功。因每次认证时，随机数的参数不同，所以每次产生的动态口令也不同。每次计算时参数的随机性保证了每次口令不可预测，以保证系统安全。</p>
-<p>OTP与常用认证技术比较</p>
-<pre><code>目前在信息系统中使用的增强型认证技术包括：
-
-1 USBKey： 申请PKI证书。
-
-2 动态口令卡：打印好的密码刮刮卡。
-
-3 动态短信：使用电信通道下发口令。
-
-4 IC卡/SIM卡：内置与用户身份相关的信息。
-
-5 生物特征：采用独一无二的生物特征来验证身份，如指纹。
-
-6 动态令牌：动态口令生成器和认证系统。
-
-
-
-动态口令认证技术不足</code></pre><p>动态口令认证技术没有第3方权威机构认证，如果业务应用系统安全策略不完善的情况下，可能会受到中间人攻击。如某某银行使用时间型动态令牌受到网络钓鱼攻击。建议在应用中完善安全使用策略，划清口令使用权限，加强交易系统流程控制，用以提高系统安全性。  </p>
-<p>otpauth://totp/oa?secret=63985989418859891633&amp;period=60&amp;digits=8</p>
-<p>secret：密钥，也就是上面生成的seed</p>
-<p>period:每60秒生成一次</p>
-<p>digits：生成的随机码长度  </p>
-<hr>
-<p>Golang的实现</p>
-<p><a href="https://www.jianshu.com/p/e4b574be0ba6" target="_blank" rel="noopener">https://www.jianshu.com/p/e4b574be0ba6</a></p>
-<p>Java服务端的实现：</p>
-<p><a href="https://github.com/wstrange/GoogleAuth" target="_blank" rel="noopener">https://github.com/wstrange/GoogleAuth</a></p>
-<p><a href="https://github.com/suyin58/otp-demo" target="_blank" rel="noopener">https://github.com/suyin58/otp-demo</a></p>
-<p>Python的实现：</p>
-<p><a href="https://github.com/sahands/python-totp" target="_blank" rel="noopener">https://github.com/sahands/python-totp</a></p>
-<p>Flutter、Dart的实现：</p>
-<p><a href="https://github.com/vubon/dart-totp" target="_blank" rel="noopener">https://github.com/vubon/dart-totp</a></p>
-<p>算法原理：</p>
-<p><a href="https://blog.csdn.net/qq_29951983/article/details/80814272" target="_blank" rel="noopener">https://blog.csdn.net/qq_29951983/article/details/80814272</a></p>
-<p>Measure</p>
-<p>Measure</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-05-18T07:35:42.988Z">2019-05-18</time>
                 
                 <div class="level-item">
@@ -931,6 +656,70 @@ var _hmt = _hmt || [];
 
 
 
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-18T07:35:42.682Z">2019-05-18</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    2 分钟 读完 (大约 225 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/18/后端/直播平台整体架构/">直播平台整体架构</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="直播平台整体架构"><a href="#直播平台整体架构" class="headerlink" title="直播平台整体架构"></a><strong>直播平台整体架构</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/1535867952868e18945c7e8" alt></p>
+<h2 id="视频直播链路"><a href="#视频直播链路" class="headerlink" title="视频直播链路"></a><strong>视频直播链路</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/15358679530037a60ec8deb" alt></p>
+<h2 id="视频流转换成不同清晰度"><a href="#视频流转换成不同清晰度" class="headerlink" title="视频流转换成不同清晰度"></a><strong>视频流转换成不同清晰度</strong></h2><h2 id="不同的端，不同的网络环境，需要不同码率，以保流畅"><a href="#不同的端，不同的网络环境，需要不同码率，以保流畅" class="headerlink" title="不同的端，不同的网络环境，需要不同码率，以保流畅"></a><strong>不同的端，不同的网络环境，需要不同码率，以保流畅</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/1535867952784af9caca33c" alt></p>
+<h2 id="播放器的基本实现"><a href="#播放器的基本实现" class="headerlink" title="播放器的基本实现"></a><strong>播放器的基本实现</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/1535867952823f205c9cdb6" alt></p>
+<h2 id="SDK在播放器上做层管理"><a href="#SDK在播放器上做层管理" class="headerlink" title="SDK在播放器上做层管理"></a><strong>SDK在播放器上做层管理</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/15358679529403b696c06bb" alt></p>
+<h2 id="视频相关技术细节"><a href="#视频相关技术细节" class="headerlink" title="视频相关技术细节"></a><strong>视频相关技术细节</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/15358679527144b9bed22ff" alt></p>
+<h2 id><a href="#" class="headerlink" title=" "></a> </h2><h2 id="消息发送流程"><a href="#消息发送流程" class="headerlink" title="消息发送流程"></a><strong>消息发送流程</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/15358679531845543fb4199" alt></p>
+<h2 id="不同消息通道的优劣对比"><a href="#不同消息通道的优劣对比" class="headerlink" title="不同消息通道的优劣对比"></a><strong>不同消息通道的优劣对比</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/1535867953331537afd74b2" alt></p>
+<h2 id="-1"><a href="#-1" class="headerlink" title=" "></a> </h2><h2 id="心跳及房间结构"><a href="#心跳及房间结构" class="headerlink" title="心跳及房间结构"></a><strong>心跳及房间结构</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/1535867953146faab4800d4" alt></p>
+<h2 id="用户按需分桶"><a href="#用户按需分桶" class="headerlink" title="用户按需分桶"></a><strong>用户按需分桶</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/15358679532924f0774329b" alt></p>
+<h2 id="固定分桶与按需分桶对比"><a href="#固定分桶与按需分桶对比" class="headerlink" title="固定分桶与按需分桶对比"></a><strong>固定分桶与按需分桶对比</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/1535867953344f218310755" alt></p>
+<h2 id="-2"><a href="#-2" class="headerlink" title=" "></a> </h2><h2 id="关键词及垃圾文本过滤"><a href="#关键词及垃圾文本过滤" class="headerlink" title="关键词及垃圾文本过滤"></a><strong>关键词及垃圾文本过滤</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/15358679535110f1b1854de" alt></p>
+<h2 id="-3"><a href="#-3" class="headerlink" title=" "></a> </h2><h2 id="大促风险控制"><a href="#大促风险控制" class="headerlink" title="大促风险控制"></a><strong>大促风险控制</strong></h2><p><img src="/blog/2019/05/18/后端/直播平台整体架构/1535867953551feb529dc15" alt></p>
+<p> <strong>平台化的挑战</strong></p>
+<p><img src="/blog/2019/05/18/后端/直播平台整体架构/1535867953457d07a82709a" alt></p>
+<p> <strong>想了解可以私信我！</strong></p>
+<p> <strong>1 SpringBoot+ 高并发消息处理 EDM?项目 实战</strong></p>
+<p> <strong>2 SpringBoot ELK?分布式 数据分析</strong></p>
+<p> <strong>3 Netty?高 并发 UTS?项目实战</strong></p>
+<p> <strong>4 SpringCloud?微服务+NoSQL+ 负载均衡平台设计</strong></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
     
 <div class="card card-transparent">
@@ -955,7 +744,7 @@ var _hmt = _hmt || [];
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/47/">47</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/46/">46</a></li>
             
         </ul>
     </nav>
@@ -1003,7 +792,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        139
+                        138
                     </p>
                 </div>
             </div>
@@ -1129,7 +918,7 @@ var _hmt = _hmt || [];
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -1194,19 +983,6 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -1255,6 +1031,19 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -1273,7 +1062,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -1406,7 +1195,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 
@@ -1521,19 +1310,6 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -1582,6 +1358,19 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -1600,7 +1389,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -1733,7 +1522,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 

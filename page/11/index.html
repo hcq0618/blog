@@ -153,92 +153,6 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    8 分钟 读完 (大约 1231 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/">DB主从一致性架构优化4种方法</a>
-            
-        </h1>
-        <div class="content">
-            <p>需求缘起</p>
-<p>大部分互联网的业务都是“读多写少”的场景，数据库层面，读性能往往成为瓶颈。如下图：业界通常采用“一主多从，读写分离，冗余多个读库”的数据库架构来提升数据库的读性能。</p>
-<p>这种架构的一个潜在缺点是，业务方有可能读取到并不是最新的旧数据：</p>
-<p>（1）系统先对DB-master进行了一个写操作，写主库</p>
-<p>（2）很短的时间内并发进行了一个读操作，读从库，此时主从同步没有完成，故读取到了一个旧数据</p>
-<p>（3）主从同步完成</p>
-<p>有没有办法解决或者缓解这类“由于主从延时导致读取到旧数据”的问题呢，这是本文要集中讨论的问题。</p>
-<p>方案一（半同步复制）</p>
-<p>不一致是因为写完成后，主从同步有一个时间差，假设是500ms，这个时间差有读请求落到从库上产生的。有没有办法做到，等主从同步完成之后，主库上的写请求再返回呢？答案是肯定的，就是大家常说的“半同步复制<br>”semi-sync：</p>
-<p>（1）系统先对DB-master进行了一个写操作，写主库</p>
-<p>（2）等主从同步完成，写主库的请求才返回</p>
-<p>（3）读从库，读到最新的数据（如果读请求先完成，写请求后完成，读取到的是“当时”最新的数据）</p>
-<p>方案优点：利用数据库原生功能，比较简单</p>
-<p>方案缺点：主库的写请求时延会增长，吞吐量会降低</p>
-<p>方案二（强制读主库）</p>
-<p>如果不使用“增加从库”的方式来增加提升系统的读性能，完全可以读写都落到主库，这样就不会出现不一致了：</p>
-<p>方案优点：“一致性”上不需要进行系统改造</p>
-<p>方案缺点：只能通过cache来提升系统的读性能，这里要进行系统改造</p>
-<p>方案三（数据库中间件）</p>
-<p>如果有了数据库中间件，所有的数据库请求都走中间件，这个主从不一致的问题可以这么解决：</p>
-<p>（1）所有的读写都走数据库中间件，通常情况下，写请求路由到主库，读请求路由到从库</p>
-<p>（2）记录所有路由到写库的key，在经验主从同步时间窗口内（假设是500ms），如果有读请求访问中间件，此时有可能从库还是旧数据，就把这个key上的读请求路由到主库</p>
-<p>（3）经验主从同步时间过完后，对应key的读请求继续路由到从库</p>
-<p>方案优点：能保证绝对一致</p>
-<p>方案缺点：数据库中间件的成本比较高</p>
-<p>方案四（缓存记录写key法）</p>
-<p>既然数据库中间件的成本比较高，有没有更低成本的方案来记录某一个库的某一个key上发生了写请求呢？很容易想到使用缓存，当写请求发生的时候：</p>
-<p>（1）将某个库上的某个key要发生写操作，记录在cache里，并设置“经验主从同步时间”的cache超时时间，例如500ms</p>
-<p>（2）修改数据库</p>
-<p>而读请求发生的时候：</p>
-<p>（1）先到cache里查看，对应库的对应key有没有相关数据</p>
-<p>（2）如果cache hit，有相关数据，说明这个key上刚发生过写操作，此时需要将请求路由到主库读最新的数据</p>
-<p>（3）如果cache miss，说明这个key上近期没有发生过写操作，此时将请求路由到从库，继续读写分离</p>
-<p>方案优点：相对数据库中间件，成本较低</p>
-<p>方案缺点：为了保证“一致性”，引入了一个cache组件，并且读写数据库时都多了一步cache操作</p>
-<p>总结</p>
-<p>为了解决主从数据库读取旧数据的问题，常用的方案有四种：</p>
-<p>（1）半同步复制</p>
-<p>（2）强制读主</p>
-<p>（3）数据库中间件</p>
-<p>（4）缓存记录写key</p>
-<p>前3个方案在今年数据库大会（DTCC2016）上share过，相关的材料在网上能下载到。第4个方案是大会现场有其他同学share的一个好方法，感谢这位同学。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-05-18T08:26:29.166Z">2019-05-18</time>
                 
                 <div class="level-item">
@@ -456,6 +370,170 @@ var _hmt = _hmt || [];
 
 
 
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-18T07:35:43.400Z">2019-05-18</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/其他/">其他</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    16 分钟 读完 (大约 2372 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/18/其他/渐进式加载/">渐进式加载</a>
+            
+        </h1>
+        <div class="content">
+            <p>#####<br>我们在PC端用浏览器看图片的时候,经常是先看到一张模糊图,然后再渐渐的变得清晰,这种情况在看漫画的时候尤其常见(模糊图如下),这种效果就叫做渐进式加载.渐进式加载能够大大的提升体验感,我们先来了解一下渐进式加载的原理.</p>
+<p><img src="/blog/2019/05/18/其他/渐进式加载/20170313095152120" alt>  </p>
+<p>(图片来自网络)</p>
+<h1 id="1-JPEG"><a href="#1-JPEG" class="headerlink" title="1.JPEG"></a>1.JPEG</h1><h5 id="要做到渐进式加载-我们的图片需要是JPEG格式-而JPEG格式的图片又分为两种-我们要做到渐进式加载的话-需要的是Progressive"><a href="#要做到渐进式加载-我们的图片需要是JPEG格式-而JPEG格式的图片又分为两种-我们要做到渐进式加载的话-需要的是Progressive" class="headerlink" title="要做到渐进式加载,我们的图片需要是JPEG格式,而JPEG格式的图片又分为两种,我们要做到渐进式加载的话,需要的是Progressive"></a>要做到渐进式加载,我们的图片需要是JPEG格式,而JPEG格式的图片又分为两种,我们要做到渐进式加载的话,需要的是Progressive</h5><p>JPEG.</p>
+<h2 id="1-Baseline-JPEG（标准型）"><a href="#1-Baseline-JPEG（标准型）" class="headerlink" title="(1)Baseline JPEG（标准型）"></a>(1)Baseline JPEG（标准型）</h2><h5 id="这种格式的图片在保存信息的时候-是从上往下-将每一行的数据顺序的保存起来的-所以读一部分就展示的话-那么效果就会像是从上往下一点一点展示"><a href="#这种格式的图片在保存信息的时候-是从上往下-将每一行的数据顺序的保存起来的-所以读一部分就展示的话-那么效果就会像是从上往下一点一点展示" class="headerlink" title="这种格式的图片在保存信息的时候,是从上往下,将每一行的数据顺序的保存起来的,所以读一部分就展示的话,那么效果就会像是从上往下一点一点展示."></a>这种格式的图片在保存信息的时候,是从上往下,将每一行的数据顺序的保存起来的,所以读一部分就展示的话,那么效果就会像是从上往下一点一点展示.</h5><p><img src="/blog/2019/05/18/其他/渐进式加载/20170313100343394" alt>  </p>
+<p>(图片来自网络)</p>
+<h2 id="2-Progressive-JPEG（渐进式）"><a href="#2-Progressive-JPEG（渐进式）" class="headerlink" title="(2)Progressive JPEG（渐进式）"></a>(2)Progressive JPEG（渐进式）</h2><h5 id="这种格式的图片在保存信息的时候-是一帧一帧的存储的-如果逐帧逐帧的读的话-就会先看到模糊图-然后一点一点变清晰"><a href="#这种格式的图片在保存信息的时候-是一帧一帧的存储的-如果逐帧逐帧的读的话-就会先看到模糊图-然后一点一点变清晰" class="headerlink" title="这种格式的图片在保存信息的时候,是一帧一帧的存储的,如果逐帧逐帧的读的话,就会先看到模糊图,然后一点一点变清晰"></a>这种格式的图片在保存信息的时候,是一帧一帧的存储的,如果逐帧逐帧的读的话,就会先看到模糊图,然后一点一点变清晰</h5><p><img src="/blog/2019/05/18/其他/渐进式加载/20170313100326754" alt>  </p>
+<p>(图片来自网络)</p>
+<hr>
+<p><img src="/blog/2019/05/18/其他/渐进式加载/20170313101158851" alt>  </p>
+<p>(图片来自网络)</p>
+<h1 id="2-解码"><a href="#2-解码" class="headerlink" title="2.解码"></a>2.解码</h1><h5 id="如何判断是否JPEG格式的图片呢-下面引用一段Glide框架的代码"><a href="#如何判断是否JPEG格式的图片呢-下面引用一段Glide框架的代码" class="headerlink" title="如何判断是否JPEG格式的图片呢?下面引用一段Glide框架的代码"></a>如何判断是否JPEG格式的图片呢?下面引用一段Glide框架的代码</h5><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//ImageHeaderParser.java</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">private static final int EXIF_MAGIC_NUMBER = 0xFFD8;</span><br><span class="line"></span><br><span class="line">// JPEG.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if (firstTwoBytes == EXIF_MAGIC_NUMBER) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">return JPEG;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="我们可以看出-JPEG是以FFD8开头的"><a href="#我们可以看出-JPEG是以FFD8开头的" class="headerlink" title="我们可以看出,JPEG是以FFD8开头的"></a>我们可以看出,JPEG是以FFD8开头的</h5><h5 id="其实JPEG是以FFD8开头-FFD9结尾-FFDA代表一个帧的开头"><a href="#其实JPEG是以FFD8开头-FFD9结尾-FFDA代表一个帧的开头" class="headerlink" title="其实JPEG是以FFD8开头,FFD9结尾,FFDA代表一个帧的开头"></a>其实JPEG是以FFD8开头,FFD9结尾,FFDA代表一个帧的开头</h5><p>FFD8 … FFDA … FFDA … FFDA … FFD9</p>
+<p>1</p>
+<h5 id="Baseline-JPEG-里面只有一个FFDA"><a href="#Baseline-JPEG-里面只有一个FFDA" class="headerlink" title="Baseline JPEG 里面只有一个FFDA"></a>Baseline JPEG 里面只有一个FFDA</h5><h5 id="Progressive-JPEG-里面含有多个FFDA"><a href="#Progressive-JPEG-里面含有多个FFDA" class="headerlink" title="Progressive JPEG 里面含有多个FFDA"></a>Progressive JPEG 里面含有多个FFDA</h5><h4 id="比较完整的数据结构如下"><a href="#比较完整的数据结构如下" class="headerlink" title="比较完整的数据结构如下"></a>比较完整的数据结构如下</h4><p><img src="/blog/2019/05/18/其他/渐进式加载/SouthEast" alt>  </p>
+<p>(图片来自Wiki)</p>
+<p><a href="https://en.wikipedia.org/wiki/JPEG" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/JPEG</a></p>
+<h1 id="3-如何保存或者转换成JPEG"><a href="#3-如何保存或者转换成JPEG" class="headerlink" title="3.如何保存或者转换成JPEG"></a>3.如何保存或者转换成JPEG</h1><p>(以下转换方法来自网络,由于非<a href="http://lib.csdn.net/base/javase" title="Java
+SE知识库" target="_blank" rel="noopener">Java</a>代码,所以没有做验证,特此说明一下)</p>
+<h3 id="1、PhotoShop"><a href="#1、PhotoShop" class="headerlink" title="1、PhotoShop"></a>1、PhotoShop</h3><p>在photoshop中有“存储为web所用格式”，打开后选择“连续”就是渐进式JPEG。</p>
+<p><img src="/blog/2019/05/18/其他/渐进式加载/20170313101544419" alt>  </p>
+<p>据说，需要勾选那个转换为sRGB选项，在某些浏览器下，图像设置为CMYK会出现一些问题！</p>
+<p><img src="/blog/2019/05/18/其他/渐进式加载/E6AE6EF5-D9BF-4007-9EBE-8648688C6550.png" alt>  </p>
+<p>ps保存为png-24且勾选交错才能把图片保存为渐进式图片</p>
+<p>测试效果如下：</p>
+<p><img src="/blog/2019/05/18/其他/渐进式加载/164A38DA-811B-409A-95CB-6AC2D8403FEA.gif" alt>  </p>
+<h3 id="2、Linux"><a href="#2、Linux" class="headerlink" title="2、Linux"></a>2、Linux</h3><p>检测是否为progressive jpeg ： identify -verbose filename.jpg | grep Interlace（如果输出<br>None 说明不是progressive jpeg；如果输出 Plane 说明是 progressive jpeg。）</p>
+<p>将basic jpeg转换成progressive jpeg：&gt; convert infile.jpg -interlace Plane<br>outfile.jpg</p>
+<h3 id="3、PHP"><a href="#3、PHP" class="headerlink" title="3、PHP"></a>3、PHP</h3><p>使用imageinterlace和imagejpeg函数我们可以轻松解决转换问题。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">$im = imagecreatefromjpeg(&apos;pic.jpg&apos;);</span><br><span class="line"></span><br><span class="line">imageinterlace($im, 1);</span><br><span class="line"></span><br><span class="line">imagejpeg($im, &apos;./php_interlaced.jpg&apos;, 100);</span><br><span class="line"></span><br><span class="line">imagedestroy($im);</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="4、Python"><a href="#4、Python" class="headerlink" title="4、Python"></a>4、Python</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import PIL</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">from exceptions import IOError</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">img = PIL.Image.open(&quot;c:\\\users\\\biaodianfu\\\pictures\\\in.jpg&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">destination = &quot;c:\\\users\\\biaodianfu\\\pictures\\\test.jpeg&quot;</span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">img.save(destination, &quot;JPEG&quot;, quality=80, optimize=True, progressive=True)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">except IOError:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">PIL.ImageFile.MAXBLOCK = img.size[0] * img.size[1]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">img.save(destination, &quot;JPEG&quot;, quality=80, optimize=True, progressive=True)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="5、jpegtran"><a href="#5、jpegtran" class="headerlink" title="5、jpegtran"></a>5、jpegtran</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jpegtran -copy none -progressive &lt;inputfile&gt;&lt;outputfile&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="6、C"><a href="#6、C" class="headerlink" title="6、C"></a>6、C</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">using (Image source = Image.FromFile(@&quot;D:\temp\test2.jpg&quot;)) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ImageCodecInfo codec = ImageCodecInfo.GetImageEncoders().First(c =&gt; c.MimeType</span><br><span class="line">== &quot;image/jpeg&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">EncoderParameters parameters = new EncoderParameters(3);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">parameters.Param[0] = new</span><br><span class="line">EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 100L);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">parameters.Param[1] = new</span><br><span class="line">EncoderParameter(System.Drawing.Imaging.Encoder.ScanMethod,</span><br><span class="line">(int)EncoderValue.ScanMethodInterlaced);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">parameters.Param[2] = new</span><br><span class="line">EncoderParameter(System.Drawing.Imaging.Encoder.RenderMethod,</span><br><span class="line">(int)EncoderValue.RenderProgressive);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">source.Save(@&quot;D:\temp\saved.jpg&quot;, codec, parameters);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>7、C#转换</p>
+<p>据说是如下的代码：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">using (Image source = Image.FromFile(@&quot;D:\temp\test2.jpg&quot;)) &#123;</span><br><span class="line"></span><br><span class="line">ImageCodecInfo codec = ImageCodecInfo.GetImageEncoders().First(c =&gt; c.MimeType</span><br><span class="line">== &quot;image/jpeg&quot;);</span><br><span class="line"></span><br><span class="line">EncoderParameters parameters = new EncoderParameters(3);</span><br><span class="line"></span><br><span class="line">parameters.Param[0] = new</span><br><span class="line">EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 100L);</span><br><span class="line"></span><br><span class="line">parameters.Param[1] = new</span><br><span class="line">EncoderParameter(System.Drawing.Imaging.Encoder.ScanMethod,</span><br><span class="line">(int)EncoderValue.ScanMethodInterlaced);</span><br><span class="line"></span><br><span class="line">parameters.Param[2] = new</span><br><span class="line">EncoderParameter(System.Drawing.Imaging.Encoder.RenderMethod,</span><br><span class="line">(int)EncoderValue.RenderProgressive);</span><br><span class="line"></span><br><span class="line">source.Save(@&quot;D:\temp\saved.jpg&quot;, codec, parameters);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p> <strong>8、java</strong></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"></span><br><span class="line">* 转换图片为 流式加载</span><br><span class="line"></span><br><span class="line">* @author zhaosx</span><br><span class="line"></span><br><span class="line">*</span><br><span class="line"></span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">public class ProgressiveJPEG &#123;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws Exception &#123;</span><br><span class="line"></span><br><span class="line">        File file=new File(&quot;Z:/2.jpg&quot;);</span><br><span class="line"></span><br><span class="line">        BufferedImage image = ImageIO.read(file);</span><br><span class="line"></span><br><span class="line">        Iterator&lt;ImageWriter&gt; it =</span><br><span class="line">ImageIO.getImageWritersByFormatName(&quot;jpeg&quot;);</span><br><span class="line"></span><br><span class="line">        ImageWriter writer=null;</span><br><span class="line"></span><br><span class="line">        while(it.hasNext()) &#123;</span><br><span class="line"></span><br><span class="line">             writer=it.next();</span><br><span class="line"></span><br><span class="line">             break;</span><br><span class="line"></span><br><span class="line">             //System.out.println(it.next());</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if(writer!=null) &#123;</span><br><span class="line"></span><br><span class="line">             ImageWriteParam params = writer.getDefaultWriteParam();</span><br><span class="line"></span><br><span class="line">             params.setProgressiveMode(ImageWriteParam.MODE_DEFAULT);</span><br><span class="line"></span><br><span class="line">             //params.setCompressionQuality(0.8f);</span><br><span class="line"></span><br><span class="line">             ImageOutputStream output = ImageIO.createImageOutputStream(new</span><br><span class="line">File(&quot;Z:/22.jpg&quot;));</span><br><span class="line"></span><br><span class="line">             writer.setOutput(output);</span><br><span class="line"></span><br><span class="line">             writer.write(null,new IIOImage(image,null,null), params);</span><br><span class="line"></span><br><span class="line">             output.flush();</span><br><span class="line"></span><br><span class="line">             writer.dispose();</span><br><span class="line"></span><br><span class="line">             System.out.println(&quot;ok&quot;);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="4-效果"><a href="#4-效果" class="headerlink" title="4.效果"></a>4.效果</h1><h5 id="明白了渐进式加载的原理后-我们就能想办法在app端也做到渐进式加载的效果了"><a href="#明白了渐进式加载的原理后-我们就能想办法在app端也做到渐进式加载的效果了" class="headerlink" title="明白了渐进式加载的原理后,我们就能想办法在app端也做到渐进式加载的效果了."></a>明白了渐进式加载的原理后,我们就能想办法在app端也做到渐进式加载的效果了.</h5><p>(大概就是判断是否JPEG图片,然后根据每一帧的节点来判断并决定是否需要加载)</p>
+<h3 id="下面展示一下效果图"><a href="#下面展示一下效果图" class="headerlink" title="下面展示一下效果图"></a>下面展示一下效果图</h3><h3 id="1-原图"><a href="#1-原图" class="headerlink" title="(1)原图"></a>(1)原图</h3><p><img src="/blog/2019/05/18/其他/渐进式加载/20170313112448386" alt>  </p>
+<p>(Progressive JPEG的图一打水印就变成Baseline JPEG,应该是CSDN打水印保存的时候处理了)</p>
+<h3 id="2-解码到第一个FFDA与第二个FFDA的中间"><a href="#2-解码到第一个FFDA与第二个FFDA的中间" class="headerlink" title="(2)解码到第一个FFDA与第二个FFDA的中间"></a>(2)解码到第一个FFDA与第二个FFDA的中间</h3><p><img src="/blog/2019/05/18/其他/渐进式加载/20170313113048132" alt>  </p>
+<h3 id="3-刚好解码到第二个FFDA"><a href="#3-刚好解码到第二个FFDA" class="headerlink" title="(3)刚好解码到第二个FFDA"></a>(3)刚好解码到第二个FFDA</h3><p><img src="/blog/2019/05/18/其他/渐进式加载/20170313113257494" alt>  </p>
+<h3 id="4-解码到第五个FFDA"><a href="#4-解码到第五个FFDA" class="headerlink" title="(4)解码到第五个FFDA"></a>(4)解码到第五个FFDA</h3><p><img src="/blog/2019/05/18/其他/渐进式加载/20170313113406391" alt>  </p>
+<p>需要看图片二进制结构的,可以下载一些工具(如hex-editor-neo)</p>
+<p><a href="http://download.csdn.net/detail/yulyu/9779220" target="_blank" rel="noopener">hex-editor-neo下载</a></p>
+<hr>
+<p>图片的尺寸大小</p>
+<p>同一张jpg图片，如果保存为基本式和渐进式那个尺寸更小呢？</p>
+<p>根据我拿3终不同风格图片做测试，发现，百度百科中所说的渐进式图片的大小比基本式的小是不准确的。</p>
+<p>其中，两者大小关系基本上没有什么规律。下面是我的测试结果：</p>
+<p>图片品质59%及其以下时候，渐进JPEG图片更小；品质60%及其以上，基本JPEG更小<br>图片品质82%及其以上时候，渐进JPEG图片更小；品质81%及其以下，基本JPEG更小<br>无论图片品质多少，都是渐进JPEG图片更小 </p>
+<p>不过，个人臆测，从概率学上讲，大多数情况下，渐进式JPEG比基本式图片尺寸小一点。然而，其中的大小差异与原图尺寸相比，不值一提，因此，所谓图片大小不能作为两种图片选择的依据。</p>
+<p>下载呈现速度</p>
+<p>一个名叫<a href="http://htmlhive.com/" target="_blank" rel="noopener">Ann Robson</a>的人，最近对各个浏览器下渐进式图片呈现做了测试。</p>
+<p>下图为FireFox浏览器下呈现速度的对比图：</p>
+<p><img src="/blog/2019/05/18/其他/渐进式加载/02E49F0F-505A-45E8-9DAC-5A82ADB99ECE.jpg" alt></p>
+<p>当大图轮廓加载OK的时候，小图最后一个乳猪还没有出世面；而基本式乳猪图还没有开始加载！显然，罗伯森是想告诉我们，渐进JPEG下载更快。</p>
+<p>下表为其在各个浏览器下测试的结果：</p>
+<p>浏览器 (特定测试版本)                                      渐进jpeg前景渲染               渐进jpeg背景渲染<br>Chrome (v 25.0.1323.1 dev Mac, 23.0.1271.97 m Win)      渐进地 (相当快！)              渐进地 (相当快！)<br>Firefox (v 15.0.1 Mac, 12.0 Win)                        渐进地 (相当快！)             文件下载后立即地(慢)<br>Internet Explorer 8                                    文件下载后立即地(慢)            文件下载后立即地(慢)<br>Internet Explorer 9                                     渐进地 (相当快！)             文件下载后立即地(慢)<br>Safari (v 6.0 Desktop, v 6.0 Mobile)                   文件下载后立即地(慢)            文件下载后立即地(慢)<br>Opera (v 11.60)                                        文件下载后立即地(慢)               文件下载后立即</p>
+<p>结论很简单，Chrome + Firefox + IE9浏览器下，渐进式图片加载更快，而且是快很多，至于其他浏览器，与基本式图片的加载一致，至少不会拖后腿。</p>
+<p><a href="http://www.webmonkey.com/author/luxagraf/" target="_blank" rel="noopener">Scott Gilbertson</a>对渐进式图片有其他的补充：</p>
+<p>1. 你用永不知道基本式图片内容，除非他完全加载出来；</p>
+<p>2. 渐进式图片一开始大小框架就定好，不会像基本式图片一样，由于尺寸未设定而造成回流——提高的渲染性能；</p>
+<p>3. 渐进式图片也有不足，就是吃CPU吃内存。</p>
+<p>内容就是这些，权衡使用在你手。一般而言，大尺寸图片建议使用渐进式JPEG.</p>
+<hr>
+<p>另一种实现</p>
+<p>图片在加载过程中由模糊到清晰的一个加载过程，需要两张图片实现，一张体积比较小，一张为原图，体积比较小的图片会先加载成功，然后对其进行模糊化处理，直到原图加载成功后，用原图替代体积较小的图。</p>
+<p>css filter模糊处理：</p>
+<p>html</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;placeholder&quot; data-</span><br><span class="line">large=&quot;&lt;https://pic2.zhimg.com/50/v2-c5174d0b98facea9584e7766862decdd_400x224.jpg&gt;&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;img</span><br><span class="line">src=&quot;&lt;https://pic2.zhimg.com/50/v2-c5174d0b98facea9584e7766862decdd_60w.jpg&gt;&quot;</span><br><span class="line">class=&quot;img-small&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div style=&quot;padding-bottom: 66.6%;&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>css</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">.placeholder &#123;</span><br><span class="line"></span><br><span class="line">    width: 200px;</span><br><span class="line"></span><br><span class="line">    background-color: #f6f6f6;</span><br><span class="line"></span><br><span class="line">    background-size: cover;</span><br><span class="line"></span><br><span class="line">    background-repeat: no-repeat;</span><br><span class="line"></span><br><span class="line">    position: relative;</span><br><span class="line"></span><br><span class="line">    overflow: hidden;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">.placeholder img &#123;</span><br><span class="line"></span><br><span class="line">    position: absolute;</span><br><span class="line"></span><br><span class="line">    opacity: 0;</span><br><span class="line"></span><br><span class="line">    top: 0;</span><br><span class="line"></span><br><span class="line">    left: 0;</span><br><span class="line"></span><br><span class="line">    width: 100%;</span><br><span class="line"></span><br><span class="line">    transition: opacity 1s linear;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">.placeholder img.loaded &#123;</span><br><span class="line"></span><br><span class="line">    opacity: 1;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">.img-small &#123;</span><br><span class="line"></span><br><span class="line">    filter: blur(50px);</span><br><span class="line"></span><br><span class="line">    /* this is needed so Safari keeps sharp edges */</span><br><span class="line"></span><br><span class="line">    transform: scale(1);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>js</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">window.onload = function () &#123;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">    var placeholder = document.querySelector(&apos;.placeholder&apos;),</span><br><span class="line"></span><br><span class="line">    small = placeholder.querySelector(&apos;.img-small&apos;)</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">    // 1: load small image and show it</span><br><span class="line"></span><br><span class="line">    var img = new Image();</span><br><span class="line"></span><br><span class="line">    img.src = small.src;</span><br><span class="line"></span><br><span class="line">    img.onload = function () &#123;</span><br><span class="line"></span><br><span class="line">        small.classList.add(&apos;loaded&apos;);</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">    // 2: load large image</span><br><span class="line"></span><br><span class="line">    var imgLarge = new Image();</span><br><span class="line"></span><br><span class="line">    imgLarge.src = placeholder.dataset.large;</span><br><span class="line"></span><br><span class="line">    imgLarge.onload = function () &#123;</span><br><span class="line"></span><br><span class="line">        // small.classList.remove(&apos;loaded&apos;);</span><br><span class="line"></span><br><span class="line">        imgLarge.classList.add(&apos;loaded&apos;);</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    placeholder.appendChild(imgLarge);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>canvas模糊处理：</p>
+<p>html</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;figure&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div class=&quot;aspect-ratio-fill&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;img id=&quot;smallImg&quot; class=&quot;small-img&quot; crossorigin=&quot;anonymous&quot;</span><br><span class="line">src=&quot;&lt;https://pic2.zhimg.com/50/v2-c5174d0b98facea9584e7766862decdd_60w.jpg&gt;&quot;</span><br><span class="line"></span><br><span class="line">        alt=&quot;&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;canvas id=&quot;canvas&quot; class=&quot;canvas&quot;&gt;&lt;/canvas&gt;</span><br><span class="line"></span><br><span class="line">    &lt;img class=&quot;big-img&quot; data-</span><br><span class="line">src=&quot;&lt;https://pic2.zhimg.com/50/v2-c5174d0b98facea9584e7766862decdd_400x224.jpg&gt;&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>css</p>
+<p>.<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">figure &#123;</span><br><span class="line"></span><br><span class="line">    position: relative;</span><br><span class="line"></span><br><span class="line">    width: 200px;</span><br><span class="line"></span><br><span class="line">    overflow: hidden;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">.aspect-ratio-fill &#123;</span><br><span class="line"></span><br><span class="line">    padding-bottom: 66.67%;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">.figure img,</span><br><span class="line"></span><br><span class="line">.figure canvas &#123;</span><br><span class="line"></span><br><span class="line">    position: absolute;</span><br><span class="line"></span><br><span class="line">    top: 0;</span><br><span class="line"></span><br><span class="line">    left: 0;</span><br><span class="line"></span><br><span class="line">    width: 100% !important;</span><br><span class="line"></span><br><span class="line">    height: 100% !important;</span><br><span class="line"></span><br><span class="line">    opacity: 1;</span><br><span class="line"></span><br><span class="line">    transition: opacity 2s linear;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">.canvas.loaded &#123;</span><br><span class="line"></span><br><span class="line">    opacity: 0;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">.small-img &#123;</span><br><span class="line"></span><br><span class="line">    display: none;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>js</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">let smallImg = document.querySelector(&apos;.small-img&apos;),</span><br><span class="line"></span><br><span class="line">    canvas = document.querySelector(&apos;.canvas&apos;),</span><br><span class="line"></span><br><span class="line">    bigImg = document.querySelector(&apos;.big-img&apos;);</span><br><span class="line"></span><br><span class="line">ctx = canvas.getContext(&apos;2d&apos;);</span><br><span class="line"></span><br><span class="line">smallImg.onload = function () &#123;</span><br><span class="line"></span><br><span class="line">    StackBlur.image(smallImg, canvas, 20, true);</span><br><span class="line"></span><br><span class="line">    if (bigImg.getBoundingClientRect().top &gt; 0 &amp;&amp;</span><br><span class="line">bigImg.getBoundingClientRect().bottom &lt; window.innerHeight) &#123;</span><br><span class="line"></span><br><span class="line">        bigImg.setAttribute(&apos;src&apos;, bigImg.dataset.src);</span><br><span class="line"></span><br><span class="line">        bigImg.onload = function () &#123;</span><br><span class="line"></span><br><span class="line">            canvas.classList.add(&apos;loaded&apos;);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h1 id="Jpeg渐进式图像数据解析"><a href="#Jpeg渐进式图像数据解析" class="headerlink" title="Jpeg渐进式图像数据解析"></a>Jpeg渐进式图像数据解析</h1><p>为了更好的优化客户端体验，客户端在图像压缩的时候采用了渐进式Jpeg压缩。渐进式Jpeg的好处是，只需要很少的一部分数据包，就能够解码出一副完整的图像，随着数据的增加，图像会不断变清晰。渐进式图像还有一个好处是每一处SOS的Huffman编码都是优化编码，平均图像size会小一些。</p>
+<p><a href="https://blog.csdn.net/APIX_CN/article/details/49780397?utm_source=blogxgwz26" target="_blank" rel="noopener">https://blog.csdn.net/APIX_CN/article/details/49780397?utm_source=blogxgwz26</a></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
     
 <div class="card card-transparent">
@@ -480,7 +558,7 @@ var _hmt = _hmt || [];
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/47/">47</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/46/">46</a></li>
             
         </ul>
     </nav>
@@ -528,7 +606,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        139
+                        138
                     </p>
                 </div>
             </div>
@@ -654,7 +732,7 @@ var _hmt = _hmt || [];
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -719,19 +797,6 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -780,6 +845,19 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -798,7 +876,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -931,7 +1009,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 
@@ -1046,19 +1124,6 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -1107,6 +1172,19 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -1125,7 +1203,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -1258,7 +1336,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 

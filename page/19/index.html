@@ -153,94 +153,6 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.836Z">2019-05-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Unity优化/">Unity优化</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    22 分钟 读完 (大约 3274 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/Unity性能优化方法总结/">Unity性能优化方法总结</a>
-            
-        </h1>
-        <div class="content">
-            <p><strong>资源分离打包与加载</strong></p>
-<p>游戏中会有很多地方使用同一份资源。比如，有些界面共用同一份字体、同一张图集，有些场景共用同一张贴图，有些怪物使用同一个Animator，等等。在制作游戏安装包时将这些公用资源从其它资源中分离出来，单独打包。比如若资源A和B都引用了资源C，则将C分离出来单独打一个bundle。在游戏运行时，如果要加载A，则先加载C；之后如果要加载B，因为C的实例已经在内存，所以只要直接加载B，让B指向C即可。如果打包时不将C从A和B分离出来，那么A的包里会有一份C，B的包里也会有一份C，冗余的C会将安装包撑大；并且在运行时，如果A和B都加载进内存，内存里就会有两个C实例，增大了内存占用。</p>
-<p>资源分离打包与加载是最有效的减小安装包体积与运行时内存占用的手段。一般打包粒度越细，这两个指标就越小；而且当两个renderQueue相邻的DrawCall使用了相同的贴图、材质和shader实例时，这两个DrawCall就可以合并。但打包也并不是越细就越好。如果运行时要同时加载大量小bundle，那么加载速度将会非常慢——时间都浪费在协程之间的调度和多批次的小I/O上了；而且DrawCall合并不见得会提高性能，有时反而会降低性能，后文会提到。因此需要有策略地控制打包粒度。一般只字体和贴图这种体积较大的公用资源。</p>
-<p>　　可以用AssetDatabase.GetDependencies得知一份资源使用了哪些其它资源。</p>
-<p> <strong>2  贴图透明通道分离，压缩格式设为ETC/PVRTC</strong></p>
-<p>最初我们使用了DXT5作为贴图压缩格式，希望能减小贴图的内存占用，但很快发现移动平台的显卡是不支持的。因此对于一张1024x1024大小的RGBA32贴图，虽然DXT5可将它从4MB压缩到1MB，但系统将它送进显卡之前，会先用CPU在内存里将它解压成4MB的RGBA32格式（软件解压），然后再将这4MB送进显存。于是在这段时间里，这张贴图就占用了5MB内存和4MB显存；而移动平台往往没有独立显存，需要从内存里抠一块作为显存，于是原以为只占1MB内存的贴图实际却占了9MB！</p>
-<p>所有不支持硬件解压的压缩格式都有这个问题。经过一番调研，我们发现<a href="http://lib.csdn.net/base/15" target="_blank" rel="noopener">安卓</a>上硬件支持最广泛的格式是ETC，苹果上则是PVRTC。但这两种格式都是不带透明（Alpha）通道的。因此我们将每张原始贴图的透明通道都分离了出来，写进另一张贴图的红色通道里。这两张贴图都采用ETC/PVRTC压缩。渲染的时候，将两张贴图都送进显存。同时我们修改了NGUI的shader，在渲染时将第二张贴图的红色通道写到第一张贴图的透明通道里，恢复原来的颜色：</p>
-<p>fixed4 frag (v2f i) : COLOR</p>
-<pre><code>fixed4 col;
-
-col.rgb = tex2D(_MainTex, i.texcoord).rgb;
-
-col.a = tex2D(_AlphaTex, i.texcoord).r;
-
-return col * i.color;</code></pre><p>fixed4 frag (v2f i) : COLOR</p>
-<p>{</p>
-<pre><code>fixed4 col;
-
-col.rgb = tex2D(_MainTex, i.texcoord).rgb;
-
-col.a = tex2D(_AlphaTex, i.texcoord).r;
-
-return col * i.color;</code></pre><p>}</p>
-<p>这样，一张4MB的1024x1024大小的RGBA32原始贴图，会被分离并压缩成两张0.5MB的ETC/PVRTC贴图（我们用的是ETC/PVRTC 4<br>bits）。它们渲染时的内存占用则是2x0.5+2x0.5=2MB。</p>
-<p> <strong>3 关闭贴图的读写选项</strong></p>
-<p>Unity中导入的每张贴图都有一个启用可读可写（Read/Write<br>Enabled）的开关，对应的程序参数是[TextureImporter.isReadable](<a href="http://docs.unity3d.com/ScriptReference" target="_blank" rel="noopener">http://docs.unity3d.com/ScriptReference</a><br>/TextureImporter-isReadable.html)。选中贴图后可在Import<br>Setting选项卡中看到这个开关。只有打开这个开关，才可以对贴图使用Texture2D.GetPixel，读取或改写贴图资源的像素，但这就需要系统在内存里保留一份贴图的拷贝，以供CPU访问。一般游戏运行时不会有这样的需求，因此我们对所有贴图都关闭了这个开关，只在编辑中做贴图导入后处理（比如对原始贴图分离透明通道）时打开它。这样，上文提到的1024x1024大小的贴图，其运行时的2MB内存占用又可以少一半，减小到1MB。</p>
-<p> <strong>4 减少场景中的GameObject数量</strong></p>
-<p>　　有一次我们将场景中的GameObject数量减少了近2万个，游戏在iPhone<br>3S上的内存占用立马减了20MB。这些GameObject虽然基本是在隐藏状态（activeInHierarchy为false），但仍然会占用不少内存。这些GameObject身上还挂载了不少脚本，每个GameObject中的每个脚本都要实例化，又是一比不菲的内存占用。因此后来我们规定场景中的GameObject数量不得超过1万，并且将GameObject数量列为每周版本的性能监测指标。</p>
-<p> <strong>5 图集</strong></p>
-<p>整理图集的主要目的是节省运行时内存（虽然有时也能起到合并DrawCall的作用）。从这个角度讲，显示一个界面时送进显存的图集尺寸之和是越小越好。一般有如下方法可以帮助我们做到这点：</p>
-<p>1）在界面设计上，尽量让美术将控件设计为可以做九宫格拉伸，即UISprite的类型为Sliced。这样美术就可以只切出一张小图，我们在Unity中将它拉大。当然，一个控件做九宫格也就意味着其顶点数量从4个增加到至少16个（九宫格的中心格子采用Tiled做平铺类型的话，顶点数会更多），构建DrawCall的开销会更大（见第6点），但一般只要DrawCall安排合理（同样见第6点）就不会有问题。</p>
-<p>2）同样是在界面设计上，尽量让美术将图案设计成对称的形式。这样切图的时候，美术就可以只切一部分，我们在Unity中将完整的图案拼出来。比如对一个圆形图案，美术可以只切出四分之一；对一张脸，美术可以只切出一半。不过，与第1）点类似，这个方法同样有其它性能代价——一个图案所对应的顶点数和GameObject数量都增多了。第4点已经提到，GameObject数量的增多有时也会显著占用更多内存。因此一般只对尺寸较大的图案采用这个方法。</p>
-<p>3）确保不要让不必要的贴图素材驻留内存，更不要在渲染时将无关的贴图素材送进显存。为此需要将图集按照界面分开，一般一张图集只放一个界面的素材，一个界面中的UISprite也不要使用别的界面的图集。假设界面A和界面B上都有一个小小的一模一样的金币图标，不要因为在制作时贪图方便，就让界面A的UISprite直接引用界面B中的金币素材；否则界面A显示的时候，会将整个界面B的图集也送进显存，而且只要A还在内存中，B的图集也会驻留内存。对于这种情况，应该在A和B的图集中各放一个一模一样的金币图标，A中的UISprite只使用A的图集，B中的UISprite只使用B的图集。</p>
-<p>不过，如果两个界面之间存在大量相同的素材，那么这两个界面就可以共用同一张图集。这样可以减少所有界面的总内存占用量。具体操作时需要根据美术的设计进行权衡。一般界面之间相同的通用的素材越多，程序的内存负担就越小。但界面之间相同的东西太多的话，美术效果可能就不生动，这是美术和程序之间又一个需要寻求平衡的地方。</p>
-<p>　　另外，数量庞大的图标资源（如物品图标）不要做在图集里，而应该采用UITexture。</p>
-<p>4）减少图集中的空白地方。图集中完全透明的像素和不透名的像素所占的内存空间其实是一样的。因此在素材量不变的情况下，要尽量减少图集中的空白。有时一张1024x1024的图集中，素材所占的面积还没超过一半，这时可以考虑将这张图集切成两张512x512的图集。（有人会问为什么不能做成一张1024x512的图集，这是因为<a href="http://lib.csdn.net/base/1" target="_blank" rel="noopener">iOS</a>平台似乎要求送进显存的贴图一定是方形。）当然，两张不同图集的DrawCall是无法合并的，但这并不是什么问题（见第6点）。</p>
-<p>　　应该说，图集的整理在具体操作时并没有一成不变的标准，很多时候需要权衡利弊来最终决定如何整理，因为不管哪种措施都会有别的性能代价。</p>
-<p> <strong>8 降低贴图素材分辨率</strong></p>
-<p>这一招说白了其实就是减小贴图素材的尺寸。比如对一张在原画里尺寸是100x80的，我们将它导入Unity后会把它缩小到50x40，即缩小两倍。游戏实际使用的是缩小后的贴图。不过这一招是必然会显著降低美术品质的，美术立马会发现画面变得更模糊，因此一般不到程序撑不住的时候不会采用。</p>
-<p> <strong>9 界面的延迟加载和定时卸载策略</strong></p>
-<p>如果一些界面的重要性较低，并且不常被使用，可以等到界面需要打开显示的时候才从bundle加载资源，并且在关闭时将卸载出内存，或者等过一段时间再卸载。不过这个方法有两个代价：一是会影响体验，玩家要求打开界面时，界面的显示会有延迟；二是更容易出bug，上层写逻辑时要考虑异步情况，当程序员要访问一个界面时，这个界面未必会在内存里。因此目前为止我们仍未实施该方案。目前只是进入一个新场景时，卸载上一个场景用到但新场景不会用到的界面。</p>
-<p>以上的9个方法中，4、5、6需要在一定程度上从策划和美术的角度考虑问题，并且需要持续保持监控以维护优化状态（因为在设计上总是会有新界面的需求或改动老界面的需求）；其它都是一劳永逸的解决方案，只要实施稳定后，就不需要再在上面花费精力。不过2和8都是会降低美术品质的方法，尤其是8。如果美术对品质的降低程度实在忍不了的话，也可能不会允许采用这两个方法。</p>
-<p> <strong>10避免频繁调用GameObject.SetActive</strong></p>
-<p>我们游戏的某些逻辑会在一帧内频繁调用GameObject.SetActive，显示或隐藏一些对象，数量达到一百多次之多。这类操作的CPU开销很大（尤其是NGUI的UIWidget在激活的时候会做很多初始化工作），而且会触发大量GC。后来我们改变了显示和隐藏对象的方法——让对象一直保持激活状态（activeInHierarchy为true），而原来的SetActive(false)改为将对象移到屏幕外，SetActive(true)改为将对象移回屏幕内。这样性能就好多了。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.825Z">2019-05-17</time>
                 
                 <div class="level-item">
@@ -426,6 +338,135 @@ return col * i.color;</code></pre><p>}</p>
 
 
 
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.804Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity优化/">Unity优化</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    13 分钟 读完 (大约 1882 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/如何优化UGUI的ScrollRect/">如何优化UGUI的ScrollRect</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a><strong>介绍</strong></h1><p>每个元素知道自己的序号，可以根据需要修改自己的内容、大小等信息。</p>
+<p>此外支持了ScrollBar，支持横向、纵向及正反向。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a8c2e5ed6231aeef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7e118f52b49be3b0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>在关闭Mask后可以看到，只有当需要的时候才动态实例化元素，使用完后回收。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-baee737060d24044.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>最原始版本的代码是@ivomarel的InfinityScroll。我改到后来，基本和原始版没啥相同的了。</p>
+<p>原代码使用了sizeDelta作为大小，但是这个在锚点不重合情况下是不成立的</p>
+<p>支持了GridLayout</p>
+<p>在启动时检查锚点和轴心，方便使用</p>
+<p>修复了原代码在往前拖拽会卡顿的问题</p>
+<p>优化代码，提升性能</p>
+<p>支持反向滑动</p>
+<p>支持ScrollBar (在无尽模式下不起作用;如果元素大小不一致会出现滚动条瑕疵)</p>
+<p>此外，我修改了Easy Object Pool作为池子，循环利用元素。</p>
+<p> <strong>警告:<br>为了解决原始代码回拉卡顿的问题，我直接复制了一份UGUI中的ScrollRect代码，而没有继承。这是因为老的做法是在onDrag里停止并立即启动滚动，而我通过修改两个私有变量保证了滑动顺畅。所有我的代码都用==========LoopScrollRect==========这样的注释包起来，维护起来就像打patch了。</strong></p>
+<h1 id="框架思路"><a href="#框架思路" class="headerlink" title="框架思路"></a><strong>框架思路</strong></h1><p>和UGUI自带的ScrollRect有所不同，我拆分出了LoopHorizontalScrollRect和LoopVerticalScrollRect两个类，分别代表水平滚动条和水平滚动条。下面我们以LoopVerticalScrollRect为例，水平版本类似。</p>
+<p> <strong>1. 判定cell大小</strong></p>
+<p>LoopScrollRect要解决的核心问题是：如何计算每个元素的大小。这里我使用了Content Size Fitter配合Layout<br>Element来控制每个cell的长宽，因此对于GridLayout直接取高度，否则取Preferred<br>Height。需要注意的是，除了元素本身的大小之外，我们还要将padding考虑进去。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">protected override float GetSize(RectTransform item)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    float size = contentSpacing;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    if (m_GridLayout != null)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        size += m_GridLayout.cellSize.y;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    else</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        size += LayoutUtility.GetPreferredHeight(item);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    return size;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个其实也是最核心的一个地方：在能够准确计算格子大小的基础上，后续工作就好实现了。</p>
+<p> <strong>2. 如何优雅的增删元素</strong></p>
+<p>对于每个ScrollRect，其实只需要考虑在头部和尾部是否需要增加或者删除元素。在这里以头部的各种情况为例进行解释，因为在正向滑动情况下，必须保证在修改元素之后整个ScrollRect内容显示一致不跳变；这些情况比尾部处理会麻烦一些。</p>
+<p>NewItemAtStart函数实现了在头部增加一个(或一行，针对GridLayout)元素，并返回这些元素的高度；DeleteItemAtStart代表删除头部的一个元素。需要注意的是，在修改头部元素之后要及时修改content的anchoredPosition，这样才能保证整个内容区域不会因为多了或者少了一行而产生跳变。</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line">protected float NewItemAtStart()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     float size = 0;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     for (int i = 0; i &lt; contentConstraintCount; i++)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         // Get Element from ObjectPool</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     if (!reverseDirection)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         // Modify content.anchoredPosition</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     return size;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> protected float DeleteItemAtStart()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     float size = 0;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     for (int i = 0; i &lt; contentConstraintCount; i++)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         // Return Element to ObjectPool</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     if (!reverseDirection)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         // Modify content.anchoredPosition</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     return size;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3. 何时需要增删元素</strong></p>
+<p>这里需要有两个概念viewBounds和contentBounds：前者是指ScrollRect本身的大小，一般也对应Mask；后者是指ScrollRect里所有cell组成的内容部分的大小。在这个基础上就简单了：如果contentBounds的最上面比viewBounds的最上面要低，那么尝试在顶部增加元素；如果contentBounds的最上面比viewBounds的最上面高很多，那么尝试删除元素。</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">protected override bool UpdateItems(Bounds viewBounds, Bounds contentBounds)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     bool changed = false;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     // cases for NewItemAtEnd/DeleteItemAtEnd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     if (viewBounds.max.y  contentBounds.max.y - 1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         float size = NewItemAtStart();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         if (size  0)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             changed = true;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     else if (viewBounds.max.y &lt; contentBounds.max.y - threshold)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         float size = DeleteItemAtStart();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         if (size  0)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             changed = true;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     return changed;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p> <strong>4. 对象池交互</strong></p>
+<p>在新建cell和销毁cell的时候，使用对象池来避免内存碎片；同时这里使用了SendMessage来向每个cell发送必须的信息，保证数据的正确性。</p>
+<p> private void SendMessageToNewObject(Transform go, int idx)</p>
+<p> {</p>
+<pre><code>go.SendMessage(&quot;ScrollCellIndex&quot;, idx);</code></pre><p> }</p>
+<p> private void ReturnObjectAndSendMessage(Transform go)</p>
+<p> {</p>
+<pre><code>go.SendMessage(&quot;ScrollCellReturn&quot;,</code></pre><p>SendMessageOptions.DontRequireReceiver);</p>
+<pre><code>prefabPool.ReturnObjectToPool(go.gameObject);</code></pre><p> }</p>
+<p> private RectTransform InstantiateNextItem(int itemIdx)</p>
+<p> {</p>
+<pre><code>RectTransform nextItem =</code></pre><p>prefabPool.GetObjectFromPool(prefabPoolName).GetComponent&lt;RectTransform();</p>
+<pre><code>nextItem.transform.SetParent(content, false);
+
+
+
+nextItem.gameObject.SetActive(true);
+
+
+
+SendMessageToNewObject(nextItem, itemIdx);
+
+
+
+return nextItem;</code></pre><p> }</p>
+<p><strong>5. 滚动条相关</strong></p>
+<p>这块我其实是估算的，根据当前的长度和当前元素个数/总个数按照比例缩放，这个在所有cell大小一致的情况下是没有问题的；但是如果大小不一致我就无法得到精确结果，所以会产生一定抖动。我暂时没有更好办法，因为得到的信息就是不够用。</p>
+<p> <strong>6. 其他细节</strong></p>
+<p>我主要遇到了两个坑：</p>
+<p>增加或者删除元素之后，有时候需要强行调用Canvas.ForceUpdateCanvases()刷新下。</p>
+<p>注意不要在Build Canvas过程中再次修改元素，从而再次触发Build Canvas。</p>
+<h1 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a><strong>使用示例</strong></h1><p>以竖直滚动条为例，介绍一下步骤。如果觉得麻烦的话，直接打开DemoScene复制粘贴就好。当然你也可以干掉EasyObjPool，自己控制生成和销毁。</p>
+<p> <strong>1. 准备好Prefabs</strong></p>
+<p>每个物体上需要贴上Layout Element并指定preferred width/height。</p>
+<p>贴上一个脚本接受void ScrollCellIndex (int idx) 消息，从而对每个位置的元素根据需要灵活修改。</p>
+<p> **  
+**</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a689f9011d780f0f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><strong>2. 在Hierarchy里右键，选择UI/Loop Horizontal Scroll Rect或UI/Loop Vertical Scroll<br>Rect即可。</strong> 使用Component菜单里的也是一样的。</p>
+<p> <strong>Init in Start:</strong>  启动时自动调用Refill cells初始化</p>
+<p> <strong>Prefab Pool:</strong>  EasyObjPool物体</p>
+<p> <strong>Prefab Pool Name:</strong>  第二步中对应的Cell Prefab名字</p>
+<p> <strong>Total Count:</strong>  总共能有多少物体，范围0 ~ TotalCount-1</p>
+<p> <strong>Threshold:</strong>  两端预留出来的缓存量(像素数)</p>
+<p> <strong>ReverseDirection:</strong>  如果是从下往上或者从右往左拖动，就打开这里</p>
+<p> <strong>Clear Cells:</strong>  清除已有元素，恢复到未初始化状态</p>
+<p> <strong>Refill Cells:</strong>  初始化并填充元素</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-cb1e2e13d55f95db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>如果是正向滑动，就设置pivot为1；否则设为0并打开ReverseDirection。我强烈建议你试试在播放状态下修改这些参数。</p>
+<p> <strong>无尽模式</strong></p>
+<p>如果需要无限滚动模式，将totalCount设为负数即可。</p>
+<p> <strong>其他参考</strong></p>
+<p>后来搜了下，发现网上也有人提到过UGUI ScrollRect<br>优化（&lt;<a href="http://blog.csdn.net/subsystemp/article/details/46912479），不过他的策略是监听ScrollRect的value，然后禁用范围外的cell。最后作者也提到改成动态加载策略。这种基于value的做法我不太确认在在滚动前动态添加新元素的时候是否会出现问题。" target="_blank" rel="noopener">http://blog.csdn.net/subsystemp/article/details/46912479），不过他的策略是监听ScrollRect的value，然后禁用范围外的cell。最后作者也提到改成动态加载策略。这种基于value的做法我不太确认在在滚动前动态添加新元素的时候是否会出现问题。</a></p>
+<p>文末，再次感谢钱康来的分享，如果您有任何独到的见解或者发现也欢迎联系我们，一起探讨。（QQ群465082844）。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
     
 <div class="card card-transparent">
@@ -450,7 +491,7 @@ return col * i.color;</code></pre><p>}</p>
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/47/">47</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/46/">46</a></li>
             
         </ul>
     </nav>
@@ -498,7 +539,7 @@ return col * i.color;</code></pre><p>}</p>
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        139
+                        138
                     </p>
                 </div>
             </div>
@@ -624,7 +665,7 @@ return col * i.color;</code></pre><p>}</p>
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -689,19 +730,6 @@ return col * i.color;</code></pre><p>}</p>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -750,6 +778,19 @@ return col * i.color;</code></pre><p>}</p>
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -768,7 +809,7 @@ return col * i.color;</code></pre><p>}</p>
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -901,7 +942,7 @@ return col * i.color;</code></pre><p>}</p>
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 
@@ -1016,19 +1057,6 @@ return col * i.color;</code></pre><p>}</p>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -1077,6 +1105,19 @@ return col * i.color;</code></pre><p>}</p>
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -1095,7 +1136,7 @@ return col * i.color;</code></pre><p>}</p>
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -1228,7 +1269,7 @@ return col * i.color;</code></pre><p>}</p>
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 

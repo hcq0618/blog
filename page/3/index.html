@@ -153,128 +153,6 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-31T08:27:02.349Z">2019-05-31</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    22 分钟 读完 (大约 3271 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/blog/2019/05/31/Web/前端优化：9 个技巧，提高 Web 性能/">前端优化：9 个技巧，提高 Web 性能</a>
-            
-        </h1>
-        <div class="content">
-            <p>##</p>
-<p>OSC协作翻译</p>
-<p>英文原文：Front End Optimization – 9 Tips to Improve Web Performance</p>
-<p>链接：<a href="https://www.keycdn.com/blog/front-end-optimization/" target="_blank" rel="noopener">https://www.keycdn.com/blog/front-end-optimization/</a></p>
-<p>译者：间_拾零, 边城, snake_007, physihan, Viyi</p>
-<p>当今数字世界，存在着无数的网站，每天都需要处理各种不同的原因的访问。然而，这些网站中有很大一部分显得笨重，使用起来也很麻烦。没怎么优化的网站会被各种各样的问题困扰，包括加载时间、不支持移动设备、浏览器兼容性问题，等等。</p>
-<p>这篇文章讲述可以帮助改善优化前端的技术，非常有用。主要内容有清理代码、压缩图片、压缩外部资源、使用<br>CDN，以及一些其它方法。这些方法会为你的网站带显著的速度提升和整体性能提升。</p>
-<p>1. 清理 HTML 文档</p>
-<p>HTML，即超文本标记语言，几乎是所有网站的支柱。HTML 为网页带来标题、子标题、列表和其它一些文档结构的格式。在最近更新的 HTML5<br>中，甚至可以创建图表。</p>
-<p>HTML 很容易被网络爬虫识别，因此搜索引擎可以根据网站的内容在一定程度上实时更新。在写 HTML 的时候，你应该尝试让它简洁而有效。此外，在 HTML<br>文档中引用外部资源的时候也需要遵循一些最佳实践方法。</p>
-<p>恰当放置 CSS</p>
-<p>Web 设计者喜欢在网页建立起主要的 HTML 骨架之后再来创建样式表。这样一来，网页中的样式表往往会放在 HTML<br>的后面，接近文档结束的地方。然而推荐的做法是把 CSS 放在 HTML 的上面部分，文档头之内，这可以确保正常的渲染过程。</p>
-<p><img src="/blog/2019/05/31/Web/前端优化：9 个技巧，提高 Web 性能/E4785059-905E-4D39-9D73-9CF72778D262.png" alt>  </p>
-<p>这个策略不能提高网站的加载速度，但它不会让访问者长时间看着空白屏幕或者无格式的文本（FOUT）等待。如果网页大部分可见元素已经加载出来了，访问者才更有可能等待加载整个页面，从而带来对前端的优化效果。这就是知觉性能。</p>
-<p>正确放置 Javascript</p>
-<p>另一方面，如果将 JavaScript 放置在 head 标签内或 HTML 文档的上部，这会阻塞 HTML 和 CSS<br>元素的加载过程。这个错误会导致页面加载时间增长，增加用户等待时间，容易让人感到不耐烦而放弃对网站的访问。不过，您可以通过将 JavaScript 属性置于<br>HTML 底部来避免此问题。</p>
-<p>此外，在使用 JavaScript 时，人们通常喜欢用异步脚本加载。这会阻止script标签在 HTML 中的呈现过程，如，在文档中间的情况。</p>
-<p>虽然对于网页设计师来说， HTML 是最值得使用的工具之一，但它通常要与 CSS 和 JavaScript 一起使用，这可能会导致网页浏览速度减慢。 虽然<br>CSS 和 JavaScript 有利于网页优化，但使用时也要注意一些问题。使用 CSS 和 JavaScript<br>时，要避免嵌入代码。因为当您嵌入代码时，要将 CSS 放置在样式标记中，并在脚本标记中使用 JavaScript，这会增加每次刷新网页时必须加载的 HTML<br>代码量。</p>
-<p>绑定文件? 不用担心</p>
-<p>在过去，你可能会频繁绑定 CSS 脚本到单个文件，以在 HTML 代码中引用外部文件。在使用 HTTP1.1<br>协议时，这是一项合理的实践，然而这一协议不再是必需的。</p>
-<p>感谢 HTTP/2，现在你可以通过使用多路技术将单个 TCP 连接以异步方式收发 HTTP 请求和响应。</p>
-<p><img src="/blog/2019/05/31/Web/前端优化：9 个技巧，提高 Web 性能/D1DB311A-F783-473D-90FD-DCBA8104DB2B.png" alt>  </p>
-<p>这意味着你不再需要频繁地将多个脚本绑定到单个文件。</p>
-<p>2. 优化 CSS 性能</p>
-<p>CSS，即级联样式表，能从 HTML 描述的内容生成专业而又整洁的文件。很多 CSS 需要通过 HTTP 请求来引入（除非使用内联<br>CSS），所以你要努力去除累赘的 CSS 文件，但要注意保留其重要特征。</p>
-<p>如果你的 Banner、插件和布局样式是使用 CSS 保存在不同的文件内，那么，访问者的浏览器每次访问都会加载很多文件。虽然现在 HTTP/2<br>的存在，减少了这种问题的发生，但是在外部资源加载的情况下，仍会花费较长时间。要了解如何减少 HTTP 请求以大幅度缩减加载时间，请阅读WordPress<br>性能。</p>
-<p>此外，不少网站管理员在网页中错误的使用 @import 指令 来引入外部样式表。这是一个过时的方法，它会阻止浏览并行下载。link<br>标签才是最好的选择，它也能提高网站的前端性能。多说一句，通过 link 标签请求加载的外部样式表不会阻止并行下载。</p>
-<p>3.减少外部HTTP请求</p>
-<p>在很多情况下，网站的大部分加载时间来自于外部的 Http<br>请求。外部资源的加载速度随着主机提供商的服务器架构、地点等不同而不同。减少外部请求要做的第一步就是简略地检查网站。研究你网站的每个组成部分，消除任何影响访问者体验不好的成分。这些成分可能是：</p>
-<p>● 不必要的图片</p>
-<p>● 没用的 JavaScript 代码</p>
-<p>● 过多的 css</p>
-<p>● 多余的插件</p>
-<p>在你去掉这些多余的成分之后，再对剩下的内容进行整理，如，压缩工具、CDN 服务和预获取（prefetching）等，这些都是管理 HTTP<br>请求的最佳选择。除此之外，减少DNS路由查找教程会教你如何一步一步的减少外部 HTTP 请求。</p>
-<p>4. 压缩 CSS, JS 和 HTML</p>
-<p><img src="/blog/2019/05/31/Web/前端优化：9 个技巧，提高 Web 性能/0.jpg" alt>  </p>
-<p>压缩技术可以从文件中去掉多余的字符。你在编辑器中写代码的时候，会使用缩进和注释，这些方法无疑会让你的代码简洁而且易读，但它们也会在文档中添加多余的字节。</p>
-<p>例如，这是一段压缩之前的代码。</p>
-<p><img src="/blog/2019/05/31/Web/前端优化：9 个技巧，提高 Web 性能/0_1.jpg" alt>  </p>
-<p>把这段代码压缩后就成了这样。</p>
-<p><img src="/blog/2019/05/31/Web/前端优化：9 个技巧，提高 Web 性能/0.png" alt>  </p>
-<p><img src="/blog/2019/05/31/Web/前端优化：9 个技巧，提高 Web 性能/0_1.png" alt>  </p>
-<p>使用压缩工具可以非常简单地把无用的字节从你的 CSS、JS 和 HTML 文件修剪掉。关于压缩的相关信息，可以参阅如何压缩 CSS、JS 和 HTML。</p>
-<p>5. 使用预先获取</p>
-<p><img src="/blog/2019/05/31/Web/前端优化：9 个技巧，提高 Web 性能/A1CA69AB-9D5E-4602-9E8F-949CB5E5D559.png" alt>  </p>
-<p>预先获取可以在真正需要之前通过取得必需的资源和相关数据来改善访问用户的浏览体验，主要有3类预先获取:</p>
-<p>● 链接预先获取</p>
-<p>● DNS 预先获取</p>
-<p>● 预先渲染</p>
-<p>在你离开当前 web 页面之前，使用预先获取方式，对应每个链接的 URL<br>地址，CSS，图片和脚本都会被预先获取。这保证了访问者能在最短时间内使用链接在画面间切换。</p>
-<p>幸运的是，预先获取很容易实现。根据你想要使用的预先获取形式，你只需在网站 HTML 中的链接属性上增加 rel=”prefetch”,rel=”dns-<br>prefetch”，或者 rel=”prerender” 标记。</p>
-<p>6. 使用 CDN 和缓存提高速度</p>
-<p>容分发网络能显著提高网站的速度和性能。使用 CDN 时，您可以将网站的静态内容链接到全球各地的服务器扩展网络。如果您的网站观众遍布全球，这项功能十分有用。<br>CDN 允许您的网站访问者从最近的服务器加载数据。如果您使用 CDN，您网站内的文件将自动压缩，以便在全球范围内快速分发。</p>
-<p><img src="/blog/2019/05/31/Web/前端优化：9 个技巧，提高 Web 性能/B64269F9-B52D-4EB1-804C-58F52805B4C9.png" alt>  </p>
-<p>CDN 是一种缓存方法，可极大改善资源的分发时间，同时，它还能实现一些其他的缓存技术，如，利用浏览器缓存。</p>
-<p>合理地设置浏览器缓存，能让浏览器自动存储某些文件，以便加快传输速度。此方法的配置可以直接在源服务器的配置文件中完成。</p>
-<p>了解更多有关缓存和不同类型的缓存方法，请参阅缓存定义。</p>
-<p>7. 压缩文件</p>
-<p><img src="/blog/2019/05/31/Web/前端优化：9 个技巧，提高 Web 性能/B1DF42C2-DE4C-4A36-9FF5-C7082DC38640.png" alt>  </p>
-<p>虽然许多 CDN 服务可以压缩文件，但如果不使用 CDN，您也可以考虑在源服务器上使用文件压缩方法来改进前端优化。<br>文件压缩能使网站的内容轻量化，更易于管理。 最常用的文件压缩方法之一是 Gzip。 这是缩小文档、音频文件、PNG图像和等其他大文件的绝佳方法。</p>
-<p>Brotli 是一个比较新的文件压缩算法，目前正变得越来越受欢迎。 此开放源代码算法由来自 Google<br>和其他组织的软件工程师定期更新，现已被证明比其他现有压缩方法更好用。 这种算法的支持目前还比较少，但作为后起之秀指日可待。</p>
-<p>了解更多信息，请阅读我们有关 Brotli 压缩的完整文章。</p>
-<p>对于那些不懂得前端优化的人来说，图片可能会是一个“网站杀手”。大量的写真集和庞大的高清图片会阻塞网页渲染速度。没有优化的高清图片可能会有几兆字节（mb）。因此适当地对它们进行优化可以改善网页的前端性能。</p>
-<p>每个图像文件都包含了一些与纯照片或图片无关的信息。比如 JPEG 图片，它包含了日期、地点、相机型号和一些其他不相关的信息。你可以用一些如 Optimus<br>的优化工具来删除这些多余的图像数据来精简图像的冗长的加载过程。因为 Optimus 是一个无损的图片压缩工具，它不会影响图像画质，只是压缩图片体积。</p>
-<p>另外，如果你想进一步的优化一张图片，你可以使用有损压缩，它会删除一些图片里面的数据，因此质量会受损。</p>
-<p><img src="/blog/2019/05/31/Web/前端优化：9 个技巧，提高 Web 性能/F56C746A-C6FF-4804-B3D9-5C170BB98CB5.png" alt>  </p>
-<p><img src="/blog/2019/05/31/Web/前端优化：9 个技巧，提高 Web 性能/0_2.jpg" alt>  </p>
-<p>一步的学习有损和无损压缩之间的区别，请阅读我们完整的教程。</p>
-<p>9. 使用轻量级框架</p>
-<p>除非你只用现有的编码知识构建网站，不然，你可以尝试使用一个好的前端框架来避免许多不必要的前端优化错误。虽然有一些更大，更知名的框架能提供更多功能和选项，但它们不一定适合你的<br>Web 项目。</p>
-<p>所以说，不仅确定项目所需功能很重要，选择合适的框架也很重要——它要在提供所需功能的同时保持轻量。最近许多框架都使用简洁的 HTML，CSS 和<br>JavaScript 代码。</p>
-<p>以下是几项可以加快读取的轻量级框架：</p>
-<p>● Pure</p>
-<p>● Skeleton</p>
-<p>● Milligram</p>
-<p>框架并不能代替网页设计，编程和维护。举个简单的例子，我们假设框架是一个新房子。房子干净整洁，但它是空的。在你添加家具，家电和装饰品时，你有责任确保房子不会变得凌乱。同样地，当您使用了一个框架，您就有责任确保它不会被冗余的代码，大图片和过多的<br>HTTP 请求破坏。</p>
-<p>前端优化 – 总结</p>
-<p>进行前端优化似乎需要花费很大的精力，相信这篇应用指南中的一些小技巧能帮你极大改善网站加载速度。网站加载地越快，则用户体验越佳。因此,<br>对前端进行优化能使给你和你的用户都带来益处。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-05-31T08:27:02.272Z">2019-05-31</time>
                 
                 <div class="level-item">
@@ -716,6 +594,143 @@ var _hmt = _hmt || [];
 
 
 
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-31T08:27:02.114Z">2019-05-31</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    8 分钟 读完 (大约 1129 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/31/Web/Javascript优化总结/">Javascript优化总结</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="Javascript中声明变量速度的研究"><a href="#Javascript中声明变量速度的研究" class="headerlink" title="Javascript中声明变量速度的研究"></a>Javascript中声明变量速度的研究</h2><h2 id="声明变量到底要不要var"><a href="#声明变量到底要不要var" class="headerlink" title="声明变量到底要不要var"></a>声明变量到底要不要var</h2><p>使用var语句多次声明一个变量不仅是合法的，而且也不会造成任何错误。</p>
+<p>如果重复使用的一个声明有一个初始值，那么它担当的不过是一个赋值语句的角色。</p>
+<p>如果重复使用的一个声明没有一个初始值，那么它不会对原来存在的变量有任何的影响。</p>
+<p>没有var声明的变量，是作为全局变量存在的；有var声明的变量，属于局部变量，尤其是在函数内部。并且，经过测试，带var声明比不带var速度要快，比如：”var<br>a”比”a”具有更快的执行速度。我们有理由推测，局部变量的声明比全局变量的声明效率更高。</p>
+<h2 id="直接量与new"><a href="#直接量与new" class="headerlink" title="直接量与new"></a>直接量与new</h2><p>变量有好几种类型，但是同一类型的变量创建的方式可能不一样，比如string、Object、Array等这些类型的变量声明或者创建。</p>
+<p>经过测试，通过直接量声明的速度明显快于通过new声明的速度，比如”var a={} “比”var a=new Object()”具有更快的执行速度。</p>
+<h2 id="局部变量与全局变量"><a href="#局部变量与全局变量" class="headerlink" title="局部变量与全局变量"></a>局部变量与全局变量</h2><p>现在笔者来告诉你，函数内尽量多设局部变量，这样即安全又快速，变量操作也更加合理，不会因为函数内胡乱操作全局变量而导致逻辑错误。</p>
+<p>写个例子说明下，先建立一个全局变量：var m=1; ，接着我读取这个全局变量1000000次</p>
+<p>全局变量：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for(var i=1000000;i--;)</span><br><span class="line"></span><br><span class="line">&#123;a=m;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>局部变量：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(function ()&#123;</span><br><span class="line"></span><br><span class="line">    var n=m;</span><br><span class="line"></span><br><span class="line">    for(var i=1000000;i--;)</span><br><span class="line"></span><br><span class="line">    &#123;a=n;&#125;</span><br><span class="line"></span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<p>执行速度2&gt;1</p>
+<p>通过上面测试表明，先将m这个全局变量的值存给局部变量n，在将n赋值给a具有更快的速度。</p>
+<h2 id="变量名长度"><a href="#变量名长度" class="headerlink" title="变量名长度"></a>变量名长度</h2><p>变量名是自己取的，为了照顾语义和规范，变量名可能稍长，但是注意了，变量名的长度也会影响代码的执行速度。</p>
+<p>经过测试，长的变量名声明的执行速度没有短的快，比如”var a=1”比”var<br>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=1”具有更快的执行速度。</p>
+<p>所以，我们在声明变量的时候，尽量缩写一些单词，并记忆一些常见的缩写，以下是缩写示例：</p>
+<table>
+<thead>
+<tr>
+<th>单词</th>
+<th>缩写</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>array（数组）</td>
+<td>arr</td>
+</tr>
+<tr>
+<td>string（字符串）</td>
+<td>str</td>
+</tr>
+<tr>
+<td>number（数量/数字）</td>
+<td>num</td>
+</tr>
+<tr>
+<td>function（函数）</td>
+<td>fun</td>
+</tr>
+<tr>
+<td>message（消息/信息）</td>
+<td>mes</td>
+</tr>
+<tr>
+<td>userNumber（会员数量）</td>
+<td>userNum/uNum</td>
+</tr>
+<tr>
+<td>parentElement（父级节点/父级元素）</td>
+<td>parentEle</td>
+</tr>
+<tr>
+<td>returnArray（返回的数组）</td>
+<td>returnArr</td>
+</tr>
+</tbody></table>
+<hr>
+<p>优化JS中的条件分支语句</p>
+<h2 id="一、将条件分支，按可能性顺序从高到低排列"><a href="#一、将条件分支，按可能性顺序从高到低排列" class="headerlink" title="一、将条件分支，按可能性顺序从高到低排列"></a>一、将条件分支，按可能性顺序从高到低排列</h2><p>说明：可以减少解释器对条件的探测次数。</p>
+<h2 id="二、在同一条件子的多（-gt-2）条件分支时，使用switch优于if"><a href="#二、在同一条件子的多（-gt-2）条件分支时，使用switch优于if" class="headerlink" title="二、在同一条件子的多（&gt;2）条件分支时，使用switch优于if"></a>二、在同一条件子的多（&gt;2）条件分支时，使用switch优于if</h2><p>说明：switch分支选择的效率高于if，在IE下尤为明显。4分支的测试，IE下switch的执行时间约为if的一半。</p>
+<h2 id="三、使用三目运算符替代条件分支"><a href="#三、使用三目运算符替代条件分支" class="headerlink" title="三、使用三目运算符替代条件分支"></a>三、使用三目运算符替代条件分支</h2><p>使用前：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (a &gt; b)</span><br><span class="line"></span><br><span class="line">&#123; num = a; &#125;</span><br><span class="line"></span><br><span class="line">else</span><br><span class="line"></span><br><span class="line">&#123; num = b; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用后：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">num = a &gt; b ? a : b;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>字符串拼接</p>
+<p>如果要连接多个字符串，应该少使用+=，如</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s+=a;</span><br><span class="line"></span><br><span class="line">s+=b;</span><br><span class="line"></span><br><span class="line">s+=c;</span><br></pre></td></tr></table></figure>
+
+<p>应该写成s+=a + b + c；</p>
+<p>而如果是收集字符串，比如多次对同一个字符串进行+=操作的话，最好使用一个缓存，使用JavaScript数组来收集，最后使用join方法连接起来</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var buf = [];</span><br><span class="line"></span><br><span class="line">        for (var i = 0; i &lt; 100; i++) &#123;</span><br><span class="line"></span><br><span class="line">            buf.push(i.toString());</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        var all = buf.join(&quot;&quot;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>数字转成字符串</p>
+<p>一般最好用”” + 1来将数字转换成字符串，虽然看起来比较丑一点，但事实上这个效率是最高的，性能上来说：</p>
+<p>(“” +) &gt; String() &gt; .toString() &gt; new String()</p>
+<hr>
+<ul>
+<li><p>for()语句性能优于for(…in…)语句</p>
+</li>
+<li><p>避免重复创建函数，避免使用闭包。推荐使用prototype追加方法</p>
+</li>
+<li><p>使用{}创建对象</p>
+</li>
+<li><p>使用[]创建数组,如果你不知道数组长度，使用Array#push。当你需要复制数组的时候，请使用Array#slice</p>
+</li>
+</ul>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
     
 <div class="card card-transparent">
@@ -738,7 +753,7 @@ var _hmt = _hmt || [];
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/47/">47</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/46/">46</a></li>
             
         </ul>
     </nav>
@@ -786,7 +801,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        139
+                        138
                     </p>
                 </div>
             </div>
@@ -912,7 +927,7 @@ var _hmt = _hmt || [];
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -977,19 +992,6 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -1038,6 +1040,19 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -1056,7 +1071,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -1189,7 +1204,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 
@@ -1304,19 +1319,6 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -1365,6 +1367,19 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -1383,7 +1398,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -1516,7 +1531,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 

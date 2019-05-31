@@ -153,80 +153,6 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.157Z">2019-05-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 分钟 读完 (大约 311 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/截图的实现/">截图的实现</a>
-            
-        </h1>
-        <div class="content">
-            <p>下面是我总结的、在u3d中的，三种截屏方法：</p>
-<p>1、使用Application类下的CaptureScreenshot方法。</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void CaptureScreen()</span><br><span class="line">&#123;</span><br><span class="line">    Application.CaptureScreenshot(&quot;Screenshot.png&quot;, 0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这个方法，截取的是某一帧时整个游戏的画面，或者说是全屏截图吧。</p>
-<p>a、不能针对某一个相机（camera）的画面，进行截图。</p>
-<p>b、对局部画面截图，实现起来不方便，效率也低，不建议在项目中使用：</p>
-<p>虽然CaptureScreenshot这个方法呢，本身是不要做到这一点的。但是我们可以走曲线救国的路线来实现它。思路是这样的：你可以先用这个方法截图一个全屏，然后通过路径获取到这个截图；接下来就通过相关的图形类来，取得这个截图的局部区域并保存下来，这样就能得到一个局部截图了。在这里我就不实现它了，不过有兴趣的可以试试，肯定是可以实现的。</p>
-<p>2、这第二个截图的方法是，使用Texture2d类下的相关方法，也可实现截图功能。</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary</span><br><span class="line">/// Captures the screenshot2.</span><br><span class="line">/// &lt;/summary</span><br><span class="line">/// &lt;returnsThe screenshot2.&lt;/returns</span><br><span class="line">/// &lt;param name=&quot;rect&quot;Rect.截图的区域，左下角为o点&lt;/param</span><br><span class="line">Texture2D CaptureScreenshot2(Rect rect);</span><br><span class="line">// 先创建一个的空纹理，大小可根据实现需要来设置</span><br><span class="line">Texture2D screenShot = new Texture2D((int)rect.width, (int)rect.height, TextureFormat.RGB24, false);</span><br><span class="line">// 读取屏幕像素信息并存储为纹理数据，</span><br><span class="line">screenShot.ReadPixels(rect,0, 0);</span><br><span class="line">screenShot.Apply();</span><br><span class="line">// 然后将这些纹理数据，成一个png图片文件</span><br><span class="line">byte[] bytes = screenShot.EncodeToPNG();</span><br><span class="line">string filename = Application.dataPath + &quot;/Screenshot.png&quot;;</span><br><span class="line">System.IO.File.WriteAllBytes(filename, bytes);</span><br><span class="line"> Debug.Log(string.Format(&quot;截屏了一张图片: &#123;0&#125;&quot;, filename));</span><br><span class="line">     // 最后，我返回这个Texture2d对象，这样我们直接，所这个截图图示在游戏中，当然这个根据自己的需求的。</span><br><span class="line"> return screenShot;</span><br></pre></td></tr></table></figure>
-
-<p>截全屏：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CaptureScreenshot2( new Rect( Screen.width*0f, Screen.height*0f,</span><br><span class="line">Screen.width*1f, Screen.height*1f));</span><br></pre></td></tr></table></figure>
-
-<p>截中间4分之1:</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CaptureScreenshot2( new Rect( Screen.width*0.25f, Screen.height*0.25f,</span><br><span class="line">Screen.width*0.5f, Screen.height*0.5f));</span><br></pre></td></tr></table></figure>
-
-<p>这里使用了几个<a href="http://docs.unity3d.com/Documentation/ScriptReference/Texture2D.html" target="_blank" rel="noopener">Texture2d</a>类的方法，使用上也有一些要注意的地方，自己看吧。</p>
-<p>当然，这个方法也不要到实现针对某个相机的截图的功能。不过关键接口已经出现了，它就是Texture2d.ReadPixels()，这段就不说了，接着往下看吧！</p>
-<p>3、这第三个方法，最牛了，可以针对某个相机进行截图。</p>
-<p>这样的话，我就可截下，我的Avatar在游戏中场景中所看的画面了，UI界面（用一个专门的camera显示）什么的是不应该有的。要做到这一点，我们应该将分出一个camera来专门显示ui界面，用另一个camera相机来场景显示场景画面。然后，我们只对场景相机进行截屏就是了。所以这关键点就是：如何实现对某个相机进行截屏了。这里用到一个新的类是RenderTexture。</p>
-<p>代码如下：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary</span><br><span class="line">/// 对相机截图。</span><br><span class="line">/// &lt;/summary</span><br><span class="line">/// &lt;returnsThe screenshot2.&lt;/returns</span><br><span class="line">/// &lt;param name=&quot;camera&quot;Camera.要被截屏的相机&lt;/param</span><br><span class="line">/// &lt;param name=&quot;rect&quot;Rect.截屏的区域&lt;/param</span><br><span class="line">Texture2D CaptureCamera(Camera camera, Rect rect);</span><br><span class="line">// 创建一个RenderTexture对象</span><br><span class="line">RenderTexture rt = new RenderTexture((int)rect.width, (int)rect.height, 0);</span><br><span class="line">// 临时设置相关相机的targetTexture为rt, 并手动渲染相关相机</span><br><span class="line">camera.targetTexture = rt;</span><br><span class="line">camera.Render();</span><br><span class="line"> //ps: --- 如果这样加上第二个相机，可以实现只截图某几个指定的相机一起看到的图像。</span><br><span class="line">//ps: camera2.targetTexture = rt;</span><br><span class="line"> //ps: camera2.Render();</span><br><span class="line"> //ps:</span><br><span class="line">-------------------------------------------------------------------</span><br><span class="line">// 激活这个rt, 并从中中读取像素。</span><br><span class="line"> RenderTexture.active = rt;Texture2D screenShot = new Texture2D((int)rect.width, (int)rect.height, TextureFormat.RGB24, false );</span><br><span class="line">screenShot.ReadPixels(rect,0, 0);// 注：这个时候，它是从RenderTexture.active中读取像素</span><br><span class="line">screenShot.Apply();</span><br><span class="line">// 重置相关参数，以使用camera继续在屏幕上显示</span><br><span class="line"> camera.targetTexture = **null** ;</span><br><span class="line">//ps: camera2.targetTexture = null;</span><br><span class="line"> RenderTexture.active = **null** ; // JC: added to avoid errors</span><br><span class="line">GameObject.Destroy(rt);</span><br><span class="line">// 最后将这些纹理数据，成一个png图片文件</span><br><span class="line"> byte[] bytes = screenShot.EncodeToPNG();</span><br><span class="line"> string filename = Application.dataPath + &quot;/Screenshot.png&quot;;</span><br><span class="line">System.IO.File.WriteAllBytes(filename, bytes);</span><br><span class="line"> Debug.Log(string.Format(&quot;截屏了一张照片: &#123;0&#125;&quot;, filename));</span><br><span class="line">return screenShot;</span><br></pre></td></tr></table></figure>
-
-<p>多的我就不说了，相关知识自己去找资料吧，因为我也不懂！</p>
-<p>直接上图了。</p>
-<p>无ui的全屏图：</p>
-<p>只有ui的全屏图：</p>
-<p>有ui有场景的全屏图（只指定这两个相机哦，相关提示在代码的“//ps”中）：</p>
-<p>转载请在文首注明出处：<a href="http://blog.csdn.net/anyuanlzh/article/details/17008909" target="_blank" rel="noopener">http://blog.csdn.net/anyuanlzh/article/details/17008909</a></p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.142Z">2019-05-17</time>
                 
                 <div class="level-item">
@@ -457,6 +383,112 @@ var _hmt = _hmt || [];
 
 
 
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.110Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    24 分钟 读完 (大约 3564 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/Unity中的时间控制/">Unity中的时间控制</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="关卡创建"><a href="#关卡创建" class="headerlink" title="关卡创建"></a>关卡创建</h1><p>本文会探讨如何在Unity中使用时间控制进行关卡创建。在探讨之前，可以观看视频了解拥有时间控制玩法的解谜游戏《Lintrix》：</p>
+<p>因为与《Lintrix》拥有同样的时间控制玩法的游戏并不多见，因此本文以《Lintrix》为例，说明如何在Unity中实现该功能，以及它可以有哪些应用。<br>我们将以Unity引擎为例，并使用Unity相关的术语，但其概念也适用于其他引擎。</p>
+<h1 id="时间控制对创建关卡的意义"><a href="#时间控制对创建关卡的意义" class="headerlink" title="时间控制对创建关卡的意义"></a>时间控制对创建关卡的意义</h1><p>为什么要用时间控制来辅助创建关卡呢？这样设计的主要契机是：第一，《Lintrix》团队有成员在创建动画编辑器方面具有丰富经验；第二，Unity有一个时间轴，可以查看场景在任何时刻的表现。</p>
+<p>我们希望状态和属性，比如Unity对象的Transforms，可依赖于时间，并且能够跳转到特定时刻，因为如果这样的话，正常进行游戏的时候，所有对象都将拥有相应的状态。</p>
+<p>就游戏本身而言，因为《Lintrix》是确定性的游戏，所以可以很好地利用时间轴来实现时间控制。《Lintrix》场景的许多对象都在游戏进行时移动，并且它们彼此之间的相对位置非常重要，像时间轴这样的工具可以帮助关卡设计者更容易理解该关卡在游戏中的样子，以便在编辑器中进行创建。另外在大多数情况下，我们也很容易编辑某个时刻的关卡，从而让所有的对象在某个具体时间点定位或旋转，并且当时间设置为零或开始移动时，对象会自动重新计算其位置。</p>
+<p>我们提供了快捷键以便于对时间进行前进和后退操作。之后，关卡创建不仅是摆放物体后运行，更多的是向前或向后跳跃，以及重新定位对象，所以这些物体在关卡的任意时刻都要保持在其预先设计的位置。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-140c4eacca6d8184.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>这在《Lintrix》游戏中非常有用：一方面，希望玩家能够连接晶体来消灭所有的敌人；另一方面，又不希望这些连接会覆盖其他晶体或者彼此重叠。</p>
+<h1 id="如何避免对象碰撞"><a href="#如何避免对象碰撞" class="headerlink" title="如何避免对象碰撞"></a>如何避免对象碰撞</h1><p>实际上，在开发《Lintrix》游戏的过程中，重叠是个大问题，因为当场景中大多数对象移动时，很难防止它们过早碰撞。 大部分时间会出现类似这种糟糕的效果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-1dfbf81f5821ec9a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>为了理解物体如何移动，我们添加了移动轨迹。它让敌人在晶体之间移动而不碰撞的问题更加容易避免。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ab68351f900d0193.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>它也可用于可视化晶体运动。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9923e29bb11ab99d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>我们在创建关卡时使用时间控制进行“计时”。 这里的计时表示调整关卡某些部分的运动，使得在关卡运行时物体早点或晚点出现。 有时甚至希望来回移动所有的动作。<br>例如，在关卡开始时可以预留给玩家一些时间，以便他们能够预估将会发生的景象。 使用时间轴可以轻松地将时间移至负值，并将此新时间设为零表示开始。</p>
+<p>因为在编辑器模式下更新时间的脚本被添加到控制时间的对象，如果想要启用或禁用对象上更改时间的效果，只需启用或禁用此脚本，并使它们响应或忽略时间的更改。</p>
+<h1 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h1><p>下面我们一起来看看如何在Unity中实现该功能。</p>
+<p> <strong>创建接口</strong></p>
+<p>首先创建一个非常简单的接口，让所有需要随时间变化的脚本都实现这个接口：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface ITimeChanging</span><br><span class="line">&#123;</span><br><span class="line">    void AddTime(float dt);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>定义时间操控实体</strong></p>
+<p>这个时间操控实体可以为一组实现了ITimeChanging接口的对象调用这些方法。 实体接口如下：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class TimeManager</span><br><span class="line">&#123;</span><br><span class="line">    float Time &#123; get; set; &#125;</span><br><span class="line">    IEnumerable&lt;ITimeChanging&gt; TimeDependants &#123; get; set; &#125;</span><br><span class="line">    void SetTimeBruteForce(float time);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在编辑器模式中，有一个可以让用户直接在运行模式下控制时间的脚本。如下图所示，你可以看到关卡控制器通过它的Update()来增加时间。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-42a1bb7af7898650.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>示例项目下载链接：</p>
+<p><a href="https://github.com/alexander91/timelineExample" target="_blank" rel="noopener">https://github.com/alexander91/timelineExample</a></p>
+<p> <strong>为时间控制添加物体响应</strong></p>
+<p>我们设置了一个时间轴管理器，允许跳转到不同的时刻。<br>以及几个带有线性运动（LineMovement）脚本的立方体，LineMovement脚本继承自ITimeChaning，并监听TimeManager中的时间改变（AddTime），可以在监视器面板设置这个立方体以给定速度朝预定方向移动，代码如下：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class LineMovement : MonoBehaviour, ITimeChanging</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    [SerializeField]</span><br><span class="line">    Vector3 direction = Vector3.up;</span><br><span class="line"></span><br><span class="line">    [SerializeField]</span><br><span class="line">    float speed = 0.2f;</span><br><span class="line"></span><br><span class="line">    public void AddTime(float dt)</span><br><span class="line">    &#123;</span><br><span class="line">        transform.position += dt * speed * direction.normalized;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>综上所述，编辑器自定义时间控制工具非常适用于确定性的游戏，这将让整个工作流程分外轻松。 另外，如果游戏中的动作很简单，也可以很容易在编辑器中提供各种选项。</p>
+<h1 id="时间倒退"><a href="#时间倒退" class="headerlink" title="时间倒退"></a>时间倒退</h1><p>之前我们探讨了Unity中时间控制在<a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651040085&idx=1&sn=12fe0737b989460f1573c8c38289ca11&chksm=bd1a9e648a6d17721c6e7e72aa67623e057abcf14c020e0a469fc57450b3b5631f3108de55fc&scene=21#wechat_redirect" target="_blank" rel="noopener">关卡创建</a>方面的应用，今天我们将以解谜游戏<a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651040085&idx=1&sn=12fe0737b989460f1573c8c38289ca11&chksm=bd1a9e648a6d17721c6e7e72aa67623e057abcf14c020e0a469fc57450b3b5631f3108de55fc&scene=21#wechat_redirect" target="_blank" rel="noopener">《Lintrix》</a>为例，继续为大家分享在开发游戏的过程中，如何在Unity中实现时间倒退功能，并且对游戏设计与机制进行深入的探讨，希望能对大家有帮助。</p>
+<h1 id="时间倒退功能的必要性"><a href="#时间倒退功能的必要性" class="headerlink" title="时间倒退功能的必要性"></a>时间倒退功能的必要性</h1><p>在开发并试玩游戏的过程中，我们认识到玩家往往会忘记在关卡中犯过的错误，所以需要在游戏中做大量的记录。事实上，一些游戏关卡的设计目的就是为了从各个方向分散玩家的注意力，让玩家在某个时刻忽视某个方向来的敌人，最终导致游戏失败。当然，游戏中也有很多选择可以用来帮助玩家回想起发生过的事情，例如展示遇到过敌人的轨迹，或者在玩家之前的游戏过程中角色死亡次数比较多的地方设置警示点。</p>
+<p>但有人担心这样做会让屏幕变得混乱，或者让玩家容易重复之前的行为而不去思考新的方式，降低了游戏的趣味性。为了解决这个问题，我们发现利用时间轴复用功能进行提示似乎是个不错的选择。因为每次游戏失败之后，在玩家点击“重新开始”按钮后，以相反的方向显示之前的游戏经历，如下图所示：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-95c8da7ee1a5ea26.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><em>从失败那一刻开始，呈现最有可能导致失败的片段</em></p>
+<p>但若要有一个完美的解决方案，应该还要知道之前发生了什么事情，记录下来作为回放。</p>
+<h1 id="实现方法-1"><a href="#实现方法-1" class="headerlink" title="实现方法"></a>实现方法</h1><p>事实上，反向回放要做的工作几乎都在上一篇为关卡设置时间轴时就完成了。而下面将要讲述的方法，虽然可能这不是最优的解决方案，但是这种做法十分简单。</p>
+<p>虽然用之前已经实现的后退操作就能完成敌人和水晶的运动。但是关卡中的其它事件是由玩家或者玩家动作触发的。对于这种情况，需要为TimeManager添加新的接口：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public delegate void ReversingTimeActionDelegate();</span><br><span class="line">public class TimeManager</span><br><span class="line">&#123;</span><br><span class="line">    class ReversingActionWithTime</span><br><span class="line">    &#123;</span><br><span class="line">        public float Time &#123; get; set; &#125;</span><br><span class="line">        public ReversingTimeActionDelegate ActionToCarryOut &#123; get; set; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public void RememberAction(ReversingTimeActionDelegate action)</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们引入了ReversingActionWithTime这个类来记录动作的时间以及一个函数，它可以执行反向动作，这个逻辑与编程中的命令模式相似，但它是通过与时间绑定而不是点击ctrl+Z或其他类似的组合键来触发执行的。当关卡运行且动作发生时，只需要把RememberAction反向函数添加到这一时刻，如果想让时间倒退就可以调用这个函数。</p>
+<p>例如当有敌人碰到屏障且消失时，就添加这个函数。在之后点击重新开始后，就可以回放到这一时间点了。<br>这个函数会自动用于再次激活敌人的TimeManager调用，使敌人出现在屏幕上：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class Enemy</span><br><span class="line">&#123;</span><br><span class="line">    void onCollisionWithBarrier()</span><br><span class="line">    &#123;</span><br><span class="line">        timeManager.RememberAction(Activate);</span><br><span class="line">        Deactivate();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void Activate()</span><br><span class="line">    &#123;</span><br><span class="line">        // 进行激活相关的操作</span><br><span class="line">    &#125;</span><br><span class="line">    //.. 剩下的实现</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在时间倒退模式中，我们并不关心碰撞，因为这些碰撞已经在游戏正常运行的时候发生了。只需要倒退游戏状态以更快的速度跳过一些帧即可，<br>这里不需要太强大的设备，因为倒退可以按照正常速度的20倍进行，并且关卡倒退完成就相当于重置所有对象的位置。</p>
+<p>但是在某些情况下，也需要将一些变量的值存储在函数中。例如下图中黄色的搬运者敌人，一种在被消灭后会产生细小敌人的角色，它的确切运动需要记录下来，是因为生成的小敌人的运动轨迹会有1秒或2秒的随机延迟。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3af11a7f940de8e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<h1 id="视觉反馈"><a href="#视觉反馈" class="headerlink" title="视觉反馈"></a>视觉反馈</h1><p>为了让玩家更好地注意到时间倒退的发生，要添加一些视觉反馈功能。玩家非常喜欢游戏中时间倒退的部分，特别是引入像移动水晶或搬运者这些高端的东西的时候。时间倒退不仅是一个视觉体验，而且还能让玩家再回顾一次如何败给之前的敌人。这可以给玩家在游戏开始前留一些缓冲时间，可以减少一些挫败感。</p>
+<p>当玩家成功地通关之后，我们大概都会做相似的事情。比如把界面切换到游戏地图，而不仅仅是打开下一关卡，播放不同类型的动画并且有专门的地方让玩家查看进度。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-26cf5128bea95b78.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>例如在上图中，我们把红色的敌人高亮了，因为这是玩家需要看到的最重要的东西，同时，这样还会得到一个很好的视觉效果。我们还添加了时间倒退小图标，虽然最开始我们尝试过类似VHS的时间倒退效果，但这不符合我们的视觉风格。这个简单的效果只需使用灰度就能实现，但要让值大于0.7的红色像素保持不变。</p>
+<p>另外，如果想要将这个效果应用到相机而非单独的物体中，我们可以将着色器赋给某个材质，并将下面脚本绑定到相机中：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line">public class BasicPostEffect : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    [SerializeField]</span><br><span class="line">    Material mat;</span><br><span class="line"></span><br><span class="line">    void OnRenderImage(RenderTexture src, RenderTexture dst)</span><br><span class="line">    &#123;</span><br><span class="line">        Graphics.Blit(src, dst, mat);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接着，将新材质赋给相机对应的字段。有趣的事情是添加了这个效果之后，玩家最终可以直观的知道发生了什么事情，并且不再点击屏幕创建屏障了。同样有趣的是，有部分玩家观察到有一个倒退回放只会在十次重新开始后出现，但对这个回放丝毫没有印象。</p>
+<p>基于上述的讨论，我们还添加了双击屏幕任何地方就能跳过倒退回放的功能，双击屏幕也算是玩家想跳过的时候最常见的反应了。</p>
+<h1 id="延伸思考"><a href="#延伸思考" class="headerlink" title="延伸思考"></a>延伸思考</h1><p>这篇教程还可以举一反三，尝试一些其它用法。例如在游戏中，玩家失败后就及时提供指示信息，然后倒退一点时间并让玩家再次挑战。在我们看来，这比让整个关卡重新开始，或在玩家要行动的时候停下来提示的做法要好。还可以倒退回玩家连续多次失败的关节点。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>希望您能轻松上手这个功能，实现时间倒退的效果。在下一篇文章中，我们会关注利用了时间轴的游戏设计，了解如何解决一些常见的问题并提升游戏质量。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
     
 <div class="card card-transparent">
@@ -481,7 +513,7 @@ var _hmt = _hmt || [];
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/47/">47</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/46/">46</a></li>
             
         </ul>
     </nav>
@@ -529,7 +561,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        139
+                        138
                     </p>
                 </div>
             </div>
@@ -655,7 +687,7 @@ var _hmt = _hmt || [];
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -720,19 +752,6 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -781,6 +800,19 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -799,7 +831,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -932,7 +964,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 
@@ -1047,19 +1079,6 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -1108,6 +1127,19 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -1126,7 +1158,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -1259,7 +1291,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 

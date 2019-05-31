@@ -153,102 +153,6 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.594Z">2019-05-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    7 分钟 读完 (大约 1114 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/虚拟摇杆EasyTouch/">虚拟摇杆EasyTouch</a>
-            
-        </h1>
-        <div class="content">
-            <p>对于移动平台上的RPG类的游戏，我们常用虚拟摇杆来控制人物角色的行走和一些行为，相信我们对它并不陌生，之前尝试了EasyTouch2.5，发现并没有最新版的3.1好用，2.5版本的对于自适应没有做的很好，而最新版的已经解决了这一问题。当然unity也自带了摇杆Joystick，用起来也简单，但存在不少局限，不会满足普通mmo游戏的需求，比如指定显示区域或者是更改一些素材等等，而这些EasyTouch插件都已经帮你实现，不得不佩服插件的原作者，能做出这么炫酷好用的插件，当然这估计是老外开发的，关于插件的下载，你可以在AssetStore上购买，当然也可以使用free版。</p>
-<p>我这里也提供一个3.1版本的插件下载地址： &lt;<a href="http://download.csdn.net/detail/s10141303/6962919" target="_blank" rel="noopener">http://download.csdn.net/detail/s10141303/6962919</a></p>
-<h1 id="一、效果图"><a href="#一、效果图" class="headerlink" title="一、效果图"></a><strong>一、效果图</strong></h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-f9f6499d5185f13a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-fbe8d10aa2e67ea8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>感觉很酷有木有！接下来就看一下创建的过程吧！</p>
-<h1 id="二、操作步骤"><a href="#二、操作步骤" class="headerlink" title="二、操作步骤"></a>二、操作步骤</h1><h2 id="1-官方文档上的步骤"><a href="#1-官方文档上的步骤" class="headerlink" title="1.官方文档上的步骤"></a>1.官方文档上的步骤</h2><p>Quick Start (C#)</p>
-<p>1-Import EasyTouch Package.</p>
-<p>2-Create an empty gameObject, and name it EasyTouch.(You can choose another<br>name)</p>
-<p>Step 1 &amp; 2 can be replace by the option menu</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7399514313146199.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>3-Add the EasyTouch.cs script on the EasyTouch gameObject that you just<br>created.</p>
-<p>4-Select the EasyTouch gameobject, and verifies that Broadcast messages is set<br>to FALSE in the inspector.</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9dc3ee3597dd9b52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>5-Create a new C# script MyFirstTouch</p>
-<p>6-Add these methods</p>
- <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">// Subscribe to events</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> void OnEnable()&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> EasyTouch.On_TouchStart += On_TouchStart;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // Unsubscribe</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> void OnDisable()&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> EasyTouch.On_TouchStart -= On_TouchStart;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // Unsubscribe</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> void OnDestroy()&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> EasyTouch.On_TouchStart -= On_TouchStart;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // Touch start event</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> public void On_TouchStart(Gesture gesture)&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> Debug.Log( &quot;Touch in &quot; + gesture.position);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-<p>7-Create an empty gameObject, and name it Receiver.</p>
-<p>8- Add MyFirstTouch script to the gameObject Receiver.</p>
-<p>9- Run it in editor, and click on the screen</p>
-<h2 id="2-翻译一下以上的步骤"><a href="#2-翻译一下以上的步骤" class="headerlink" title="2.翻译一下以上的步骤"></a>2.翻译一下以上的步骤</h2><p>1.import“EasyTouch”资源包</p>
-<p>2.创建空物体，命名为EasyTouch(当然你也可以改成其他名字)</p>
-<p>3.添加EasyTouch.cs脚本在刚刚创建的空物体（EasyTouch）上</p>
-<p>4.选择改物体但不要将BroadcastMessages勾选</p>
-<p>5.创建一个新的C#脚本，命名MyFirstTouch</p>
-<p>6.添加这些方法</p>
-<p>7.再创建一个空物体，命名为Receiver</p>
-<p>8.将MyFirstTouch脚本添加到空物体Receiver上</p>
-<p>9.运行并且点击遥感，会发现控制台打印了当前按下的坐标</p>
-<h2 id="3-根据官方的这些提示，自己来做一个属于自己的人物遥感控制"><a href="#3-根据官方的这些提示，自己来做一个属于自己的人物遥感控制" class="headerlink" title="3.根据官方的这些提示，自己来做一个属于自己的人物遥感控制"></a>3.根据官方的这些提示，自己来做一个属于自己的人物遥感控制</h2><p>1.导入EasyTouch3资源包</p>
-<p>2.做好前期准备，包括人物模型、地形的创建</p>
-<p>3.添加JoyStick实例：Hedgehog Team-Easy Touch-Extensions-Add a new<br>Joystick。此时就会在左下角创建了虚拟遥感的实例。</p>
-<p>4.设置遥感的相关参数</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-d63f7a1741d0a440.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>.创建脚本MoveController.cs用来接收遥感事件控制角色的移动</p>
- <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using System.Collections;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> public class MoveController : MonoBehaviour &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     void OnEnable()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         EasyJoystick.On_JoystickMove += OnJoystickMove;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         EasyJoystick.On_JoystickMoveEnd += OnJoystickMoveEnd;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     //移动摇杆结束</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     void OnJoystickMoveEnd(MovingJoystick move)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         //停止时，角色恢复idle</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         if (move.joystickName == &quot;MoveJoystick&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             animation.CrossFade(&quot;idle&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     //移动摇杆中</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     void OnJoystickMove(MovingJoystick move)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         if (move.joystickName != &quot;MoveJoystick&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             return;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         //获取摇杆中心偏移的坐标</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         float joyPositionX = move.joystickAxis.x;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         float joyPositionY = move.joystickAxis.y;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         if (joyPositionY != 0 || joyPositionX != 0)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             //设置角色的朝向（朝向当前坐标+摇杆偏移量）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            transform.LookAt(new Vector3(transform.position.x + joyPositionX,</span><br><span class="line">transform.position.y, transform.position.z + joyPositionY));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             //移动玩家的位置（按朝向位置移动）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             transform.Translate(Vector3.forward * Time.deltaTime * 5);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             //播放奔跑动画</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             animation.CrossFade(&quot;run&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-<p>几个函数的执行顺序：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-bc66eae1984685ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>6.效果图</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-338cbbe5e1d99bf7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>7.创建点击按钮</p>
-<p>点击HedgehogTeam-EasyTouch-Extensions-Create a new Button,会在屏幕右下角创建一个button</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-75d36b726eb6a798.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>如何让有下角的按钮点击能做出我们想要的效果呢？</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-821fa06a97c0dbfe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>jump方法：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-87d670465948f1b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>然后点击一下按钮，人物就会跳跃动作！</p>
-<p>其他教程：</p>
-<p>&lt;<a href="http://blog.csdn.net/janeky/article/details/17364903" target="_blank" rel="noopener">http://blog.csdn.net/janeky/article/details/17364903</a></p>
-<p>&lt;<a href="http://www.newbieol.com/information/564.html" target="_blank" rel="noopener">http://www.newbieol.com/information/564.html</a></p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.577Z">2019-05-17</time>
                 
                 <div class="level-item">
@@ -454,6 +358,67 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
 
 
 
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.545Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    3 分钟 读完 (大约 491 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/DoTween对UI进行DoFade操作存在问题及解决办法/">DoTween对UI进行DoFade操作存在问题及解决办法</a>
+            
+        </h1>
+        <div class="content">
+            <p>Unity版本：5.2, 5.4</p>
+<p>当使用this.GetComponent&lt;Image().material.DOFade(0,<br>2).SetEase(Ease.InBounce);来对UGUI的Image进行褪色操作的时候本质是对UI的Graphic对象（Text，Image等都为Graphic的子类）的material进行操作,下例是对Text组件进行褪色操作：Transform.GetComponent().material.DoFade(0,1)。虽然脚本只挂在一个Text组件的物体上，但1秒之后发现，整个UI界面全部变为透明。</p>
+<p>（我也很纳闷，cube01.GetComponent&lt;Renderer ().material.color =<br>Color.black;这样的代码照理说是这样执行的（&lt;<a href="http://www.jianshu.com/p/ababf547d992）：" target="_blank" rel="noopener">http://www.jianshu.com/p/ababf547d992）：</a></p>
+<p> Material lastMat = cube01.GetComponent&lt;Renderer ().material</p>
+<p> Material m = Instantiate(lastMat) as Material</p>
+<p> cube01.GetComponent&lt;Renderer ().material = m</p>
+<p> m.color = Color.black</p>
+<p>应该是最自己持有的material进行操做。。。</p>
+<p>）</p>
+<p>经测试发现，所有使用缺省material的组件都是使用的默认的material，而这个material只存在一份，所有UI组件使用的默认material都只是该material的引用，在DoTween对其进行褪色操作之后，该material的alpha值保持为0不变，且游戏重新开始也不会将其alpha值重置为1。</p>
+<p>解决办法:</p>
+<p>导入DoTween后请确保Setup DoTween， Tools/DoTween Utility Panel/Setup<br>DoTween…。导入后就可以使用Image.DoFade了。</p>
+<p>使用Unity自带的Graphic.CrossFadeAlpha(float alpha, float duration, bool<br>ignoreTimeScale)函数来操作</p>
+<p>自己扩展DoTween的方法，下面是我扩展的一个例子,可以参考DoTwen官网的<a href="http://dotween.demigiant.com/examples.php" target="_blank" rel="noopener">Creating custom plugins<br>example</a></p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br></pre></td><td class="code"><pre><span class="line">/  DoFadeTest.cs</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> /  Project: GUITest</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> /  Created by zhiheng.shao</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> /  Copyright  2016年 zhiheng.shao. All rights reserved.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> /  Description</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using UnityEngine;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using System.Collections;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using DG.Tweening;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using UnityEngine.UI;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using DG.Tweening.RickExtension;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> public class DoFadeTest : MonoBehaviour</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     // Use this for initialization</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     Start()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         .GetComponent&lt;Image().DOFade(, ).SetEase(Ease.InBounce);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> namespace DG.Tweening.RickExtension</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     public static class DOTweenExteion</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         public static Tweener DOFade( Image image, float endValue, float</span><br><span class="line">duration)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             Debug.Log(&quot;CustomDoFade&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             return DOTween.To(image.AlphaGetter, image.AlphaSetter,</span><br><span class="line">endValue, duration);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         private static float AlphaGetter( Image image)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             return image.color.a;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         private static  AlphaSetter( Image image, float alpha)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             Color oldColor = image.color;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             oldColor.a = alpha;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             image.color = oldColor;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>附：<a href="http://dotween.demigiant.com/index.php" target="_blank" rel="noopener">DoTween官网</a></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
     
 <div class="card card-transparent">
@@ -478,7 +443,7 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/47/">47</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/46/">46</a></li>
             
         </ul>
     </nav>
@@ -526,7 +491,7 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        139
+                        138
                     </p>
                 </div>
             </div>
@@ -652,7 +617,7 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -717,19 +682,6 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -778,6 +730,19 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -796,7 +761,7 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -929,7 +894,7 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 
@@ -1044,19 +1009,6 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -1105,6 +1057,19 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -1123,7 +1088,7 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -1256,7 +1221,7 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 

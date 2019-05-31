@@ -153,90 +153,6 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.483Z">2019-05-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/C/">C#</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    6 分钟 读完 (大约 847 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/blog/2019/05/17/CSharp/把代码混淆过的游戏反混淆回来/">把代码混淆过的游戏反混淆回来</a>
-            
-        </h1>
-        <div class="content">
-            <p>最近一直在找如何在MAC上混淆Android的DLL，至今没能找到合适的，有大神知道记得告诉我喔。今天群里有人说了一个混淆代码和返混淆代码的工具de4dot<br>，不查不知道一查吓一跳。这玩意可以把别人混淆过的代码反混淆回来。</p>
-<p>这个工程是开源的<a href="https://github.com/0xd4d/de4dot" target="_blank" rel="noopener">https://github.com/0xd4d/de4dot
-</a>找一台Windows电脑，下载后在VS上面打开它，另外它不能直接编译，需要在引入一个库文件。为了方便大家我把能正常编译的工程提供出来。</p>
-<p>下载地址：<a href="http://pan.baidu.com/s/1ntjw3mL" target="_blank" rel="noopener">http://pan.baidu.com/s/1ntjw3mL</a></p>
-<p>如下图所示，打开工程后在VS里面快捷键F6，编译完成后会生成出来de4dot.exe<br>。那么我们返混淆就是通过这个exe来将unity生成的dll返混淆回来。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-eaecfa3ebbaf0ccb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>经过混淆的代码反编译后。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3231ab1fd100615a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>反混淆以后，如下图所示，属性名子就出来了。但是方法名就回不来了，都是按数字一次加上去，不过这些总比方括号好看多了。而且我看了一下内容，有些方法内容奇葩的地方也都解的至少能看。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ed734806d56841e7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>在Windows里面的cmd里面输入</p>
-<blockquote>
-<p>de4dot.exe test.dll -p un</p>
-</blockquote>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9c713a1f7f766116.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>另外你随便下载一个用Unity做的安卓游戏，然后把apk解开把里面的Assembly-<br>CSharp.dll找出来，它的代码都在里面。如果它的代码没有做混淆工作，那么可以直接反编译出来。 如下图所示，返混淆会在原始dll的目录下生成一个后缀-<br>cleaned.dll的文件。然后用反编译工具打开它即可。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-eefe38f5111947ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>de4dot<br>看起来应该是非常强大，他支持返混淆这么多工具。。我就不一个一个试了，希望阅读本文的你帮我做一下测试，看看是不是所有混效果的Unity游戏都可以解开。</p>
-<p>Agile.NET (aka CliSecure)</p>
-<p>Babel.NET</p>
-<p>CodeFort</p>
-<p>CodeVeil</p>
-<p>CodeWall</p>
-<p>CryptoObfuscator</p>
-<p>DeepSea Obfuscator</p>
-<p>Dotfuscator</p>
-<p>.NET Reactor</p>
-<p>Eazfuscator.NET</p>
-<p>Goliath.NET</p>
-<p>ILProtector</p>
-<p>MaxtoCode</p>
-<p>MPRESS</p>
-<p>Rummage</p>
-<p>Skater.NET</p>
-<p>SmartAssembly</p>
-<p>Spices.Net</p>
-<p>Xenocode</p>
-<p>de4dot不仅仅可以返混淆，它也可以自身去混淆。。大家可以看看它的gitHub上的介绍，哎 又是一个必须在Windwos上完成的操作。。<br>今天把研究成果发出来，希望大家多多测试一下，看看能不能把所有混淆过的Unity游戏返混淆回来。 另外有什么最近进展大家一定要告诉我呀。。嘿嘿嘿嘿。</p>
-<p>雨松MOMO提醒您：亲，如果您觉得本文不错，快快将这篇文章分享出去吧 。另外请点击网站顶部彩色广告或者捐赠支持本站发展，谢谢！</p>
-<p> <strong>作者：雨松MOMO</strong></p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.182Z">2019-05-17</time>
                 
                 <div class="level-item">
@@ -564,6 +480,80 @@ var _hmt = _hmt || [];
 
 
 
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.157Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    2 分钟 读完 (大约 311 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/截图的实现/">截图的实现</a>
+            
+        </h1>
+        <div class="content">
+            <p>下面是我总结的、在u3d中的，三种截屏方法：</p>
+<p>1、使用Application类下的CaptureScreenshot方法。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void CaptureScreen()</span><br><span class="line">&#123;</span><br><span class="line">    Application.CaptureScreenshot(&quot;Screenshot.png&quot;, 0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个方法，截取的是某一帧时整个游戏的画面，或者说是全屏截图吧。</p>
+<p>a、不能针对某一个相机（camera）的画面，进行截图。</p>
+<p>b、对局部画面截图，实现起来不方便，效率也低，不建议在项目中使用：</p>
+<p>虽然CaptureScreenshot这个方法呢，本身是不要做到这一点的。但是我们可以走曲线救国的路线来实现它。思路是这样的：你可以先用这个方法截图一个全屏，然后通过路径获取到这个截图；接下来就通过相关的图形类来，取得这个截图的局部区域并保存下来，这样就能得到一个局部截图了。在这里我就不实现它了，不过有兴趣的可以试试，肯定是可以实现的。</p>
+<p>2、这第二个截图的方法是，使用Texture2d类下的相关方法，也可实现截图功能。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary</span><br><span class="line">/// Captures the screenshot2.</span><br><span class="line">/// &lt;/summary</span><br><span class="line">/// &lt;returnsThe screenshot2.&lt;/returns</span><br><span class="line">/// &lt;param name=&quot;rect&quot;Rect.截图的区域，左下角为o点&lt;/param</span><br><span class="line">Texture2D CaptureScreenshot2(Rect rect);</span><br><span class="line">// 先创建一个的空纹理，大小可根据实现需要来设置</span><br><span class="line">Texture2D screenShot = new Texture2D((int)rect.width, (int)rect.height, TextureFormat.RGB24, false);</span><br><span class="line">// 读取屏幕像素信息并存储为纹理数据，</span><br><span class="line">screenShot.ReadPixels(rect,0, 0);</span><br><span class="line">screenShot.Apply();</span><br><span class="line">// 然后将这些纹理数据，成一个png图片文件</span><br><span class="line">byte[] bytes = screenShot.EncodeToPNG();</span><br><span class="line">string filename = Application.dataPath + &quot;/Screenshot.png&quot;;</span><br><span class="line">System.IO.File.WriteAllBytes(filename, bytes);</span><br><span class="line"> Debug.Log(string.Format(&quot;截屏了一张图片: &#123;0&#125;&quot;, filename));</span><br><span class="line">     // 最后，我返回这个Texture2d对象，这样我们直接，所这个截图图示在游戏中，当然这个根据自己的需求的。</span><br><span class="line"> return screenShot;</span><br></pre></td></tr></table></figure>
+
+<p>截全屏：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CaptureScreenshot2( new Rect( Screen.width*0f, Screen.height*0f,</span><br><span class="line">Screen.width*1f, Screen.height*1f));</span><br></pre></td></tr></table></figure>
+
+<p>截中间4分之1:</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CaptureScreenshot2( new Rect( Screen.width*0.25f, Screen.height*0.25f,</span><br><span class="line">Screen.width*0.5f, Screen.height*0.5f));</span><br></pre></td></tr></table></figure>
+
+<p>这里使用了几个<a href="http://docs.unity3d.com/Documentation/ScriptReference/Texture2D.html" target="_blank" rel="noopener">Texture2d</a>类的方法，使用上也有一些要注意的地方，自己看吧。</p>
+<p>当然，这个方法也不要到实现针对某个相机的截图的功能。不过关键接口已经出现了，它就是Texture2d.ReadPixels()，这段就不说了，接着往下看吧！</p>
+<p>3、这第三个方法，最牛了，可以针对某个相机进行截图。</p>
+<p>这样的话，我就可截下，我的Avatar在游戏中场景中所看的画面了，UI界面（用一个专门的camera显示）什么的是不应该有的。要做到这一点，我们应该将分出一个camera来专门显示ui界面，用另一个camera相机来场景显示场景画面。然后，我们只对场景相机进行截屏就是了。所以这关键点就是：如何实现对某个相机进行截屏了。这里用到一个新的类是RenderTexture。</p>
+<p>代码如下：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary</span><br><span class="line">/// 对相机截图。</span><br><span class="line">/// &lt;/summary</span><br><span class="line">/// &lt;returnsThe screenshot2.&lt;/returns</span><br><span class="line">/// &lt;param name=&quot;camera&quot;Camera.要被截屏的相机&lt;/param</span><br><span class="line">/// &lt;param name=&quot;rect&quot;Rect.截屏的区域&lt;/param</span><br><span class="line">Texture2D CaptureCamera(Camera camera, Rect rect);</span><br><span class="line">// 创建一个RenderTexture对象</span><br><span class="line">RenderTexture rt = new RenderTexture((int)rect.width, (int)rect.height, 0);</span><br><span class="line">// 临时设置相关相机的targetTexture为rt, 并手动渲染相关相机</span><br><span class="line">camera.targetTexture = rt;</span><br><span class="line">camera.Render();</span><br><span class="line"> //ps: --- 如果这样加上第二个相机，可以实现只截图某几个指定的相机一起看到的图像。</span><br><span class="line">//ps: camera2.targetTexture = rt;</span><br><span class="line"> //ps: camera2.Render();</span><br><span class="line"> //ps:</span><br><span class="line">-------------------------------------------------------------------</span><br><span class="line">// 激活这个rt, 并从中中读取像素。</span><br><span class="line"> RenderTexture.active = rt;Texture2D screenShot = new Texture2D((int)rect.width, (int)rect.height, TextureFormat.RGB24, false );</span><br><span class="line">screenShot.ReadPixels(rect,0, 0);// 注：这个时候，它是从RenderTexture.active中读取像素</span><br><span class="line">screenShot.Apply();</span><br><span class="line">// 重置相关参数，以使用camera继续在屏幕上显示</span><br><span class="line"> camera.targetTexture = **null** ;</span><br><span class="line">//ps: camera2.targetTexture = null;</span><br><span class="line"> RenderTexture.active = **null** ; // JC: added to avoid errors</span><br><span class="line">GameObject.Destroy(rt);</span><br><span class="line">// 最后将这些纹理数据，成一个png图片文件</span><br><span class="line"> byte[] bytes = screenShot.EncodeToPNG();</span><br><span class="line"> string filename = Application.dataPath + &quot;/Screenshot.png&quot;;</span><br><span class="line">System.IO.File.WriteAllBytes(filename, bytes);</span><br><span class="line"> Debug.Log(string.Format(&quot;截屏了一张照片: &#123;0&#125;&quot;, filename));</span><br><span class="line">return screenShot;</span><br></pre></td></tr></table></figure>
+
+<p>多的我就不说了，相关知识自己去找资料吧，因为我也不懂！</p>
+<p>直接上图了。</p>
+<p>无ui的全屏图：</p>
+<p>只有ui的全屏图：</p>
+<p>有ui有场景的全屏图（只指定这两个相机哦，相关提示在代码的“//ps”中）：</p>
+<p>转载请在文首注明出处：<a href="http://blog.csdn.net/anyuanlzh/article/details/17008909" target="_blank" rel="noopener">http://blog.csdn.net/anyuanlzh/article/details/17008909</a></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
     
 <div class="card card-transparent">
@@ -588,7 +578,7 @@ var _hmt = _hmt || [];
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/47/">47</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/46/">46</a></li>
             
         </ul>
     </nav>
@@ -636,7 +626,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        139
+                        138
                     </p>
                 </div>
             </div>
@@ -762,7 +752,7 @@ var _hmt = _hmt || [];
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -827,19 +817,6 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -888,6 +865,19 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -906,7 +896,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -1039,7 +1029,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 
@@ -1154,19 +1144,6 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -1215,6 +1192,19 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -1233,7 +1223,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -1366,7 +1356,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 

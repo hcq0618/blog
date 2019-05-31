@@ -153,61 +153,6 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-25T12:39:13.133Z">2019-05-25</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    3 分钟 读完 (大约 421 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/blog/2019/05/25/React-Native/BindingX/">BindingX</a>
-            
-        </h1>
-        <div class="content">
-            <p><strong>基于weex / React Native的富交互解决方案。</strong></p>
-<p>官网:<a href="https://alibaba.github.io/bindingx/" target="_blank" rel="noopener">https://alibaba.github.io/bindingx/</a></p>
-<p>它提供了一种称之为表达式绑定(Expression Binding)的机制可以在 weex<br>上让手势等复杂交互操作以60fps的帧率流畅执行，而不会导致卡顿，因而带来了更优秀的用户体验 。</p>
-<h1 id="简要介绍"><a href="#简要介绍" class="headerlink" title="简要介绍"></a>简要介绍</h1><p>由于weex/RN框架底层使用的JS-Native<br>Bridge具有天然的异步特性，这使得JS和Native之间的通信会有固定的性能损耗，因此在一些复杂的实时交互场景中(如手势)，JS<br>代码很难以高帧率运行，这极大地限制了框架的能力。目前官方并没有很好的方式解决。</p>
-<p>而我们通过探索，提出了一种全新的方式用来解决这个问题，方案称之为Expression<br>Binding。它的核心思想是将”交互行为”以表达式的方式描述，并提前预置到Native从而避免Native与JS频繁通信。</p>
-<h1 id="示例展示"><a href="#示例展示" class="headerlink" title="示例展示"></a>示例展示</h1><p>下面展示了一部分使用bindingx的示例。您可以下载或者编译我们的playground<br>app来获取更多的示例。同时，您也可以在我们的<a href="https://alibaba.github.io/bindingx/playground" target="_blank" rel="noopener">在线playground</a>上编写您自己的demo。</p>
-<p>注意：Weex支持两种前端写法（rax和vue），链接是直接跳转到Playground。 React-<br>Native由于目前Playground还不支持，所以直接跳转到源码。</p>
-<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><p>复杂但流畅的交互效果</p>
-<p>强大的表达式解析引擎</p>
-<p>丰富的缓动函数</p>
-<h1 id="文档与教程"><a href="#文档与教程" class="headerlink" title="文档与教程"></a>文档与教程</h1><p><a href="https://alibaba.github.io/bindingx/guide/introduce" target="_blank" rel="noopener">https://alibaba.github.io/bindingx/guide/introduce</a></p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time>
                 
                 <div class="level-item">
@@ -496,6 +441,92 @@ var _hmt = _hmt || [];
 
 
 
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-18T08:26:29.223Z">2019-05-18</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/后端/">后端</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    8 分钟 读完 (大约 1231 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/18/后端/DB主从一致性架构优化4种方法/">DB主从一致性架构优化4种方法</a>
+            
+        </h1>
+        <div class="content">
+            <p>需求缘起</p>
+<p>大部分互联网的业务都是“读多写少”的场景，数据库层面，读性能往往成为瓶颈。如下图：业界通常采用“一主多从，读写分离，冗余多个读库”的数据库架构来提升数据库的读性能。</p>
+<p>这种架构的一个潜在缺点是，业务方有可能读取到并不是最新的旧数据：</p>
+<p>（1）系统先对DB-master进行了一个写操作，写主库</p>
+<p>（2）很短的时间内并发进行了一个读操作，读从库，此时主从同步没有完成，故读取到了一个旧数据</p>
+<p>（3）主从同步完成</p>
+<p>有没有办法解决或者缓解这类“由于主从延时导致读取到旧数据”的问题呢，这是本文要集中讨论的问题。</p>
+<p>方案一（半同步复制）</p>
+<p>不一致是因为写完成后，主从同步有一个时间差，假设是500ms，这个时间差有读请求落到从库上产生的。有没有办法做到，等主从同步完成之后，主库上的写请求再返回呢？答案是肯定的，就是大家常说的“半同步复制<br>”semi-sync：</p>
+<p>（1）系统先对DB-master进行了一个写操作，写主库</p>
+<p>（2）等主从同步完成，写主库的请求才返回</p>
+<p>（3）读从库，读到最新的数据（如果读请求先完成，写请求后完成，读取到的是“当时”最新的数据）</p>
+<p>方案优点：利用数据库原生功能，比较简单</p>
+<p>方案缺点：主库的写请求时延会增长，吞吐量会降低</p>
+<p>方案二（强制读主库）</p>
+<p>如果不使用“增加从库”的方式来增加提升系统的读性能，完全可以读写都落到主库，这样就不会出现不一致了：</p>
+<p>方案优点：“一致性”上不需要进行系统改造</p>
+<p>方案缺点：只能通过cache来提升系统的读性能，这里要进行系统改造</p>
+<p>方案三（数据库中间件）</p>
+<p>如果有了数据库中间件，所有的数据库请求都走中间件，这个主从不一致的问题可以这么解决：</p>
+<p>（1）所有的读写都走数据库中间件，通常情况下，写请求路由到主库，读请求路由到从库</p>
+<p>（2）记录所有路由到写库的key，在经验主从同步时间窗口内（假设是500ms），如果有读请求访问中间件，此时有可能从库还是旧数据，就把这个key上的读请求路由到主库</p>
+<p>（3）经验主从同步时间过完后，对应key的读请求继续路由到从库</p>
+<p>方案优点：能保证绝对一致</p>
+<p>方案缺点：数据库中间件的成本比较高</p>
+<p>方案四（缓存记录写key法）</p>
+<p>既然数据库中间件的成本比较高，有没有更低成本的方案来记录某一个库的某一个key上发生了写请求呢？很容易想到使用缓存，当写请求发生的时候：</p>
+<p>（1）将某个库上的某个key要发生写操作，记录在cache里，并设置“经验主从同步时间”的cache超时时间，例如500ms</p>
+<p>（2）修改数据库</p>
+<p>而读请求发生的时候：</p>
+<p>（1）先到cache里查看，对应库的对应key有没有相关数据</p>
+<p>（2）如果cache hit，有相关数据，说明这个key上刚发生过写操作，此时需要将请求路由到主库读最新的数据</p>
+<p>（3）如果cache miss，说明这个key上近期没有发生过写操作，此时将请求路由到从库，继续读写分离</p>
+<p>方案优点：相对数据库中间件，成本较低</p>
+<p>方案缺点：为了保证“一致性”，引入了一个cache组件，并且读写数据库时都多了一步cache操作</p>
+<p>总结</p>
+<p>为了解决主从数据库读取旧数据的问题，常用的方案有四种：</p>
+<p>（1）半同步复制</p>
+<p>（2）强制读主</p>
+<p>（3）数据库中间件</p>
+<p>（4）缓存记录写key</p>
+<p>前3个方案在今年数据库大会（DTCC2016）上share过，相关的材料在网上能下载到。第4个方案是大会现场有其他同学share的一个好方法，感谢这位同学。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
     
 <div class="card card-transparent">
@@ -520,7 +551,7 @@ var _hmt = _hmt || [];
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/47/">47</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/46/">46</a></li>
             
         </ul>
     </nav>
@@ -568,7 +599,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        139
+                        138
                     </p>
                 </div>
             </div>
@@ -694,7 +725,7 @@ var _hmt = _hmt || [];
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -759,19 +790,6 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -820,6 +838,19 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -838,7 +869,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -971,7 +1002,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 
@@ -1086,19 +1117,6 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
-                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
                     <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
@@ -1147,6 +1165,19 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.782Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/RxJS/" class="has-link-black-ter is-size-6">RxJS</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -1165,7 +1196,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">139</span>
+                    <span class="level-item tag">138</span>
                 </span>
             </a>
         </li>
@@ -1298,7 +1329,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 
