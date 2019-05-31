@@ -320,19 +320,18 @@ var _hmt = _hmt || [];
         <h3 class="title is-5 has-text-weight-normal">评论</h3>
         
 <div id="comment-container"></div>
-<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.4.1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.4.1/dist/gitalk.min.js"></script>
 <script>
-	var gitment = new Gitment({
-		id: '2019/05/17/Unity插件/Unity-AssetBundle可视化构建工具/',
-		owner: 'hcq0618',
-		repo: 'https://github.com/hcq0618/blog',
-		oauth: {
-			client_id: '3da22245cda693aa6eb0',
-			client_secret: '561aabd9a446c63ad90523ae0bd153bf7863b176',
-		},
-	})
-	gitment.render('comment-container')
+    var gitalk = new Gitalk({
+        clientID: '3da22245cda693aa6eb0',
+        clientSecret: '561aabd9a446c63ad90523ae0bd153bf7863b176',
+        id: '061779dcf380dcdc24f53f516d1fde7f',
+        repo: 'https://github.com/hcq0618/blog',
+        owner: 'hcq0618',
+        admin: "hcq0618"
+    })
+    gitalk.render('comment-container')
 </script>
 
     </div>
