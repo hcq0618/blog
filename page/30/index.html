@@ -153,7 +153,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.905Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.066Z">2019-05-17</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
@@ -163,7 +163,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    14 分钟 读完 (大约 2100 个字)
+                    23 分钟 读完 (大约 3421 个字)
                 </span>
                 
                 
@@ -172,45 +172,212 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/Unity5开发Oculus项目入门范例/">Unity5开发Oculus项目入门范例</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/各种移动GPU压缩纹理的使用方法/">各种移动GPU压缩纹理的使用方法</a>
             
         </h1>
         <div class="content">
-            <p>今天为大家介绍使用Unity 5开发Oculus项目的入门范例Oculus Sample<br>Framework，该范例由Oculus制作，是为VR开发者和设计师提供的实验性示例集合。</p>
-<p>其中包含了一系列的解决VR典型问题的示例场景，有第一人称视角的运动机制和基于注视的交互界面。每个范例都提供了在应用内调整参数的控制面板，这些参数包括传送过程中从透明到消失的时长，界面控制元素的延迟或瞄准器的Z深度等。该控制面板本身就很好的展示了VR中的控制器，可以直接将其用于自己的VR项目。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ab21d3ed18677a79.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>项目中的每个场景都展示了一个与VR开发相关的概念。整个范例是一个Unity 5 的项目。可以在Windows平台上执行，并且可以在Gear VR<br>Concepts<br>商城免费下载。这个应用可以让使用者在不打开Unity编辑器的情况下深入到场景中理解一些VR开发的概念。每个VR场景中都包含一份文档，所以可以深入到VR场景中直接学习。</p>
-<p>如果想要深入探索并实现示例内的VR操作界面没有提供的功能，建议在Unity中打开并编辑该项目。</p>
-<p>示例的主要作用是提供一套探索VR设计概念的工具，并非推荐大家都这么做。每个示例都包含了可供测试的游戏机制，其中有些设置会让玩家产生不适感，这是我们设计VR时需要避免的。这些功能的主要用途就是让开发者体验到什么是可行的，什么是不可行的。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-50469c218910664f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<h1 id="示例场景简介"><a href="#示例场景简介" class="headerlink" title="示例场景简介"></a>示例场景简介</h1><p>整个示例框架包含了很多场景。最好的学习方法就是进入场景中尝试。我们先作为测试人员来看看这几个场景。</p>
-<h1 id="十字准星"><a href="#十字准星" class="headerlink" title="十字准星"></a>十字准星</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-0c4279c604bca8bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>这个示例展示了基于注视位置的十字准星或者瞄准器，并探讨了一些必须注意的相关因素。在非VR游戏中，十字准星是否位于视野中心是无关紧要的，但VR开发者则必须要确定十字准星显示位置所代表的深度信息。十字准星的位置如果太近，观察者就会不舒服。如果太远，当准星看起来比场景中位于它下面的物体还远时，又会让玩家产生深度上的错觉。</p>
-<p>解决该问题的方法之一，是沿着玩家的视角进行光线投射，并将十字准星定位在视线接触到的第一个物体上。这样就能保证十字准星处在一个合适位置的同时不与场景中的深度信息冲突。你可以在示例中尝试上述方法或一些其它的解决方法，还可以在运行时手动控制十字准星的深度。</p>
-<p>这个示例也展示了一些其它概念，例如导弹是如何投射的。如果将十字准星对准导弹，并且该准星与玩家保持固定的距离，就必须决定导弹是沿着从枪口出发的一条轨迹穿过十字准星，还是沿着玩家视觉中心与准星连线的平行线穿过十字准星。后者是非VR游戏的常用做法，这种方法很直观。这个示例可以让你更直接的感受并理解这种区别。</p>
-<h1 id="运动"><a href="#运动" class="headerlink" title="运动"></a>运动</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-cbc09df04f835f1f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>这个示例场景可以体验到第一人称视角的实时移动控制，从而可以更好理解相关设计上的权衡。第一人称视角的移动控制设计需要非常小心，因为这种移动很容易造成不适感。</p>
-<p>这个场景可以调整的变量有：</p>
-<p>移动速度</p>
-<p>旋转速度</p>
-<p>玩家朝向是否由视觉方向控制</p>
-<p>旋转的步长（持续旋转或者使用固定步骤指定步长的旋转）</p>
-<p>当执行“每一步”旋转时的动画速度（非瞬间完成）</p>
-<h1 id="瞬移"><a href="#瞬移" class="headerlink" title="瞬移"></a>瞬移</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-75f1cac042207412.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>瞬移是VR中常用的移动方式，因为这样可以避免第一人称视角控制运动引起的不适感。这个示例场景实现了简单的瞬移机制。</p>
-<p>这个示例中展示的一个巧妙设计是玩家在瞬移后视角位置的旋转方式。这种模式中，瞬移后视角的方向是由玩家控制的，这个方向可以在瞬移前就设定好。上面的截图展示的就是这个操作，一个发光的虚拟人物出现在了瞬移的终点，展示了瞬移后玩家的朝向且可以由玩家来控制。在瞬移结束后，玩家面对的方向与之前设定的虚拟人的朝向是一致的。</p>
-<p>这看起来很直观，但可能存在玩家需要旋转头部才能看到瞬移终点的情况。这时玩家在瞬移完成后朝向与模型保持一致同时头部旋转呢？还是将最终朝向与旋转头部后的自然前方保持一致呢？</p>
-<p>这个示例展示了以上两种方式，至于哪一种更直观则取决于另一些因素。示例可以帮助你很直观的理解这两种模式的区别，并探索出个性化的解决方案。</p>
-<h1 id="UI（用户界面）"><a href="#UI（用户界面）" class="headerlink" title="UI（用户界面）"></a>UI（用户界面）</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-6a0512c37f502704.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>场景“Pointers” （指示点）和“Pointers – Gaze<br>Click”（指示点－凝视点击）展示了利用指示点来实现VR中的UI交互。两个场景均展示了基于凝视的交互机制，包含了与物理对象和平面UI的交互。</p>
-<p>场景“Pointers” （指示点）和“Pointers – Gaze Click”（指示点－凝视点击）很相似，只是“Pointers – Gaze<br>Click”（指示点－凝视点击）并不需要手柄或者触摸板。在这个场景中，凝视一个UI元素时会在凝视光标附近产生一个圆形的进度条，进度条会很快填充满（如上图所示）。当环形进度条填充完毕，就会执行相应UI所负责的动作。</p>
-<h1 id="其它示例场景"><a href="#其它示例场景" class="headerlink" title="其它示例场景"></a>其它示例场景</h1><p>篇幅有限无法一一介绍每个场景，各场景都包含对应的文档，我们可以在VR应用内查看这些文档。其它场景包括：</p>
-<p>Keyboard：VR键盘的简单实现。</p>
-<p>Mirror：展示了模型头部按照玩家头部动作进行运动，以实现场景中的镜像效果。</p>
-<p>Stairs：探索楼梯效果在第一人称视角下体验的舒适度。</p>
-<p>Surface Detail：探索不同着色技术所描绘出的不同表面细节，可以更好的理解它们在VR中的效果。</p>
-<p>Tracking Volume：展示一些方法，在用户离跟踪边界范围太近时给予提示。</p>
-<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>这些示例只能作为理解和探索VR中一些常用设计的出发点。事实上，这些示例只是不断发展的VR交互中最浅显的部分。希望各位开发者能觉得这个出发点对你将来的新设计思路有一定帮助。</p>
+            <p><img src="http://upload-images.jianshu.io/upload_images/17266280-a5b11ca81bf78d8c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<h1 id="1-移动GPU大全"><a href="#1-移动GPU大全" class="headerlink" title="1. 移动GPU大全"></a>1. 移动GPU大全</h1><p>目前移动市场的GPU主要有四大厂商系列：</p>
+<h2 id="1）Imagination-Technologies的PowerVR-SGX系列"><a href="#1）Imagination-Technologies的PowerVR-SGX系列" class="headerlink" title="1）Imagination Technologies的PowerVR SGX系列"></a>1）Imagination Technologies的PowerVR SGX系列</h2><p><img src="http://upload-images.jianshu.io/upload_images/17266280-1e6e5e642b0c94bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>代表型号：PowerVR SGX 535、PowerVR SGX 540、PowerVR SGX 543MP、PowerVR SGX 554MP等</p>
+<p>代表作 ：Apple iPhone全系、iPad全系，三星I9000、P3100等</p>
+<h2 id="2）Qualcomm-高通-的Adreno系列"><a href="#2）Qualcomm-高通-的Adreno系列" class="headerlink" title="2）Qualcomm(高通)的Adreno系列"></a>2）Qualcomm(高通)的Adreno系列</h2><p><img src="http://upload-images.jianshu.io/upload_images/17266280-9ee4d1c5a8f505f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>代表型号：Adreno 200、Adreno 205、Adreno 220、Adreno 320等</p>
+<p>代表作 ：HTC G10、G14，小米1、2等</p>
+<h2 id="3）ARM的Mali系列"><a href="#3）ARM的Mali系列" class="headerlink" title="3）ARM的Mali系列"></a>3）ARM的Mali系列</h2><p><img src="http://upload-images.jianshu.io/upload_images/17266280-2c545ed953743eb1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>代表型号：Mali-400、Mali-T604等</p>
+<p>代表作 ：三星Galaxy SII、Galaxy SIII、Galaxy Note1、Galaxy Note2(亚版)等</p>
+<h2 id="4）nVIDIA-英伟达-的Tegra系列"><a href="#4）nVIDIA-英伟达-的Tegra系列" class="headerlink" title="4）nVIDIA(英伟达)的Tegra系列"></a>4）nVIDIA(英伟达)的Tegra系列</h2><p><img src="http://upload-images.jianshu.io/upload_images/17266280-ae5934eb260ad1f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>代表型号：nVIDIA Tegra2、nVIDIA Tegra3等</p>
+<p>代表作 ：Google Nexus 7，HTC One X等</p>
+<h1 id="2-压缩纹理的必要性"><a href="#2-压缩纹理的必要性" class="headerlink" title="2. 压缩纹理的必要性"></a>2. 压缩纹理的必要性</h1><h2 id="1）首先要说一下图像文件格式和纹理格式的区别。"><a href="#1）首先要说一下图像文件格式和纹理格式的区别。" class="headerlink" title="1）首先要说一下图像文件格式和纹理格式的区别。"></a>1）首先要说一下图像文件格式和纹理格式的区别。</h2><p>常用的图像文件格式有BMP，TGA，JPG，GIF，PNG等；</p>
+<p>常用的纹理格式有R5G6B5，A4R4G4B4，A1R5G5B5，R8G8B8, A8R8G8B8等。</p>
+<p>文件格式是图像为了存储信息而使用的对信息的特殊编码方式，它存储在磁盘中，或者内存中，但是并不能被GPU所识别，因为以向量计算见长的GPU对于这些复杂的计算无能为力。这些文件格式当被游戏读入后，还是需要经过CPU解压成R5G6B5，A4R4G4B4，A1R5G5B5，R8G8B8,<br>A8R8G8B8等像素格式，再传送到GPU端进行使用。</p>
+<p>纹理格式是能被GPU所识别的像素格式，能被快速寻址并采样。</p>
+<p>举个例子，DDS文件是游戏开发中常用的文件格式，它内部可以包含A4R4G4B4的纹理格式，也可以包含A8R8G8B8的纹理格式，甚至可以包含DXT1的纹理格式。在这里DDS文件有点容器的意味。</p>
+<p>OpenGL ES 2.0支持以上提到的R5G6B5，A4R4G4B4，A1R5G5B5，R8G8B8，A8R8G8B8等纹理格式，其中<br>R5G6B5，A4R4G4B4，A1R5G5B5每个像素占用2个字节(BYTE)，R8G8B8每个像素占用3个字节，A8R8G8B8每个像素占用 4个字节。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-afc478ca46e0683e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>对于一张512<em>512的纹理的话，R5G6B5格式的文件需要占用512KB的容量，A8R8G8B8格式的文件需要占用1MB的容量；如果是1024</em>1024的纹理，则各需要2M和4M的容量，这对于动辄需要几十、几百张甚至更多纹理的游戏，上G容量的游戏在移动平台上是不容易被接受的(当然，还是有1、2G的大作的，里面包含了几千张的纹理)。</p>
+<p>聪明的设计师们在想，有没有其他办法，既能表现丰富的色彩和细节，又能是最小失真的情况下，达到更小的纹理容量呢。压缩纹理格式应运而生(当然，并不是在移动平台后才有的产物)。</p>
+<h1 id><a href="#" class="headerlink" title=" "></a> </h1><h1 id="3-常见的压缩纹理格式"><a href="#3-常见的压缩纹理格式" class="headerlink" title="3. 常见的压缩纹理格式"></a>3. 常见的压缩纹理格式</h1><p>基于OpenGL ES的压缩纹理有常见的如下几种实现：</p>
+<p>1）ETC1（Ericsson texture compression)</p>
+<p>2）PVRTC (PowerVR texture compression)</p>
+<p>3）ATITC (ATI texture compression)</p>
+<p>4）S3TC (S3 texture compression)</p>
+<p> <strong>ETC1:</strong></p>
+<p>ETC1格式是OpenGL ES图形标准的一部分，并且被所有的Android设备所支持。</p>
+<p>扩展名为: GL_OES_compressed_ETC1_RGB8_texture，不支持透明通道，所以仅能用于不透明纹理。</p>
+<p>当加载压缩纹理时， 参数支持如下格式：</p>
+<p>GL_ETC1_RGB8_OES(RGB，每个像素0.5个字节)</p>
+<p> <strong>PVRTC:</strong></p>
+<p>支持的GPU为Imagination Technologies的PowerVR SGX系列。</p>
+<p>OpenGL ES的扩展名为: GL_IMG_texture_compression_pvrtc。</p>
+<p>当加载压缩纹理时， 参数支持如下几种格式：</p>
+<p>GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG (RGB，每个像素0.5个字节)</p>
+<p>GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG (RGB，每个像素0.25个字节)</p>
+<p>GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG (RGBA，每个像素0.5个字节)</p>
+<p>GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG (RGBA，每个像素0.25个字节)</p>
+<p> <strong>ATITC:</strong></p>
+<p>支持的GPU为Qualcomm的Adreno系列。</p>
+<p>支持的OpenGL ES扩展名为: GL_ATI_texture_compression_atitc。</p>
+<p>当加载压缩纹理时， 参数支持如下类型的纹理：</p>
+<p>GL_ATC_RGB_AMD (RGB，每个像素0.5个字节)</p>
+<p>GL_ATC_RGBA_EXPLICIT_ALPHA_AMD (RGBA，每个像素1个字节)</p>
+<p>GL_ATC_RGBA_INTERPOLATED_ALPHA_AMD (RGBA，每个像素1个字节)</p>
+<p> <strong>S3TC:</strong></p>
+<p>也被称为DXTC，在PC上广泛被使用，但是在移动设备上还是属于新鲜事物。支持的GPU为NVIDIA Tegra系列。</p>
+<p>OpenGL ES扩展名为:</p>
+<p>GL_EXT_texture_compression_dxt1和GL_EXT_texture_compression_s3tc。</p>
+<p>当加载压缩纹理时， 的参数有如下几种格式：</p>
+<p>GL_COMPRESSED_RGB_S3TC_DXT1 (RGB，每个像素0.5个字节)</p>
+<p>GL_COMPRESSED_RGBA_S3TC_DXT1 (RGBA，每个像素0.5个字节)</p>
+<p>GL_COMPRESSED_RGBA_S3TC_DXT3 (RGBA，每个像素1个字节)</p>
+<p>GL_COMPRESSED_RGBA_S3TC_DXT5 (RGBA，每个像素1个字节)</p>
+<p>由此可见，Mali系列GPU只支持ETC1格式的压缩纹理，而且该纹理不支持透明通道，有一定局限性。</p>
+<p>以上压缩纹理格式每个像素大小相对A8R8G8B8格式的比例，最高压缩比是16:1，最低压缩比是4:1，对于减小纹理的数据容量有明显作用，相应在显存带宽上也有明显优势，从而提高游戏的运行效率(此特性没有绝对数值，根据每个游戏的用法和瓶颈点不同而有差别)。</p>
+<h1 id="-1"><a href="#-1" class="headerlink" title=" "></a> </h1><h1 id="4-OpenGL中相关API的使用"><a href="#4-OpenGL中相关API的使用" class="headerlink" title="4. OpenGL中相关API的使用"></a>4. OpenGL中相关API的使用</h1><h2 id="1）-获得GPU的型号"><a href="#1）-获得GPU的型号" class="headerlink" title="1） 获得GPU的型号"></a>1） 获得GPU的型号</h2><blockquote>
+<p>glGetString(GL_RENDERER)</p>
+</blockquote>
+<h2 id="2）-获得GPU的生产厂商"><a href="#2）-获得GPU的生产厂商" class="headerlink" title="2） 获得GPU的生产厂商"></a>2） 获得GPU的生产厂商</h2><blockquote>
+<p>glGetString(GL_VENDOR);</p>
+</blockquote>
+<h2 id="3）-获取GPU支持哪些压缩纹理"><a href="#3）-获取GPU支持哪些压缩纹理" class="headerlink" title="3） 获取GPU支持哪些压缩纹理"></a>3） 获取GPU支持哪些压缩纹理</h2><blockquote>
+<p>string extensions = (const char*)glGetString(GL_EXTENSIONS);</p>
+</blockquote>
+<p>a. 判断是否支持ETC1格式的压缩纹理</p>
+<blockquote>
+<p>return (extensions.find(“GL_OES_compressed_ETC1_RGB8_texture”)!=<br>string::npos);</p>
+</blockquote>
+<p>b. 判断是否支持DXT格式的压缩纹理</p>
+<blockquote>
+<p>return (extensions.find(“GL_EXT_texture_compression_dxt1”)!= string::npos ||</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>extensions.find(“GL_EXT_texture_compression_s3tc”)!= string::npos);</p>
+</blockquote>
+<p>c. 判断是否支持PVRTC格式的压缩纹理</p>
+<blockquote>
+<p>return (extensions.find(“GL_IMG_texture_compression_pvrtc”)!= string::npos);</p>
+</blockquote>
+<p>d. 判断是否支持ATITC格式的压缩纹理</p>
+<blockquote>
+<p>return (extensions.find(“GL_AMD_compressed_ATC_texture”)!= string::npos ||</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>extensions.find(“GL_ATI_texture_compression_atitc”)!= string::npos);</p>
+</blockquote>
+<h2 id="4）-填充压缩纹理数据"><a href="#4）-填充压缩纹理数据" class="headerlink" title="4） 填充压缩纹理数据"></a>4） 填充压缩纹理数据</h2><blockquote>
+<p>void glCompressedTexImage2D (</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>GLenum target,</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>GLint level,</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>GLenum internalformat,</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>GLsizei width,</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>GLsizei height,</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>GLint border,</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>GLsizei imageSize,</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>const GLvoid * data);</p>
+</blockquote>
+<p>这里的参数不做详细解释，其中internalformat即是压缩纹理格式的类型。</p>
+<h1 id="-2"><a href="#-2" class="headerlink" title=" "></a> </h1><h1 id="5-压缩纹理工具的使用"><a href="#5-压缩纹理工具的使用" class="headerlink" title="5. 压缩纹理工具的使用"></a>5. 压缩纹理工具的使用</h1><p>每种压缩纹理以及相应的厂商都提供了压缩纹理的工具，工具都分两个版本：</p>
+<p>a. 可视化转换工具 (给美工或小白少量使用)</p>
+<p>b. 命令行转换工具 (给程序批量使用)</p>
+<p>下面对每个工具的用法进行说明。</p>
+<h2 id="1）Imagination-Technologies-PowerVR"><a href="#1）Imagination-Technologies-PowerVR" class="headerlink" title="1）Imagination Technologies PowerVR"></a>1）Imagination Technologies PowerVR</h2><p>工具下载地址</p>
+<p><a href="http://www.imgtec.com/powervr/insider/sdkdownloads/index.asp?installer=Windows%20Installer" target="_blank" rel="noopener">http://www.imgtec.com/powervr/insider/sdkdownloads/index.asp?installer=W…</a></p>
+<p>可视化转换界面</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-35c50cd1fd618328.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>命令行转换脚本</p>
+<blockquote>
+<p>for %%i in (*.tga) do PVRTexTool.exe -f PVRTC4 -i %%i</p>
+</blockquote>
+<p>(将本目录下的所有tga文件，转换成”PVRTC4”编码格式的pvr文件，不带mipmap)</p>
+<p>详细使用说明：PvrTexTool.exe /?</p>
+<h2 id="2）Qualcomm-Adreno"><a href="#2）Qualcomm-Adreno" class="headerlink" title="2）Qualcomm Adreno"></a>2）Qualcomm Adreno</h2><p>工具下载地址</p>
+<p>[<a href="https://developer.qualcomm.com/mobile-development/mobile-" target="_blank" rel="noopener">https://developer.qualcomm.com/mobile-development/mobile-</a><br>technologies/ga…](<a href="https://developer.qualcomm.com/mobile-development/mobile-" target="_blank" rel="noopener">https://developer.qualcomm.com/mobile-development/mobile-</a><br>technologies/gaming-graphics-optimization-adreno/tools-and-resources)</p>
+<p>可视化转换界面</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-36c46a0c34eb288d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>命令行转换脚本</p>
+<blockquote>
+<p>for %%i in (*.tga) do QCompressCmd.exe %%i %%i.ktx “ATC RGBA Explicit” yes</p>
+</blockquote>
+<p>(将本目录下的所有tga文件，转换成”ATC RGBA Explicit”编码格式的ktx文件，带mipmap)</p>
+<p>详细使用说明：QCompressCmd.exe /?</p>
+<h2 id="3）ARM-Mali"><a href="#3）ARM-Mali" class="headerlink" title="3）ARM Mali"></a>3）ARM Mali</h2><p>工具下载地址</p>
+<p>[<a href="http://malideveloper.arm.com/develop-for-mali/mali-gpu-texture-" target="_blank" rel="noopener">http://malideveloper.arm.com/develop-for-mali/mali-gpu-texture-</a><br>compressi…](<a href="http://malideveloper.arm.com/develop-for-mali/mali-gpu-texture-" target="_blank" rel="noopener">http://malideveloper.arm.com/develop-for-mali/mali-gpu-texture-</a><br>compression-tool/)</p>
+<p>可视化转换界面</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4ebfa9d4786cd7a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>命令行转换脚本</p>
+<blockquote>
+<p>for %%i in (*.tga) do PVRTexTool.exe -f ETC -i %%i</p>
+</blockquote>
+<p>(将本目录下的所有tga文件，转换成”ETC”编码格式的pvr文件，不带mipmap这里还是使用的PVRTexTool.exe，也可以使用QCompressCmd.exe)</p>
+<p>详细使用说明：PVRTexTool.exe /?</p>
+<h2 id="4）nVIDIA-Tegra"><a href="#4）nVIDIA-Tegra" class="headerlink" title="4）nVIDIA Tegra"></a>4）nVIDIA Tegra</h2><p>可以使用DirectX SDK中自带的DirectX Texture Tool进行转换</p>
+<p>可视化转换界面</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-b6363ea714f2057c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>命令行转换脚本</p>
+<blockquote>
+<p>for %%i in (*.tga) do texconv.exe -f DXT5 %%i</p>
+</blockquote>
+<p>(将本目录下的所有tga文件，转换成”DXT5”编码格式的dds文件，不带mipmap)</p>
+<p>详细使用说明：TexConv.exe /?</p>
+<p>本文来源： <a href="http://www.cnblogs.com/luming1979/archive/2013/02/04/2891421.html" target="_blank" rel="noopener">http://www.cnblogs.com/luming1979/archive/2013/02/04/2891421.html</a></p>
+<p> <strong>主流纹理压缩标准：ETC、PVRTC、S3TC</strong></p>
+<p>首先说OpenGL ES标准中的，2.0版规范中将ETC(Ericsson Texture<br>Compression)作为基本的纹理压缩标准，这是大部分移动GPU都会支持的纹理标准。OpenGL ES<br>3.0中还引入了ETC2、EAC纹理压缩格式，二者基本一致，只不过EAC主要用于1-2通道数据的情况。目前ECT2还在改进中，除了高通的Adreno<br>320之外还没有移动GPU支持，Tgera 4也不行。</p>
+<p>此外，OpenGL ES 3.0中还有一种可选纹理压缩格式——ASTC(Adaptive Scalable Texture<br>Compression，自适应扩展纹理压缩)，这是ARM提出的，去年被Khronos组织认可，纳入到标准中来，不过并不是强制性的，目前也只有Mali-<br>T600系列支持。</p>
+<p> <strong>Imagination旗下的PowerVR GPU支持的是PVRTC(PowerVR texture<br>compression)和ETC，高通的Adreno 2xx系列支持ETC之外还有3Dc和ATITC。</strong> 后两者都是原来的ATI开发的，Adreno<br>320除了前面三种标准之外还支持ETC2纹理压缩。</p>
+<p> <strong>ARM的Mali-300/400系列支持ETC，Mali-T600还多了ASTC纹理支持。</strong></p>
+<p>NVIDIA的Tegra系列更有趣。之前的说法称Tegra支持自己的纹理格式， <strong>实际上除了通用的ETC之外，Tegra支持的纹理叫做S3TC(S3<br>Texture Compression)，也被称为DXTn或者DXTC。</strong> S3TC是S3公司在1999年引入的，后来被DX 6.0和OpenGL<br>1.3吸收为官方标准，DXTC相当于Windows版的名字，S3TC是OpenGL中的名字。</p>
+<p>说到S3TC，之前苹果和HTC大打专利战的时候就涉及到了这个标准。S3已经归为VIA威盛旗下，HTC和威盛又有同一个老板——王雪红。为了支援HTC打专利战，威盛去年就把S3部门出售给了HTC，算是左手倒右手吧。</p>
+<p>S3TC是DX显卡都支持的标准，NVIDIA也在Tegra中支持了这个标准，S3TC根据不同算法又分为DXT1-DXT5这五个级别，Terga支持的实际上是DXT1、DXT3和DXT5。</p>
+<p> <strong>Vivante的GC系列也支持ETC和S3TC，跟NVIDIA的Tegra路线相同。</strong> 以前都说Vivante支持的是NVIDIA<br>Tegra的纹理数据，实际上二者是选择了共同的路线而已，DXT也不是NVIDIA的专利。</p>
+<p>目前来说我们能常用到的纹理压缩主要是ETC、PVRTC、S3TC、ATITC这四种种。</p>
+<p> <strong>主流紋理压缩格式优缺点</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-e966558af279a67c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>常见的TC格式压缩比</p>
+<p>先来看压缩比。如果无失真的PNG容量是5.4MB，那么S3TC和ETC都能压缩到1.1MB，PVRTC压缩最高，可压缩到528KB，不过PVRTC的问题在于它只支持PowerVR系列GPU，有排他性，高通的Adreno支持的ATITC同样有排他性，其他厂商并不支持。</p>
+<p> **  
+**</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0738096c692324d9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><strong>ETC是最通用的纹理压缩格式，不过ETC并不招厂商待见，因为ETC纹理压缩不支持Alpha通道，只能用于压缩不透明的材质，不过ETC也有自己的优点，几乎所有的安卓设备都可以支持ETC压缩的GPU加速。</strong></p>
+<p>S3TC无论压缩速度还是压缩比都不错，也支持GPU加速，而且是桌面显卡通用的压缩格式，看起来是最完美的选择，可惜的是移动市场跟PC不一样，大家各自为王，NVIDIA现在还没强大到让其他GPU厂商低头采用S3TC标准的程度，因为<br><strong>S3TC说到底还是一种私有的标准，有专利上的麻烦。</strong></p>
+<p><strong>ETC2压缩标准补全了ETC1不支持Alpha通道的缺陷，支持更高质量的RGBA(RGB+Alpha)压缩，而ARM提出的ASTC标准在压缩速度和质量上比S3TC要好，但是这两种压缩格式都是新出的，支持的厂商实在太少了。</strong></p>
 
         </div>
         
@@ -232,7 +399,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.896Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.041Z">2019-05-17</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
@@ -242,7 +409,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    22 分钟 读完 (大约 3285 个字)
+                    3 分钟 读完 (大约 424 个字)
                 </span>
                 
                 
@@ -251,112 +418,20 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/Unity新UI系统概述Auto-Layout/">Unity新UI系统概述Auto-Layout</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/解决Unity-Font字体破碎问题/">解决Unity-Font字体破碎问题</a>
             
         </h1>
         <div class="content">
-            <p>Rect Transform拥有的布局系统对于各种类型的布局是足够灵活的，并且它也可以让你自由放置元素。但是，有时候更多结构化的东西是需要的。</p>
-<p>自动布局系统提供了在嵌套布局组（如水平组、竖直组或者格子组）中放置元素的方法。它还允许元素根据包含的内容量自动调整大小。例如，一个按钮可以根据文本的内容自动缩放大小。</p>
-<p>自动布局系统是一个构造在基本Rect Transform布局系统之上的系统。它可以选择性的对一些或全部元素使用。</p>
-<h1 id="理解布局元素"><a href="#理解布局元素" class="headerlink" title="理解布局元素"></a>理解布局元素</h1><p>自动布局系统是基 <strong>layout elements</strong> （布局元素）和 <strong>layout controllers</strong><br>（布局控制器）的。布局元素是一个含有RectTransform组件和其它可选组件的游戏对象。Thelayout element has certain<br>knowledge about which size it should<br>have.布局元素不能直接设置自己的大小，但是其它作为布局控制器的组件可以使用它们提供的信息用来为它们计算尺寸。</p>
-<p>一个布局元素用下列属性来定义自身：</p>
-<p>Minimun width（最小宽度）</p>
-<p>Minimum height（最小高度）</p>
-<p>Preferred width（首选宽度）</p>
-<p>Preferred height（首选高度）</p>
-<p>Flexible width（灵活宽度）</p>
-<p>Flexible height（灵活高度）</p>
-<p>使用布局元素提供信息的布局控制器的例子是 <strong>Content Size Fitter</strong> 和各种 <strong>Layout Group</strong><br>组件。在布局组中如何按大小来布局元素的基本原则如下：</p>
-<p>最开始只分配最小尺寸；</p>
-<p>如果有足够的空间，分配首选尺寸；</p>
-<p>如果有额外的空间，分配灵活尺寸；</p>
-<p>含有RectTransform组件的任何游戏对象都可以作为布局元素使用。默认它们的最小、首选和灵活尺寸都是0。某些组件添加到游戏对象上后会改变这些布局属性值。</p>
-<p>Image和Text组件就是两个会提供布局元素属性值的例子。它们会改变首选宽度和高度以匹配精灵或者文本内容。</p>
-<h1 id="Layout-Element组件"><a href="#Layout-Element组件" class="headerlink" title="Layout Element组件"></a>Layout Element组件</h1><p>如果你想覆盖最小、首选或者灵活尺寸，你可以通过为游戏对象添加一个Layout Element组件来完成。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-b1546a28d27953a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>Layout Element组件可以让你覆盖一个或多个布局属性值。勾选对应控件，然后指定你需要覆盖的数值。</p>
-<p>请参看Layout Element参考文档获取更多的信息。</p>
-<h1 id="理解布局控制器"><a href="#理解布局控制器" class="headerlink" title="理解布局控制器"></a>理解布局控制器</h1><p>布局控制器一些是用来控制一个或多个布局元素尺寸和位置的组件，它也含有Rect Trasnform组件。一个布局控制器可能控制它的 <strong>own layout<br>element</strong> （自己所在的同一个对象）或者控制 <strong>child layout elements</strong> 。</p>
-<h1 id="Content-Size-Fitter（内容尺寸适应器）"><a href="#Content-Size-Fitter（内容尺寸适应器）" class="headerlink" title="Content Size Fitter（内容尺寸适应器）"></a>Content Size Fitter（内容尺寸适应器）</h1><p>Content Size Fitter用于控制自身布局元素的尺寸。查看自动布局系统执行方式的最简单方法就是增加一个Content Size<br>Fitter组件到含有Text组件的游戏对象上。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-63cb29fea819c29f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>如果你将Horizontal Fit或Vertical Fit设置为Preferred Size，Rect<br>Transform组件就会自动调整它的宽或高以适应文本呢内容。</p>
-<p>请参看Content Size Fitter相关参考文档。</p>
-<h1 id="Aspect-Ratio-Fitter（纵横比适应器）"><a href="#Aspect-Ratio-Fitter（纵横比适应器）" class="headerlink" title="Aspect Ratio Fitter（纵横比适应器）"></a>Aspect Ratio Fitter（纵横比适应器）</h1><p>Aspcet Ratio Fitter用于控制自身布局元素的尺寸。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-652ca13ec7aee713.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>它可以让高度适应宽度，反之亦然，也可以让元素放在父对象的内部或者包裹父对象。Aspcet Ratio Fitter不会考虑最小尺寸和首选尺寸等布局信息。</p>
-<p>请参看Aspect Ratio Fitter相关参考文档。</p>
-<h1 id="Layout-Group（布局组）"><a href="#Layout-Group（布局组）" class="headerlink" title="Layout Group（布局组）"></a>Layout Group（布局组）</h1><p>Layout Group是用来控制子布局元素的大小和位置的控制器。例如，水平的布局组将它的子对象相邻的放置，而格子布局组将它的子对象放在格子里。</p>
-<p>布局组不能控制自己的大小。但可以作为一个布局元素被其它控制器控制或者手动设置。</p>
-<p>不管布局组如何分配尺寸，大多数时候它都是试图用每一个子布局元素设置的minimum,preferred和flexible尺寸来分配适当数量的空间。布局组也可以任意嵌套。</p>
-<p>请参看Horizontal Layout Group, Vertical Layout Group和Gird LayoutGroup相关的参考文档。</p>
-<h1 id="驱动Rect-Transform属性"><a href="#驱动Rect-Transform属性" class="headerlink" title="驱动Rect Transform属性"></a>驱动Rect Transform属性</h1><p>因为自动布局系统中的布局控制器会自动控制那些不能通过观察窗口或者场景窗口同时进行手动编辑的UI元素的尺寸和位置。而且这些被改变的值在下一次布局计算时会将被重新设置。</p>
-<p>为了解决这个问题，Rect Transform有一个 <strong>driven properties（被驱动属性）</strong><br>的概念。比如，将HorizontalFit属性设置到Minimum或者Preferred的Content Size Fitter组件会驱动同对象上Rect<br>Transform组件的宽度。这个宽度值变为只读并且在Rect Transform的顶端会出现一个小的信息框告知一个或多个属性值被content Size<br>Fitter驱动。</p>
-<p>Rect<br>Transform属性被驱动除了避免手动编辑之外还有其它原因。仅仅是通过改变分辨率或者游戏窗口大小就会引起布局的改变。这反过来会改变布局元素的尺寸和位置，也就会改变被驱动属性的值。但是并不希望仅仅因为改变了游戏窗口的大小就会造成场景被标记为未被保存状态。为了避免这个问题，被驱动属性的值不会和场景一起保存并且他们的改变也不会引起场景数据的改变。</p>
-<p>自动布局系统伴随着会使用一些内建的组件，但是它也可能用自定义的方式创建出新的组件来控制布局。这是通过能被自动布局系统的特殊组件接口来实现的。</p>
-<p>如果执行了 <strong>ILayoutElement</strong> 接口，组件就会被自动布局系统当作一个布局元素来对待。</p>
-<p>如果执行了 <strong>ILayoutGroup</strong> 接口，组件就会驱动子对象的RectTransform。</p>
-<p>如果执行了 <strong>ILayoutSelfController</strong> 接口，组件就去驱动自身的Rect Transform。</p>
-<p>自动布局系统会按下面的步骤计算并执行布局：</p>
-<p>1.<br>通过调用ILayoutElement组件上的CalculateLayoutInputHorizontal接口计算最小，首选和灵活的宽度。这是按从自下而上的顺序，即子对象比父对象先执行，这样的话，父对象才能拿到子对象的数据以便进行自身的计算；</p>
-<p>2.<br>布局元素的有效宽度被ILayoutController组件上的SetLaytouHorizontal接口计算并设置。这是自上而下进行的，即子对象在父对象之后计算，因为子对象的分配需要根据父对象完整的可用宽度来决定。这一步之后，布局元素的Rect<br>Transform会拥有新的宽度；</p>
-<p>3. 计算高度的最小，首选和灵活值，计算方法和第1步类似，只是接口为CalculateLaytouInputVertical；</p>
-<p>4. 计算高度的有效值，计算方法和第2步类似，只是接口为SetLaytouVertical。</p>
-<h1 id="触发布局的重建"><a href="#触发布局的重建" class="headerlink" title="触发布局的重建"></a>触发布局的重建</h1><p>当组件上的一个属性改变后，会导致当前的布局不再有效，就需要做一个布局的重计算。者会被这个调用触发：</p>
-<p>LayoutRebuilder.MarkLayoutForRebuild(transformas RectTransform)；</p>
-<p>这个重建不会立即发生，而是等到这帧的末尾，也就是渲染之前。不立即执行的理由是因为它会导致在同一帧内地进行多次潜在的布局重建，这会导致性能下降。</p>
-<p>RectTransform刷新不及时的解决办法：</p>
-<p><a href="http://www.tuicool.com/articles/AnQv2yB" target="_blank" rel="noopener">http://www.tuicool.com/articles/AnQv2yB</a></p>
-<p><a href="http://www.xuanyusong.com/archives/4234" target="_blank" rel="noopener">http://www.xuanyusong.com/archives/4234</a></p>
-<p>会触发重建的时机为：</p>
-<p>会改变布局的属性设置器(setters)；</p>
-<p>这些回调函数种：</p>
-<p>   OnEnable</p>
-<p>   OnDisable</p>
-<p>   OnRectRansformDimensionsChange</p>
-<p>   OnValidate（只有编辑器状态需要，运行时不用）</p>
-<p>   OnDidApplyAnimationProperties</p>
-<p>unity的LayoutGroup分为三种， Horizontal Layout Group（水平布局）Vertical Layout<br>Group（垂直布局）Grid Layout Group （网格布局）<br>以前NGUI没有这东西都是自己写工具实现的。为什么我们要布局？我举个例子，布局的时候可以两个cell 和三个cell都居中显示。如下图所示。。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-fb7ab1de5cb71ef6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-62912cf4c377f0ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>尤其在奖励窗口，因为获取道具的数量是不固定的，所以需要根据不同数量的道具来居中对齐。如下图所示，Padding 就是偏移，因为我的cell 是<br>95X95，为了居中所以这里设置成 right = -95 top = -95。</p>
-<p>Spacing 表示 cell之间的距离。</p>
-<p>Child Alignment 表示对齐方式。</p>
-<p>Child Force Expand 表示 自适应 宽 和高</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9a665ef5be3d3397.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>在看看cell，注意Layout Group节点下面的所有cell节点都是不能修改Rect<br>Transform的。因为cell可能下面会放很多图片，这样我们会用个空的gameObject来当父节点。但是这个gameObject的width 和<br>height 是最小单位，那么Layout Group就不知道怎么来算居中了。如下图所示 这个时候就轮到LayoutElement登场了，<br>用它来设置一个cell的最大或者最小宽度。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-693e3c907420c47b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>如果运行时实例化后的gameObject 直接放在 Layout Group下面即可。Layout Group会自动计算布局，真的是非常方便。</p>
- <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for(int i =0 ;i &lt;10;i++)&#123;</span><br><span class="line"></span><br><span class="line"> GameObject go = (GameObject)Instantiate(Resources.Load&lt;GameObject&gt;(“item”));</span><br><span class="line"></span><br><span class="line"> go.transform.parent = transform;</span><br><span class="line"></span><br><span class="line"> go.transform.localScale = Vector3.one;</span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+            <p> 使用Unity的动态字体绘制文字的时候，在多次打开面板时出现文字破裂问题。</p>
+<p>文字渲染原理：</p>
+<p>通过RequestCharactersInTexture函数向Font请求更新文字信息，然后使用GetCharacterInfo获取文字信息来渲染。在调用GetCharacterInfo的时候要保证所有文字都通过RequestCharactersInTexture请求过了，这样文字才能顺利的被渲染出来。<br>如果请求的时候，Font内部维护的texture不够用了，就会触发textureRebuildCallback的回调，通知外部使用Font的对象，其内部的texture被更新了，外部应该重新刷新。而这个重新刷新的过程就往往会导致界面上的文字破裂，因为外部的Texture重新计算并调整大小，其上面原来的文本信息就会被破坏。</p>
+<p>解决方法：</p>
+<p>在启动游戏时通过预加载的方法改变Font内部维护的Textrue的大小，让其有足够的空间容纳外部请求的文本信息。</p>
+<p>我的方法是<br>在网上下载一个常用汉字3500字的txt文档，将它导入到项目中，然后再启动游戏后首先使用这个文本向Font请求信息，这样便会在一开始就将Font内部的Texture设置的较大。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public static string generalCharacter = null;</span><br><span class="line">public static void PreLoadGeneralText()</span><br><span class="line">&#123;</span><br><span class="line">    if (generalCharacter == null)</span><br><span class="line">    &#123;</span><br><span class="line">        TextAsset txt = LoadResource(&quot;Base/Font/generalText&quot;) as</span><br><span class="line">TextAsset;</span><br><span class="line">        generalCharacter = txt.ToString();</span><br><span class="line">    &#125;</span><br><span class="line">    Font font = GetDefaultFont().dynamicFont;</span><br><span class="line">    font.RequestCharactersInTexture(generalCharacter);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>还有个问题就是隐藏，比如把其中的一个cell setActive = false ，为了不计算隐藏的cell 所以要先把 IngonreLaytout =<br>true 再 setActivity = false  这一切都可以在代码里面来设置。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-60beb071159428d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>代码这样即可。</p>
-<blockquote>
-<p>gameObject.GetComponent<layoutelement>().ignoreLayout = true;</layoutelement></p>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>gameObject.SetActive(false);</p>
-</blockquote>
-<p>在unity3D4.6中加入了新的Transform 系统”Rect Transform”。新的Rect Transform对应的是以前旧版本的“<br>Transform  2D”。在这里不过多的介绍Rect Transform，今后我会在之后的文章中讲解到新的Rect Transform。</p>
-<p>用过Rect Transform的人都知道，Rect<br>Transform中rect的Widh/Health并不能Set，于是这样就导致了Widh/Health不能动态的修改。这里我给大家提供一个方法，通过添加Aspect<br>Ratio Fitter/Content Size Fitter组件，来实现Widh/Health的动态变化。</p>
-<h1 id="Aspect-Ratio-Fitter"><a href="#Aspect-Ratio-Fitter" class="headerlink" title="Aspect Ratio Fitter"></a>Aspect Ratio Fitter</h1><p>Aspect Mode以什么样的模式去调整矩形的纵横比。</p>
-<p>None不使用适合的纵横比。</p>
-<p>Width Controls Height让Height随着width自动调节</p>
-<p>Height Controls Width让width随着Height自动调节</p>
-<p>Fit In Parent宽度，高度，位置和锚点被自动调整，以使该矩形拟合父物体的矩形内，同时保持高宽比。该可以是不包括在本RECT父矩形里面的一些空间。</p>
-<p>Envelope Parent宽度，高度，位置和锚被自动调整，以使该矩形覆盖父的整个区域，同时保持高宽比。此矩形可能进一步延伸出，使他比父物体正确。</p>
-<p>Aspect Ratio宽高比来执行。这是宽度除以身高。</p>
-<h1 id="Content-Size-Fitter"><a href="#Content-Size-Fitter" class="headerlink" title="Content Size Fitter"></a>Content Size Fitter</h1><p>Horizontal Fit用什么样的方法来控制宽度</p>
-<p>None不使用任何基于布局元素的宽度。</p>
-<p>Minimum使用基于布局元素的最小宽度的宽度。</p>
-<p>Preferred使用基于布局元件的优选宽度的宽度。</p>
-<p>Vertical Fit用什么样的方法来控制高度</p>
-<p>None不使用任何基于布局元素的高度。</p>
-<p>Minimum使用基于布局元素的最小高度的高度。</p>
-<p>Preferred使用基于布局元件的优选高度的高度。</p>
-<p>我个人比较习惯用Content Size<br>Fitter，只要管理好子物体的元素布局与大小就可以很好的控制Widh/Health。当然，在使用过程中，根据具体情况来选择适合的方法来实现动态的调整Widh/Health。</p>
+<p>其中LoadResource方法是封装的一个加载方法， 这里可以替换成 Resources.Load;</p>
+<p>GetDefaultFont()方法是加载我项目中使用的默认字体</p>
 
         </div>
         
@@ -378,7 +453,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.877Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.036Z">2019-05-17</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
@@ -388,7 +463,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    7 分钟 读完 (大约 1098 个字)
+                    2 分钟 读完 (大约 249 个字)
                 </span>
                 
                 
@@ -397,56 +472,25 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/Unity显示内嵌网页的研究/">Unity显示内嵌网页的研究</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/Prefab里面的Prefab关联问题/">Prefab里面的Prefab关联问题</a>
             
         </h1>
         <div class="content">
-            <p>最近由于有需要在Unity程序运行在iOS或Android手机上显示内嵌网页。所以遍从网上搜集了一下相关的资料。整理如下：</p>
-<p> <strong>UnityWebCore</strong></p>
-<p>从搜索中先看到了这个，下载下来了以后发现这个的原理好像是通过调用浏览器内核，然后将网页渲染到mesh的方式完成的。但遗憾的是只支持windows桌面版本。但还是发出来大家如果有需要可以下载</p>
-<p>下载地址： <a href="http://pan.baidu.com/s/1nt3FVkd" target="_blank" rel="noopener">http://pan.baidu.com/s/1nt3FVkd</a></p>
-<p> <strong>unity-webview</strong></p>
-<p>这个是在github上找到的。是一个keijiro的日本人编写。</p>
-<p><a href="https://github.com/keijiro/unity-webview-integration" target="_blank" rel="noopener">https://github.com/keijiro/unity-webview-integration</a></p>
-<p>就是根据手机平台在手机上调用相应的WebView组件显示，比如IOS上就是调用UIWebView。同时自己定义了与JavaScript交互的格式，可以在unity的c#代码中相应javascript的调用。需要的朋友可以试试。需要在ios和android上才能看到效果。</p>
-<p>根据keijiro编写的项目，在github上你还可以搜索到其他人fork后修改的项目，应该是进行了一些封装和修改，但都是基于keijiro的。</p>
-<p><a href="https://github.com/Kogarasi/Unity-Webview" target="_blank" rel="noopener">https://github.com/Kogarasi/Unity-Webview</a></p>
-<p><a href="https://github.com/gree/unity-webview" target="_blank" rel="noopener">https://github.com/gree/unity-webview</a></p>
-<p> <strong>UniWebView</strong></p>
-<p>这个是一个中国人编写的组件，也是根据手机平台调用相应的WebView上组件来显示，也可以支持和javascript的交互。工程很完善。在mac<br>os以及手机的系统上直接可以看到运行效果，并且效果很不错。推荐使用的，但是我就不能提供下载地址了。因为这个插件是收费的。为了支持作者还请大家自行购买。</p>
-<p> <strong>另外还有pc上的插件Awesomium</strong></p>
-<p><a href="http://www.awesomium.com/" target="_blank" rel="noopener">http://www.awesomium.com/</a></p>
-<p><a href="http://labs.awesomium.com/unity3d-integration-tutorial-part-1/" target="_blank" rel="noopener">http://labs.awesomium.com/unity3d-integration-tutorial-part-1/</a></p>
-<p><a href="http://www.ceeger.com/forum/read.php?tid=13526&page=1" target="_blank" rel="noopener">http://www.ceeger.com/forum/read.php?tid=13526&amp;page=1</a></p>
-<p>腾讯浏览内核</p>
-<p><a href="http://x5.tencent.com/tbs/" target="_blank" rel="noopener">http://x5.tencent.com/tbs/</a></p>
-<p><a href="https://vr.baidu.com/" target="_blank" rel="noopener">百度 VR 浏览器</a>com.baidu.vrbrowser</p>
-<p>基于<a href="https://github.com/googlevr/gvr-unity-sdk/" target="_blank" rel="noopener">Google VR SDK for Unity</a>开发</p>
-<p><a href="http://libaudioplugingvrunity.so/" target="_blank" rel="noopener">libaudioplugingvrunity.so</a><br><a href="http://libgvrunity.so/" target="_blank" rel="noopener">libgvrunity.so</a> md5 与 GoogleVR 中的文件一致</p>
-<p>Java C# 均未混淆</p>
-<p>网页使用<a href="https://www.assetstore.unity3d.com/cn/#!/content/29346" target="_blank" rel="noopener">EasyWebviewTexture</a></p>
-<p>目前<a href="https://www.assetstore.unity3d.com/cn/#!/content/29346" target="_blank" rel="noopener">EasyWebviewTexture</a>已经停止购买/下载</p>
-<p>Java层使用 ijkPlayer;<br>Unity层使用<a href="https://www.assetstore.unity3d.com/cn/#!/content/10032" target="_blank" rel="noopener">EasyMovieTexture</a></p>
-<p>浏览器内核使用crosswalk</p>
-<p>[三星 Gear VR 浏览器<br>com.sec.android.app.svrbrowser](<a href="http://git.devops.letv.com/LvrBrowser/VR-" target="_blank" rel="noopener">http://git.devops.letv.com/LvrBrowser/VR-</a><br>Browser-Decompile#%E4%B8%89%E6%98%9F-gear-<br>vr-%E6%B5%8F%E8%A7%88%E5%99%A8-comsecandroidappsvrbrowser)</p>
-<p>[基于 Unity 开发](<a href="http://git.devops.letv.com/LvrBrowser/VR-Browser-" target="_blank" rel="noopener">http://git.devops.letv.com/LvrBrowser/VR-Browser-</a><br>Decompile#%E4%B8%89%E6%98%9F-gear-<br>vr-%E6%B5%8F%E8%A7%88%E5%99%A8-comsecandroidappsvrbrowser)</p>
-<p>[Java C# 均未混淆](<a href="http://git.devops.letv.com/LvrBrowser/VR-Browser-" target="_blank" rel="noopener">http://git.devops.letv.com/LvrBrowser/VR-Browser-</a><br>Decompile#%E4%B8%89%E6%98%9F-gear-<br>vr-%E6%B5%8F%E8%A7%88%E5%99%A8-comsecandroidappsvrbrowser)</p>
-<p>[网页使用 ](<a href="http://git.devops.letv.com/LvrBrowser/VR-Browser-" target="_blank" rel="noopener">http://git.devops.letv.com/LvrBrowser/VR-Browser-</a><br>Decompile#%E4%B8%89%E6%98%9F-gear-<br>vr-%E6%B5%8F%E8%A7%88%E5%99%A8-comsecandroidappsvrbrowser)<a href="https://www.assetstore.unity3d.com/cn/#!/content/29346" target="_blank" rel="noopener">EasyWebviewTexture</a></p>
-<p>浏览器内核使用Chromium</p>
-<p>[大朋 VR 浏览器](<a href="http://git.devops.letv.com/LvrBrowser/VR-Browser-" target="_blank" rel="noopener">http://git.devops.letv.com/LvrBrowser/VR-Browser-</a><br>Decompile#%E5%A4%A7%E6%9C%8B-vr-%E6%B5%8F%E8%A7%88%E5%99%A8)</p>
-<p>[普通原生浏览器， 开启了强制横屏](<a href="http://git.devops.letv.com/LvrBrowser/VR-Browser-" target="_blank" rel="noopener">http://git.devops.letv.com/LvrBrowser/VR-Browser-</a><br>Decompile#%E5%A4%A7%E6%9C%8B-vr-%E6%B5%8F%E8%A7%88%E5%99%A8)</p>
-<p>[下载 ](<a href="http://git.devops.letv.com/LvrBrowser/VR-Browser-" target="_blank" rel="noopener">http://git.devops.letv.com/LvrBrowser/VR-Browser-</a><br>Decompile#%E5%A4%A7%E6%9C%8B-<br>vr-%E6%B5%8F%E8%A7%88%E5%99%A8)[com.android.browser](<a href="http://git.devops.letv.com/liuwencai" target="_blank" rel="noopener">http://git.devops.letv.com/liuwencai</a><br>/DeepoonVR-App/blob/master/com.android.browser.apk);<br>需要先<a href="http://android.stackexchange.com/a/96479" target="_blank" rel="noopener">卸载系统的浏览器</a></p>
-<p>[ <strong>关于crosswalk</strong>](<a href="http://git.devops.letv.com/LvrBrowser/VR-Browser-" target="_blank" rel="noopener">http://git.devops.letv.com/LvrBrowser/VR-Browser-</a><br>Decompile#easywebviewtexture)</p>
-<p>[基于chrome内核解析网页 可以兼容android4.0以下的系统<br><strong>**](<a href="http://git.devops.letv.com/LvrBrowser/VR-Browser-" target="_blank" rel="noopener">http://git.devops.letv.com/LvrBrowser/VR-Browser-</a><br>Decompile#easywebviewtexture)</strong><a href="https://crosswalk-project.org/" target="_blank" rel="noopener">https://crosswalk-project.org/</a>**</p>
-<p>Android4.4版本以下webView是基于webkit，4.4以上是基于chromium。国内浏览器都是基于chromium，除了遨游是基于webkit，而safari也是基于webkit。chromium其实也是基于webkit。</p>
-<p> <strong>浏览器引擎分类</strong></p>
-<p>浏览器的内核引擎，基本上是四分天下：</p>
-<p>Trident: IE 以Trident 作为内核引擎;</p>
-<p>Gecko: Firefox 是基于 Gecko 开发;</p>
-<p>WebKit: Safari, Google Chrome,傲游3,猎豹浏览器,百度浏览器 opera浏览器 基于 Webkit 开发。</p>
-<p>Presto: Opera的内核，但由于市场选择问题，主要应用在手机平台–Opera mini</p>
-<p>注：2013年2月Opera宣布转向WebKit引擎</p>
-<p>注：2013年4月Opera宣布放弃WEBKIT，跟随GOOGLE的新开发的<a href="http://baike.baidu.com/view/10399127.htm" target="_blank" rel="noopener">blink引擎</a></p>
+            <p>最近造了个轮子可以批量替换prefab里的prefab，欢迎大家测试～&lt;<a href="https://bitbucket.org/xuanyusong/prefab-" target="_blank" rel="noopener">https://bitbucket.org/xuanyusong/prefab-</a><br>replace&gt;</p>
+<p>最近在做UI部分中遇到了这样的问题，就是Prefab里面预制了Prefab。可是在Unity里面一旦Prefab预制了Prefab那么内部的Prefab就失去关联。导致与如果要改内部的Prefab需要把所有引用的地方全部改一遍。今天在逛国外网站看到了一个老外的思路，原文在这里&lt;<a href="http://framebunker.com/blog" target="_blank" rel="noopener">http://framebunker.com/blog</a><br>/poor-mans-nested-prefabs/&gt;</p>
+<p>下面直接上代码</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">#if UNITY_EDITOR</span><br><span class="line"> using UnityEditor;</span><br><span class="line"> using UnityEditor.Callbacks;</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">using System.Collections.Generic;</span><br><span class="line"></span><br><span class="line">[ExecuteInEditMode]</span><br><span class="line">public class PrefabInstance : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    public GameObject prefab;</span><br><span class="line"></span><br><span class="line">#if UNITY_EDITOR</span><br><span class="line"> // Struct of all components. Used for edit-time visualization and gizmo drawing</span><br><span class="line"> public struct Thingy &#123;</span><br><span class="line"> public Mesh mesh;</span><br><span class="line"> public Matrix4x4 matrix;</span><br><span class="line"> public List&lt;Material materials;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> [System.NonSerializedAttribute] public List&lt;Thingy things = new</span><br><span class="line">List&lt;Thingy ();</span><br><span class="line"></span><br><span class="line"> void OnValidate () &#123;</span><br><span class="line"></span><br><span class="line"> things.Clear();</span><br><span class="line"></span><br><span class="line"> if (enabled)</span><br><span class="line"> Rebuild (prefab, Matrix4x4.identity);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> void OnEnable () &#123;</span><br><span class="line"> things.Clear();</span><br><span class="line"> if (enabled)</span><br><span class="line"> Rebuild (prefab, Matrix4x4.identity);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> void Rebuild (GameObject source, Matrix4x4 inMatrix) &#123;</span><br><span class="line"></span><br><span class="line"> if (!source)</span><br><span class="line"> return;</span><br><span class="line"></span><br><span class="line"> Matrix4x4 baseMat = inMatrix * Matrix4x4.TRS (-source.transform.position,</span><br><span class="line">Quaternion.identity, Vector3.one);</span><br><span class="line"> foreach (MeshRenderer mr in source.GetComponentsInChildren(typeof</span><br><span class="line">(Renderer), true))</span><br><span class="line"> &#123;</span><br><span class="line"></span><br><span class="line"> things.Add(new Thingy () &#123;</span><br><span class="line"> mesh = mr.GetComponent&lt;MeshFilter().sharedMesh,</span><br><span class="line"> matrix = baseMat * mr.transform.localToWorldMatrix,</span><br><span class="line"> materials = new List&lt;Material (mr.sharedMaterials)</span><br><span class="line"> &#125;);</span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> foreach (PrefabInstance pi in source.GetComponentsInChildren(typeof</span><br><span class="line">(PrefabInstance), true))</span><br><span class="line"> &#123;</span><br><span class="line"> if (pi.enabled &amp;&amp; pi.gameObject.activeSelf)</span><br><span class="line"> Rebuild (pi.prefab, baseMat * pi.transform.localToWorldMatrix);</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> // Editor-time-only update: Draw the meshes so we can see the objects in the</span><br><span class="line">scene view</span><br><span class="line"> void Update () &#123;</span><br><span class="line"> if (EditorApplication.isPlaying)</span><br><span class="line"> return;</span><br><span class="line"> Matrix4x4 mat = transform.localToWorldMatrix;</span><br><span class="line"> foreach (Thingy t in things)</span><br><span class="line"> for (int i = 0; i &lt; t.materials.Count; i++)</span><br><span class="line"> Graphics.DrawMesh (t.mesh, mat * t.matrix, t.materials[i], gameObject.layer,</span><br><span class="line">null, i);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> // Picking logic: Since we don&apos;t have gizmos.drawmesh, draw a bounding cube</span><br><span class="line">around each thingy</span><br><span class="line"> void OnDrawGizmos () &#123; DrawGizmos (new Color (0,0,0,0)); &#125;</span><br><span class="line"> void OnDrawGizmosSelected () &#123; DrawGizmos (new Color (0,0,1,.2f)); &#125;</span><br><span class="line"> void DrawGizmos (Color col) &#123;</span><br><span class="line"></span><br><span class="line"> if (EditorApplication.isPlaying)</span><br><span class="line"> return;</span><br><span class="line"></span><br><span class="line"> Gizmos.color = col;</span><br><span class="line"> Matrix4x4 mat = transform.localToWorldMatrix;</span><br><span class="line"> foreach (Thingy t in things)</span><br><span class="line"> &#123;</span><br><span class="line"> Gizmos.matrix = mat * t.matrix;</span><br><span class="line"> Gizmos.DrawCube(t.mesh.bounds.center, t.mesh.bounds.size);</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> // Baking stuff: Copy in all the referenced objects into the scene on play</span><br><span class="line">or build</span><br><span class="line"> [PostProcessScene(-2)]</span><br><span class="line"> public static void OnPostprocessScene() &#123;</span><br><span class="line"> foreach (PrefabInstance pi in UnityEngine.Object.FindObjectsOfType (typeof</span><br><span class="line">(PrefabInstance)))</span><br><span class="line">      BakeInstance (pi);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> public static void BakeInstance (PrefabInstance pi) &#123;</span><br><span class="line"> if(!pi.prefab || !pi.enabled)</span><br><span class="line"> return;</span><br><span class="line"></span><br><span class="line"> pi.enabled = false;</span><br><span class="line"> GameObject go = PrefabUtility.InstantiatePrefab(pi.prefab) as GameObject;</span><br><span class="line"> Quaternion rot = go.transform.localRotation;</span><br><span class="line"> Vector3 scale = go.transform.localScale;</span><br><span class="line"> go.transform.parent = pi.transform;</span><br><span class="line"> go.transform.localPosition = Vector3.zero;</span><br><span class="line"> go.transform.localScale = scale;</span><br><span class="line"> go.transform.localRotation = rot;</span><br><span class="line"> pi.prefab = null;</span><br><span class="line"></span><br><span class="line"> foreach (PrefabInstance childPi in</span><br><span class="line">go.GetComponentsInChildren&lt;PrefabInstance())</span><br><span class="line"> BakeInstance (childPi);</span><br><span class="line"> &#125;</span><br><span class="line">#endif</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用法比较简单，比如我有两个Prefab，inside嵌入在Big里面。如下图所示，把PrefabInstance脚本挂在Big上，然后把inside拖入下方。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-96725fd31f44b3f7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>OK 无论怎么修改inside这个Prefab，当实例化Big的时候都能得到最新修改的Inside这个Prefab。</p>
+<p>持续思考：</p>
+<p>界面预览问题，就是我在布界面的时候，我需要把子集Prefab界面控件拖进来预览效果。如果用上述思路UI的Prefab就必须通过脚本自动生成。一份是预览用的也就是不需要脚本的，一份是只带脚本运行时动态生成的。在处理自动生成UIPrefab的时候可以利用tag<br>比如像这种需要内嵌的Prefab标记一个特殊的tag，在Editor下完成Prefab的导出。另外布界面的时候不需要绑定脚本，而上述脚本的绑定也应该由Editor导出Prefab的时候完成。</p>
+<p>总之一切布界面的时候只操作Prefab不操作脚本。</p>
+<p>最近造了个轮子可以批量替换prefab里的prefab，欢迎大家测试～&lt;<a href="https://bitbucket.org/xuanyusong/prefab-" target="_blank" rel="noopener">https://bitbucket.org/xuanyusong/prefab-</a><br>replace&gt;</p>
+<p>如果有更好的方法欢迎各位朋友在下面给我留言，谢谢。</p>
+<p>本文固定链接: <a href="https://www.xuanyusong.com/archives/3042" target="_blank" rel="noopener">https://www.xuanyusong.com/archives/3042</a></p>
+<p>转载请注明: <a href="https://www.xuanyusong.com/archives/author/xuanyusong" target="_blank" rel="noopener">雨松MOMO</a><br>2014年07月31日 于 <a href="https://www.xuanyusong.com/" target="_blank" rel="noopener">雨松MOMO程序研究院</a> 发表</p>
 
         </div>
         
@@ -486,7 +530,7 @@ var _hmt = _hmt || [];
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/43/">43</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/47/">47</a></li>
             
         </ul>
     </nav>
@@ -534,7 +578,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        128
+                        139
                     </p>
                 </div>
             </div>
@@ -554,7 +598,7 @@ var _hmt = _hmt || [];
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        23
+                        29
                     </p>
                 </div>
             </div>
@@ -660,7 +704,7 @@ var _hmt = _hmt || [];
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">12</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -706,7 +750,7 @@ var _hmt = _hmt || [];
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/ReactNative/" style="font-size: 17px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 15px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/blog/tags/JavaScript优化/" style="font-size: 10px;">JavaScript优化</a> <a href="/blog/tags/ReactNative/" style="font-size: 16px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 14px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/RxJs/" style="font-size: 10px;">RxJs</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 17px;">Web</a> <a href="/blog/tags/Web优化/" style="font-size: 11px;">Web优化</a> <a href="/blog/tags/h5/" style="font-size: 10px;">h5</a> <a href="/blog/tags/npm/" style="font-size: 10px;">npm</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 15px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
     </div>
 </div>
 
@@ -725,10 +769,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -738,10 +782,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -751,10 +795,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.968Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/使用Mock.js进行独立于后端的前端开发/" class="has-link-black-ter is-size-6">使用Mock.js进行独立于后端的前端开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -764,10 +808,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.871Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/什么样的浏览器内核，才敢说是“自主研发”？内核科普长文/" class="has-link-black-ter is-size-6">什么样的浏览器内核，才敢说是“自主研发”？内核科普长文</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -777,10 +821,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.839Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/" class="has-link-black-ter is-size-6">前端黑科技：美团网页首帧优化实践</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -804,7 +848,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">128</span>
+                    <span class="level-item tag">139</span>
                 </span>
             </a>
         </li>
@@ -851,6 +895,20 @@ var _hmt = _hmt || [];
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript/">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript优化/">
+                        <span class="tag">JavaScript优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative/">
                         <span class="tag">ReactNative</span>
                         <span class="tag is-grey">9</span>
@@ -874,6 +932,13 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
                         <span class="tag">ReactNative插件</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/RxJs/">
+                        <span class="tag">RxJs</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -916,6 +981,27 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web优化/">
+                        <span class="tag">Web优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/h5/">
+                        <span class="tag">h5</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/npm/">
+                        <span class="tag">npm</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -923,7 +1009,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/后端/">
                         <span class="tag">后端</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
@@ -1010,10 +1096,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1023,10 +1109,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1036,10 +1122,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.968Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/使用Mock.js进行独立于后端的前端开发/" class="has-link-black-ter is-size-6">使用Mock.js进行独立于后端的前端开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1049,10 +1135,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.871Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/什么样的浏览器内核，才敢说是“自主研发”？内核科普长文/" class="has-link-black-ter is-size-6">什么样的浏览器内核，才敢说是“自主研发”？内核科普长文</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1062,10 +1148,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.839Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/" class="has-link-black-ter is-size-6">前端黑科技：美团网页首帧优化实践</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1089,7 +1175,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">128</span>
+                    <span class="level-item tag">139</span>
                 </span>
             </a>
         </li>
@@ -1136,6 +1222,20 @@ var _hmt = _hmt || [];
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript/">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript优化/">
+                        <span class="tag">JavaScript优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative/">
                         <span class="tag">ReactNative</span>
                         <span class="tag is-grey">9</span>
@@ -1159,6 +1259,13 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
                         <span class="tag">ReactNative插件</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/RxJs/">
+                        <span class="tag">RxJs</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1201,6 +1308,27 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web优化/">
+                        <span class="tag">Web优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/h5/">
+                        <span class="tag">h5</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/npm/">
+                        <span class="tag">npm</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1208,7 +1336,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/后端/">
                         <span class="tag">后端</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 

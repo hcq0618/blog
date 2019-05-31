@@ -163,7 +163,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time>
+                <time class="level-item has-text-grey" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
@@ -173,7 +173,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    10 分钟 读完 (大约 1437 个字)
+                    7 分钟 读完 (大约 1068 个字)
                 </span>
                 
                 
@@ -182,109 +182,39 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/18/Web/GithubPage+Hexo搭建个人主页/">GithubPage+Hexo搭建个人主页</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/31/Web/跨域与跨域访问/">跨域与跨域访问</a>
             
         </h1>
         <div class="content">
-            <h2 id="安装配置部署"><a href="#安装配置部署" class="headerlink" title="安装配置部署"></a>安装配置部署</h2><p><a href="https://zirho.github.io/2016/06/04/hexo/" target="_blank" rel="noopener">https://zirho.github.io/2016/06/04/hexo/</a></p>
-<hr>
-<h2 id="添加评论"><a href="#添加评论" class="headerlink" title="添加评论"></a>添加评论</h2><p>这个主题的评论已经集成了，并不需要我们进行手工导入，要求你有多说/disqus的账号，并在跟目录的_config.yml中，删去注释#：</p>
-<p><strong>DuoShuo</strong></p>
-<p>duoshuo_shortname: 多说设置的名称</p>
-<hr>
-<h2 id="添加友情链接"><a href="#添加友情链接" class="headerlink" title="添加友情链接"></a>添加友情链接</h2><p>我们在主题的_config.yml中已经有设置links的了。只是没有显示出来：</p>
-<p>修改主题的_config.yml</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># Links 通过links来设置友情链接</span><br><span class="line"></span><br><span class="line">links:</span><br><span class="line"></span><br><span class="line">  Hexo: http://hexo.io</span><br><span class="line"></span><br><span class="line">  foam | 我一直在找寻有你的世界: http://zoufeng.net/</span><br><span class="line"></span><br><span class="line">  getNway的博客: http://www.luojiawei.me/</span><br><span class="line"></span><br><span class="line">  HCLAB-环宇创意电脑工作室: http://hclab.cn/hclab/index.php/</span><br><span class="line"></span><br><span class="line"># Sidebar # 网站右边框</span><br><span class="line"></span><br><span class="line">sidebar: right # set to false if you don&apos;t want a sidebar</span><br><span class="line"></span><br><span class="line">widgets:</span><br><span class="line"></span><br><span class="line">- category</span><br><span class="line">- links</span><br></pre></td></tr></table></figure>
+            <h3 id="什么是跨域"><a href="#什么是跨域" class="headerlink" title="什么是跨域"></a>什么是跨域</h3><p>跨域是 <strong>指从一个域名的网页去请求另一个域名的资源</strong> 。比如从<a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a> 页面去请求 <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a><br>的资源。跨域的严格一点的定义是：只要 <strong>协议，域名，端口有任何一个的不同，就被当作是跨域</strong></p>
+<h3 id="为什么浏览器要限制跨域访问呢？"><a href="#为什么浏览器要限制跨域访问呢？" class="headerlink" title="为什么浏览器要限制跨域访问呢？"></a>为什么浏览器要限制跨域访问呢？</h3><p>原因就是安全问题：如果一个网页可以随意地访问另外一个网站的资源，那么就有可能在客户完全不知情的情况下出现安全问题。比如下面的操作就有安全问题：</p>
+<p>用户访问<a href="http://www.mybank.com" target="_blank" rel="noopener">www.mybank.com</a> ，登陆并进行网银操作，这时cookie啥的都生成并存放在浏览器</p>
+<p>用户突然想起件事，并迷迷糊糊地访问了一个邪恶的网站 <a href="http://www.xiee.com" target="_blank" rel="noopener">www.xiee.com</a></p>
+<p>这时该网站就可以在它的页面中，拿到 <strong>银行的cookie</strong> ，比如用 <strong>户名，登陆token等</strong> ，然后发起对<a href="http://www.mybank.com" target="_blank" rel="noopener">www.mybank.com</a> 的操作。</p>
+<p>如果这时浏览器不予限制，并且银行也没有做响应的安全处理的话，那么用户的信息有可能就这么泄露了。</p>
+<h3 id="为什么要跨域"><a href="#为什么要跨域" class="headerlink" title="为什么要跨域"></a>为什么要跨域</h3><p>既然有安全问题，那为什么又要跨域呢？ 有时公司内部有多个不同的子域，比如一个是location.company.com<br>,而应用是放在app.company.com , 这时想 <strong>从 app.company.com去访问 location.company.com<br>的资源就属于跨域</strong> 。</p>
+<h3 id="跨域访问需要的两件宝贝"><a href="#跨域访问需要的两件宝贝" class="headerlink" title="跨域访问需要的两件宝贝"></a>跨域访问需要的两件宝贝</h3><p>由于浏览器一般不对script，img等进行跨域限制，所以我们有机会通过script的方式来实现跨域访问。</p>
+<p>跨域访问需要用到两样东东，一个是JSON，一种基于文本的传输协议； <strong>一种是JSONP，一群码农想出来的跨域解决方案</strong><br>。关于JSON与JSONP的解释，可以参考 <a href="http://kb.cnblogs.com/page/139725/" target="_blank" rel="noopener">JSON &amp; JSONP</a></p>
+<h3 id="实现跨域访问-服务端需要做什么"><a href="#实现跨域访问-服务端需要做什么" class="headerlink" title="实现跨域访问 服务端需要做什么"></a>实现跨域访问 服务端需要做什么</h3><p>服务端要检查访问的请求参数，如果没有callback，则可以按照之前的流程走；如果<br><strong>带着callback参数，则需要将返回的结果包装在callback里面。</strong></p>
+<p>比如请求的URL是: app.company.com/location?callback=myCallback , 那么服务端则需要<br><strong>把结果封装进myCallback 函数里面</strong> ， 如下</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">if (params.query &amp;&amp; params.query.callback) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//console.log(params.query.callback);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">var str = params.query.callback + &apos;(&apos; \+ JSON.stringify(data) + &apos;)&apos;;//jsonp</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">res.end(str);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125; else &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">res.end(JSON.stringify(data));//普通的json</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现跨域访问-客户端需要做什么"><a href="#实现跨域访问-客户端需要做什么" class="headerlink" title="实现跨域访问 客户端需要做什么"></a>实现跨域访问 客户端需要做什么</h3><p>客户端有多种方式可以实现JSONP的调用：</p>
+<p>jQuery</p>
+<p> <strong>jQuery可以在Ajax里面设置datatype为jsonp，则可以进行跨域访问</strong></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">$scope.jqueryJsonpRequest = function()&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">jQuery.ajax(&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">type: &quot;get&quot;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">async: false,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">url: &quot;https://public-</span><br><span class="line">api.wordpress.com/rest/v1/sites/wtmpeachtest.wordpress.com/posts&quot;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">dataType: &quot;jsonp&quot;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">jsonp: &quot;callback&quot;,//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(一般默认为:callback)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">jsonpCallback:&quot;flightHandler&quot;,//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名，也可以写&quot;?&quot;，jQuery会自动为你处理数据</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">success: function(json)&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">alert(&apos;success&apos; \+ JSON.stringify(json));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">error: function()&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">alert(&apos;fail&apos;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>AngularJS</p>
+<p>AngularJS的$http 也提供了对jsonp的访问，直接调用jsonp进行跨域访问</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$http.jsonp(&apos;https://public-</span><br><span class="line">api.wordpress.com/rest/v1/sites/wtmpeachtest.wordpress.com/posts?callback=JSON_CALLBACK&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">.success(function(data)&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">alert(&apos;success:&apos;+data);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;).error(function(err)&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">alert(&apos;error:&apos;+err);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>手动实现</p>
+<p>不管是jQuery也好，AngularJS也罢，底下都不是发起XHR （XML HTTP<br>Request），而都是通过加载javascript的方式来做的，所以如果项目没有依赖jQuery或者AngularJS，则可以自己手动实现jsonp的调用。</p>
+<p>原理很简单，就是用javascript动态加载一个script文件，同时定义一个callback函数给script执行而已。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//定义callback 函数</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">var myCallbackFunction = function(data)&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 对返回的数据做后续处理</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">alert(&apos;uuu:&apos;+JSON.stringify(data));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//把callback函数赋给window对象，供script回调</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">window.myCallbackFunction = myCallbackFunction;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//创建并加载script</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">var script = document.createElement(&apos;script&apos;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">script.src = &apos;https://public-</span><br><span class="line">api.wordpress.com/rest/v1/sites/wtmpeachtest.wordpress.com/posts?callback=myCallbackFunction&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">document.body.appendChild(script);</span><br></pre></td></tr></table></figure>
 
 
-<hr>
-<h2 id="发布博客，markdown文件的格式"><a href="#发布博客，markdown文件的格式" class="headerlink" title="发布博客，markdown文件的格式"></a>发布博客，markdown文件的格式</h2><p>markdown文件需要添加categories进行归档区分。</p>
-<p>相应的为：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">title: &quot;java-Map集合-HashMap&quot;</span><br><span class="line"></span><br><span class="line">thumbnail: http://XXXXXXX (或者相对路径)</span><br><span class="line"></span><br><span class="line">date: 2015-07-28 10:48:16</span><br><span class="line"></span><br><span class="line">categories: java</span><br><span class="line"></span><br><span class="line">tags: [java,Map,HashMap,Hashtable]</span><br><span class="line"></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
 
-
-
-<p>thumbnail也可以在配置文件中关闭不显示  </p>
-<p>其中categories/tags的格式也可以为：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">categories/tags:</span><br><span class="line">    - java</span><br></pre></td></tr></table></figure>
-
-
-
-<p>具体格式相应属性的设置，直接去hexo提供的文档：</p>
-<p>[Front-matter](<a href="https://link.jianshu.com/?t=https://hexo.io/zh-cn/docs/front-" target="_blank" rel="noopener">https://link.jianshu.com/?t=https://hexo.io/zh-cn/docs/front-</a><br>matter.html)，直接查看官方的文档就可以很快地知道个所以然了。</p>
-<hr>
-<h2 id="添加站长统计"><a href="#添加站长统计" class="headerlink" title="添加站长统计"></a>添加站长统计</h2><p>我们通过站长统计来及时查看我们个人网站的浏览情况。首先，我们需要进行注册：<a href="https://link.jianshu.com/?t=http://zhanzhang.cnzz.com/" target="_blank" rel="noopener">站长统计</a></p>
-<p>以下参考：[添加cnzz站长统计](<a href="https://link.jianshu.com/?t=https://github.com/woheme/hexo-" target="_blank" rel="noopener">https://link.jianshu.com/?t=https://github.com/woheme/hexo-</a><br>theme-icarus/commit/5b3da36aaffa4947cca358f40d5db09eddf3b9b8)</p>
-<ol>
-<li>在theme的_config.yml中的末尾添加以下：(这部很重要，不添加web_id将无法显示出来)</li>
-</ol>
-<p>CNZZ id</p>
-<p>cnzz: 这里填入你在站长统计注册后的web_id</p>
-<ol>
-<li>在目录：主题的layout/_partial/添加文件为cnzz.ejs，内容如下：</li>
-</ol>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (theme.cnzz)&#123; %&gt;</span><br><span class="line"></span><br><span class="line">Analyse with &lt;script src=&quot;http://s23.cnzz.com/z_stat.php?id=&lt;%= theme.cnzz</span><br><span class="line">%&gt;&amp;web_id=&lt;%= theme.cnzz %&gt;&quot; language=&quot;JavaScript&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>最后进行显示，在路径layout/_partial/footer.ejs里面添加：</li>
-</ol>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">...PPOffice&lt;/a&gt;.&lt;%- partial(&apos;cnzz&apos;) %&gt;</span><br></pre></td></tr></table></figure>
-
-<p>再次提醒注意在_config.xml中添加web_id，否则无法显示。当显示出来了，又有一个问题，那就是要填写查看密码了。</p>
-<p>查看以下即可：<a href="https://link.jianshu.com/?t=http://help.cnzz.com/support/zhandianshezhi/chankanmimazhezhi/20130903/27.html" target="_blank" rel="noopener">【设置】如何设置查看密码？（此功能只限站长用户）</a></p>
-<hr>
-<h2 id="百度-谷歌验证站点"><a href="#百度-谷歌验证站点" class="headerlink" title="百度/谷歌验证站点"></a>百度/谷歌验证站点</h2><p>为什么要验证站点了，因为要搜索引擎进行收录，说白了就是让别人更容易搜索到你的网站，仅此而已。</p>
-<p>首先需要到百度/谷歌站长统计中注册，以及验证：</p>
-<p><a href="https://link.jianshu.com/?t=http://www.google.com/webmasters/tools/?hl=zh_CN" target="_blank" rel="noopener">Google网站管理员工具地址</a></p>
-<p><a href="https://link.jianshu.com/?t=http://zhanzhang.baidu.com/" target="_blank" rel="noopener">百度站长工具</a></p>
-<p>注册完后，进行输入相应的网站地址，然后选择html验证，将代码加入以下路径layout/_partial/head.ejs：（截取部分）</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line"></span><br><span class="line">&lt;meta name=&quot;baidu-site-verification&quot; content=&quot;tqvy7RDErf&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;meta name=&quot;google-site-verification&quot; content=&quot;hjN29-PO_KfE-dgow-</span><br><span class="line">7hcz75xJj0qzZ6G2OkXZ3FVd8&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;meta charset=&quot;utf-8&quot;&gt;</span><br><span class="line"></span><br><span class="line">....</span><br></pre></td></tr></table></figure>
-
-<p>然后发布到github中，再进行验证即可。</p>
-<hr>
-<h2 id="发布后无法加载样式"><a href="#发布后无法加载样式" class="headerlink" title="发布后无法加载样式"></a>发布后无法加载样式</h2><p>因为默认的路径的为<a href="http://uername.com/hexo-theme-" target="_blank" rel="noopener">http://uername.com/hexo-theme-</a><br>icarus而你解析的路径直接为<a href="http://uername.com/导致无法加载样式，或者无法显示文章。那么，该如何进行修改呢？" target="_blank" rel="noopener">http://uername.com/导致无法加载样式，或者无法显示文章。那么，该如何进行修改呢？</a></p>
-<p>我们需要对路径进行提升，从hexo-theme-<br>icarus到/，你可以按着<a href="https://link.jianshu.com/?t=http://wohe.me/2015/06/04/Hexo%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/" target="_blank" rel="noopener">Hexo使用总结</a>中的配置进行修改_config.yml，即可。修改完后，不要着急，我的情况要等好久才回显示正常，真是郁闷。下面是个别的设置：</p>
-<p><strong>站点的_config.yml</strong></p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root: /</span><br></pre></td></tr></table></figure>
-
-<p><strong>theme的_config.yml</strong></p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Home: /</span><br><span class="line"></span><br><span class="line">  Archives: /archives</span><br><span class="line"></span><br><span class="line">  Categories: /categories</span><br><span class="line"></span><br><span class="line">  About: /about</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="扩展插件的使用"><a href="#扩展插件的使用" class="headerlink" title="扩展插件的使用"></a>扩展插件的使用</h2><p>强大的插件供你使用，插件集合：<a href="https://link.jianshu.com/?t=https://github.com/hexojs/hexo/wiki/Plugins" target="_blank" rel="noopener">Hexo<br>Plugins</a>。</p>
-<p>下面展示一个插件sitemap的使用：<a href="https://link.jianshu.com/?t=http://ppting.me/2015/01/25/sitemap/" target="_blank" rel="noopener">hexo优化–<br>向Google提交sitemap</a></p>
-<p>还必须在根目录的_config.yml加入以下配置：</p>
-<p>Extensions 这里配置站点所用主题和插件，暂默认，后面会介绍怎么修改</p>
-<p>Plugins: <a href="https://github.com/tommy351/hexo/wiki/Plugins" target="_blank" rel="noopener">https://github.com/tommy351/hexo/wiki/Plugins</a></p>
-<p>exclude_generator:</p>
-<p>plugins:</p>
-<p>- hexo-generator-feed</p>
-<p>- hexo-generator-sitemap</p>
-<hr>
-<h2 id="发布后显示404："><a href="#发布后显示404：" class="headerlink" title="发布后显示404："></a>发布后显示404：</h2><p>查看配置文件_config.yml中的配置是否与实际情况相符：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">url: https://hcq0618.github.io/blog/</span><br><span class="line"></span><br><span class="line">root: /blog/</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="在文章中插入本地图片"><a href="#在文章中插入本地图片" class="headerlink" title="在文章中插入本地图片"></a>在文章中插入本地图片</h2><p><a href="https://cloud.tencent.com/developer/article/1019861" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1019861</a>  </p>
-<p><strong>遇到问题</strong></p>
-<p>遇到没能成功显示的问题，查看网页，结果是<code>&lt;img src=&quot;2017/02/26/2017-02-23-c/图片名.jpg&quot;&gt;</code> 的形式，然后查看 hexo<br>的目录，发现路径是 <code>/public/2017/02/26/c/a.jpg</code>。</p>
-<p>之前在 md 文件中引用时写作：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![你想输入的替代文字](xxxx/图片名.jpg)</span><br></pre></td></tr></table></figure>
-
-<p>改为：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![](a.jpg)</span><br></pre></td></tr></table></figure>
-
-<p>就可以了。</p>
-<hr>
-<h2 id="创建Github-Page"><a href="#创建Github-Page" class="headerlink" title="创建Github Page"></a>创建Github Page</h2><p>在Github上创建一个仓库，可以新建一个source分支用于存在主页项目源码，master用于存放主页网页静态代码，<br>然后在项目Settings里找到Github Page，选择master分支，即可创建一个github page主页<br>url一般为：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;github用户名&gt;.github.io/&lt;项目名&gt;</span><br></pre></td></tr></table></figure>
-
-<p>然后每次都可以通过github desktop，将主页的项目源码上传到source分支<br>依次通过hexo的命令</p>
-<ul>
-<li><code>hexo generate</code>或者<code>hexo g</code>或者<code>hexo g -f</code></li>
-<li><code>hexo deploy</code>或者<code>hexo d</code></li>
-</ul>
-<p>就会自动生成静态网页并将主页网页静态代码push到master分支（当然先会要求验证github账号密码），主页就随即更新了</p>
 
         </div>
         
@@ -300,6 +230,325 @@ var _hmt = _hmt || [];
 
 
 
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 分钟 读完 (大约 671 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/31/Web/npm安装方式的区别/">npm安装方式的区别</a>
+            
+        </h1>
+        <div class="content">
+            <p>npm install moduleName # 安装模块到项目目录下</p>
+<p>npm install -g moduleName # -g 的意思是将模块安装到全局，具体安装到磁盘哪个位置，要看 npm config prefix<br>的位置。</p>
+<p>npm install -save moduleName # -save<br>的意思是将模块安装到项目目录下，并在package文件的dependencies节点写入依赖。</p>
+<p>npm install -save-dev moduleName # -save-dev<br>的意思是将模块安装到项目目录下，并在package文件的devDependencies节点写入依赖。</p>
+<p>那么问题来了，在项目中我们应该使用四个命令中的哪个呢？这个就要视情况而定了。下面对这四个命令进行对比，看完后你就不再这么问了。</p>
+<h3 id="npm-install-moduleName-命令"><a href="#npm-install-moduleName-命令" class="headerlink" title="npm install moduleName 命令"></a>npm install moduleName 命令</h3><p>1. 安装模块到项目node_modules目录下。</p>
+<p>2. 不会将模块依赖写入devDependencies或dependencies 节点。</p>
+<p>3. 运行 npm install 初始化项目时不会下载模块。</p>
+<h3 id="npm-install-g-moduleName-命令"><a href="#npm-install-g-moduleName-命令" class="headerlink" title="npm install -g moduleName 命令"></a>npm install -g moduleName 命令</h3><p>1. 安装模块到全局，不会在项目node_modules目录中保存模块包。</p>
+<p>2. 不会将模块依赖写入devDependencies或dependencies 节点。</p>
+<p>3. 运行 npm install 初始化项目时不会下载模块。</p>
+<h3 id="npm-install-save-moduleName-命令"><a href="#npm-install-save-moduleName-命令" class="headerlink" title="npm install -save moduleName 命令"></a>npm install -save moduleName 命令</h3><p>1. 安装模块到项目node_modules目录下。</p>
+<p>2. 会将模块依赖写入dependencies 节点。</p>
+<p>3. 运行 npm install 初始化项目时，会将模块下载到项目目录下。</p>
+<p>4. 运行npm install<br>–production或者注明NODE_ENV变量值为production时，会自动下载模块到node_modules目录中。</p>
+<h3 id="npm-install-save-dev-moduleName-命令"><a href="#npm-install-save-dev-moduleName-命令" class="headerlink" title="npm install -save-dev moduleName 命令"></a>npm install -save-dev moduleName 命令</h3><p>1. 安装模块到项目node_modules目录下。</p>
+<p>2. 会将模块依赖写入devDependencies 节点。</p>
+<p>3. 运行 npm install 初始化项目时，会将模块下载到项目目录下。</p>
+<p>4. 运行npm install<br>–production或者注明NODE_ENV变量值为production时，不会自动下载模块到node_modules目录中。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>devDependencies 节点下的模块是我们在开发时需要用的，比如项目中使用的 gulp<br>，压缩css、js的模块。这些模块在我们的项目部署后是不需要的，所以我们可以使用 -save-dev 的形式安装。像 express<br>这些模块是项目运行必备的，应该安装在 dependencies 节点下，所以我们应该使用 -save 的形式安装。  </p>
+<p>使用原则:</p>
+<p>运行时需要用到的包使用–save，否则使用–save-dev。  </p>
+<p>npm install 会下载dependencies和devDependencies中的模块。它到哪里去找这些模块?其实，当我们执行npm intall<br>命令时， 会根据package.json/package-lock.json中的依赖去下载模块。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-31T08:27:02.968Z">2019-05-31</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    10 分钟 读完 (大约 1559 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/31/Web/使用Mock.js进行独立于后端的前端开发/">使用Mock.js进行独立于后端的前端开发</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="解决的问题"><a href="#解决的问题" class="headerlink" title="解决的问题"></a>解决的问题</h2><p>开发时，后端还没完成数据输出，前端只好写静态模拟数据。</p>
+<ul>
+<li><p>数据太长了，将数据写在js文件里，完成后挨个改url。</p>
+</li>
+<li><p>某些逻辑复杂的代码，加入或去除模拟数据时得小心翼翼。</p>
+</li>
+<li><p>想要尽可能还原真实的数据，要么编写更多代码，要么手动修改模拟数据。</p>
+</li>
+<li><p>特殊的格式，例如IP,随机数，图片，地址，需要去收集。</p>
+</li>
+<li><p>超烂的破网速…</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+<h2 id="以上都不再是问题"><a href="#以上都不再是问题" class="headerlink" title="以上都不再是问题"></a>以上都不再是问题</h2><p>接下来体验 拦截ajax请求并返回模拟数据。</p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><h3 id="Mock-js实现的功能"><a href="#Mock-js实现的功能" class="headerlink" title="Mock.js实现的功能"></a>Mock.js实现的功能</h3><ol>
+<li><p>基于 数据模板 生成数据</p>
+</li>
+<li><p>基于 HTML模板 生成数据</p>
+</li>
+<li><p>拦截并模拟 Ajax请求</p>
+</li>
+</ol>
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><h3 id="浏览器："><a href="#浏览器：" class="headerlink" title="浏览器："></a>浏览器：</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- （必选）加载 Mock --&gt;</span><br><span class="line"></span><br><span class="line">&lt;script src=&quot;http://mockjs.com/dist/mock.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"></span><br><span class="line">// 使用 Mock</span><br><span class="line"></span><br><span class="line">var data = Mock.mock(&#123;</span><br><span class="line"></span><br><span class="line">    &apos;list|1-10&apos;: [&#123;</span><br><span class="line"></span><br><span class="line">        &apos;id|+1&apos;: 1</span><br><span class="line"></span><br><span class="line">    &#125;]</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">$(&apos;&lt;pre&gt;&apos;).text(JSON.stringify(data, null, 4))</span><br><span class="line"></span><br><span class="line">.appendTo(&apos;body&apos;)</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"> _</span><br></pre></td></tr></table></figure>
+
+<p>_</p>
+<p>返回值:</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&quot;list&quot;: [</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        &quot;id&quot;: 1</span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        &quot;id&quot;: 2</span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        &quot;id&quot;: 3</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h3 id="JQuery："><a href="#JQuery：" class="headerlink" title="JQuery："></a>JQuery：</h3><p>配置模拟数据：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Mock.mock(&apos;http://g.cn&apos;, &#123;</span><br><span class="line"></span><br><span class="line">    &apos;name&apos;     : &apos;@name&apos;,</span><br><span class="line"></span><br><span class="line">    &apos;age|1-100&apos;: 100,</span><br><span class="line"></span><br><span class="line">    &apos;color&apos;    : &apos;@color&apos;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>发送Ajax请求：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line"></span><br><span class="line">    url: &apos;http://g.cn&apos;,</span><br><span class="line"></span><br><span class="line">    dataType:&apos;json&apos;</span><br><span class="line"></span><br><span class="line">    &#125;).done(function(data, status, xhr)&#123;</span><br><span class="line"></span><br><span class="line">    console.log(</span><br><span class="line"></span><br><span class="line">    JSON.stringify(data, null, 4)</span><br><span class="line"></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">&#125;)；</span><br></pre></td></tr></table></figure>
+
+<p> **  
+**</p>
+<p>返回数据：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// 结果1</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&quot;name&quot;: &quot;Elizabeth Hall&quot;,</span><br><span class="line"></span><br><span class="line">&quot;age&quot;: 91,</span><br><span class="line"></span><br><span class="line">&quot;color&quot;: &quot;#0e64ea&quot;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 结果2</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&quot;name&quot;: &quot;Michael Taylor&quot;,</span><br><span class="line"></span><br><span class="line">&quot;age&quot;: 61,</span><br><span class="line"></span><br><span class="line">&quot;color&quot;: &quot;#081086&quot;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> _  
+_</p>
+<hr>
+<h3 id="Node-js："><a href="#Node-js：" class="headerlink" title="Node.js："></a>Node.js：</h3><p>// 安装</p>
+<p><code>npm install mockjs</code><br>// 使用</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var Mock = require(&apos;mockjs&apos;);</span><br><span class="line"></span><br><span class="line">var data = Mock.mock(&#123;</span><br><span class="line"></span><br><span class="line">    &apos;list|1-10&apos;: [&#123;</span><br><span class="line"></span><br><span class="line">        &apos;id|+1&apos;: 1</span><br><span class="line"></span><br><span class="line">    &#125;]</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">console.log(JSON.stringify(data, null, 4))</span><br></pre></td></tr></table></figure>
+
+<p> _  
+_</p>
+<hr>
+<h3 id="Angular-js"><a href="#Angular-js" class="headerlink" title="Angular.js:"></a>Angular.js:</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 引用 --&gt;</span><br><span class="line"></span><br><span class="line">&lt;script src=&quot;http://mockjs.com/dist/mock-min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script</span><br><span class="line">src=&quot;http://cdn.staticfile.org/angular.js/1.3.0-beta.13/angular.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 兼容angular (mock.js默认不兼容angular，需额外引用兼容包)--&gt;</span><br><span class="line"></span><br><span class="line">&lt;script src=&quot;./src/mock.angular.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 模拟数据 --&gt;</span><br><span class="line"></span><br><span class="line">&lt;script src=&quot;./mockData.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 使用 --&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"></span><br><span class="line">(function() &#123;</span><br><span class="line"></span><br><span class="line">    (function() &#123;</span><br><span class="line"></span><br><span class="line">        var app;</span><br><span class="line"></span><br><span class="line">        app = angular.module(&apos;app&apos;, []);</span><br><span class="line"></span><br><span class="line">        //使用mockjax方法覆盖Ajax请求</span><br><span class="line"></span><br><span class="line">        Mock.mockjax(app);</span><br><span class="line"></span><br><span class="line">        return app.controller(&apos;appCtrl&apos;, function($scope, $http) &#123;</span><br><span class="line"></span><br><span class="line">            var box;</span><br><span class="line"></span><br><span class="line">            box = $scope.box = [];</span><br><span class="line"></span><br><span class="line">            $scope.get = function() &#123;</span><br><span class="line"></span><br><span class="line">                $http(&#123;</span><br><span class="line"></span><br><span class="line">                    url: &apos;http://www.baidu.com&apos;,</span><br><span class="line"></span><br><span class="line">                    method: &apos;POST&apos;,</span><br><span class="line"></span><br><span class="line">                    params: &#123;a: 1&#125;,</span><br><span class="line"></span><br><span class="line">                    data  : &#123;b:1&#125;</span><br><span class="line"></span><br><span class="line">                &#125;).success(function(data) &#123;</span><br><span class="line"></span><br><span class="line">                return box.push(data);</span><br><span class="line"></span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            $http(&#123;</span><br><span class="line"></span><br><span class="line">                url: &apos;http://baidu.com&apos;</span><br><span class="line"></span><br><span class="line">                &#125;).success(function(data) &#123;</span><br><span class="line"></span><br><span class="line">                console.log(data);</span><br><span class="line"></span><br><span class="line">                &#125;);</span><br><span class="line"></span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">        return $scope.get();</span><br><span class="line"></span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;)();</span><br><span class="line"></span><br><span class="line">&#125;).call(this);</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p> _  
+_</p>
+<h4 id="mock数据mockData-js"><a href="#mock数据mockData-js" class="headerlink" title="mock数据mockData.js:"></a>mock数据mockData.js:</h4><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Mock.mock(&apos;http://www.baidu.com&apos;, &#123;</span><br><span class="line"></span><br><span class="line">    &apos;name&apos;: &apos;@name()&apos;,</span><br><span class="line"></span><br><span class="line">    &apos;age|1-100&apos;: 100,</span><br><span class="line"></span><br><span class="line">    &apos;color&apos;: &apos;@color&apos;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p> **  
+**</p>
+<hr>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p>Mock.js 的语法规范包括两部分：</p>
+<ol>
+<li><p>数据模板定义（Data Temaplte Definition，DTD）</p>
+</li>
+<li><p>数据占位符定义（Data Placeholder Definition，DPD）</p>
+</li>
+</ol>
+<h3 id="数据模板定义-DTD"><a href="#数据模板定义-DTD" class="headerlink" title="数据模板定义 DTD"></a>数据模板定义 DTD</h3><p>数据模板中的每个属性由 3 部分构成：属性名、生成规则、属性值：</p>
+<p><code>// 属性名 name</code></p>
+<p><code>// 生成规则 rule</code></p>
+<p><code>// 属性值 value</code></p>
+<p>‘name|rule’: value</p>
+<p>注意：</p>
+<ul>
+<li><p>属性名 和 生成规则 之间用 | 分隔。</p>
+</li>
+<li><p>生成规则 是可选的。</p>
+</li>
+<li><p>生成规则 有 7 种格式：</p>
+<ol>
+<li><p>‘name|min-max’: value</p>
+</li>
+<li><p>‘name|count’: value</p>
+</li>
+<li><p>‘name|min-max.dmin-dmax’: value</p>
+</li>
+<li><p>‘name|min-max.dcount’: value</p>
+</li>
+<li><p>‘name|count.dmin-dmax’: value</p>
+</li>
+<li><p>‘name|count.dcount’: value</p>
+</li>
+<li><p>‘name|+step’: value</p>
+</li>
+</ol>
+</li>
+<li><p>生成规则 的 含义 需要依赖 属性值 才能确定。</p>
+</li>
+<li><p>属性值 中可以含有 @占位符。</p>
+</li>
+<li><p>属性值 还指定了最终值的初始值和类型。</p>
+</li>
+</ul>
+<h4 id="生成规则和示例："><a href="#生成规则和示例：" class="headerlink" title="生成规则和示例："></a>生成规则和示例：</h4><h5 id="1-属性值是字符串-String"><a href="#1-属性值是字符串-String" class="headerlink" title="1. 属性值是字符串 String"></a>1. 属性值是字符串 String</h5><ol>
+<li><p>‘name|min-max’: ‘value’ 通过重复 ‘value’ 生成一个字符串，重复次数大于等于 min，小于等于 max。</p>
+</li>
+<li><p>‘name|count’: ‘value’ 通过重复 ‘value’ 生成一个字符串，重复次数等于 count。</p>
+</li>
+</ol>
+<h5 id="2-属性值是数字-Number"><a href="#2-属性值是数字-Number" class="headerlink" title="2. 属性值是数字 Number"></a>2. 属性值是数字 Number</h5><ol>
+<li><p>‘name|+1’: 100 属性值自动加 1，初始值为 100</p>
+</li>
+<li><p>‘name|1-100’: 100 生成一个大于等于 1、小于等于 100 的整数，属性值 100 只用来确定类型。</p>
+</li>
+<li><p>‘name|1-100.1-10’: 100 生成一个浮点数，整数部分大于等于 1、小于等于 100，小数部分保留 1 到 10 位。</p>
+</li>
+</ol>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&apos;number1|1-100.1-10&apos;: 1,</span><br><span class="line"></span><br><span class="line">&apos;number2|123.1-10&apos;: 1,</span><br><span class="line"></span><br><span class="line">&apos;number3|123.3&apos;: 1,</span><br><span class="line"></span><br><span class="line">&apos;number4|123.10&apos;: 1.123</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// =&gt;</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&quot;number1&quot;: 12.92,</span><br><span class="line"></span><br><span class="line">&quot;number2&quot;: 123.51,</span><br><span class="line"></span><br><span class="line">&quot;number3&quot;: 123.777,</span><br><span class="line"></span><br><span class="line">&quot;number4&quot;: 123.1231091814</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-属性值是布尔型-Boolean"><a href="#3-属性值是布尔型-Boolean" class="headerlink" title="3. 属性值是布尔型 Boolean"></a>3. 属性值是布尔型 Boolean</h5><ol>
+<li><p>‘name|1’: value 随机生成一个布尔值，值为 true 的概率是 1/2，值为 false 的概率是 1/2。</p>
+</li>
+<li><p>‘name|min-max’: value 随机生成一个布尔值，值为 value 的概率是 min / (min + max)，值为 !value 的概率是 max / (min + max)。</p>
+</li>
+</ol>
+<h5 id="4-属性值是对象-Object"><a href="#4-属性值是对象-Object" class="headerlink" title="4. 属性值是对象 Object"></a>4. 属性值是对象 Object</h5><ol>
+<li><p>‘name|min-max’: {} 从属性值 {} 中随机选取 min 到 max 个属性。</p>
+</li>
+<li><p>‘name|count’: {} 从属性值 {} 中随机选取 count 个属性。</p>
+</li>
+</ol>
+<h5 id="5-属性值是数组-Array"><a href="#5-属性值是数组-Array" class="headerlink" title="5. 属性值是数组 Array"></a>5. 属性值是数组 Array</h5><ol>
+<li><p>‘name|1’: [{}, {} …] 从属性值 [{}, {} …] 中随机选取 1 个元素，作为最终值。</p>
+</li>
+<li><p>‘name|min-max’: [{}, {} …] 通过重复属性值 [{}, {} …] 生成一个新数组，重复次数大于等于 min，小于等于 max。</p>
+</li>
+<li><p>‘name|count’: [{}, {} …] 通过重复属性值 [{}, {} …] 生成一个新数组，重复次数为 count。</p>
+</li>
+</ol>
+<h5 id="6-属性值是数组-Function"><a href="#6-属性值是数组-Function" class="headerlink" title="6. 属性值是数组 Function"></a>6. 属性值是数组 Function</h5><p>‘name’: function(){} 执行函数 function(){}，取其返回值作为最终的属性值，上下文为 ‘name’ 所在的对象。</p>
+<h3 id="数据占位符定义-DPD"><a href="#数据占位符定义-DPD" class="headerlink" title="数据占位符定义 DPD"></a>数据占位符定义 DPD</h3><p>占位符 只是在属性值字符串中占个位置，并不出现在最终的属性值中。占位符 的格式为：</p>
+<p><code>@占位符</code></p>
+<p>@占位符(参数 [, 参数])</p>
+<p>注意：</p>
+<ol>
+<li><p>用 @ 来标识其后的字符串是 占位符。</p>
+</li>
+<li><p>占位符 引用的是 Mock.Random 中的方法。</p>
+</li>
+<li><p>通过 Mock.Random.extend() 来扩展自定义占位符。</p>
+</li>
+<li><p>占位符 也可以引用 数据模板 中的属性。</p>
+</li>
+<li><p>占位符 会优先引用 数据模板 中的属性</p>
+</li>
+</ol>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">name: &#123;</span><br><span class="line"></span><br><span class="line">first: &apos;@FIRST&apos;,</span><br><span class="line"></span><br><span class="line">middle: &apos;@FIRST&apos;,</span><br><span class="line"></span><br><span class="line">last: &apos;@LAST&apos;,</span><br><span class="line"></span><br><span class="line">full: &apos;@first @middle @last&apos;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// =&gt;</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&quot;name&quot;: &#123;</span><br><span class="line"></span><br><span class="line">&quot;first&quot;: &quot;Charles&quot;,</span><br><span class="line"></span><br><span class="line">&quot;middle&quot;: &quot;Brenda&quot;,</span><br><span class="line"></span><br><span class="line">&quot;last&quot;: &quot;Lopez&quot;,</span><br><span class="line"></span><br><span class="line">&quot;full&quot;: &quot;Charles Brenda Lopez&quot;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h2><h3 id="Mock-mock-rurl-rtype-template-function-options"><a href="#Mock-mock-rurl-rtype-template-function-options" class="headerlink" title="Mock.mock( rurl?, rtype?, template|function(options) )"></a>Mock.mock( rurl?, rtype?, template|function(options) )</h3><p>根据数据模板生成模拟数据。</p>
+<h5 id="参数的含义和默认值如下所示："><a href="#参数的含义和默认值如下所示：" class="headerlink" title="参数的含义和默认值如下所示："></a>参数的含义和默认值如下所示：</h5><ul>
+<li><p>参数 rurl：可选。表示需要拦截的 URL，可以是 URL 字符串或 URL 正则。例如 //domain/list.json/、’/domian/list.json’。</p>
+</li>
+<li><p>参数 rtype：可选。表示需要拦截的 Ajax 请求类型。例如 GET、POST、PUT、DELETE 等。</p>
+</li>
+<li><p>参数 template：可选。表示数据模板，可以是对象或字符串。例如 { ‘data|1-10’:[{}] }、‘@EMAIL’。</p>
+</li>
+<li><p>参数 function(options)：可选。表示用于生成响应数据的函数。</p>
+</li>
+<li><p>参数 options：指向本次请求的 Ajax 选项集。</p>
+</li>
+</ul>
+<h3 id="Mock-mockjax-library"><a href="#Mock-mockjax-library" class="headerlink" title="Mock.mockjax(library)"></a>Mock.mockjax(library)</h3><p>覆盖（拦截） Ajax 请求，目前内置支持 jQuery、Zepto、KISSY。</p>
+<h3 id="Mock-Random"><a href="#Mock-Random" class="headerlink" title="Mock.Random"></a>Mock.Random</h3><p>Mock.Random 是一个工具类，用于生成各种随机数据。Mock.Random 的方法在数据模板中称为“占位符”，引用格式为 @占位符(参数 [,
+参数]) 。</p>
+<h3 id="Mock-tpl-input-options-helpers-partials"><a href="#Mock-tpl-input-options-helpers-partials" class="headerlink" title="Mock.tpl(input, options, helpers, partials)"></a>Mock.tpl(input, options, helpers, partials)</h3><p>基于 Handlebars、Mustache 的 HTML 模板生成模拟数据。</p>
+<p>方法使用详情请参考<a href="http://mockjs.com/#mock" target="_blank" rel="noopener">mock.js文档</a></p>
+<hr>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>演示： <a href="http://mockjs.com/editor.html#help" target="_blank" rel="noopener">mock-demo</a></p>
+<p>演示： <a href="http://think2011.github.io/mock-angular/" target="_blank" rel="noopener">mock-angular-demo</a></p>
+<p>参考： <a href="http://mockjs.com/#mock" target="_blank" rel="noopener">mock.js</a></p>
+<p>源码： <a href="https://github.com/think2011/mock-angular" target="_blank" rel="noopener">mock-angular</a></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+    
+<div class="card card-transparent">
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        <div class="pagination-previous is-invisible is-hidden-mobile">
+            <a class="is-flex-grow has-text-black-ter" href="/blog/tags/Web/page/0/">上一页</a>
+        </div>
+        <div class="pagination-next">
+            <a class="is-flex-grow has-text-black-ter" href="/blog/tags/Web/page/2/">下一页</a>
+        </div>
+        <ul class="pagination-list is-hidden-mobile">
+            
+            <li><a class="pagination-link is-current" href="/blog/tags/Web/">1</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/tags/Web/page/2/">2</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/tags/Web/page/3/">3</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/tags/Web/page/4/">4</a></li>
+            
+        </ul>
+    </nav>
+</div>
 </div>
                 
 
@@ -343,7 +592,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        128
+                        139
                     </p>
                 </div>
             </div>
@@ -363,7 +612,7 @@ var _hmt = _hmt || [];
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        23
+                        29
                     </p>
                 </div>
             </div>
@@ -469,7 +718,7 @@ var _hmt = _hmt || [];
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">12</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -515,7 +764,7 @@ var _hmt = _hmt || [];
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/ReactNative/" style="font-size: 17px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 15px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/blog/tags/JavaScript优化/" style="font-size: 10px;">JavaScript优化</a> <a href="/blog/tags/ReactNative/" style="font-size: 16px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 14px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/RxJs/" style="font-size: 10px;">RxJs</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 17px;">Web</a> <a href="/blog/tags/Web优化/" style="font-size: 11px;">Web优化</a> <a href="/blog/tags/h5/" style="font-size: 10px;">h5</a> <a href="/blog/tags/npm/" style="font-size: 10px;">npm</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 15px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
     </div>
 </div>
 
@@ -534,10 +783,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -547,10 +796,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -560,10 +809,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.968Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/使用Mock.js进行独立于后端的前端开发/" class="has-link-black-ter is-size-6">使用Mock.js进行独立于后端的前端开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -573,10 +822,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.871Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/什么样的浏览器内核，才敢说是“自主研发”？内核科普长文/" class="has-link-black-ter is-size-6">什么样的浏览器内核，才敢说是“自主研发”？内核科普长文</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -586,10 +835,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.839Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/" class="has-link-black-ter is-size-6">前端黑科技：美团网页首帧优化实践</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -613,7 +862,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">128</span>
+                    <span class="level-item tag">139</span>
                 </span>
             </a>
         </li>
@@ -660,6 +909,20 @@ var _hmt = _hmt || [];
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript/">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript优化/">
+                        <span class="tag">JavaScript优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative/">
                         <span class="tag">ReactNative</span>
                         <span class="tag is-grey">9</span>
@@ -683,6 +946,13 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
                         <span class="tag">ReactNative插件</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/RxJs/">
+                        <span class="tag">RxJs</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -725,6 +995,27 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web优化/">
+                        <span class="tag">Web优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/h5/">
+                        <span class="tag">h5</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/npm/">
+                        <span class="tag">npm</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -732,7 +1023,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/后端/">
                         <span class="tag">后端</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
@@ -819,10 +1110,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -832,10 +1123,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -845,10 +1136,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.968Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/使用Mock.js进行独立于后端的前端开发/" class="has-link-black-ter is-size-6">使用Mock.js进行独立于后端的前端开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -858,10 +1149,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.871Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/什么样的浏览器内核，才敢说是“自主研发”？内核科普长文/" class="has-link-black-ter is-size-6">什么样的浏览器内核，才敢说是“自主研发”？内核科普长文</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -871,10 +1162,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.839Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/" class="has-link-black-ter is-size-6">前端黑科技：美团网页首帧优化实践</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -898,7 +1189,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">128</span>
+                    <span class="level-item tag">139</span>
                 </span>
             </a>
         </li>
@@ -945,6 +1236,20 @@ var _hmt = _hmt || [];
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript/">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript优化/">
+                        <span class="tag">JavaScript优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative/">
                         <span class="tag">ReactNative</span>
                         <span class="tag is-grey">9</span>
@@ -968,6 +1273,13 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
                         <span class="tag">ReactNative插件</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/RxJs/">
+                        <span class="tag">RxJs</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1010,6 +1322,27 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web优化/">
+                        <span class="tag">Web优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/h5/">
+                        <span class="tag">h5</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/npm/">
+                        <span class="tag">npm</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1017,7 +1350,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/后端/">
                         <span class="tag">后端</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 

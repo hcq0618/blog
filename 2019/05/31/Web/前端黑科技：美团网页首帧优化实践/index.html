@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>前端黑科技：美团网页首帧优化实践 - Hcq0618&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="美团支付前端团队支持着美团钱包及支付业务，涉及项目众多，并且项目迭代很快，挑战巨大。在总结经验之后，我们举办了第40期美团技术沙龙（点击查看PPT及视频资料），与大家分享我们的实战经验。 11月24日下午，《美团技术沙龙第45期：如何构建高性能、稳定的后端服务系统》将在北京朝阳区望京恒电大厦C座美团点评北京总部1层恒基咖啡举办，我们结合美团大流量应用的典型业务场景，从后台系统架构的演进、高性能的服">
+<meta name="keywords" content="Web,Web优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端黑科技：美团网页首帧优化实践">
+<meta property="og:url" content="https://hcq0618.github.io/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/index.html">
+<meta property="og:site_name" content="Hcq0618&#39;s Blog">
+<meta property="og:description" content="美团支付前端团队支持着美团钱包及支付业务，涉及项目众多，并且项目迭代很快，挑战巨大。在总结经验之后，我们举办了第40期美团技术沙龙（点击查看PPT及视频资料），与大家分享我们的实战经验。 11月24日下午，《美团技术沙龙第45期：如何构建高性能、稳定的后端服务系统》将在北京朝阳区望京恒电大厦C座美团点评北京总部1层恒基咖啡举办，我们结合美团大流量应用的典型业务场景，从后台系统架构的演进、高性能的服">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://hcq0618.github.io/blog/images/og_image.png">
+<meta property="og:updated_time" content="2019-05-31T08:29:49.473Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端黑科技：美团网页首帧优化实践">
+<meta name="twitter:description" content="美团支付前端团队支持着美团钱包及支付业务，涉及项目众多，并且项目迭代很快，挑战巨大。在总结经验之后，我们举办了第40期美团技术沙龙（点击查看PPT及视频资料），与大家分享我们的实战经验。 11月24日下午，《美团技术沙龙第45期：如何构建高性能、稳定的后端服务系统》将在北京朝阳区望京恒电大厦C座美团点评北京总部1层恒基咖啡举办，我们结合美团大流量应用的典型业务场景，从后台系统架构的演进、高性能的服">
+<meta name="twitter:image" content="https://hcq0618.github.io/blog/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/blog/images/logo.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/blog/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?844bc0c79484177c3822e7a30257f8a3";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/blog/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/blog/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/blog/">
+            
+                <img src="/blog/images/logo.svg" alt="前端黑科技：美团网页首帧优化实践" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/blog/">主页</a>
+                
+                <a class="navbar-item" href="/blog/archives">文章</a>
+                
+                <a class="navbar-item" href="/blog/categories">分类</a>
+                
+                <a class="navbar-item" href="/blog/tags">标签</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/hcq0618/blog/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-31T08:27:02.839Z">2019-05-31</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    17 分钟 读完 (大约 2580 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                前端黑科技：美团网页首帧优化实践
+            
+        </h1>
+        <div class="content">
+            <p>美团支付前端团队支持着美团钱包及支付业务，涉及项目众多，并且项目迭代很快，挑战巨大。在总结经验之后，我们举办了<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe730920d465a6732&redirect_uri=https%3A%2F%2Ftech.meituan.com%2Fsalon%2F%23%2F41406%2Fresource&response_type=code&scope=snsapi_userinfo&state=wx&connect_redirect=1#wechat_redirect" target="_blank" rel="noopener">第40期美团技术沙龙（</a><a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe730920d465a6732&redirect_uri=https%3A%2F%2Ftech.meituan.com%2Fsalon%2F%23%2F41406%2Fresource&response_type=code&scope=snsapi_userinfo&state=wx&connect_redirect=1#wechat_redirect" target="_blank" rel="noopener">点击查看PPT及视频资料</a>），与大家分享我们的实战经验。</p>
+<p>11月24日下午，《美团技术沙龙第45期：如何构建高性能、稳定的后端服务系统》将在北京朝阳区望京恒电大厦C座美团点评北京总部1层恒基咖啡举办，我们结合美团大流量应用的典型业务场景，从后台系统架构的演进、高性能的服务计算、以及稳定性保障等方面的实践应用展开分享。更多活动详情请戳&gt;&gt;<a href="http://www.huodongxing.com/event/4465518704511?qd=weixin" target="_blank" rel="noopener">活动报名链接</a>。</p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_7.jpg" alt>  </p>
+<p>（图片来自寒阳分享现场）</p>
+<p>自JavaScript诞生以来，前端技术发展非常迅速。移动端白屏优化是前端界面体验的一个重要优化方向，Web 前端诞生了 SSR<br>、CSR、预渲染等技术。在美团支付的前端技术体系里，通过预渲染提升网页首帧优化，从而优化了白屏问题，提升用户体验，并形成了最佳实践。</p>
+<p>在前端渲染领域，主要有以下几种方式可供选择：</p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_18.jpg" alt>  </p>
+<p>通过对比，同构方案集合 CSR 与 SSR 的优点，可以适用于大部分业务场景。但由于在同构的系统架构中，连接前后端的 Node<br>中间层处于核心链路，系统可用性的瓶颈就依赖于 Node ，一旦作为短板的 Node 挂了，整个服务都不可用。</p>
+<p>结合到我们团队负责的支付业务场景里，由于支付业务追求极致的系统稳定性，服务不可用直接影响到客诉和资损，因此我们采用浏览器端渲染的架构。在保证系统稳定性的前提下，还需要保障用户体验，所以采用了预渲染的方式。</p>
+<p>那么究竟什么是预渲染呢？什么是 FCP/FMP 呢？我们先从最常见的 CSR 开始说起。</p>
+<p>以 Vue 举例，常见的 CSR 形式如下：</p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_8.jpg" alt>  </p>
+<p>一切看似很美好。然而，作为以用户体验为首要目标的我们发现了一个体验问题：首屏白屏问题。</p>
+<h1 id="为什么会首屏白屏"><a href="#为什么会首屏白屏" class="headerlink" title="为什么会首屏白屏"></a><strong>为什么会首屏白屏</strong></h1><p>浏览器渲染包含 HTML 解析、DOM 树构建、CSSOM 构建、JavaScript 解析、布局、绘制等等，大致如下图所示：</p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_2.jpg" alt>  </p>
+<p>要搞清楚为什么会有白屏，就需要利用这个理论基础来对实际项目进行具体分析。通过 DevTools 进行分析：</p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_16.jpg" alt>  </p>
+<ul>
+<li><p>等待 HTML 文档返回，此时处于白屏状态。</p>
+</li>
+<li><p>对 HTML 文档解析完成后进行首屏渲染，因为项目中对加了灰色的背景色，因此呈现出灰屏。</p>
+</li>
+<li><p>进行文件加载、JS 解析等过程，导致界面长时间出于灰屏中。</p>
+</li>
+<li><p>当 Vue 实例触发了 mounted 后，界面显示出大体框架。</p>
+</li>
+<li><p>调用 API 获取到时机业务数据后才能展示出最终的页面内容。</p>
+</li>
+</ul>
+<p>由此得出结论，因为要等待文件加载、CSSOM 构建、JS<br>解析等过程，而这些过程比较耗时，导致用户会长时间出于不可交互的首屏灰白屏状态，从而给用户一种网页很“慢”的感觉。那么一个网页太“慢”，会造成什么影响呢？</p>
+<h1 id="“慢”的影响"><a href="#“慢”的影响" class="headerlink" title="“慢”的影响"></a><strong>“慢”的影响</strong></h1><p><a href="https://www.cdnetworks.com/resources/whitepapers/us/Global%20Web%20Performance%20Matters.pdf" target="_blank" rel="noopener">Global Web Performance Matters for<br>ecommerce</a><br>的报告中指出：</p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_17.jpg" alt>  </p>
+<ul>
+<li><p>57%的用户更在乎网页在3秒内是否完成加载。</p>
+</li>
+<li><p>52%的在线用户认为网页打开速度影响到他们对网站的忠实度。</p>
+</li>
+<li><p>每慢1秒造成页面 PV 降低11%，用户满意度也随之降低降低16%。</p>
+</li>
+<li><p>近半数移动用户因为在10秒内仍未打开页面从而放弃。</p>
+</li>
+</ul>
+<p>我们团队主要负责美团支付相关的业务，如果网站太慢会影响用户的支付体验，会造成客诉或资损。既然网站太“慢”会造成如此重要的影响，那要如何优化呢？</p>
+<h1 id="优化思路"><a href="#优化思路" class="headerlink" title="优化思路"></a><strong>优化思路</strong></h1><p>在[User-centric Performance<br>Metrics](<a href="https://developers.google.com/web/fundamentals/performance/user-" target="_blank" rel="noopener">https://developers.google.com/web/fundamentals/performance/user-</a><br>centric-performance-metrics)一文中，共提到了4个页面渲染的关键指标：</p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_9.jpg" alt>  </p>
+<p>基于这个理论基础，再回过头来看看之前项目的实际表现：</p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_3.jpg" alt>  </p>
+<p>可见在 FP 的灰白屏界面停留了很长时间，用户不清楚网站是否有在正常加载，用户体验很差。</p>
+<p>试想：如果我们可以将 FCP 或 FMP 完整的 HTML 文档提前到 FP<br>时机预渲染，用户看到页面框架，能感受到页面正在加载而不是冷冰冰的灰白屏，那么用户更愿意等待页面加载完成，从而降低了流失率。并且这种改观在弱网环境下更明显。</p>
+<p>通过对比 FP、FCP、FMP 这三个时期 DOM 的差异，发现区别在于：</p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_10.jpg" alt>  </p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_4.jpg" alt>  </p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_1.jpg" alt>  </p>
+<ul>
+<li><p>FP：仅有一个 div 根节点。</p>
+</li>
+<li><p>FCP：包含页面的基本框架，但没有数据内容。</p>
+</li>
+<li><p>FMP：包含页面所有元素及数据。</p>
+</li>
+</ul>
+<p>仍然以 Vue 为例， 在其生命周期中，mounted 对应的是 FCP，updated 对应的是 FMP。那么具体应该使用哪个生命周期的 HTML<br>结构呢？</p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_5.jpg" alt>  </p>
+<p>通过以上的对比，最终选择在 mounted 时触发构建时预渲染。由于我们采用的是 CSR 的架构，没有 Node 作为中间层，因此要实现 DOM<br>内容的预渲染，就需要在项目构建编译时完成对原始模板的更新替换。</p>
+<p>至此，我们明确了构建时预渲染的大体方案。</p>
+<h1 id="构建时预渲染方案"><a href="#构建时预渲染方案" class="headerlink" title="构建时预渲染方案"></a><strong>构建时预渲染方案</strong></h1><p>构建时预渲染流程：</p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_21.jpg" alt>  </p>
+<h2 id="配置读取"><a href="#配置读取" class="headerlink" title="配置读取"></a>配置读取</h2><p>由于 SPA 可以由多个路由构成，需要根据业务场景决定哪些路由需要用到预渲染。因此这里的配置文件主要是用于告知编译器需要进行预渲染的路由。</p>
+<p>在我们的系统架构里，脚手架是基于 Webpack 自研的，在此基础上可以自定义自动化构建任务和配置。</p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_6.jpg" alt>  </p>
+<h2 id="触发构建"><a href="#触发构建" class="headerlink" title="触发构建"></a>触发构建</h2><p>项目中主要是使用 TypeScript，利用 TS<br>的<a href="https://www.typescriptlang.org/docs/handbook/decorators.html" target="_blank" rel="noopener">装饰器</a>，我们封装了统一的预渲染构建的钩子方法，从而只用一行代码即可完成构建时预渲染的触发。</p>
+<p>装饰器：</p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_20.jpg" alt>  </p>
+<p>使用：</p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_11.jpg" alt>  </p>
+<h2 id="构建编译"><a href="#构建编译" class="headerlink" title="构建编译"></a>构建编译</h2><p>从流程图上，需要在发布机上启动模拟的浏览器环境，并通过预渲染的事件钩子获取当前的页面内容，生成最终的 HTML 文件。</p>
+<p>由于我们在预渲染上的尝试比较早，当时还没有 <a href="https://developers.google.com/web/updates/2017/04/headless-chrome" target="_blank" rel="noopener">Headless<br>Chrome</a> 、<br><a href="https://github.com/GoogleChrome/puppeteer" target="_blank" rel="noopener">Puppeteer</a>、<a href="https://www.npmjs.com/package/prerender-spa-plugin" target="_blank" rel="noopener">Prerender SPA<br>Plugin</a>等，因此在选型上使用的是<br>[phantomjs-prebuilt](<a href="https://www.npmjs.com/package/phantomjs-" target="_blank" rel="noopener">https://www.npmjs.com/package/phantomjs-</a><br>prebuilt)（Prerender SPA Plugin 早期版本也是基于 phantomjs-prebuilt 实现的）。</p>
+<p>通过 phantom 提供的 API 可获得当前 HTML，示例如下：</p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_14.jpg" alt>  </p>
+<p>为了提高构建效率，并行对配置的多个页面或路由进行预渲染构建，保证在 5S 内即可完成构建，流程图如下：</p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640.jpg" alt>  </p>
+<h1 id="方案优化"><a href="#方案优化" class="headerlink" title="方案优化"></a><strong>方案优化</strong></h1><p>理想很丰满，现实很骨感。在实际投产中，构建时预渲染方案遇到了一个问题。</p>
+<p>我们梳理一下简化后的项目上线过程：</p>
+<p>开发 -&gt; 编译 -&gt; 上线</p>
+<p>假设本次修改了静态文件中的一个 JS 文件，这个文件会通过 CDN 方式在 HTML 里引用，那么最终在 HTML 文档中的引用方式是 <code>&lt;script
+src=&quot;http://cdn.com/index.js&quot;&gt;&lt;/script&gt;</code>。然而由于项目还没有上线，所以其实通过完整 URL<br>的方式是获取不到这个文件的；而预渲染的构建又是在上线动作之前，所以问题就产生了：</p>
+<p>构建时预渲染无法正常获取文件，导致编译报错</p>
+<p>怎么办？</p>
+<p>请求劫持</p>
+<p>因为在做预渲染时，我们使用启动了一个模拟的浏览器环境，根据 phantom 提供的 API，可以对发出的请求加以劫持，将获取 CDN<br>文件的请求劫持到本地，从而在根本上解决了这个问题。示例代码如下：</p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_19.jpg" alt>  </p>
+<h1 id="构建时预渲染研发流程及效果"><a href="#构建时预渲染研发流程及效果" class="headerlink" title="构建时预渲染研发流程及效果"></a><strong>构建时预渲染研发流程及效果</strong></h1><p>最终，构建时预渲染研发流程如下：</p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_15.jpg" alt>  </p>
+<p>开发阶段：</p>
+<ul>
+<li><p>通过 TypeScript 的装饰器单行引入预渲染构建触发的方法。</p>
+</li>
+<li><p>发布前修改编译构建的配置文件。</p>
+</li>
+</ul>
+<p>发布阶段：</p>
+<ul>
+<li><p>先进行常规的项目构建。</p>
+</li>
+<li><p>若有预渲染相关配置，则触发预渲染构建。</p>
+</li>
+<li><p>通过预渲染得到最终的文件，并完成发布上线动作。</p>
+</li>
+</ul>
+<p>完整的用户请求路径如下：</p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_13.jpg" alt>  </p>
+<p>通过构建时预渲染在项目中的使用，FCP 的时间相比之前减少了 75%。</p>
+<p><img src="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/640_12.jpg" alt>  </p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/blog/tags/Web/">Web</a>, <a class="has-link-grey -link" href="/blog/tags/Web优化/">Web优化</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/blog/images/qrcode_alipay.png" alt="支付宝"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/blog/2019/05/31/Web/什么样的浏览器内核，才敢说是“自主研发”？内核科普长文/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">什么样的浏览器内核，才敢说是“自主研发”？内核科普长文</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/blog/2019/05/31/Web/RxJS/">
+                <span class="level-item">RxJS</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/blog/images/avatar.jpeg" alt="hcq0618">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        hcq0618
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Grab
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Beijing</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        139
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        12
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        29
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/hcq0618" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/hcq0618">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Instagram" href="https://instagram.com/reeves_huang">
+                
+                <i class="fab fa-instagram"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/blog/categories/AR/">
+            <span class="level-start">
+                <span class="level-item">AR</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/C/">
+            <span class="level-start">
+                <span class="level-item">C#</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/ReactNative/">
+            <span class="level-start">
+                <span class="level-item">ReactNative</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">17</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity/">
+            <span class="level-start">
+                <span class="level-item">Unity</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">31</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity优化/">
+            <span class="level-start">
+                <span class="level-item">Unity优化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">24</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Unity插件/">
+            <span class="level-start">
+                <span class="level-item">Unity插件</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">26</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/VR/">
+            <span class="level-start">
+                <span class="level-item">VR</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/Web/">
+            <span class="level-start">
+                <span class="level-item">Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/其他/">
+            <span class="level-start">
+                <span class="level-item">其他</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/后端/">
+            <span class="level-start">
+                <span class="level-item">后端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/小程序/">
+            <span class="level-start">
+                <span class="level-item">小程序</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/blog/categories/网络/">
+            <span class="level-start">
+                <span class="level-item">网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/blog/tags/JavaScript优化/" style="font-size: 10px;">JavaScript优化</a> <a href="/blog/tags/ReactNative/" style="font-size: 16px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 14px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/RxJs/" style="font-size: 10px;">RxJs</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 17px;">Web</a> <a href="/blog/tags/Web优化/" style="font-size: 11px;">Web优化</a> <a href="/blog/tags/h5/" style="font-size: 10px;">h5</a> <a href="/blog/tags/npm/" style="font-size: 10px;">npm</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 15px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen is-sticky">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.968Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/使用Mock.js进行独立于后端的前端开发/" class="has-link-black-ter is-size-6">使用Mock.js进行独立于后端的前端开发</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.871Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/什么样的浏览器内核，才敢说是“自主研发”？内核科普长文/" class="has-link-black-ter is-size-6">什么样的浏览器内核，才敢说是“自主研发”？内核科普长文</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.839Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/" class="has-link-black-ter is-size-6">前端黑科技：美团网页首帧优化实践</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/blog/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">139</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/AR/">
+                        <span class="tag">AR</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C/">
+                        <span class="tag">C#</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C-优化/">
+                        <span class="tag">C#优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Google/">
+                        <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript/">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript优化/">
+                        <span class="tag">JavaScript优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative/">
+                        <span class="tag">ReactNative</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative优化/">
+                        <span class="tag">ReactNative优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative库/">
+                        <span class="tag">ReactNative库</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
+                        <span class="tag">ReactNative插件</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/RxJs/">
+                        <span class="tag">RxJs</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/UML/">
+                        <span class="tag">UML</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity/">
+                        <span class="tag">Unity</span>
+                        <span class="tag is-grey">31</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity优化/">
+                        <span class="tag">Unity优化</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity插件/">
+                        <span class="tag">Unity插件</span>
+                        <span class="tag is-grey">26</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/VR/">
+                        <span class="tag">VR</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web/">
+                        <span class="tag">Web</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web优化/">
+                        <span class="tag">Web优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/h5/">
+                        <span class="tag">h5</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/npm/">
+                        <span class="tag">npm</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/后端/">
+                        <span class="tag">后端</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/小程序/">
+                        <span class="tag">小程序</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/开源/">
+                        <span class="tag">开源</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/数据库/">
+                        <span class="tag">数据库</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/移动支付/">
+                        <span class="tag">移动支付</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络/">
+                        <span class="tag">网络</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络安全/">
+                        <span class="tag">网络安全</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.968Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/使用Mock.js进行独立于后端的前端开发/" class="has-link-black-ter is-size-6">使用Mock.js进行独立于后端的前端开发</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.871Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/什么样的浏览器内核，才敢说是“自主研发”？内核科普长文/" class="has-link-black-ter is-size-6">什么样的浏览器内核，才敢说是“自主研发”？内核科普长文</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.839Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/" class="has-link-black-ter is-size-6">前端黑科技：美团网页首帧优化实践</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/blog/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">139</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/AR/">
+                        <span class="tag">AR</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C/">
+                        <span class="tag">C#</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/C-优化/">
+                        <span class="tag">C#优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Google/">
+                        <span class="tag">Google</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript/">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript优化/">
+                        <span class="tag">JavaScript优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative/">
+                        <span class="tag">ReactNative</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative优化/">
+                        <span class="tag">ReactNative优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative库/">
+                        <span class="tag">ReactNative库</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
+                        <span class="tag">ReactNative插件</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/RxJs/">
+                        <span class="tag">RxJs</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/UML/">
+                        <span class="tag">UML</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity/">
+                        <span class="tag">Unity</span>
+                        <span class="tag is-grey">31</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity优化/">
+                        <span class="tag">Unity优化</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Unity插件/">
+                        <span class="tag">Unity插件</span>
+                        <span class="tag is-grey">26</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/VR/">
+                        <span class="tag">VR</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web/">
+                        <span class="tag">Web</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web优化/">
+                        <span class="tag">Web优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/h5/">
+                        <span class="tag">h5</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/npm/">
+                        <span class="tag">npm</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/后端/">
+                        <span class="tag">后端</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/小程序/">
+                        <span class="tag">小程序</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/开源/">
+                        <span class="tag">开源</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/数据库/">
+                        <span class="tag">数据库</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/移动支付/">
+                        <span class="tag">移动支付</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络/">
+                        <span class="tag">网络</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/网络安全/">
+                        <span class="tag">网络安全</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/blog/">
+                
+                    <img src="/blog/images/logo.svg" alt="前端黑科技：美团网页首帧优化实践" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Hcq0618&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/hcq0618/blog/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/blog/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/blog/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/blog/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/blog/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/blog/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/blog/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/blog/js/insight.js" defer></script>
+<link rel="stylesheet" href="/blog/css/search.css">
+<link rel="stylesheet" href="/blog/css/insight.css">
+    
+</body>
+</html>

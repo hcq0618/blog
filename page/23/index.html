@@ -153,17 +153,17 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.494Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.668Z">2019-05-17</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/C/">C#</a>
+                <a class="has-link-grey -link" href="/blog/categories/Unity优化/">Unity优化</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    5 分钟 读完 (大约 734 个字)
+                    11 分钟 读完 (大约 1583 个字)
                 </span>
                 
                 
@@ -172,116 +172,43 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/CSharp/CSharp字符串连接的效率问题/">C#字符串连接的效率问题</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/详解Unity-Profiler内存分析问题/">详解Unity-Profiler内存分析问题</a>
             
         </h1>
         <div class="content">
-            <p>C#字符串连接常用的四种方式：StringBuilder、+、string.Format、List<string>。</string></p>
-<h1 id="1-的方式"><a href="#1-的方式" class="headerlink" title="1.+的方式"></a>1.+的方式</h1><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">string sql = &quot;update tableName set int1=&quot; + int1.ToString() + &quot;,int2=&quot; +</span><br><span class="line">int2.ToString() + &quot;,int3=&quot; + int3.ToString() + &quot; where id=&quot; + id.ToString();</span><br></pre></td></tr></table></figure>
-
-<p>编译器会优化为：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">string sql = string.Concat(new string[] &#123; &quot;update tableName set int1=&quot;,</span><br><span class="line">int1.ToString(), &quot;,int2=&quot;, int2.ToString(), &quot;,int3=&quot;, int3.ToString(), &quot; where</span><br><span class="line">id=&quot;, id.ToString() &#125;);</span><br></pre></td></tr></table></figure>
-
-<p>下面是string.Concat的实现：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br></pre></td><td class="code"><pre><span class="line">public static string Concat(params string[] values)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    int totalLength = 0;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    if (values == null)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        throw new ArgumentNullException(&quot;values&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    string[] strArray = new string[values.Length];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    for (int i = 0; i &lt; values.Length; i++)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        string str = values[i];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        strArray[i] = (str == null) ? Empty : str;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        totalLength += strArray[i].Length;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        if (totalLength &lt; 0)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            throw new OutOfMemoryException();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    return ConcatArray(strArray, totalLength);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">private static string ConcatArray(string[] values, int totalLength)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    string dest = FastAllocateString(totalLength);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    int destPos = 0;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    for (int i = 0; i &lt; values.Length; i++)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        FillStringChecked(dest, destPos, values[i]);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        destPos += values[i].Length;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    return dest;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">private static unsafe void FillStringChecked(string dest, int destPos,</span><br><span class="line">string src)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    int length = src.Length;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    if (length(dest.Length - destPos))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        throw new IndexOutOfRangeException();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    fixed (char* chRef = &amp;dest.m_firstChar)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        fixed (char* chRef2 = &amp;src.m_firstChar)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            wstrcpy(chRef + destPos, chRef2, length);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>先计算目标字符串的长度，然后申请相应的空间，最后逐一复制，时间复杂度为o(n)，常数为1。固定数量的字符串连接效率最高的是+。但是字符串的连+不要拆成多条语句，比如：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">string sql = &quot;update tableName set int1=&quot;;</span><br><span class="line">sql += int1.ToString();</span><br><span class="line">sql += ...</span><br></pre></td></tr></table></figure>
-
-<p>这样的代码，不会被优化为string.Concat，就变成了性能杀手，因为第i个字符串需要复制n-i次，时间复杂度就成了o(n^2)。</p>
-<h1 id="2-StringBuilder的方式"><a href="#2-StringBuilder的方式" class="headerlink" title="2.StringBuilder的方式"></a>2.StringBuilder的方式</h1><p>如果字符串的数量不固定，就用StringBuilder，一般情况下它使用2n的空间来保证o(n)的整体时间复杂度，常数项接近于2。</p>
-<p>因为这个算法的实用与高效，.net类库里面有很多动态集合都采用这种牺牲空间换取时间的方式，一般来说效果还是不错的。</p>
-<h1 id="3-string-Format的方式"><a href="#3-string-Format的方式" class="headerlink" title="3.string.Format的方式"></a>3.string.Format的方式</h1><p>它的底层是StringBuilder，所以其效率与StringBuiler相似。</p>
-<p>#
-4.List<string>它可以转换为string[]后使用string.Concat或string.Join，很多时候效率比StringBuiler更高效。</string></p>
-<p>List与StringBuilder采用的是同样的动态集合算法，时间复杂度也是O(n)，与StringBuilder不同的是：List的n是字符串的数量，复制的是字符串的引用；StringBuilder的n是字符串的长度，复制的数据。不同的特性决定的它们各自的适应环境，当子串比较大时建议使用List<string>，因为复制引用比复制数据划算。而当子串比较小，比如平均长度小于8，特别是一个一个的字符，建议使用StringBuilder。</string></p>
-<h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><p>1&gt;固定数量的字符串连接+的效率是最高的；</p>
-<p>2&gt;当字符串的数量不固定，并且子串的长度小于8，用StringBuiler的效率高些。</p>
-<p>3&gt;当字符串的数量不固定，并且子串的长度大于8，用List<string>的效率高些。</string></p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.483Z">2019-05-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/C/">C#</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    6 分钟 读完 (大约 847 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/blog/2019/05/17/CSharp/把代码混淆过的游戏反混淆回来/">把代码混淆过的游戏反混淆回来</a>
-            
-        </h1>
-        <div class="content">
-            <p>最近一直在找如何在MAC上混淆Android的DLL，至今没能找到合适的，有大神知道记得告诉我喔。今天群里有人说了一个混淆代码和返混淆代码的工具de4dot<br>，不查不知道一查吓一跳。这玩意可以把别人混淆过的代码反混淆回来。</p>
-<p>这个工程是开源的<a href="https://github.com/0xd4d/de4dot" target="_blank" rel="noopener">https://github.com/0xd4d/de4dot
-</a>找一台Windows电脑，下载后在VS上面打开它，另外它不能直接编译，需要在引入一个库文件。为了方便大家我把能正常编译的工程提供出来。</p>
-<p>下载地址：<a href="http://pan.baidu.com/s/1ntjw3mL" target="_blank" rel="noopener">http://pan.baidu.com/s/1ntjw3mL</a></p>
-<p>如下图所示，打开工程后在VS里面快捷键F6，编译完成后会生成出来de4dot.exe<br>。那么我们返混淆就是通过这个exe来将unity生成的dll返混淆回来。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-eaecfa3ebbaf0ccb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>经过混淆的代码反编译后。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3231ab1fd100615a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>反混淆以后，如下图所示，属性名子就出来了。但是方法名就回不来了，都是按数字一次加上去，不过这些总比方括号好看多了。而且我看了一下内容，有些方法内容奇葩的地方也都解的至少能看。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ed734806d56841e7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>在Windows里面的cmd里面输入</p>
-<blockquote>
-<p>de4dot.exe test.dll -p un</p>
+            <blockquote>
 </blockquote>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9c713a1f7f766116.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>另外你随便下载一个用Unity做的安卓游戏，然后把apk解开把里面的Assembly-<br>CSharp.dll找出来，它的代码都在里面。如果它的代码没有做混淆工作，那么可以直接反编译出来。 如下图所示，返混淆会在原始dll的目录下生成一个后缀-<br>cleaned.dll的文件。然后用反编译工具打开它即可。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-eefe38f5111947ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>de4dot<br>看起来应该是非常强大，他支持返混淆这么多工具。。我就不一个一个试了，希望阅读本文的你帮我做一下测试，看看是不是所有混效果的Unity游戏都可以解开。</p>
-<p>Agile.NET (aka CliSecure)</p>
-<p>Babel.NET</p>
-<p>CodeFort</p>
-<p>CodeVeil</p>
-<p>CodeWall</p>
-<p>CryptoObfuscator</p>
-<p>DeepSea Obfuscator</p>
-<p>Dotfuscator</p>
-<p>.NET Reactor</p>
-<p>Eazfuscator.NET</p>
-<p>Goliath.NET</p>
-<p>ILProtector</p>
-<p>MaxtoCode</p>
-<p>MPRESS</p>
-<p>Rummage</p>
-<p>Skater.NET</p>
-<p>SmartAssembly</p>
-<p>Spices.Net</p>
-<p>Xenocode</p>
-<p>de4dot不仅仅可以返混淆，它也可以自身去混淆。。大家可以看看它的gitHub上的介绍，哎 又是一个必须在Windwos上完成的操作。。<br>今天把研究成果发出来，希望大家多多测试一下，看看能不能把所有混淆过的Unity游戏返混淆回来。 另外有什么最近进展大家一定要告诉我呀。。嘿嘿嘿嘿。</p>
-<p>雨松MOMO提醒您：亲，如果您觉得本文不错，快快将这篇文章分享出去吧 。另外请点击网站顶部彩色广告或者捐赠支持本站发展，谢谢！</p>
-<p> <strong>作者：雨松MOMO</strong></p>
+<p>在使用Unity开发游戏的过程中，借助Profiler来分析内存使用状况是至关重要的。但许多开发者可能还对Profiler中各项数据表示的含义不甚明确，今天我们Unity官方的技术工程师柳振东，将针对Profiler内存分析相关的问题及解答，与大家进行分享。</p>
+<p>要想完全发挥Profiler内存分析的威力，首先要做的就是了解Profiler展示的数据所表达的含义，以及到底哪些模块所使用的内存才会被统计到Unity的Profiler中。Profiler涉及到的知识点还有很多，今天先从中挑选一些大家常有的疑问来作解答。</p>
+<blockquote>
+<p>在Unity的Profiler中看到的总内存使用和我使用其它工具看到的系统内存占用不太一样，这是为什么呢？</p>
+</blockquote>
+<p>Profiler中看到的内存是通过Unity自身引擎的内存分配，凡是引擎分配和释放的内存，引擎均有记录，所以我们可以给出确切的引擎内存占用信息。但是，仍有其他内存我们是无法获知的。</p>
+<p>比如，如果引擎使用了第三方库，那么库分配的内存我们是无法进行统计的。另外，在移动设备上大家看到的内存，其实都要比Profiler大很多，这是因为不管是通过Xcode的Instrument还是通过Android的USS，其记录的真实物理内存都包括两部分，一个是真实使用（Used）的物理内存，另一个则是缓存的（Cached）的物理内存。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-585afccfa8441599.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>这是由系统所决定的，Android和iOS系统在资源不使用时均不会立即将其进行回收，而是将其放在缓存的物理内存中，以便下次再用时，可以快速地加载。当系统发现App的内存不够用时，才会在底层调用一个Memory<br>Killer线程来轮询缓存物理内存，进而为App清理内存。</p>
+<p>而Unity<br>Profiler记录的则是目前真实使用的物理内存，即上述所说的第一部分。因此，当游戏运行时间越长，Profiler分配内存和通过其他软件获得的系统内存差距会越大。</p>
+<p>因此，只要所使用的第三方库不存在内存泄露问题，我们一般都建议只需要查看Profiler即可，只要Profiler中的内存可以保证正常升高和回落，那么引擎这边分配的内存就是没有问题的。</p>
+<blockquote>
+<p>我们做项目的时候发现有时Profiler中System.ExecutableAndDlls这项占用很多，有什么解决办法吗？</p>
+</blockquote>
+<p>“System.ExecutableAndDlls”该项显示的是执行文件和所调用的库（物理、渲染、IO等系统库）的总和。请不用担心该选项的数值，因为很多Application均在共用这些库，并且它对于真实游戏的内存压力非常小，而且也不会导致系统因为该内存来Kill掉游戏。</p>
+<blockquote>
+<p>为什么在Profiler中的Simple模式下，Used Total的数值不等于其右边各项Unity, Mono, GfxDriver,<br>FMOD与Profiler总和呢？</p>
+</blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3aade69a4045c945.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>其实在Unity中，Used Total的计算公式为Used Total = Unity + Mono + GfxDriver + Profiler +<br>additionalUsedMemory。公式中的additionalUsedMemory项在Profiler中并没有显示，因为这一项一般情况下都为0，只在某些特殊发布平台下才会有数值（一般Android，PC和IOS都为0）。因此一般情况下Used<br>Total的值就是除FMOD之外各项的总和了。当然，这个规则对于Reserved Total是同样适用的。</p>
+<blockquote>
+</blockquote>
+<p>我们项目的资源主要使用AssetBundle动态加载资源，发现Profiler中Detailed模式下PersistentManager.Remapper一项占用时多时少，这一项主要是做什么的呢？</p>
+<p>Remapper主要提供文件的持久化存储，包括各种序列化的Asset，项目的设置文件等，维护文件系统的中的文件与内存中数据的对应关系。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-40a4619a0eb44a02.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>那么如果项目大量使用AssetBundle的话，在对AssetBundle进行Unload之前都会需要占用Remapper的内存的。而Remapper本身的实现使用内存池，其数值只会增大，那么为了使Remapper占用的内存保持在一个稳定的数值上，我们需要每次在加载一定数量的AssetBundle之后进行Unload操作，而不要一次性把所有AssetBundle都加载后才调用Unload。（这样的操作对维持整个Mono<br>Heap的大小也是至关重要的，因为Mono Heap本身也是只增大不减小的。）</p>
+<blockquote>
+<p>我们在Editor中调试项目的时候发现纹理的内存大小是其本身大小的两倍，是因为Unity把内存和显存的大小都计算进去了吗？</p>
+</blockquote>
+<p>其实并不是这个原因，因为Editor本身会保有纹理的一份内存，在Editor下进行Profiler会把Editor本身所使用的纹理大小也计算进去，因此会有内存变为两倍的情况。我们官方并不建议在Editor下对项目进行性能调试，而是务必要在真机上跑编译好的项目，然后连接Profiler进行调试，只有这样才能得到真正精确的测试数据。</p>
+<p> <strong>总结</strong> ：一般情况下只需Unity<br>Profiler在手，就能窥测到游戏中各项内存使用状况，当然前提是需要对Profiler各项数据所表达的含义了然于心。并且尽量使用真机调试结合Profiler，这样才能了解到游戏运行的真实内存占用数据。</p>
 
         </div>
         
@@ -303,17 +230,17 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.182Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.660Z">2019-05-17</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/VR/">VR</a>
+                <a class="has-link-grey -link" href="/blog/categories/Unity优化/">Unity优化</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    19 分钟 读完 (大约 2883 个字)
+                    13 分钟 读完 (大约 1965 个字)
                 </span>
                 
                 
@@ -322,220 +249,117 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/VR/如何避免虚拟现实中的晕眩/">如何避免虚拟现实中的晕眩</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/Unity3D如何减少安装包大小/">Unity3D如何减少安装包大小</a>
             
         </h1>
         <div class="content">
-            <p>大家好，今天跟大家分享一下北京理工大学翁冬冬教授，在深圳开发者大会中发表的晕眩相关研究。希望可以给相关的读者或是开发者伙伴一些信息与帮助。翁冬冬教授与他的团队在HTC<br>Vive之前已经研究虚拟现实显示设备数十年，对虚拟现实及人体的影响研究相当的丰富。</p>
-<p>【一、晕眩的八大可能原因】</p>
-<p>【二、晕眩的产生原理与迷思】</p>
-<p>【三、三种不同的晕眩来源】</p>
-<p>【四、避免虚拟现实晕眩的三种理论】</p>
-<p>【五、改善虚拟现实晕眩的四个方向】</p>
-<p>【六、缓解虚拟现实晕眩的七个方式】</p>
-<p>【七、翁教授的有趣题外话！】</p>
-<p>更多深圳开发者峰会的信息，请看这里！</p>
-<p><a href="https://www.htcvive.com/cn/forum/173" target="_blank" rel="noopener">https://www.htcvive.com/cn/forum …<br>wthread&amp;tid=173</a></p>
-<p>===============================================================================</p>
-<p>【一、晕眩的八大可能原因】</p>
-<p>首先，翁冬冬教授明确说在前头，以下的研究内容并不是说开发者能做什么或是不能做什么，而是在体验者发生晕眩情形时，可以做为参考依据的线索与出发点。「因为VR能够达成的世界很美好，我们<br>才更应该注意我们内容呈现的质量。」翁冬冬教授说道。</p>
-<p>先讲简单结论，看一下使用者会晕的八大可能原因：</p>
-<ol>
-<li><p>系统延迟（俗称的lag）</p>
-</li>
-<li><p>视场角(FIELD OF VIEW)越大，越容易晕</p>
-</li>
-<li><p>第一人称比第三人称越晕</p>
-</li>
-<li><p>场景细节越复杂越晕</p>
-</li>
-<li><p>场景越真实可能越晕</p>
-</li>
-<li><p>被动比主动操作容易晕（就像开车的人不会晕车）</p>
-</li>
-<li><p>有静态参照物（几乎不动的一个对象）会好很多（驾驶舱，甚至鼻子）</p>
-</li>
-<li><p>不良的视角晃动（比如说刻意营造的震动效果: 想象云霄飞车等）</p>
-</li>
-</ol>
-<p>===============================================================================</p>
-<p>【二、晕眩的产生原理与迷思】</p>
-<p>再来，我们可以更进一步深究一下晕眩的产生原理：</p>
-<p>1. 晕眩其实是身体的保护机制，是大脑前庭受到「不良」的刺激后，警告身体的一种反应。</p>
-<p>2. 何谓「不良」的刺激？举凡生活中的晕车、晕船、晕机；玩计算机或仿真器时的不适；以及虚拟现实装置中可能造成的运动错觉。</p>
-<p>3. 简单来说，当视觉／感官接受的讯号，与前庭系统受到的刺激对不起来，就是「不良」的刺激，就容易晕眩。</p>
-<p>然后，我们常常有一些对于晕眩的迷思</p>
-<p>1. 【迷思：计算机上看不会晕，用头盔看也就不会晕？】错，不同的设备上观看的内容，眩晕与否以及程度是很不一样的。</p>
-<p>2. 【迷思：场景越真实越不会晕？】错，场景的细节越多，越容易发生晕眩</p>
-<p>===============================================================================</p>
-<p>【三、三种不同的晕眩来源】</p>
-<p>翁冬冬教授的团队更进一步说明了三种不同的晕眩来源（动晕(motion-sickness)、仿真器晕眩、虚拟现实晕眩），以及其不同的地方：</p>
-<p>【首先，一般的动晕症状】</p>
-<p>像是坐车、坐船、坐飞机时因为颠簸、摇摆、旋转等任何形式的加速运动，导致大脑前庭与感官认知有所差异，以致晕眩的不适应症状（肚子不适、恶心、头晕等）。但是，持续并稳定等速的被动运动</p>
-<p>（如火车、飞机、电梯速度稳定时），前庭的感受器会以同样的速度运动，就不会被人体所感知到。</p>
-<p>【再来，数字媒体导致的仿真器晕眩症状】</p>
-<p>和一般晕动症不同的是，所谓的「仿真器晕眩症状」往往是因为不牵涉任何实际运动所导致的。晕动症发生是在实际有运动的时候（船上、飞机上），仿真器晕眩症却是因为视觉上感受到有运动，实际</p>
-<p>上却完全没有任何运动而导致。所以常见有些朋友在观看屏幕上3D画面，进行3D游戏时会有不适感。于人体的症状也跟一般动晕症稍有不同（如眼睛疲劳）。</p>
-<p>【最后，因为虚拟现实媒体导致的虚拟现实晕眩】</p>
-<p>由于虚拟现实所产生的独特沉浸感，加上在虚拟现实环境中，常有在身体不动的情况之下，视觉观察动态的场景，此时容易产生强制性的运动感（运动错觉）。常见症状有恶心、眼部不适、真实感减弱</p>
-<p>、和方向障碍。虚拟现实晕眩症的症状往往比前面两种晕眩还来得严重，可能是因为虚拟现实较强的沉浸感导致，这会破坏体验者对虚拟现实的好感，使对虚拟现实失去安全感，也是限制未来虚拟现实</p>
-<p>发展的重要障碍。</p>
-<p>===============================================================================</p>
-<p>【四、避免虚拟现实晕眩的三种理论】</p>
-<p>为了避免产生麻烦的虚拟现实晕眩症状，有三种理论可供参考</p>
-<p>【感知冲突理论：是否违反感官的预测？】</p>
-<p>人的感官有一种「预测」的学习能力，因此当我们习惯了重力往下，东西松开之后就会认知他将往下掉。如果把我们放到一个重力不是往下的环境，换句话说，一个环境刺激与感官习惯不同的世界，可能会引起晕眩症。</p>
-<p>【姿态平衡理论：视觉导致的姿势改变，是否与其他感官相异？】</p>
-<p>我们可能在虚拟现实中操控着飞机高速的转弯，视觉中告诉你需要偏动一下姿势以免被作用力甩出去，但好好坐在位置上的大脑，却什么作用力都没有感受到，感官矛盾之下可能会晕眩。一旦我们在外</p>
-<p>界刺激之下无法保持一个稳定的姿势，可能就会因此感到不适，姿势不平衡感越强，人们就会更不舒服。这有些类似感知冲突中的感受，却因为是前庭系统无法应付的不良刺激，所以被视为更加受限的形式。</p>
-<p>【中毒理论：虚拟现实体验是否刻意营造失去感官能力的错觉？】</p>
-<p>由于人体长久的进化过程，晕眩变成一种身体失去感官能力时的自然警讯。当设计不合理的虚拟现实内容，让身体误以为已经摄取某种导致它失去运作能力的物质，就会自然触发晕眩、呕吐、等帮助身体排出毒素的反映。</p>
-<p>当然，除了以上三种理论之外，还有像是显示屏幕的问题、个人的体质等，都可能有所影响</p>
-<p>===============================================================================</p>
-<p>【五、改善虚拟现实晕眩的四个方向】</p>
-<p>最后，针对虚拟现实的晕眩症状，有个简单的快速的check-list供各位朋友参考</p>
-<p>【系统原因（软硬件整体设计不良）】</p>
-<ol>
-<li><p>运动能力丧失 (如手机虚拟现实中，明明没有移动却在视觉中大幅度运动)</p>
-</li>
-<li><p>运动能力缺失 (如Virtuix Omni提供的部分移动感，却仍受限的运动能力)</p>
-</li>
-<li><p>运动能力不一致 (在能够自由运动之下，却和其余感官感受的不一致)</p>
-</li>
-</ol>
-<p>【软件原因】</p>
-<ol>
-<li><p>屏幕显示更新率</p>
-</li>
-<li><p>运算性能限制</p>
-</li>
-<li><p>交互系统延迟</p>
-</li>
-<li><p>定位系统延迟</p>
-</li>
-<li><p>显示器视场角(field of view)</p>
-</li>
-<li><p>屏幕分辨率</p>
-</li>
-<li><p>显示器对比度</p>
-</li>
-<li><p>显示器亮度</p>
-</li>
-<li><p>瞳距</p>
-</li>
-<li><p>出瞳距离</p>
-</li>
-<li><p>头盔体积重量</p>
-</li>
-<li><p>头盔配戴舒适度</p>
-</li>
-<li><p>定位系统准确度</p>
-</li>
-<li><p>视觉、听觉、触觉协调性</p>
-</li>
-<li><p>听觉输入音量</p>
-</li>
-</ol>
-<p>(其中以1~4为最主要原因)</p>
-<p>【软件原因】</p>
-<ol>
-<li><p>细节复杂度 (越复杂 = 越频繁的眼动 = 更重的大脑负担)</p>
-</li>
-<li><p>环境逼真度</p>
-</li>
-<li><p>视角选择 (第一人称比第三人称易晕)</p>
-</li>
-<li><p>场景比例 (ex: 场景中人的高度与现实不一致)</p>
-</li>
-<li><p>主动/被动？ (被动比主动易晕，ex: 乘客vs.驾驶)</p>
-</li>
-<li><p>视角不良运动 (ex: 刻意营造的不合理视角晃动，身体无感/视觉有感的云霄飞车晃动)</p>
-</li>
-<li><p>环境特性 (ex: 不易分辨方向的狭窄黑暗环境相对易晕)</p>
-</li>
-<li><p>有无静物参考？ (没有静态参照物易晕，ex: hover junkers的船甲板, 射击游戏的准星)</p>
-</li>
-<li><p>图像色度、饱和度</p>
-</li>
-<li><p>环境模糊度</p>
-</li>
-<li><p>环境开阔度</p>
-</li>
-<li><p>物体动静态影响</p>
-</li>
-<li><p>VE与RE差异</p>
-</li>
-<li><p>视角与物体远近</p>
-</li>
-<li><p>虚拟视场角大小</p>
-</li>
-<li><p>参照物影响</p>
-</li>
-<li><p>场景复杂度 (越复杂 = 越频繁的眼动 = 更重的大脑负担)</p>
-</li>
-<li><p>速度、加速度影响</p>
-</li>
-<li><p>运动复杂度</p>
-</li>
-<li><p>头部转动频率</p>
-</li>
-<li><p>标志点影响</p>
-</li>
-</ol>
-<p>(其中以1~8最为主要)</p>
-<p>【个人原因】</p>
-<ol>
-<li><p>经验与习惯</p>
-</li>
-<li><p>心理因素</p>
-</li>
-<li><p>性别与年龄</p>
-</li>
-<li><p>疲劳程度</p>
-</li>
-<li><p>使用VR装置的频率</p>
-</li>
-<li><p>主视眼影响</p>
-</li>
-<li><p>平衡感</p>
-</li>
-<li><p>视觉与前庭感官健康</p>
-</li>
-<li><p>对新事物接受能力</p>
-</li>
-</ol>
-<p>(其中1~2为主要因素)</p>
-<p>===============================================================================</p>
-<p>【六、缓解虚拟现实晕眩的七个方式】</p>
-<ol>
-<li><p>设计合理场景</p>
-</li>
-<li><p>提高硬件(画面)更新率/降低延迟/增加定位准确度/减轻头盔重量/设计合适的视角</p>
-</li>
-<li><p>不要在进入虚拟现实后快速移动或做一些不平稳的动作</p>
-</li>
-<li><p>离开虚拟世界后不要马上坐下、走动一下可以帮助回到真实世界</p>
-</li>
-<li><p>增加运动平台来模拟实际运动</p>
-</li>
-<li><p>在虚拟场景中增加静止参考元素</p>
-</li>
-<li><p>提前适应虚拟场景</p>
-</li>
-</ol>
-<p>===============================================================================</p>
-<p>【七、翁教授的有趣题外话！】</p>
-<p>最后，翁冬冬教授另有一些有趣的题外话发言，在此给大家参考！</p>
-<ol>
-<li><p>(晕眩是前庭受不良刺激) 但是人类偏偏很喜欢刺激前庭（开快车、旋转木马、云霄飞车），会带给大脑愉悦感。</p>
-</li>
-<li><p>VR中学会的技能，在现实生活中也是真的学会，是有科学理论基础的。</p>
-</li>
-<li><p>对Gear VR只有一个字：恶，尤其不规则高速转动的游戏，一定非常晕(翁教授补充：虽然我很爱玩)。</p>
-</li>
-<li><p>我没有拿HTC的钱，但HTC Vive确实是我研究几十年来用过最好的（VR装置）！</p>
-</li>
-</ol>
+            <p>译官方文档：<a href="http://docs.unity3d.com/Manual/ReducingFilesize.html" target="_blank" rel="noopener">http://docs.unity3d.com/Manual/ReducingFilesize.html</a></p>
+<p>PDF文档：<a href="http://www.rukawa.cn/Uploads/Attachment/ReducingFilesize/ReducingFilesize.pdf" target="_blank" rel="noopener">http://www.rukawa.cn/Uploads/Attachment/ReducingFilesize/ReducingFilesize.pdf</a></p>
+<p>原文地址：<a href="http://www.rukawa.cn/index.php?s=/home/article/detail/id/27.html" target="_blank" rel="noopener">http://www.rukawa.cn/index.php?s=/home/article/detail/id/27.html</a></p>
+<p>需要这么做的目的和好处就不多说了。</p>
+<p>第一步要做的就是：看看哪些文件是最占空间的，那么它们就是首选优化对象了。</p>
+<p>你可以在刚刚完成一次build之后在“Editor Log”中找到这些信息。</p>
+<p>如何打开Editor Log：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c1d657f342b16faf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>在Mac上看起来就是这样的了：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-de199f9854e4ea85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>可以看出这份log提供了一份资源总括：各种类型资源的总大小，以及所占百分比。同时还降序列出了单个文件的大小。</p>
+<p>顺带一提，资源类型中的“File<br>headers”它们并不是资源本身，而是加在原始资源上，用来存储“引用”与“配置信息”的额外数据。通常可以忽略这些数据的大小，但如果在你的“Resources”文件夹里有着十分庞大的资源文件的话，这些数据也可能会很大。。</p>
+<p>这份log可以帮助你鉴定哪些文件是你或许想要删掉或者进行优化的。</p>
+<p>不过在开工之前，还需要先了解几点：</p>
+<p>1、Unity再编码会把资源导成它自己的内部格式，所以资源源文件的类型是不相干的。比如你有一个多图层的PS纹理，那么在build之前它就会被拼接、压缩。所以刻意把这份纹理转成PNG格式其实对减少包大小并没有帮助。在开发时还是用最方便的格式就好了。</p>
+<p>2、Unity会在build时去掉那些你的项目中没有使用到的资源，所以不需要我们手动找出来删掉了。但是脚本是不会被删掉的（不过它们不占资源），还有“Resources”文件夹里的全部资源，也是不会自动帮你删除的（因为Unity无法判断这里面哪些是需要用到的）。所以我们要确保“Resources”文件夹里的都是我们真正要用到的。当然，你还可以通过动态加载AssetBundles的方式来代替“Resources”文件夹里的资源，以减少包大小。</p>
+<p>一些建议：</p>
+<h1 id="纹理（Textures）"><a href="#纹理（Textures）" class="headerlink" title="纹理（Textures）"></a>纹理（Textures）</h1><p>纹理通常会占据大部分空间。第一步要做的就是选用经压缩的纹理格式（DXT 或者<br>PVRTC）。如果这样没有减少它的所占用空间，那么试试缩小纹理的尺寸吧。你不需要对资源本身进行修改，只要在 Project 下选中纹理，然后在<br>Inspectpr 下设置Max Size就行了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9d7ef3defcab6302.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>有一个好办法就是：在场景中找到使用了该纹理的object，放大画面，然后一边降低 Max Size<br>，一边看场景中的object，直到它看起来比较糟糕，就可以知道怎样是最合适的了。。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-f3125f0c116b127e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-8d3a0300b461de44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7ba2e814b5f046be.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-79717e71aea46cf2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-71da3b61680f2960.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-902e9a4669c6324a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ee0768a059325237.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-d8532c8cc0ec48b9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>由以上几张图对比来看，我们就能发现，选择512甚至256的Max Size，效果都是可以的，而且资源大小也能有显著的减少。修改纹理的Max<br>Size并不会影响到资源本身，只是改变了它在游戏里的分辨率。下表列出了不同图片格式所占用空间的大小（单位bpp：字节/像素）</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7d87338448f068b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>一张图片的大小计算公式：width * height * bpp，如果你使用的是mipmap贴图，那么其大小将是普通图片的3倍左右。</p>
+<p>Unity默认在导入纹理时就会进行压缩，为了在开发时节约时间，我们可以在偏好设置里手动关掉此功能</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-1cad54699bfbda78.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>而在build时，Unity不管你有没有勾选这一项，都会对纹理进行压缩。</p>
+<h1 id="网格与动画（Meshes-and-Animations）"><a href="#网格与动画（Meshes-and-Animations）" class="headerlink" title="网格与动画（Meshes and Animations）"></a>网格与动画（Meshes and Animations）</h1><p>网格与导入的动画（Animation Clips）都可以被压缩。在选中一个模型之后，就可以在Inspector中进行设置了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-71d05cc9f3db328e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>不过对它们进行压缩，是可能造成误差的。所以最好先弄清楚什么程度的压缩是可接受范围内的。另外，mesh的压缩仅仅是减少数据文件的大小，并不会减少运行时的内存消耗。而减少动画关键帧，则会让两者都有所减少，一般情况下我们都应该开启。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-b8ff1dfd1b8f5e7e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<h1 id="动态链接库（DLLs）"><a href="#动态链接库（DLLs）" class="headerlink" title="动态链接库（DLLs）"></a><strong>动态链接库（DLLs）</strong></h1><p>默认情况下，Unity只会在build时包含以下dll：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-128d2aca3da06ffd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>我们应该避免对 System.dll 或者 System.Xml.dll 有所引用，否则还是会在build时包含进来，而它们也会占用数M的空间。</p>
+<p>如果在游戏中确实需要解析XML，那么可以使用“Mono.Xml.zip”来代替系统级的dll。此外，大多数泛型容器都已经包含在标准库中，只有少数几个在System.dll里，所以可能的话，也应该避免使用到它。</p>
+<h1 id="减少手机上使用的-NET-库的大小"><a href="#减少手机上使用的-NET-库的大小" class="headerlink" title="减少手机上使用的 .NET 库的大小"></a>减少手机上使用的 .NET 库的大小</h1><p>Unity为移动设备提供了两套 .NET 的API：.NET 2.0 和.NET 2.0 Subset</p>
+<p>.NET 2.0<br>提供了几乎整套的API功能，但是很多时候游戏都用不上那么多，导致大量多余的代码占用了宝贵的空间资源。为了避免浪费，我们就可以用Unity提供的 .NET<br>2.0 Subset（相当于.NET<br>2.0的一个子集）。为节省资源，这里面很多一般用不到的例程库都被移除了，所以这一优化也会是很有用的，只是需要确保我们的代码能够正常工作。</p>
+<p>可在“Player Settings”中进行设置</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-93da9c6ccea4c153.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<h1 id="移除无用的代码"><a href="#移除无用的代码" class="headerlink" title="移除无用的代码"></a><strong>移除无用的代码</strong></h1><p>目前我们的项目比较适合使用Strip ByteCode选项,并配合link.xml使用,link.xml放到项目的Assetes目录下:</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-d0d88f4dda548d0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<h1 id="对于android平台，如果包实在太大，可以使用-Split-Application-Binary-功能"><a href="#对于android平台，如果包实在太大，可以使用-Split-Application-Binary-功能" class="headerlink" title="对于android平台，如果包实在太大，可以使用 Split Application Binary 功能"></a><strong>对于android平台，如果包实在太大，可以使用 Split Application Binary 功能</strong></h1><p>在Player Setting &gt; Publishing Settings里，</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-837f37c15dc3cffd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>关于Split Application Binary&lt;<a href="http://www.ceeger.com/Manual/android-" target="_blank" rel="noopener">http://www.ceeger.com/Manual/android-</a><br>OBBsupport.html&gt;</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.642Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity优化/">Unity优化</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 分钟 读完 (大约 635 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/unity图片压缩格式和内存计算/">unity图片压缩格式和内存计算</a>
+            
+        </h1>
+        <div class="content">
+            <p><img src="http://upload-images.jianshu.io/upload_images/17266280-dba31eb2dd91a5ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>例子1：使用RGBA 32bit真彩（Truecolor），占用内存 = 4Bytes<em>512</em>512 = 1MB;</p>
+<p>例子2：使用RGB ETC 4bit压缩，占用内存 = 0.5Bytes<em>512</em>512 = 128KB</p>
+<p>一、2的N次方大小的图片会得到引擎更大的支持，包括压缩比率，内存消耗，打包压缩大小，而且支持的力度非常大。</p>
+<p>二、减小图片的占用大小和内存方式有:图片大小变化(Maxsize),色彩位数变化(16位，32位)，压缩(PVRC)。</p>
+<p>三、U3D对于图片的格式是自己生成的，而并不是你给他什么格式，他就用什么格式，一张1024<em>1024图在无压缩格式下，它会被U3D以无压缩文件形式存放，也就是说U3D里的Texture<br>Preview里显示的占用大小*</em>MB不只是内存占用大小，还是空间占用大小</p>
+<p>U3D的内部机制为自动生成图片类型来替换我们给的图片，在图片的压缩方式上需要进行谨慎的选择。</p>
+<p>压缩格式在U3D的Component Reference里有介绍我就不再详细介绍，只介绍几个重点的:</p>
+<p>RGBA32格式为无压缩最保真格式，但也是最浪费内存和空间的格式。Automatic Turecolor和它一个意思。</p>
+<p>RGBA16格式为无压缩16位格式，比32位节省一半的空间和内存。Automatic 16bits和它一个意思。</p>
+<p>RGBA Compressed PVRTC<br>4bits格式为PVRTC图片格式，它相当于把图片更改了压缩方式新生成了一个图片来替换原来的我们给的图片格式(比如我们给的是PNG格式)。</p>
+<p>注意：U3D所有图片的压缩格式都会以另一种方式来存储，不会以你给的方式来存储，只有你指定了某种格式，它才会转成你要的格式。而且压缩格式在Android里并不一定有效，因为Android的机型多，GPU的渲染方式也不一样，有的是Nvidia，有的是PowerVR，最最好的在安卓机子上启用RGBA16方式，因为这个是适应所有机型的，并且比32位占用量少一半，但也需要因项目而异，只是推荐使用的格式，可以多用，但要权衡内存和显示效果。</p>
 
         </div>
         
@@ -575,7 +399,7 @@ var _hmt = _hmt || [];
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/43/">43</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/47/">47</a></li>
             
         </ul>
     </nav>
@@ -623,7 +447,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        128
+                        139
                     </p>
                 </div>
             </div>
@@ -643,7 +467,7 @@ var _hmt = _hmt || [];
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        23
+                        29
                     </p>
                 </div>
             </div>
@@ -749,7 +573,7 @@ var _hmt = _hmt || [];
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">12</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -795,7 +619,7 @@ var _hmt = _hmt || [];
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/ReactNative/" style="font-size: 17px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 15px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/blog/tags/JavaScript优化/" style="font-size: 10px;">JavaScript优化</a> <a href="/blog/tags/ReactNative/" style="font-size: 16px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 14px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/RxJs/" style="font-size: 10px;">RxJs</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 17px;">Web</a> <a href="/blog/tags/Web优化/" style="font-size: 11px;">Web优化</a> <a href="/blog/tags/h5/" style="font-size: 10px;">h5</a> <a href="/blog/tags/npm/" style="font-size: 10px;">npm</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 15px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
     </div>
 </div>
 
@@ -814,10 +638,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -827,10 +651,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -840,10 +664,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.968Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/使用Mock.js进行独立于后端的前端开发/" class="has-link-black-ter is-size-6">使用Mock.js进行独立于后端的前端开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -853,10 +677,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.871Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/什么样的浏览器内核，才敢说是“自主研发”？内核科普长文/" class="has-link-black-ter is-size-6">什么样的浏览器内核，才敢说是“自主研发”？内核科普长文</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -866,10 +690,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.839Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/" class="has-link-black-ter is-size-6">前端黑科技：美团网页首帧优化实践</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -893,7 +717,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">128</span>
+                    <span class="level-item tag">139</span>
                 </span>
             </a>
         </li>
@@ -940,6 +764,20 @@ var _hmt = _hmt || [];
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript/">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript优化/">
+                        <span class="tag">JavaScript优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative/">
                         <span class="tag">ReactNative</span>
                         <span class="tag is-grey">9</span>
@@ -963,6 +801,13 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
                         <span class="tag">ReactNative插件</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/RxJs/">
+                        <span class="tag">RxJs</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1005,6 +850,27 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web优化/">
+                        <span class="tag">Web优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/h5/">
+                        <span class="tag">h5</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/npm/">
+                        <span class="tag">npm</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1012,7 +878,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/后端/">
                         <span class="tag">后端</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
@@ -1099,10 +965,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1112,10 +978,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1125,10 +991,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.968Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/使用Mock.js进行独立于后端的前端开发/" class="has-link-black-ter is-size-6">使用Mock.js进行独立于后端的前端开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1138,10 +1004,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.871Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/什么样的浏览器内核，才敢说是“自主研发”？内核科普长文/" class="has-link-black-ter is-size-6">什么样的浏览器内核，才敢说是“自主研发”？内核科普长文</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1151,10 +1017,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.839Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/" class="has-link-black-ter is-size-6">前端黑科技：美团网页首帧优化实践</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1178,7 +1044,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">128</span>
+                    <span class="level-item tag">139</span>
                 </span>
             </a>
         </li>
@@ -1225,6 +1091,20 @@ var _hmt = _hmt || [];
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript/">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript优化/">
+                        <span class="tag">JavaScript优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative/">
                         <span class="tag">ReactNative</span>
                         <span class="tag is-grey">9</span>
@@ -1248,6 +1128,13 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
                         <span class="tag">ReactNative插件</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/RxJs/">
+                        <span class="tag">RxJs</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1290,6 +1177,27 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web优化/">
+                        <span class="tag">Web优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/h5/">
+                        <span class="tag">h5</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/npm/">
+                        <span class="tag">npm</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1297,7 +1205,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/后端/">
                         <span class="tag">后端</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 

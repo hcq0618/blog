@@ -153,17 +153,17 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.603Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.767Z">2019-05-17</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
+                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    7 分钟 读完 (大约 1086 个字)
+                    1 分钟 读完 (大约 130 个字)
                 </span>
                 
                 
@@ -172,33 +172,15 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/实用资源报告工具Unity-AssetsReporter/">实用资源报告工具Unity-AssetsReporter</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/从Android读取Unity-assets下的图片并保存为Bitmap格式/">从Android读取Unity-assets下的图片并保存为Bitmap格式</a>
             
         </h1>
         <div class="content">
-            <p>Unity Global Support部门制作了一些实用的小工具免费供大家使用，此前已为大家介绍过<a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651038011&idx=1&sn=a6695849c1aaa87cfcad56534ec83dbf&scene=21#wechat_redirect" target="_blank" rel="noopener">批量处理资源的Asset<br>Auditing</a>以及<a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651038723&idx=1&sn=e5adc5c20193372b6899c840913a63f2&chksm=bd1a93328a6d1a24af34177e59dbb14246fdc6dba6f06432db8b964773db7e3ad43fbbd67871&scene=21#wechat_redirect" target="_blank" rel="noopener">批量清理资源的小工具Asset<br>Cleaner</a>，
-今天要给大家推荐的是一款名叫AssetsReporter的插件，可以辅助开发者管理几类Asset的导入设置并发现可能存在问题，另外还提供了AssetBundle的资源与依赖查看功能。</p>
-<h1 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h1><p>Unity对导入项目的资源如Texture、Model和Audio等都要根据其导入设置生成新的资源文件，以供之后打包使用。开发者一般需要根据发布平台的性能、内存、包体占用等方面的需求，对资源采取特定的导入设置，因此，保证所有资源的导入设置都正确配置是比较重要的一环。</p>
-<p>AssetsReporter提供了对Texture、Model和Audio这几种常用资源的导入设置进行检查的功能，其生成的网页报告可以在浏览器端通过勾选特定的设置选项来搜索某类资源，以确定资源是否都正确配置。另外对于Resources文件夹及AssetBundle资源也提供搜索检视功能（鉴于Resources对Splash<br>Scene时间影响较大，Resources检视功能主要方便让开发者完全使用AssetBundle来取代其）。</p>
-<p>使用方法</p>
-<p>点击菜单栏Tools-&gt;AssetsReporter，弹出AssetsReporter窗口，然后点击对应类型资源名称下的Report按钮生成报告（每次对资源进行修改后需要重新生成报告），点击Open可以打开上次生成的报告，报告会以网页的形式在浏览器端展现。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-d9bd711f81c73ffe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0f7b4b3104991226.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<h1 id="报告类型"><a href="#报告类型" class="headerlink" title="报告类型"></a>报告类型</h1><p> <strong>Texture Reporter</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-1a33952fd98e186a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>此报告管理Texture的导入设置，设置好搜索条件后点击Search后会出现符合条件的资源，可以预览图片并展示此Texture的一些常用属性。较常关注的设置包括压缩格式是否适合以及分辨率是否2的N次幂等。</p>
-<p> <strong>Model Reporter</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-8dd3d1dd293dde14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>此报告管理Model的导入设置，可以显示搜索结果的各种常用属性，包括顶点数，动画类型及包含的动画列表等。较常关注的设置包括mesh是否优化，Rig设置以及mesh是否Read/Write<br>Enable等。</p>
-<p> <strong>Audio Reporter</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-88be656603a4e934.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>此报告管理Audio的导入设置，可以预览音频并展示常用的属性。较常关注的设置包括压缩格式是否适合，加载方式是否适合等。</p>
-<p> <strong>AssetBundle Reporter</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-e59836692fa3a2b6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>此报告提供AssetBundle的可视化检视界面，可通过资源名称搜索包含其的AssetBundle文件，并查看AssetBundle中打入的资源以及依赖的文件或者其他AssetBundle。</p>
-<p> <strong>Resources Reporter</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-cfaf2db5a9ab6f80.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>此报告主要根据勾选的资源类型来搜索并显示项目中Resources文件夹中的资源，方便开发者确认是否仍存在无需放入Resources文件夹的资源。由于Resources中文件需要构建的内存映射结构对Splash<br>Screen的时间影响较大，除了常驻在项目内存中的资源，Unity建议开发者仅仅把Resources文件夹作为方便制作demo的工具，项目打包的时候还是要使用AssetBundle来做资源的动态加载。</p>
+            <p>在unity工程下，建立文件夹“Plugins/Android/assets”，然后把需要的图片放在这个文件夹下，并取一个好用的名字</p>
+<p>（”Logo.png”），这个名字在Android这边是需要用到的，unity的工作做完之后，在Android这边写代码：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">AssetManager asm = getAssets();</span><br><span class="line"></span><br><span class="line">InputStream inputStream =null;</span><br><span class="line"></span><br><span class="line"> try &#123;</span><br><span class="line"></span><br><span class="line">     inputStream = asm.open(&quot;Logo.png&quot;);</span><br><span class="line"></span><br><span class="line"> &#125;catch (IOException e) &#123;</span><br><span class="line">     // TODO Auto-generated catch block</span><br><span class="line"></span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Drawable d =Drawable.createFromStream(inputStream,null);</span><br><span class="line"></span><br><span class="line">Bitmap B = ((BitmapDrawable) d).getBitmap();</span><br></pre></td></tr></table></figure>
+
+<p>这样就完成了unity图片的读取与转化Bitmap。</p>
 
         </div>
         
@@ -220,17 +202,17 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.594Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.763Z">2019-05-17</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
+                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    7 分钟 读完 (大约 1114 个字)
+                    8 分钟 读完 (大约 1171 个字)
                 </span>
                 
                 
@@ -239,62 +221,56 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/虚拟摇杆EasyTouch/">虚拟摇杆EasyTouch</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/关于界面高度height的计算/">关于界面高度height的计算</a>
             
         </h1>
         <div class="content">
-            <p>对于移动平台上的RPG类的游戏，我们常用虚拟摇杆来控制人物角色的行走和一些行为，相信我们对它并不陌生，之前尝试了EasyTouch2.5，发现并没有最新版的3.1好用，2.5版本的对于自适应没有做的很好，而最新版的已经解决了这一问题。当然unity也自带了摇杆Joystick，用起来也简单，但存在不少局限，不会满足普通mmo游戏的需求，比如指定显示区域或者是更改一些素材等等，而这些EasyTouch插件都已经帮你实现，不得不佩服插件的原作者，能做出这么炫酷好用的插件，当然这估计是老外开发的，关于插件的下载，你可以在AssetStore上购买，当然也可以使用free版。</p>
-<p>我这里也提供一个3.1版本的插件下载地址： &lt;<a href="http://download.csdn.net/detail/s10141303/6962919" target="_blank" rel="noopener">http://download.csdn.net/detail/s10141303/6962919</a></p>
-<h1 id="一、效果图"><a href="#一、效果图" class="headerlink" title="一、效果图"></a><strong>一、效果图</strong></h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-f9f6499d5185f13a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-fbe8d10aa2e67ea8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>感觉很酷有木有！接下来就看一下创建的过程吧！</p>
-<h1 id="二、操作步骤"><a href="#二、操作步骤" class="headerlink" title="二、操作步骤"></a>二、操作步骤</h1><h2 id="1-官方文档上的步骤"><a href="#1-官方文档上的步骤" class="headerlink" title="1.官方文档上的步骤"></a>1.官方文档上的步骤</h2><p>Quick Start (C#)</p>
-<p>1-Import EasyTouch Package.</p>
-<p>2-Create an empty gameObject, and name it EasyTouch.(You can choose another<br>name)</p>
-<p>Step 1 &amp; 2 can be replace by the option menu</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7399514313146199.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>3-Add the EasyTouch.cs script on the EasyTouch gameObject that you just<br>created.</p>
-<p>4-Select the EasyTouch gameobject, and verifies that Broadcast messages is set<br>to FALSE in the inspector.</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9dc3ee3597dd9b52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>5-Create a new C# script MyFirstTouch</p>
-<p>6-Add these methods</p>
- <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">// Subscribe to events</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> void OnEnable()&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> EasyTouch.On_TouchStart += On_TouchStart;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // Unsubscribe</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> void OnDisable()&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> EasyTouch.On_TouchStart -= On_TouchStart;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // Unsubscribe</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> void OnDestroy()&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> EasyTouch.On_TouchStart -= On_TouchStart;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // Touch start event</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> public void On_TouchStart(Gesture gesture)&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> Debug.Log( &quot;Touch in &quot; + gesture.position);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-<p>7-Create an empty gameObject, and name it Receiver.</p>
-<p>8- Add MyFirstTouch script to the gameObject Receiver.</p>
-<p>9- Run it in editor, and click on the screen</p>
-<h2 id="2-翻译一下以上的步骤"><a href="#2-翻译一下以上的步骤" class="headerlink" title="2.翻译一下以上的步骤"></a>2.翻译一下以上的步骤</h2><p>1.import“EasyTouch”资源包</p>
-<p>2.创建空物体，命名为EasyTouch(当然你也可以改成其他名字)</p>
-<p>3.添加EasyTouch.cs脚本在刚刚创建的空物体（EasyTouch）上</p>
-<p>4.选择改物体但不要将BroadcastMessages勾选</p>
-<p>5.创建一个新的C#脚本，命名MyFirstTouch</p>
-<p>6.添加这些方法</p>
-<p>7.再创建一个空物体，命名为Receiver</p>
-<p>8.将MyFirstTouch脚本添加到空物体Receiver上</p>
-<p>9.运行并且点击遥感，会发现控制台打印了当前按下的坐标</p>
-<h2 id="3-根据官方的这些提示，自己来做一个属于自己的人物遥感控制"><a href="#3-根据官方的这些提示，自己来做一个属于自己的人物遥感控制" class="headerlink" title="3.根据官方的这些提示，自己来做一个属于自己的人物遥感控制"></a>3.根据官方的这些提示，自己来做一个属于自己的人物遥感控制</h2><p>1.导入EasyTouch3资源包</p>
-<p>2.做好前期准备，包括人物模型、地形的创建</p>
-<p>3.添加JoyStick实例：Hedgehog Team-Easy Touch-Extensions-Add a new<br>Joystick。此时就会在左下角创建了虚拟遥感的实例。</p>
-<p>4.设置遥感的相关参数</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-d63f7a1741d0a440.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>.创建脚本MoveController.cs用来接收遥感事件控制角色的移动</p>
- <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using System.Collections;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> public class MoveController : MonoBehaviour &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     void OnEnable()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         EasyJoystick.On_JoystickMove += OnJoystickMove;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         EasyJoystick.On_JoystickMoveEnd += OnJoystickMoveEnd;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     //移动摇杆结束</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     void OnJoystickMoveEnd(MovingJoystick move)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         //停止时，角色恢复idle</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         if (move.joystickName == &quot;MoveJoystick&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             animation.CrossFade(&quot;idle&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     //移动摇杆中</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     void OnJoystickMove(MovingJoystick move)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         if (move.joystickName != &quot;MoveJoystick&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             return;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         //获取摇杆中心偏移的坐标</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         float joyPositionX = move.joystickAxis.x;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         float joyPositionY = move.joystickAxis.y;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         if (joyPositionY != 0 || joyPositionX != 0)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             //设置角色的朝向（朝向当前坐标+摇杆偏移量）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            transform.LookAt(new Vector3(transform.position.x + joyPositionX,</span><br><span class="line">transform.position.y, transform.position.z + joyPositionY));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             //移动玩家的位置（按朝向位置移动）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             transform.Translate(Vector3.forward * Time.deltaTime * 5);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             //播放奔跑动画</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             animation.CrossFade(&quot;run&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-<p>几个函数的执行顺序：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-bc66eae1984685ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>6.效果图</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-338cbbe5e1d99bf7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>7.创建点击按钮</p>
-<p>点击HedgehogTeam-EasyTouch-Extensions-Create a new Button,会在屏幕右下角创建一个button</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-75d36b726eb6a798.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>如何让有下角的按钮点击能做出我们想要的效果呢？</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-821fa06a97c0dbfe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>jump方法：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-87d670465948f1b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>然后点击一下按钮，人物就会跳跃动作！</p>
-<p>其他教程：</p>
-<p>&lt;<a href="http://blog.csdn.net/janeky/article/details/17364903" target="_blank" rel="noopener">http://blog.csdn.net/janeky/article/details/17364903</a></p>
-<p>&lt;<a href="http://www.newbieol.com/information/564.html" target="_blank" rel="noopener">http://www.newbieol.com/information/564.html</a></p>
+            <p>首先看一个例子，新建一个Panel，在下面添加两个Button，分别命名为Button、Button2。</p>
+<p>1、给Panel添加一个VerticalLayoutGroup组件，ChildForceExpand属性中勾上Width。</p>
+<p>2、给Button、Button2添加LayoutElement组件，其中Button的FlexibleHeight设置为0.3，Button2的FlexibleHeight设置为0.1</p>
+<p>3、将Panel的高度设置为100</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a61dd914895a4b69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c74d44cba15dfecb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>这时我们发现，Button的高度是70，Button2的高度是30。奇怪，这个高度是怎么算出来的呢？</p>
+<p>网上搜索一番，竟然很少有人讨论uGUI的AutoLayout，尤其是flexibleWidth/Height属性的意义，官方文档也语焉不详。这时只能放大招了，uGUI已经开源，索性把代码拉下来看看到底怎么实现的。下面是托管代码的地址：</p>
+<p><a href="https://bitbucket.org/Unity-Technologies/ui" target="_blank" rel="noopener">https://bitbucket.org/Unity-Technologies/ui</a></p>
+<p>uGUI的AutoLayout有三个核心接口，定义在ILayoutElement.cs文件中：</p>
+<p>ILayoutElement</p>
+<p>ILayoutController</p>
+<p>ILayoutIgnorer</p>
+<p>结构很清晰，由ILayoutElement提供布局信息，ILayoutController来控制布局，ILayoutIgnore提供给UI忽略AutoLayout的能力。</p>
+<p>例子中使用的VerticalLayoutGroup继承自HorizontalOrVerticalLayoutGroup，这个类实现了布局的核心逻辑，代码量不多，我就直接贴上来了</p>
+<p>其中SetChildrenAlongAxis方法清晰地阐释了minHeight,preferredHeight,flexibleHeight的涵义。</p>
+<p>为了帮助理解，我们先定义几个概念。我们把当前UI所有同级并参与自动布局的组件的preferredHeight总和称为totalPreferredHeight，minHeight的总和称为totalMinHeight，父UI的真实高度称为realHeight。总结如下：</p>
+<p>1、 <strong>minHeight</strong></p>
+<p>在自动布局中，此UI最小高度不会小于minHeight。这个参数定义了realHeight &lt;
+totalMinHeight时，当前子UI的height为minHeight。</p>
+<p>2、 <strong>preferredHeight</strong></p>
+<p>可以理解为，UI自身希望的高度。</p>
+<p>当totalMinHeight &lt; realHeight &lt;
+totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight之间一定百分比，把这个比例应用到每一个接受自动布局的子UI上，即是我们最终得到的效果</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-1240ece0245c46cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>3、 <strong>flexibleHeight</strong></p>
+<p>当realHeight &gt;<br>totalPreferredHeight时，父UI会剩下一部分高度。flexibleHeight就是告诉AutoLayout系统，应该怎么瓜分剩下的高度，使子UI填充满父UI。flexibleHeight默认是-1，不会进行扩充。当flexibleHeight</p>
+<blockquote>
+<p>0时，flexibleHeight值作为权重来计算当前子UI最终的高度，公式如下：</p>
+</blockquote>
+<p>height = preferredHeight + (flexibleHeight / totalFlexibleHeight) *
+(realHeight - totalPreferredHeight)</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7dd199a2b1bbe3d0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>flexibleHeight示意图</p>
+<p>弄清楚这些概念后，我们再看一下文章开头的例子。</p>
+<p>button1的flexibleHeight=0.3，button2的flexibleHeight=0.1，minHeight和preferredHeight都没有设置，按道理高度应该分别是75、25。为什么会出现70、30？</p>
+<p>查一下ILayoutElement的实现类</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4d6556ae3f039540.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>ILayoutElement实现类</p>
+<p>发现Image和Text实现了ILayoutElement，而我们的按钮中默认是有一个Image组件的，用脚本获取这个Image然后打印它的preferredHeight，发现等于10</p>
+<p>再套用flexibleHeight的计算公式：</p>
+<p>这里有个问题，一个GameObject上挂载两个ILayoutElement组件，是怎么决定用哪个的？这个可以在LayoutUtility.cs中找到答案：</p>
+<p>原来LayoutElement有一个layoutPriority属性用来决定优先级，这个属性暂时还没有在编辑器中暴露，也许后续版本会加强这方面的能力。</p>
+<p>AutoLayout系统会选用优先级最高的ILayoutElement里相应属性返回。Image和Text的优先级默认是0，LayoutElement默认优先级是1。所以正常情况会使用LayoutElement中的设置，但我们的例子中，LayoutElement没有设置preferredHeight，LayoutElement里布局相关的初始值都是-1，所以还是使用了Image的preferredHeight:10。</p>
+<p>【结语】</p>
+<p>其实，只要官方文档描述详细一些，根本没必要浪费时间去查这个来龙去脉。这几天在学习<a href="http://lib.csdn.net/base/1" target="_blank" rel="noopener">Swift</a>，苹果人性化的Programming<br>Guide加上iBooks的配合，使得学习这门语言真是件轻松愉快的事情。相比之下，Unity简直是在虐待开发者。Unity、Unreal、Cryengine等最近也为争市场弄得头破血流，除了降价开源提供新特性之外，完善文档也是不容忽视的工作，毕竟开发者才是这些厂商真正的衣食父母。</p>
 
         </div>
         
@@ -316,17 +292,17 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.577Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.730Z">2019-05-17</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
+                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    17 分钟 读完 (大约 2593 个字)
+                    13 分钟 读完 (大约 1978 个字)
                 </span>
                 
                 
@@ -335,79 +311,34 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/Unity做项目事半功倍的插件/">Unity做项目事半功倍的插件</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/VR环境下的语音识别/">VR环境下的语音识别</a>
             
         </h1>
         <div class="content">
-            <h1 id="MTE-Mesh-Terrain-Editor-地形编辑器"><a href="#MTE-Mesh-Terrain-Editor-地形编辑器" class="headerlink" title="MTE (Mesh Terrain Editor) 地形编辑器"></a>MTE (Mesh Terrain Editor) 地形编辑器</h1><p>基于模型的地形转换、编辑工具。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-450fa967da209e4f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>就不详细介绍了，大家看帖。</p>
-<p>中文论坛帖： <a href="https://link.zhihu.com/?target=http%3A//forum.china.unity3d.com/thread-16521-1-1.html" target="_blank" rel="noopener">Mesh Terrain<br>Editor，基于模型的地形编辑器，T4M的替代品</a></p>
-<p>英文论坛帖： <a href="https://link.zhihu.com/?target=http%3A//forum.unity3d.com/threads/mte.396808" target="_blank" rel="noopener">Mesh Terrain Editor, a mesh-based terrain converter and<br>editor</a></p>
-<p>大家可以尝试下 <a href="https://link.zhihu.com/?target=http%3A//u3d.as/xsv" target="_blank" rel="noopener">免费版</a>，如果感觉需要的话，请支持<br><a href="https://link.zhihu.com/?target=http%3A//u3d.as/oWB" target="_blank" rel="noopener">专业版</a>，谢谢！</p>
-<p>另外，推荐ConsoleE，增强版的Unity3D控制台。</p>
-<p>有很多好用的功能，个人觉得最方便的是</p>
-<p>1. 双击打开堆栈某一行的代码（免费版只能打开前两行）</p>
-<p>2. 可逐行复制log内容</p>
-<p>大家不妨试试！</p>
-<p><a href="https://link.zhihu.com/?target=http%3A//u3d.as/5YZ" target="_blank" rel="noopener">http://u3d.as/5YZ</a></p>
-<h1 id="Qhierarchy"><a href="#Qhierarchy" class="headerlink" title="Qhierarchy"></a><strong>Qhierarchy</strong></h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-c9324d6c2cb9f75f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>你管理一个有几千物体的场景，点击单个物体，关掉它显示，或者修改它的static方式之类的根本就是噩梦，用Qherarchy的话，稍微点击下小眼睛关闭就好，对我来说是必备插件，而且可以很容易查找到物体是否有attach<br>script，以及脚本是否出错，非常好使。</p>
-<p>我知道很多人是用Hierachy2 的，那个的功能和Qhierarchy类似，但是当时在unity4<br>-5的版本升级里面出很多bug,而且功能我觉得有些太复杂，反而不如Qhierachy便宜好用</p>
-<h1 id="Haste-Pro"><a href="#Haste-Pro" class="headerlink" title="Haste Pro"></a><strong>Haste Pro</strong></h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-787fdb43639f3a25.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>unity内的everything,场景东西多到死，资源乱到想跳楼，要查找某个特定的物体或者component感觉整个人都要不好了，这时候使用本插件药到病除，不知不觉就买了正版。</p>
-<h1 id="Asset-hunter"><a href="#Asset-hunter" class="headerlink" title="Asset hunter"></a><strong>Asset hunter</strong></h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-c0588b104bfb8222.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>啊西坝，混蛋美术塞了五千个材质球在asset里面啊！！，基本都没用过啊！！ 选择材质时候冒出来满屏幕！！ 怎么破！</p>
-<p>用asset hunter轻松分辨场景是否有使用到此asset,一键删除，世界恢复了和平</p>
-<p>跟 Build report tool功能有点像，大多数情况下asset hunter用着更爽利</p>
-<h1 id="Legacy-2-PBR"><a href="#Legacy-2-PBR" class="headerlink" title="Legacy 2 PBR"></a>Legacy 2 PBR</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-9edbd512262f61cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>Unity4项目升级到unity5了，材质还是那个老味道….难道一个个改么，，， 这时候Legacy 2 PBR一键拯救你</p>
-<p>其他的就不是每个项目都需要用了，动画用默认，特效用默认就好，（可以买几个滤镜）有些东西如finalK shaderforge,A*
-project,Camera<br>Director等等等等等等等都是极好的，不过那些插件玩一下就都要付出很多精力时间了，不是项目需要就别入坑了，何况这些东西任何一个都足够写一大篇长文来分析和赞美了。</p>
-<p>我推荐上面几个的理由是，unity插件应该是在某种使用的思路下被统合起来的，否则不如不用，而上述几个主要是加速你的工作效率，所以尽可大胆使用。</p>
-<p>另外，稍微有点经济实力的还是应该购买正版，不要问我任何求插件问题，拉黑你哦！</p>
-<p> <strong>常用的 Unity 插件</strong></p>
-<p>Advanced PlayerPrefs Window</p>
-<p>用来管理 PlayerPrefs 数据，超好用</p>
-<p>JsonDotNet</p>
-<p>JSON 的序列化/反序列化插件。这个插件是支持 iOS, Android, WP8等多平台且 Bug 最少的一个。</p>
-<p>iOS，Andoird 统一插件</p>
-<p>Prime31 的 IAP Combo，AdMob Combo 插件。同时支持 iOS 和 Android 平台。</p>
-<p>UMeng 统计插件，TalkingData 统计插件，两者其实都差不多。</p>
-<p>PrefabEvolution</p>
-<p>Prefab 嵌套插件。其实也就那样，设计阶段好好规划一下Prefab的结构，用嵌套的地方其实不多。</p>
-<p>NGUI，曾经的 UI 不二之选。现在换 UGUI 了就不再用了。</p>
-<p>2DTookit，用得不多。虽然 Unity 已经支持2D，但这个软件依然有很多方便的地方。</p>
-<p>iTween, DoTween, LeanTween, 对象动画类插件，其实都差不多。挑一个用就行。</p>
-<h1 id="AssetBundle-Manager"><a href="#AssetBundle-Manager" class="headerlink" title="AssetBundle Manager"></a>AssetBundle Manager</h1><p>可以在不build、部署AssetBundles的情况下，就用editor模拟加载本地、远程AssetBundles，支持AssetBundle<br>Variants，让测试、编辑AssetBundle的工作变得非常方便。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-d6de8e799e80e9e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<h1 id="uFrame"><a href="#uFrame" class="headerlink" title="uFrame"></a>uFrame</h1><p>用unity做游戏实质上就是用轮子组系统的过程，无论抵制轮子还是造轮子，支持插件还是反对插件，都不重要。重要的是整体的框架是否健壮合理，中间的焊缝是否严实。</p>
-<p>推荐uFrame，你的代码结构和质量飞速上升。项目必备，一群天才的插件，有一个健康的社区讨论。</p>
-<h1 id="playmaker"><a href="#playmaker" class="headerlink" title="playmaker"></a>playmaker</h1><p>如果做游戏的过程中需要编程，并且你的编程能力并不是非常强大的话，强烈推荐playmaker，主打『visual<br>scripting』，方便轻松并且方便能很高效率的通过脚本实现各种游戏功能（包括特效），asset store常年best seller ，好评飞起。</p>
-<p>价格有点小贵，不带学生折扣45磅左右，如果是学生的话可以通过edu邮箱在官网申请打折扣，便宜100多好像？对于不是编程或者CS背景，偏3D建模和视觉设计的人（比如我）来说，做游戏真的简单了一万倍，简直就是把小格子连来连去……</p>
-<p>然而，</p>
-<p>也有许多经验丰富的老工程师 表示最好不要用，比如这位：</p>
-<p>[Should you use Playmaker in<br>production?](<a href="https://link.zhihu.com/?target=http%3A//va.lent.in/should-you-" target="_blank" rel="noopener">https://link.zhihu.com/?target=http%3A//va.lent.in/should-you-</a><br>use-playmaker-in-production/)</p>
-<p>理由太长了请自己看。</p>
-<p>然而，</p>
-<p>不是经验丰富的老工程师，</p>
-<p>又需要高效率的实现游戏功能，</p>
-<p>没有丰富夯实的CS基础又想要看上去吊炸天的小特效，</p>
-<p>完全推荐playmaker。</p>
-<h1 id="JumpCommand"><a href="#JumpCommand" class="headerlink" title="JumpCommand"></a>JumpCommand</h1><p>我一直在用自己写的小工具<br><a href="https://link.zhihu.com/?target=https%3A//github.com/jjcat/JumpCommand" target="_blank" rel="noopener">JumpCommand</a><br>。只要给函数添加一行代码，就能用命令行来调用该函数，拿来调试或测试用的，很方便。</p>
-<h1 id="Mesh-Baker"><a href="#Mesh-Baker" class="headerlink" title="Mesh Baker"></a>Mesh Baker</h1><p>项目开发的时候经常会大量使用大规模的Mesh，导致Draw Call过高。而Mesh<br>Baker扮演了网格烘焙器的角色，其工作原理是将网格和材质合并，从而降低渲染的Draw Call。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-d5b0eb7faafb775d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<h1 id="SimpleLOD"><a href="#SimpleLOD" class="headerlink" title="SimpleLOD"></a><strong>SimpleLOD</strong></h1><p>比较适合大规模场景的制作开发。在处理多人在线的项目（如MMO游戏）时，按照我们以往的优化方法是尽可能降低Draw<br>Call和减少渲染消耗，在远处使用低级LOD，在Run-<br>time时根据相机距离切换合适的LOD，使得在手机性能有限的情况下尽量渲染更多的角色，达到更好的效果。</p>
-<p>而SimpleLOD恰好可以满足这一点，除了同样拥有Mesh Baker所具有的Mesh合并、Atlas烘焙等功能，它还能提供Mesh的简化（Mesh<br>Baker无法提供），并对动态蒙皮网格进行了很好的支持。该插件可在Run-<br>time和Editor中都可以使用，同时开放了源码，大家可以根据项目的实际情况而作修改。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4dd1fb1f40ccb7d4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>具体的使用方法大家可以参阅：<br><a href="https://link.zhihu.com/?target=http%3A//blog.uwa4d.com/archives/Resource_Plugin.html" target="_blank" rel="noopener">好插件让你事半功倍！【资源篇】</a></p>
-<h1 id="FairyGUI"><a href="#FairyGUI" class="headerlink" title="FairyGUI"></a>FairyGUI</h1><p>一个游戏大部分的工作量是在制作UI。无论是NGUI，或者是UGUI，都只是一个基础的UI制作工具，制作过程需要程序员全程参与，而且很多功能也只能通过写代码完成，非常不友好。</p>
-<p>FairyGUI是不同于NGUI和UGUI的一个独立的Unity<br>UI系统，他最大的特点是提供一个对美术、策划都友好的UI编辑器，不需要编码就能实现绝大部分UI制作的需求。使用FairyGUI使Unity的UI制作进入标准化时代。FairyGUI编辑器非常简单易用，都是纯2D的操作，不需要理解相机、网格等复杂的3D概念。FairyGUI编辑器还同时提供了支持Starling/Egret/Laya的SDK，这意味使用FairyGUI可以使你的UI资产以及UI技能在3D主流引擎、页游主流引擎，H5主流引擎上零成本迁移。</p>
-<p>使用FairyGUI，解决了Unity制作UI的很多痛点，例如多国语言支持，可视化编辑UI动画，图文混排（包括文字和动画混排），虚拟列表（数量巨大的列表数目也不卡顿）、循环列表，像素级点击检测、3D<br>UI，VR UI（轻松制作出曲面UI）, 内置手势库，更带有自动生成代码的功能。</p>
-<p>使用FairyGUI可以大大提供Unity UI制作UI的效率，减轻了程序员的负担，同时也为企业节约了成本。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-5aff0ef2e3392088.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-b5583c386e6cdba5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c1f8ed6b25b0507f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+            <blockquote>
+<p><strong>语音识别对于VR领域格外重要，因为它不仅能模拟AI与用户对话，还为用户提供了与任意应用进行沟通的更多选择。</strong><br>手动输入指令可能不太现实，并且应用如果拥有太多按钮或其它GUI元素，也会很快让用户手足无措。但只要能语音控制，那么在VR环境中就很容易开口去进行各种操作。</p>
+</blockquote>
+<p><a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651038501&idx=1&sn=4cc05ecc25c196ecdfa95df66ad2b0a3&chksm=bd1a94148a6d1d0266ceb762a2c5ff879260800acd8b23d99095d63841d947a3c137e939d8ce&scene=21#wechat_redirect" target="_blank" rel="noopener">Unity<br>Labs</a>的虚拟现实（VR）授权平台Carte<br>Blanche将发布一个名为U的个人助理系统，用户可以通过语音控制它，很便利地执行一些操作。<a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651038501&idx=1&sn=4cc05ecc25c196ecdfa95df66ad2b0a3&chksm=bd1a94148a6d1d0266ceb762a2c5ff879260800acd8b23d99095d63841d947a3c137e939d8ce&scene=21#wechat_redirect" target="_blank" rel="noopener">Unity<br>Labs研发团队</a>一直在研究可以实现这种声控命令的语音识别与分析工具。</p>
+<p>观看下面的视频了解Carte Blanche中的个人助理系统U：</p>
+<p>本文第一部分将介绍语音识别的概念和理论。它将简单介绍其相关概念和参考，以帮助读者了解更多关于语音识别方面的信息。第二部分将简单介绍在Unity Asset<br>Store的安装包以及公开的代码库，我们封装了几个语音转文本的解决方案，还有一些用于对比各API的文本翻译的示例场景。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3173ef4da215a655.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>如果想详细了解语音识别的概念和理论以及更多相关的研究，请进入Unity官方中文社区。下面简单为大家介绍语音识别与语义分析的原理，以及<a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651038501&idx=1&sn=4cc05ecc25c196ecdfa95df66ad2b0a3&chksm=bd1a94148a6d1d0266ceb762a2c5ff879260800acd8b23d99095d63841d947a3c137e939d8ce&scene=21#wechat_redirect" target="_blank" rel="noopener">Unity<br>Labs</a>为大家提供的语音识别插件。</p>
+<h1 id="语音识别与语义分析的原理"><a href="#语音识别与语义分析的原理" class="headerlink" title="语音识别与语义分析的原理"></a>语音识别与语义分析的原理</h1><p> <strong>语音识别，顾名思义就是通过程序将语音转换成文本</strong> 。而 <strong>语义分析是其下一步，即将转换出来的文本进一步分析</strong><br>，并确定文本想要表达的意思。即使是目前最好的语音识别和语义分析程序也远称不上完美。虽然人们能直截了当并毫不费力地处理这样的任务，但是当我们试图让程序去执行这两个步骤时，困难程度真的是难以想象。</p>
+<p>目前基于统计学的语音识别最重要的部分就是声学建模（Acoustic<br>Modeling）。这个过程中用于识别声音开始时不同的波形，或者是语音结束时的一些音节。对于声学模型而言，通过查看声波输出，并尝试找出最可能输入的音节是什么，<br>从而分析出说话者究竟想表达什么。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6dbf93becd0581a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>如上图所示，这是声学模型中“x”的发音模型。椭圆表示我们正在尝试识别的音节。它们无法被直接观察到，但它们产生的概率波形（底部）是可以被完整观察到的。因此，波形自身是可以观察的，但必须及时从可观察的状态中分辨出音节。</p>
+<p>假设语音已经被成功转换成了文本，现在程序需要分辨该文本究竟是什么“意思”，这时语义分析就可以登场了。人们日常生活中就无时不刻地在进行着语义分析。例如，在阅读这句话之前，你可能已经猜到接下来会是人们如何进行语义分析练习的例子。那是因为你能利用上一句（例如“人们日常生活中就无时不刻地在进行着语义分析”）作为上下文线索，从而很好地预测后续几句。因此，如果想要拥有非常逼真的VR体验，AI必须善于分析玩家的语句并给予正确的反馈。</p>
+<h1 id="语音转文本的工具"><a href="#语音转文本的工具" class="headerlink" title="语音转文本的工具"></a>语音转文本的工具</h1><p>Labs最初研究的语音识别涉及了对现有语音转文本解决方案的评估。我们开发了整合部分解决方案的Unity C#脚本插件并分享在Unity Asset<br>Store。里面包含了示例场景，可以依次对比每个API转换的文本内容，同时允许用户从给定的列表中选定短语，并查看说出该短语后程序判定的准确程度。该代码也可以从Unity代码库中获得。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-949ee34bda7dbab8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>我们提供的插件是对比目前Unity中几大语音转文本解决方案的简便方法，也很容易将其整合至你的项目。如果想在Unity中尝试其他API，使用该插件也非常简单<br>，只需新建类继承自Speech-To-<br>Text的Service基类，然后即成到示例场景或小部件即可。除了单独的语音文本转换SDK，插件还包括多个辅助类与函数（记录管理器，音频文件的创建和转换等等），以便集成和比较更多的API。</p>
+<p>各大语音文本都各有特色，如果有兴趣，可以查看关于 <strong>Windows dictation recognition, Google Cloud Speech,<br>IBM Watson, 以及Wit.ai</strong> 四种语音识别解决方案的具体信息。</p>
+<h1 id="总结与未来规划"><a href="#总结与未来规划" class="headerlink" title="总结与未来规划"></a>总结与未来规划</h1><p>语音识别很难精准的原因在于有太多的变量需要考虑。对于每一种要识别的语言都需要储存大量的数据，包括所有现存的单词（包括俚语及简写形式），这些单词相互如何结合，语调和口音也可能影响发音，所有人类语言的冗余和矛盾等等更多因素。</p>
+<p>发布至Asset Store的自Speech-To-<br>Text插件目前仅集成了几个语音文本转换解决方案，但这些足以用来比较现有语音识别工具的优缺点了。对Unity开发者而言，该插件只是起点，还可以根据具体需求来加入更多功能。</p>
+<p> _  
+_</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-fba39273d54d4f4e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><em>SimSensei，一款由南加州（USC）学院创新研究部（ICT）开发出来的模拟治疗程序</em></p>
+<p>这项研究源于Carte<br>Blanche项目最初集成AI机器人U来响应声控命令的计划。这涉及到语音文本的转换以及关键字识别。另一个有趣却艰难的挑战是创造出能与用户“对话”的机器人。人们在日常对话中经常包含类似于“嗯”或者是“啊”之类的语气词来表达感受。如果VR应用中的AI机器人不仅能够理解关键字，还能理解人类回话的各个部分，那它将让VR环境的沉浸感进入全新的层次。</p>
 
         </div>
         
@@ -447,7 +378,7 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/43/">43</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/47/">47</a></li>
             
         </ul>
     </nav>
@@ -495,7 +426,7 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        128
+                        139
                     </p>
                 </div>
             </div>
@@ -515,7 +446,7 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        23
+                        29
                     </p>
                 </div>
             </div>
@@ -621,7 +552,7 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">12</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -667,7 +598,7 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/ReactNative/" style="font-size: 17px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 15px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/blog/tags/JavaScript优化/" style="font-size: 10px;">JavaScript优化</a> <a href="/blog/tags/ReactNative/" style="font-size: 16px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 14px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/RxJs/" style="font-size: 10px;">RxJs</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 17px;">Web</a> <a href="/blog/tags/Web优化/" style="font-size: 11px;">Web优化</a> <a href="/blog/tags/h5/" style="font-size: 10px;">h5</a> <a href="/blog/tags/npm/" style="font-size: 10px;">npm</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 15px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
     </div>
 </div>
 
@@ -686,10 +617,10 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -699,10 +630,10 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -712,10 +643,10 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.968Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/使用Mock.js进行独立于后端的前端开发/" class="has-link-black-ter is-size-6">使用Mock.js进行独立于后端的前端开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -725,10 +656,10 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.871Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/什么样的浏览器内核，才敢说是“自主研发”？内核科普长文/" class="has-link-black-ter is-size-6">什么样的浏览器内核，才敢说是“自主研发”？内核科普长文</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -738,10 +669,10 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.839Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/" class="has-link-black-ter is-size-6">前端黑科技：美团网页首帧优化实践</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -765,7 +696,7 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">128</span>
+                    <span class="level-item tag">139</span>
                 </span>
             </a>
         </li>
@@ -812,6 +743,20 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript/">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript优化/">
+                        <span class="tag">JavaScript优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative/">
                         <span class="tag">ReactNative</span>
                         <span class="tag is-grey">9</span>
@@ -835,6 +780,13 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
                         <span class="tag">ReactNative插件</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/RxJs/">
+                        <span class="tag">RxJs</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -877,6 +829,27 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web优化/">
+                        <span class="tag">Web优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/h5/">
+                        <span class="tag">h5</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/npm/">
+                        <span class="tag">npm</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -884,7 +857,7 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/后端/">
                         <span class="tag">后端</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
@@ -971,10 +944,10 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -984,10 +957,10 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -997,10 +970,10 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.968Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/使用Mock.js进行独立于后端的前端开发/" class="has-link-black-ter is-size-6">使用Mock.js进行独立于后端的前端开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1010,10 +983,10 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.871Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/什么样的浏览器内核，才敢说是“自主研发”？内核科普长文/" class="has-link-black-ter is-size-6">什么样的浏览器内核，才敢说是“自主研发”？内核科普长文</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1023,10 +996,10 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.839Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/" class="has-link-black-ter is-size-6">前端黑科技：美团网页首帧优化实践</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1050,7 +1023,7 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">128</span>
+                    <span class="level-item tag">139</span>
                 </span>
             </a>
         </li>
@@ -1097,6 +1070,20 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript/">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript优化/">
+                        <span class="tag">JavaScript优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative/">
                         <span class="tag">ReactNative</span>
                         <span class="tag is-grey">9</span>
@@ -1120,6 +1107,13 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
                         <span class="tag">ReactNative插件</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/RxJs/">
+                        <span class="tag">RxJs</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1162,6 +1156,27 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web优化/">
+                        <span class="tag">Web优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/h5/">
+                        <span class="tag">h5</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/npm/">
+                        <span class="tag">npm</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1169,7 +1184,7 @@ project,Camera<br>Director等等等等等等等都是极好的，不过那些插
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/后端/">
                         <span class="tag">后端</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 

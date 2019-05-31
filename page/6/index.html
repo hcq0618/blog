@@ -153,7 +153,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-25T12:39:13.145Z">2019-05-25</time>
+                <time class="level-item has-text-grey" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
@@ -163,7 +163,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    4 分钟 读完 (大约 528 个字)
+                    11 分钟 读完 (大约 1607 个字)
                 </span>
                 
                 
@@ -172,37 +172,125 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/25/React-Native/React-Native原理浅析/">React-Native原理浅析</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/">React-Native-bundle拆分与合并之安卓篇</a>
             
         </h1>
         <div class="content">
-            <p>&lt;<a href="https://github.com/guoxiaoxing/react-" target="_blank" rel="noopener">https://github.com/guoxiaoxing/react-</a><br>native/tree/master/doc/ReactNative%E6%BA%90%E7%A0%81%E7%AF%87&gt;</p>
-<h1 id="线程模型"><a href="#线程模型" class="headerlink" title="线程模型"></a>线程模型</h1><p>RN应用中存在3个线程：</p>
-<p>UI线程：即Android中的主线程，负责绘制UI以及监听用户操作。</p>
-<p>Native线程：负责执行C++代码，该线程主要负责Java与C++的通信。</p>
-<p>JS线程：负责解释执行JS。</p>
-<h1 id="渲染模型"><a href="#渲染模型" class="headerlink" title="渲染模型"></a>渲染模型</h1><p> <strong>渲染模型框架：</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-18d8eca295182b6b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><strong>VirtualDom的diff模型：</strong></p>
-<p>具体VirtualDom的算法模型可以参考这篇文章：</p>
-<p>[深度剖析：如何实现一个 Virtual DOM 算法](<a href="https://www.cnblogs.com/fengyuqing/p/virtual-" target="_blank" rel="noopener">https://www.cnblogs.com/fengyuqing/p/virtual-</a><br>dom.html)</p>
-<p> <strong>Js渲染Native具体范例：</strong></p>
-<p>JS端通过调用RCTUIManager的createView的方法,传递json格式的数据,通知native端进行UI组件的初始化和渲染。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-655a3bd0eb6a8efa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<h1 id="通信模型"><a href="#通信模型" class="headerlink" title="通信模型"></a>通信模型</h1><blockquote>
-<p>JNI作为C++与Java的桥梁，JSC作为C++与JavaScript的桥梁，而C++最终连接了Java与JavaScript。</p>
-</blockquote>
-<p> <strong>Java调Js</strong></p>
-<p>原理使用了JSCore从Native执行JS代码，RN在此基础上给我们提供了通知发送的执行方式</p>
-<p>具体实现：Java通过注册表调用到CatalystInstance实例，透过ReactBridge的jni，调用到Onload.cpp中的callFunction，最后通过javascriptCore，调用BatchedBridge.js，根据参数｛moduleID,methodID｝require相应Js模块执行。流程如下图：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4d8c81a2f0015553.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><strong>Js调Java</strong></p>
-<p>一般情况下，JS调Java的机制是［JS把对应的methodId和params<br>push到MessageQueue中，等待native调用JS，然后把MessageQueue中的数据发送到C层，再通过jni转到java层］</p>
-<p>但如果JS的MessageQueue中的message超过 5ms 都没有取走，那么 JavaScript<br>就会主动调用方法nativeFlushQueueImmediate，通知C层将message取走。流程如下图：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-e4c8ad694eed6563.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<blockquote>
-<p>JS的解析是在Webkit-JavaScriptCore中完成的，JSCExexutor对JavaScriptCore的功能做了进一步的封装</p>
-</blockquote>
+            <p>在网上看到携程之前拆分的一些经验</p>
+<p>先来说一组数据，一个Helloorld的App，如果使用0.30 RN 官方命令react-native<br>bundle打包出来的JSBundle文件大小大约为531KB，RN框架JavaScript本身占了530KB， zip压缩之后也有148KB。</p>
+<p>如果只有一两个业务使用，这点大小算不了什么，但是对于我们这种动辄几十个业务的场景，如果每个业务的JSBundle都需要这么大的一个RN框架本身，那将是不可接受的。</p>
+<p>因此，我们需要对RN官方的打包脚本做改造，将框架代码拆分出来，让所有业务使用一份框架代码。</p>
+<p>开始拆分之前, 我们先以HelloWorld的RNApp为基础介绍几个背景知识。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6ab32592593a178b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>上述是一个HelloWorld RNApp代码的结构，基本分为3部分</p>
+<p>头部：各依赖模块引用部分；</p>
+<p>中间：入口模块和各业务模块定义部分；</p>
+<p>尾部：入口模块注册部分；</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-cf75780b9fa73565.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>上述是HelloWorld RNApp打包之后JSBundle文件的结构，基本分为3部分<br>头部：全局定义，主要是define，require等全局模块的定义； 中间：模块定义，RN框架和业务的各个模块定义； 尾部：引擎初始化和入口函数执行；</p>
+<p><strong>d是RN自定义的define，符合<a href="https://link.jianshu.com/?t=http://javascript.ruanyifeng.com/nodejs/module.html" target="_blank" rel="noopener">CommonJS规范</a>，</strong>d后面的数字是模块的id，是在RN打包过程中，解析依赖关系，自增长生成的。</p>
+<p>如果所有业务代码，都遵照一个规则：入口JS文件首先require的都是react/react-native, 则打包生成的JSBundle里面react<br>/react-native相关的模块id都是固定的。</p>
+<p>拆分方案一</p>
+<p>基于上面2点背景知识介绍，我们很容易发现，如果将打包之后的JSBundle文件，拆分成2部分(框架部分+业务模块部分)，使用的时候合并起来，然后去加载，即可实现拆分功能。</p>
+<p>具体实现步骤：</p>
+<p>创建一个空工程，入口文件只需要2行代码，require react/react-native即可；</p>
+<p>使用react-native bundle命令，打包该入口文件，生成common.js;</p>
+<p>使用react-native bundle打包业务工程(有一点要保证，业务工程入口文件前面2行代码也是require react/react-<br>native), 生成business_all.js；</p>
+<p>开发工具，从business_all.js里面删除common.js的内容，剩下的就是business.js;</p>
+<p>App加载的时候将common.js和business.js合并在一起，然后加载；</p>
+<p>貌似功能完成，可是回到Dive into React Native performance，<br>这么做还是优化不了JSBundle的执行时间，因为我们不能把拆分开的2个文件分别执行，因为加载common.js会提示找不到RNApp的入口，先执行business.js,会提示一堆依赖的RN模块找不到。</p>
+<p>显然，这种拆分方式不能满足我们这种需要。</p>
+<p>那这个方案就完全没有价值吗？不是的，如果你做的是一个纯RNApp，native只是一个壳，里面业务全是RN开发的，完全可以使用这种方式做拆分，这种方案简单，无侵入，实现成本低，不需要修改任何RN打包代码和RN<br>Runtime代码。</p>
+<p>拆分方案二</p>
+<p>RN框架部分文件(common.js)大小530KB，如此大的js文件，占用了绝大部分的JS执行时间，这块时间如果能放到后台预先做完，进入业务也只需执行业务页面的几个JS文件，将可以大大提升页面加载速度，参考上面的RN性能瓶颈图，预估可以提升100%。</p>
+<p>按照这个思路，能后台加载的JS文件, 实际上是就是一个RNApp，因此<br>我们设计了一个空白页面的FakeApp，这个FakeApp做一件事情，就是监听要显示的真实的业务JS模块，收到监听之后，渲染业务模块，显示页面。</p>
+<p>FakeApp设计如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-1f1b3db65e8a62ec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>为了实现该拆包方案，需要改造react-native的打包命令；</p>
+<p>基于FakeApp打common.js包的时候， 需要记录RN各个模块名和模块id之间的mapping关系；</p>
+<p>打业务模块包的时候，判断，如果已经在mapping文件里面的模块，不要打包到业务包中</p>
+<p>改造页面加载流程：</p>
+<p>因为要能够后台加载，所以需分离UI和JS加载引擎&lt;iOS-RCTBridge, Android-ReactInstanceManager;</p>
+<p>进入业务RN页面时候，获取预加载好的JS引擎，然后发送消息给FakeApp，告知该渲染的业务JS模块；</p>
+<p>通过后台预加载，省去了绝大部分的JS加载时间，似乎问题已经完美解决。</p>
+<p>但是，如果随着业务不断膨胀，一个RN业务JS代码也达到500KB，进入这个业务页面，500多KB JS文件读取出来，执行，整个JS执行的时间瓶颈会再次出现。</p>
+<p>拆分方案三</p>
+<p>正在此时，我们研究RN在Facebook App里面的使用情况，发现了Unbundle，简单点说，就是将所有的JS模块都拆分成独立的文件。</p>
+<p>下面截图就是unbundle打包的文件格式：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-47a36a0fbf3ebd81.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>entry.js就是global部分定义+RNApp入口；</p>
+<p>UNBUNDLE文件是用于标识这是一个unbundle包的flag；</p>
+<p>12.js,13.js就是各个模块，文件名就是模块id；</p>
+<p>在业务执行，需要加载模块(require)的时候，就去磁盘查找该文件，读取、执行。</p>
+<p>RN里面加载模块流程说明,以require(66666)模块为例：</p>
+<p>首先从__d&lt;就是前文提到的define的缓存列表里面查找是否有定义过模块66666，如果有，直接返回，如果没有走到下面第二步的nativeRequire；</p>
+<p>nativeRequire根据模块id，查找文件所在路径，读取文件内容；</p>
+<p>定义模块，_d(66666)＝eval(JS文件内容)，会将这个模块ID和JS代码执行结果记录在define的缓存列表里面；</p>
+<p>打包通过react-native unbundle 命令，可以给android平台打出这样的unbundle包。</p>
+<p>顺便提一下，这个unbundle方案，只在android上有效，打ios平台的unbundle包，是打不出来的，在RN的打包脚本上有一行注释，大致意思是在iOS上众多小文件读取，文件IO效率不够高，android上没这样的问题，然后判断如果是打iOS的unbundle包的时候，直接return了。</p>
+<p>相对应的，iOS开发了一个prepack的打包模式，简单点说，就是把所有的JS模块打包到一个文件里面，打包成一个二进制文件，并固定0xFB0BD1E5为文件开始<br>，这个二进制文件里面有个meta-<br>table，记录各个模块在文件中的相对位置，在加载模块(require)的时候，通过fseek，找到相应的文件开始，读取，执行。</p>
+<p>在Unbundle的启发下，我们修改打包工具，开发了CRNUnbunle，做了简单的优化，把众多零散的JS文件做了简单的合并。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-30b314cee44495a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>将common部分的JS文件，合并成一个common_ios(android).js.</p>
+<p>_crn_config记录了这个RNApp的入口模块ID以及其他配置信息，详见下图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-f6539a2b77cd6057.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>main_module为当前业务模块入口模块ID；</p>
+<p>module_path为业务模块JS文件所在当前包的相对路径；</p>
+<p>666666=0.js,说明666666这个模块在0.js文件里面；</p>
+<p>做完这个拆包和加载优化之后，我们用自己的几个业务做了下测试，下图是当时的测试验证数据。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-8755141d89f28f26.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>可以看出，iOS和android基本都比官方打包方式的加载时间，减少了50%。</p>
+<p>这是自己单机测试的数据，那上线之后，数据如何呢？</p>
+<p>下图，是我们分析一天的数据，得出的平均值&lt;排除掉了5s以上的异常数据，后面实测下来5s以上数据极少；</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-624375b1394ac359.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>看到这个数据，发现和我们自己测试的基本一致，但是还有一个疑问，加载的时间分布，是否服从正态分布，会不会很离散，快的设备很快，慢的设备很慢呢？</p>
+<p>然后我又进一步分析这一天的数据，按照页面加载时间区间分布统计。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-5c1aa6b23090fd40.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>看图上数据，很明显，iOS&amp;Android基本一致，将近98%的用户都能在1s内加载完成页面，符合我们期望的正态分布，所以bundle拆分到此基本完成。</p>
+<h1 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h1><p>我先用bundle打包命令打一个bundle出来</p>
+<p>react-nativebundle –platform android –devfalse–entry-file index.android.js<br>–bundle-output finalbundle/index.android.bundle –assets-dest finalbundle/</p>
+<p>只有一个简单的3k左右的index.android.js,打出了一个五百多k的index.android.bundle，看看里面是些什么</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-2d4f82c2063e9870.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-1e4060ae8d48d0d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>密密麻麻但又有规则</p>
+<p>!function打头的是公共的头部部分</p>
+<p>_d(function是JS文件，用ctrl+s搜索welcome，找到我们的index.android.js,原来是在第一行的_d(function,而且结尾有个参数0，其余部分其实都是公共的js</p>
+<p>;require(120)，是基础文件的配置入口，require（0）则是业务的入口</p>
+<p>基于以上，能想到一个办法：</p>
+<p>内置一个common.js文件，里面包含了bundle文件公共部分的代码，</p>
+<p>业务代码单独生成一个js文件</p>
+<p>在需要展示加载某一个页面的时，将common.js和当前页面需要加载的业务js合并，然后再加载</p>
+<p>这个办法解决了一部分问题，但加载时还是一个整体。如果common部分能重用，就能大大提升效率。所以就来试试上面提到的unbundle命令</p>
+<p> react-nativeunbundle –platform android –devfalse–entry-file<br>index.android.js –bundle-output build/index.android.bundle</p>
+<p>生成的bundle只有14行了</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-8e2a4c11a820b05a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>但多了一个js-<br>modules文件夹，里面的xx.js里面的内容就是将之前的__d(xx)抽出来单独放到一个文件里面，通过require(xx)加载到内存供调用</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-66c27828bd40d267.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>基于unbundle命令再设计一个上面提到的fake页面用来加载相应的业务模块，这个页面可以预先在后台初始化js引擎，将公共部分的common.js文件读取到内存，然后设置一个监听事件，通过emmit方式，当需要加载某个页面的的module的时候讲这个页面的module的id传递过来，然后通过require方法调用这个模块。</p>
+<p> 思路差不多是这样了，来试试看实现起来有没什么坑。</p>
+<h1 id="首先"><a href="#首先" class="headerlink" title="首先"></a>首先</h1><p>我拿<a href="https://link.jianshu.com/?t=https://github.com/pukaicom/reactNativeBundleBreak" target="_blank" rel="noopener">例子</a>跑了一下，瞬间明白了流程是怎么回事，有几个关键：</p>
+<p>DeviceEventEmitter</p>
+<p>前端发起监听，后端需要用的时候调用emit触发，通过返回模块id,然后return<br>React.createElement(返回的模块ID,this.props)即可定制加载</p>
+<p>配置文件</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-dc1ff6ad811f63c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>这个配置文件之前不是很理解为什么好多等于0.js、等于1.js,现在明白其实就是不同bu的入口JS,因为都是单页路由的形式，不过这个配置其实是一套打包的一个流程，不在这里做，以后研究打包工具的时候加上。</p>
+<p>然后</p>
+<p>我试着把这样融入到之前的demo里。</p>
+<p>先建两个test页面，用于测试切换。</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line">importReact, &#123; Component &#125;from&apos;react&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> import&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> AppRegistry,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> StyleSheet,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> Text,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> View,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;from&apos;react-native&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> classtesteightextendsComponent&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> render() &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> return(</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &lt;Viewstyle=&#123;styles.container&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &lt;Textstyle=&#123;styles.welcome&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> Welcome to Test 8888</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &lt;/Text</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &lt;/View</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> conststyles = StyleSheet.create(&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> welcome: &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> fontSize:20,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> textAlign:&apos;center&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> margin:10,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> module.exports = testeight;</span><br></pre></td></tr></table></figure>
+
+<p>然后在index.android.js加入切换按钮</p>
+<p> /**<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">* Sample React Native App</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">* https://github.com/facebook/react-native</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">* @flow</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">importReact, &#123; Component &#125;from&apos;react&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">AppRegistry,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">StyleSheet,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Text,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">View,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Image,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NativeModules,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">DeviceEventEmitter,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;from&apos;react-native&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">exportdefaultclassAwesomeProjectextendsComponent&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">constructor(props)&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">super(props);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">this.state = &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">content:null,showModule:false</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">DeviceEventEmitter.addListener(&quot;test&quot;, (result) = &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">letmainComponent =require(result.name);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">this.setState(&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">content:mainComponent,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">showModule:true</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">render() &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">let_content =null;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if(this.state.content)&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">_content = React.createElement(this.state.content,this.props);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">return_content;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;else&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">return(</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;Viewstyle=&#123;styles.container&#125;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;Textstyle=&#123;styles.welcome&#125;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Welcome to React Native!</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/Text&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;Textstyle=&#123;styles.instructions&#125;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">To get started, edit index.android.js</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/Text&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;Textstyle=&#123;styles.instructions&#125;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Double tap R on your keyboard to reload,&#123;&apos;\n&apos;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Shake or press menu button for dev menu</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/Text&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;Textstyle=&#123;styles.instructions&#125;onPress=&#123;()=this.showToast()&#125;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">点我调用原生</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/Text&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;Textstyle=&#123;styles.instructions&#125;onPress=&#123;()=this.updateBundle()&#125;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">点我更新bundle</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/Text&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;Textstyle=&#123;styles.instructions&#125;onPress=&#123;()=this.goNine()&#125;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">点我加载页面9999</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/Text&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;Textstyle=&#123;styles.instructions&#125;onPress=&#123;()=this.goEight()&#125;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">点我加载页面8888</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/Text&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;Image&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">source=&#123;require(&apos;./img/music_play.png&apos;)&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">style=&#123;&#123;width:92,height:92&#125;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/View&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">updateBundle () &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NativeModules.updateBundle.check(&quot;5.0.0&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">showToast () &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//调用原生</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NativeModules.RNToastAndroid.show(&apos;from native&apos;,100);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">goNine () &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NativeModules.BundleLoad.goPage(9999);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">goEight () &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NativeModules.BundleLoad.goPage(8888);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">const styles = StyleSheet.create(&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">container: &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">flex: 1,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">justifyContent: &apos;center&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">alignItems: &apos;center&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">backgroundColor: &apos;#F5FCFF&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">welcome: &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">fontSize: 20,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">textAlign: &apos;center&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">margin: 10,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">instructions: &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">textAlign: &apos;center&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">color: &apos;#333333&apos;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">marginBottom: 5,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">AppRegistry.registerComponent(&apos;rnandnative&apos;, () = AwesomeProject);</span><br></pre></td></tr></table></figure></p>
+<p>然后把index.android和两个test页面都用unbundle打包</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">react-nativeunbundle --platform android --devfalse--entry-file</span><br><span class="line">index.android.js --bundle-output unbundle/index.android.bundle</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> react-nativeunbundle --platform android --devfalse--entry-file</span><br><span class="line">bundletest1.js --bundle-output unbundle/index.android.bundle1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> react-nativeunbundle --platform android --devfalse--entry-file</span><br><span class="line">bundletest2.js --bundle-output unbundle/index.android.bundle2</span><br></pre></td></tr></table></figure>
+
+<p>然后把index.android.bundle1、index.android.bundle2中除了_d的那句打头的去掉,把__d(0的0改为9999、8888，把文件名改为9999.js和8888<br>.js丢到js-modules里，这个讲的估计不是很明白，但去看看代码就懂了。</p>
+<p>然后建一个触发emit的方法</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">public class RNBundleLoadModule extends ReactContextBaseJavaModule&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> private ReactApplicationContext reactApplicationContext;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> public RNBundleLoadModule(ReactApplicationContext reactApplicationContext)&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> super(reactApplicationContext);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> @Override</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> public String  getName()&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> return &quot;BundleLoad&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> @ReactMethod</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> public void goPage(final Integer pageid)&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> System.out.print(&quot;########&quot;+pageid+&quot;########&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // failedCallback.invoke();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> WritableMap params = Arguments.createMap();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> params.putInt(&quot;name&quot;, pageid);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> reactApplicationContext</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> .emit(&quot;test&quot;, params);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>跑起来，一切OK。</p>
+<p>参考</p>
+<p><a href="https://link.jianshu.com/?t=https://github.com/pukaicom/reactNativeBundleBreak" target="_blank" rel="noopener">https://github.com/pukaicom/reactNativeBundleBreak</a></p>
 
         </div>
         
@@ -224,7 +312,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-25T12:39:13.133Z">2019-05-25</time>
+                <time class="level-item has-text-grey" datetime="2019-05-25T12:39:13.388Z">2019-05-25</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
@@ -234,7 +322,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    3 分钟 读完 (大约 421 个字)
+                    3 分钟 读完 (大约 487 个字)
                 </span>
                 
                 
@@ -243,21 +331,31 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/25/React-Native/BindingX/">BindingX</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/25/React-Native/React-Native-DeviceEventEmitter/">React-Native-DeviceEventEmitter</a>
             
         </h1>
         <div class="content">
-            <p><strong>基于weex / React Native的富交互解决方案。</strong></p>
-<p>官网:<a href="https://alibaba.github.io/bindingx/" target="_blank" rel="noopener">https://alibaba.github.io/bindingx/</a></p>
-<p>它提供了一种称之为表达式绑定(Expression Binding)的机制可以在 weex<br>上让手势等复杂交互操作以60fps的帧率流畅执行，而不会导致卡顿，因而带来了更优秀的用户体验 。</p>
-<h1 id="简要介绍"><a href="#简要介绍" class="headerlink" title="简要介绍"></a>简要介绍</h1><p>由于weex/RN框架底层使用的JS-Native<br>Bridge具有天然的异步特性，这使得JS和Native之间的通信会有固定的性能损耗，因此在一些复杂的实时交互场景中(如手势)，JS<br>代码很难以高帧率运行，这极大地限制了框架的能力。目前官方并没有很好的方式解决。</p>
-<p>而我们通过探索，提出了一种全新的方式用来解决这个问题，方案称之为Expression<br>Binding。它的核心思想是将”交互行为”以表达式的方式描述，并提前预置到Native从而避免Native与JS频繁通信。</p>
-<h1 id="示例展示"><a href="#示例展示" class="headerlink" title="示例展示"></a>示例展示</h1><p>下面展示了一部分使用bindingx的示例。您可以下载或者编译我们的playground<br>app来获取更多的示例。同时，您也可以在我们的<a href="https://alibaba.github.io/bindingx/playground" target="_blank" rel="noopener">在线playground</a>上编写您自己的demo。</p>
-<p>注意：Weex支持两种前端写法（rax和vue），链接是直接跳转到Playground。 React-<br>Native由于目前Playground还不支持，所以直接跳转到源码。</p>
-<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><p>复杂但流畅的交互效果</p>
-<p>强大的表达式解析引擎</p>
-<p>丰富的缓动函数</p>
-<h1 id="文档与教程"><a href="#文档与教程" class="headerlink" title="文档与教程"></a>文档与教程</h1><p><a href="https://alibaba.github.io/bindingx/guide/introduce" target="_blank" rel="noopener">https://alibaba.github.io/bindingx/guide/introduce</a></p>
+            <h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>DeviceEventEmitter在RN内的发送和接受消息。例如：</p>
+<p>A页面注册通知：</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">import &#123;DeviceEventEmitter&#125; from&apos;react-native&apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //…</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //调用事件通知</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> DeviceEventEmitter.emit(&apos;xxxName’,param);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //xxxName:通知的名称 param：发送的消息（传参）</span><br><span class="line"></span><br><span class="line">B页面接收通知：</span><br><span class="line"></span><br><span class="line"> componentDidMount()&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> varself =this;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> this.listener =DeviceEventEmitter.addListener(&apos;xxxName&apos;,function(param)&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // use param do something</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //xxxName:通知的名称 param:接收到的消息（传参）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> componentWillUnmount()&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> this.listener.remove();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //在componentWillUnmount 内需要我们手动移除通知</span><br></pre></td></tr></table></figure>
+
+<p>知道DeviceEventEmitter的简单使用后</p>
+<p>我的页面在获取到用户数据后：</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">//注册监听事件，时间名称：changeMine 传参：jsonData.avatar（头像url）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> DeviceEventEmitter.emit(&apos;changeMine&apos;,jsonData.avatar);</span><br><span class="line"></span><br><span class="line">tabbar.js 文件:</span><br><span class="line"></span><br><span class="line"> componentDidMount()&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> varself =this;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> this.listener = DeviceEventEmitter.addListener(&apos;changeMine&apos;,function(url)&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> self.setState(&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> avatar:url</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //通知开始，获取到url，调用setState 方法，刷新状态机，这时候实时的刷新了‘我的’图标</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //最后别忘了移除通知</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> componentWillUnmount()&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> this.listener.remove();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="js-向-js-发送数据"><a href="#js-向-js-发送数据" class="headerlink" title="js 向 js 发送数据"></a>js 向 js 发送数据</h1><p><code>DeviceEventEmitter.emit(&#39;自定义名称&#39;,发送数据);</code></p>
+<p>例：边看边买退出登录之后，我的淘宝和详情页的钱包数据应该改变。这时，我们可以在退出登录请求返回退出登录成功时发送一个通知</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">userInfo.userLogout((success) = &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> if (success) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">DeviceEventEmitter.emit(&apos;taobaoBind&apos;,&#123;taobaoBind:false,walletSum:0.00,couponNum:0&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> const nav = this.props.navigator;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> const routers = nav.getCurrentRoutes();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> if (routers.length  1) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> nav.pop();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>然后在我的淘宝和详情页接收通知，并使用setState改变数据</p>
+<p> <code>DeviceEventEmitter.addListener(&#39;taobaoBind&#39;,(events)
+={this.setState({walletSum : events.walletSum});});</code></p>
+<p>js接受数据</p>
+<p> <code>DeviceEventEmitter.addListener(&#39;名称&#39;,(events) ={使用数据events});</code></p>
+<p>android向js发送数据</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">WritableMap params = Arguments.createMap();</span><br><span class="line"></span><br><span class="line"> params.putString(&quot;message&quot;,msg.obj.toString());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)</span><br><span class="line"></span><br><span class="line"> .emit(eventName, params);</span><br></pre></td></tr></table></figure>
+
+<p>例：扫码轮询时，扫码成功可以向扫码页发送一个扫码成功的状态，输入密码完成时，也可以发送一个状态，使扫码页自动关闭。并将用户信息发给我的淘宝，详情页等。</p>
 
         </div>
         
@@ -279,17 +377,17 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-18T10:58:46.260Z">2019-05-18</time>
+                <time class="level-item has-text-grey" datetime="2019-05-25T12:39:13.364Z">2019-05-25</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
+                <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    10 分钟 读完 (大约 1437 个字)
+                    几秒 读完 (大约 17 个字)
                 </span>
                 
                 
@@ -298,109 +396,11 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/18/Web/GithubPage+Hexo搭建个人主页/">GithubPage+Hexo搭建个人主页</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/25/React-Native/React-Native-VSCode插件/">React-Native-VSCode插件</a>
             
         </h1>
         <div class="content">
-            <h2 id="安装配置部署"><a href="#安装配置部署" class="headerlink" title="安装配置部署"></a>安装配置部署</h2><p><a href="https://zirho.github.io/2016/06/04/hexo/" target="_blank" rel="noopener">https://zirho.github.io/2016/06/04/hexo/</a></p>
-<hr>
-<h2 id="添加评论"><a href="#添加评论" class="headerlink" title="添加评论"></a>添加评论</h2><p>这个主题的评论已经集成了，并不需要我们进行手工导入，要求你有多说/disqus的账号，并在跟目录的_config.yml中，删去注释#：</p>
-<p><strong>DuoShuo</strong></p>
-<p>duoshuo_shortname: 多说设置的名称</p>
-<hr>
-<h2 id="添加友情链接"><a href="#添加友情链接" class="headerlink" title="添加友情链接"></a>添加友情链接</h2><p>我们在主题的_config.yml中已经有设置links的了。只是没有显示出来：</p>
-<p>修改主题的_config.yml</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># Links 通过links来设置友情链接</span><br><span class="line"></span><br><span class="line">links:</span><br><span class="line"></span><br><span class="line">  Hexo: http://hexo.io</span><br><span class="line"></span><br><span class="line">  foam | 我一直在找寻有你的世界: http://zoufeng.net/</span><br><span class="line"></span><br><span class="line">  getNway的博客: http://www.luojiawei.me/</span><br><span class="line"></span><br><span class="line">  HCLAB-环宇创意电脑工作室: http://hclab.cn/hclab/index.php/</span><br><span class="line"></span><br><span class="line"># Sidebar # 网站右边框</span><br><span class="line"></span><br><span class="line">sidebar: right # set to false if you don&apos;t want a sidebar</span><br><span class="line"></span><br><span class="line">widgets:</span><br><span class="line"></span><br><span class="line">- category</span><br><span class="line">- links</span><br></pre></td></tr></table></figure>
-
-
-<hr>
-<h2 id="发布博客，markdown文件的格式"><a href="#发布博客，markdown文件的格式" class="headerlink" title="发布博客，markdown文件的格式"></a>发布博客，markdown文件的格式</h2><p>markdown文件需要添加categories进行归档区分。</p>
-<p>相应的为：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">title: &quot;java-Map集合-HashMap&quot;</span><br><span class="line"></span><br><span class="line">thumbnail: http://XXXXXXX (或者相对路径)</span><br><span class="line"></span><br><span class="line">date: 2015-07-28 10:48:16</span><br><span class="line"></span><br><span class="line">categories: java</span><br><span class="line"></span><br><span class="line">tags: [java,Map,HashMap,Hashtable]</span><br><span class="line"></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-
-
-<p>thumbnail也可以在配置文件中关闭不显示  </p>
-<p>其中categories/tags的格式也可以为：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">categories/tags:</span><br><span class="line">    - java</span><br></pre></td></tr></table></figure>
-
-
-
-<p>具体格式相应属性的设置，直接去hexo提供的文档：</p>
-<p>[Front-matter](<a href="https://link.jianshu.com/?t=https://hexo.io/zh-cn/docs/front-" target="_blank" rel="noopener">https://link.jianshu.com/?t=https://hexo.io/zh-cn/docs/front-</a><br>matter.html)，直接查看官方的文档就可以很快地知道个所以然了。</p>
-<hr>
-<h2 id="添加站长统计"><a href="#添加站长统计" class="headerlink" title="添加站长统计"></a>添加站长统计</h2><p>我们通过站长统计来及时查看我们个人网站的浏览情况。首先，我们需要进行注册：<a href="https://link.jianshu.com/?t=http://zhanzhang.cnzz.com/" target="_blank" rel="noopener">站长统计</a></p>
-<p>以下参考：[添加cnzz站长统计](<a href="https://link.jianshu.com/?t=https://github.com/woheme/hexo-" target="_blank" rel="noopener">https://link.jianshu.com/?t=https://github.com/woheme/hexo-</a><br>theme-icarus/commit/5b3da36aaffa4947cca358f40d5db09eddf3b9b8)</p>
-<ol>
-<li>在theme的_config.yml中的末尾添加以下：(这部很重要，不添加web_id将无法显示出来)</li>
-</ol>
-<p>CNZZ id</p>
-<p>cnzz: 这里填入你在站长统计注册后的web_id</p>
-<ol>
-<li>在目录：主题的layout/_partial/添加文件为cnzz.ejs，内容如下：</li>
-</ol>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (theme.cnzz)&#123; %&gt;</span><br><span class="line"></span><br><span class="line">Analyse with &lt;script src=&quot;http://s23.cnzz.com/z_stat.php?id=&lt;%= theme.cnzz</span><br><span class="line">%&gt;&amp;web_id=&lt;%= theme.cnzz %&gt;&quot; language=&quot;JavaScript&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>最后进行显示，在路径layout/_partial/footer.ejs里面添加：</li>
-</ol>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">...PPOffice&lt;/a&gt;.&lt;%- partial(&apos;cnzz&apos;) %&gt;</span><br></pre></td></tr></table></figure>
-
-<p>再次提醒注意在_config.xml中添加web_id，否则无法显示。当显示出来了，又有一个问题，那就是要填写查看密码了。</p>
-<p>查看以下即可：<a href="https://link.jianshu.com/?t=http://help.cnzz.com/support/zhandianshezhi/chankanmimazhezhi/20130903/27.html" target="_blank" rel="noopener">【设置】如何设置查看密码？（此功能只限站长用户）</a></p>
-<hr>
-<h2 id="百度-谷歌验证站点"><a href="#百度-谷歌验证站点" class="headerlink" title="百度/谷歌验证站点"></a>百度/谷歌验证站点</h2><p>为什么要验证站点了，因为要搜索引擎进行收录，说白了就是让别人更容易搜索到你的网站，仅此而已。</p>
-<p>首先需要到百度/谷歌站长统计中注册，以及验证：</p>
-<p><a href="https://link.jianshu.com/?t=http://www.google.com/webmasters/tools/?hl=zh_CN" target="_blank" rel="noopener">Google网站管理员工具地址</a></p>
-<p><a href="https://link.jianshu.com/?t=http://zhanzhang.baidu.com/" target="_blank" rel="noopener">百度站长工具</a></p>
-<p>注册完后，进行输入相应的网站地址，然后选择html验证，将代码加入以下路径layout/_partial/head.ejs：（截取部分）</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line"></span><br><span class="line">&lt;meta name=&quot;baidu-site-verification&quot; content=&quot;tqvy7RDErf&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;meta name=&quot;google-site-verification&quot; content=&quot;hjN29-PO_KfE-dgow-</span><br><span class="line">7hcz75xJj0qzZ6G2OkXZ3FVd8&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;meta charset=&quot;utf-8&quot;&gt;</span><br><span class="line"></span><br><span class="line">....</span><br></pre></td></tr></table></figure>
-
-<p>然后发布到github中，再进行验证即可。</p>
-<hr>
-<h2 id="发布后无法加载样式"><a href="#发布后无法加载样式" class="headerlink" title="发布后无法加载样式"></a>发布后无法加载样式</h2><p>因为默认的路径的为<a href="http://uername.com/hexo-theme-" target="_blank" rel="noopener">http://uername.com/hexo-theme-</a><br>icarus而你解析的路径直接为<a href="http://uername.com/导致无法加载样式，或者无法显示文章。那么，该如何进行修改呢？" target="_blank" rel="noopener">http://uername.com/导致无法加载样式，或者无法显示文章。那么，该如何进行修改呢？</a></p>
-<p>我们需要对路径进行提升，从hexo-theme-<br>icarus到/，你可以按着<a href="https://link.jianshu.com/?t=http://wohe.me/2015/06/04/Hexo%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/" target="_blank" rel="noopener">Hexo使用总结</a>中的配置进行修改_config.yml，即可。修改完后，不要着急，我的情况要等好久才回显示正常，真是郁闷。下面是个别的设置：</p>
-<p><strong>站点的_config.yml</strong></p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root: /</span><br></pre></td></tr></table></figure>
-
-<p><strong>theme的_config.yml</strong></p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Home: /</span><br><span class="line"></span><br><span class="line">  Archives: /archives</span><br><span class="line"></span><br><span class="line">  Categories: /categories</span><br><span class="line"></span><br><span class="line">  About: /about</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="扩展插件的使用"><a href="#扩展插件的使用" class="headerlink" title="扩展插件的使用"></a>扩展插件的使用</h2><p>强大的插件供你使用，插件集合：<a href="https://link.jianshu.com/?t=https://github.com/hexojs/hexo/wiki/Plugins" target="_blank" rel="noopener">Hexo<br>Plugins</a>。</p>
-<p>下面展示一个插件sitemap的使用：<a href="https://link.jianshu.com/?t=http://ppting.me/2015/01/25/sitemap/" target="_blank" rel="noopener">hexo优化–<br>向Google提交sitemap</a></p>
-<p>还必须在根目录的_config.yml加入以下配置：</p>
-<p>Extensions 这里配置站点所用主题和插件，暂默认，后面会介绍怎么修改</p>
-<p>Plugins: <a href="https://github.com/tommy351/hexo/wiki/Plugins" target="_blank" rel="noopener">https://github.com/tommy351/hexo/wiki/Plugins</a></p>
-<p>exclude_generator:</p>
-<p>plugins:</p>
-<p>- hexo-generator-feed</p>
-<p>- hexo-generator-sitemap</p>
-<hr>
-<h2 id="发布后显示404："><a href="#发布后显示404：" class="headerlink" title="发布后显示404："></a>发布后显示404：</h2><p>查看配置文件_config.yml中的配置是否与实际情况相符：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">url: https://hcq0618.github.io/blog/</span><br><span class="line"></span><br><span class="line">root: /blog/</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="在文章中插入本地图片"><a href="#在文章中插入本地图片" class="headerlink" title="在文章中插入本地图片"></a>在文章中插入本地图片</h2><p><a href="https://cloud.tencent.com/developer/article/1019861" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1019861</a>  </p>
-<p><strong>遇到问题</strong></p>
-<p>遇到没能成功显示的问题，查看网页，结果是<code>&lt;img src=&quot;2017/02/26/2017-02-23-c/图片名.jpg&quot;&gt;</code> 的形式，然后查看 hexo<br>的目录，发现路径是 <code>/public/2017/02/26/c/a.jpg</code>。</p>
-<p>之前在 md 文件中引用时写作：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![你想输入的替代文字](xxxx/图片名.jpg)</span><br></pre></td></tr></table></figure>
-
-<p>改为：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![](a.jpg)</span><br></pre></td></tr></table></figure>
-
-<p>就可以了。</p>
-<hr>
-<h2 id="创建Github-Page"><a href="#创建Github-Page" class="headerlink" title="创建Github Page"></a>创建Github Page</h2><p>在Github上创建一个仓库，可以新建一个source分支用于存在主页项目源码，master用于存放主页网页静态代码，<br>然后在项目Settings里找到Github Page，选择master分支，即可创建一个github page主页<br>url一般为：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;github用户名&gt;.github.io/&lt;项目名&gt;</span><br></pre></td></tr></table></figure>
-
-<p>然后每次都可以通过github desktop，将主页的项目源码上传到source分支<br>依次通过hexo的命令</p>
-<ul>
-<li><code>hexo generate</code>或者<code>hexo g</code>或者<code>hexo g -f</code></li>
-<li><code>hexo deploy</code>或者<code>hexo d</code></li>
-</ul>
-<p>就会自动生成静态网页并将主页网页静态代码push到master分支（当然先会要求验证github账号密码），主页就随即更新了</p>
+            <p><img src="http://upload-images.jianshu.io/upload_images/17266280-710c761d920eecce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
 
         </div>
         
@@ -440,7 +440,7 @@ var _hmt = _hmt || [];
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/43/">43</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/47/">47</a></li>
             
         </ul>
     </nav>
@@ -488,7 +488,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        128
+                        139
                     </p>
                 </div>
             </div>
@@ -508,7 +508,7 @@ var _hmt = _hmt || [];
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        23
+                        29
                     </p>
                 </div>
             </div>
@@ -614,7 +614,7 @@ var _hmt = _hmt || [];
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">12</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -660,7 +660,7 @@ var _hmt = _hmt || [];
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/ReactNative/" style="font-size: 17px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 15px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/blog/tags/JavaScript优化/" style="font-size: 10px;">JavaScript优化</a> <a href="/blog/tags/ReactNative/" style="font-size: 16px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 14px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/RxJs/" style="font-size: 10px;">RxJs</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 17px;">Web</a> <a href="/blog/tags/Web优化/" style="font-size: 11px;">Web优化</a> <a href="/blog/tags/h5/" style="font-size: 10px;">h5</a> <a href="/blog/tags/npm/" style="font-size: 10px;">npm</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 15px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
     </div>
 </div>
 
@@ -679,10 +679,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -692,10 +692,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -705,10 +705,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.968Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/使用Mock.js进行独立于后端的前端开发/" class="has-link-black-ter is-size-6">使用Mock.js进行独立于后端的前端开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -718,10 +718,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.871Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/什么样的浏览器内核，才敢说是“自主研发”？内核科普长文/" class="has-link-black-ter is-size-6">什么样的浏览器内核，才敢说是“自主研发”？内核科普长文</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -731,10 +731,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.839Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/" class="has-link-black-ter is-size-6">前端黑科技：美团网页首帧优化实践</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -758,7 +758,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">128</span>
+                    <span class="level-item tag">139</span>
                 </span>
             </a>
         </li>
@@ -805,6 +805,20 @@ var _hmt = _hmt || [];
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript/">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript优化/">
+                        <span class="tag">JavaScript优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative/">
                         <span class="tag">ReactNative</span>
                         <span class="tag is-grey">9</span>
@@ -828,6 +842,13 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
                         <span class="tag">ReactNative插件</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/RxJs/">
+                        <span class="tag">RxJs</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -870,6 +891,27 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web优化/">
+                        <span class="tag">Web优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/h5/">
+                        <span class="tag">h5</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/npm/">
+                        <span class="tag">npm</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -877,7 +919,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/后端/">
                         <span class="tag">后端</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
@@ -964,10 +1006,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -977,10 +1019,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -990,10 +1032,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.968Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/使用Mock.js进行独立于后端的前端开发/" class="has-link-black-ter is-size-6">使用Mock.js进行独立于后端的前端开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1003,10 +1045,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.871Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/什么样的浏览器内核，才敢说是“自主研发”？内核科普长文/" class="has-link-black-ter is-size-6">什么样的浏览器内核，才敢说是“自主研发”？内核科普长文</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1016,10 +1058,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.839Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/" class="has-link-black-ter is-size-6">前端黑科技：美团网页首帧优化实践</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1043,7 +1085,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">128</span>
+                    <span class="level-item tag">139</span>
                 </span>
             </a>
         </li>
@@ -1090,6 +1132,20 @@ var _hmt = _hmt || [];
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript/">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript优化/">
+                        <span class="tag">JavaScript优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative/">
                         <span class="tag">ReactNative</span>
                         <span class="tag is-grey">9</span>
@@ -1113,6 +1169,13 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
                         <span class="tag">ReactNative插件</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/RxJs/">
+                        <span class="tag">RxJs</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1155,6 +1218,27 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web优化/">
+                        <span class="tag">Web优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/h5/">
+                        <span class="tag">h5</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/npm/">
+                        <span class="tag">npm</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1162,7 +1246,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/后端/">
                         <span class="tag">后端</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 

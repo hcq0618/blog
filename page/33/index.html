@@ -153,7 +153,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.786Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.941Z">2019-05-17</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
@@ -163,7 +163,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    10 分钟 读完 (大约 1548 个字)
+                    6 分钟 读完 (大约 928 个字)
                 </span>
                 
                 
@@ -172,66 +172,45 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/在Unity中实现小地图（Minimap）/">在Unity中实现小地图（Minimap）</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/Canvas-Scaler/">Canvas-Scaler</a>
             
         </h1>
         <div class="content">
-            <h1 id="小地图的基本概念"><a href="#小地图的基本概念" class="headerlink" title="小地图的基本概念"></a>小地图的基本概念</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-ec6f1999c85fce86.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>众所周知，小地图（或雷达）是用于显示周围环境信息的。首先，小地图是以主角为中心的。其次，小地图上应该用图标来代替真实的人物模型，因为小地图通常很小，玩家可能无法看清真实的模型。</p>
-<p>大多数小地图都是圆形的，所以本文也将创建圆形小地图。通常小地图周围还会有一些按钮和标签，本文也会介绍。</p>
-<h1 id="创建场景"><a href="#创建场景" class="headerlink" title="创建场景"></a>创建场景</h1><p>新建场景，导入Unity Chan模型作为玩家，导入两个机器人作为敌人。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6d769f4455cbd080.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<h1 id="游戏视图"><a href="#游戏视图" class="headerlink" title="游戏视图"></a>游戏视图</h1><p>添加一个新的相机。依次点击菜单项GameObject -&gt; Camera新建相机并命名为Minimap Camera。然后将该相机设为Unity<br>Chan的子对象，并将其坐标设为Unity Chan上方10个单位，把相机对准Unity Chan模型。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-75b26582fabb0924.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<h1 id="设置Minimap-Camera"><a href="#设置Minimap-Camera" class="headerlink" title="设置Minimap Camera"></a>设置Minimap Camera</h1><p>为了达到更好的效果，将position设为(0, 10, 0)，rotation设为(90, 0, 0)。现在相机显示效果如下：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4be3e33d1b0f27d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>但这还不是小地图。现在运行场景，你可以看到只有上图中的内容显示出来。我们必须把小地图做成一个UI元素。</p>
-<h1 id="渲染到UI层"><a href="#渲染到UI层" class="headerlink" title="渲染到UI层"></a>渲染到UI层</h1><p>这里需要用到Render Texture来实现。依次点击菜单项Assets -&gt; Create -&gt; Render Texture新建Render<br>Texture并命名为Minimap Render Texture。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-864f566e5c5af9b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>选中Minimap Camera后在检视面板将Target Texture字段设为Minimap Render Texture。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-279aa0dc04d82b23.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>现在运行场景会发现Minimap Camera中的内容不见了，这是因为它被显示到了新建的Render Texture中。</p>
-<p>下面新建Canvas来添加UI元素。依次点击菜单项GameObject -&gt; UI -&gt; Canvas来新建Canvas。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0ba8cfeaab714dfa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>这里需要使用Raw Image在Canvas中显示Render Texture的内容。依次点击菜单项GameObject -&gt; UI -&gt; Raw<br>Image新建Raw Image，然后命名为Minimap Image，在检视面板中将Texture字段设为Minimap Render Texture。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3435654af4af757f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>现在Minimap Camera相机中的内容可以作为UI来显示了！</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-cd3b2d7c72585244.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>下面将小地图变为圆形。这里需要用到一张简单的遮罩纹理：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-568fbb00966b7937.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>新建Image并为其添加Mask组件，将Image的Source Image字段设为上面的遮罩图片，并将Minimap Image设为Mask的子对象。</p>
-<p>注意：为了达到更好的视觉效果，记得禁用遮罩纹理的Mipmap。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-aed332c254c5fd23.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>现在小地图显示效果如下：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9304337bf6a53e0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>小地图的白色背景看起来不太美观，给它加一个边框：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-15b6f67134f06b2e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-16e6590df9d36fa8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>为了让整个小地图移动起来更方便，新建一个空的GameObject命名为Minimap，并将所有对象设为Minimap子对象。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-dbad70d367fcc83e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>最后将小地图移至屏幕右上角。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-153a6a121210c7f7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>效果不错吧？但这还不是真正意义上的小地图，只是相机从顶部取景的图像而已。接下来通过Layer来做一些设置！</p>
-<h1 id="设置Layer"><a href="#设置Layer" class="headerlink" title="设置Layer"></a>设置Layer</h1><p>这里需要新建一个Layer。依次点击菜单项Edit -&gt; Project Settings -&gt; Tags and<br>Layers新建Layer命名为Minimap。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-f96f6a1a4c01bae2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>然后新建三个球体。一个设为蓝色代表Unity Chan。将该球体设为Unity Chan的子对象，并将其Layer设为Minimap。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-dfdc8f16823fbf32.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>对两个机器人进行同样的操作，将球体改为红色。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4b34ec3b3279e6aa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>现在最关键的一步来了！选中Main Camera并确保其Culling Mask中不包括Minimap这一层。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-1eb8533ebe757f7d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>然后选中Minimap Camera让其Culling Mask只包括Minimap这一层。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-e16613658b088db8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>现在这个小地图看起来就比较完善了！</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-694ef4f538aae2e1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<h1 id="最后步骤"><a href="#最后步骤" class="headerlink" title="最后步骤"></a>最后步骤</h1><p>还可以做一些调整。首先将Minimap Camera的Clear Flags设为Solid<br>Color并将其颜色改为浅灰色，以便让小地图背景与小球的对比度更强。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-45846eed67c63e6d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>还可以添加一些UI元素来操作小地图。这里使用标签作为示例，最后结果如下：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7aeb79400ddd9827.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>当角色或机器人移动时，小地图上的小球也会即时更新位置。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-f97d835fe2d7b272.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>到此整个制作小地图的教程就结束了，如有任何问题，欢迎来下方评论区留言！</p>
-<p>本文来源于：<a href="http://blog.theknightsofunity.com" target="_blank" rel="noopener">http://blog.theknightsofunity.com</a>   作者：Piotr Korzuszek</p>
+            <p>话说坑在何方？想当年年少轻狂时，层做了个类似下图的玩意：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-b99937e2c9c359a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<pre><code>勃主大笑三声，把screen的大小拖动了一下，然后它就变成了这个样子：</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/17266280-1dde04d56f6ca103.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<pre><code>这是一件相当窝巢的事情，勃主苦练锚点三十年，终究还是没有搞定，知道师父他老人家蛋蛋的提点了一句“看看Canvas Scaler”。。。。。。
+
+上图，勃主当时的scaler设定是这样的：</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/17266280-42b6bd837d959346.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<pre><code>嗯，问题就在这里了，UI扩展模型——固定像素大小！！！！
+
+好吧，淡淡的改成了下面这样：</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/17266280-62cc0b288e8a4db6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<pre><code>问题解决了，ui怎么捏都不会变形了。。。
+
+到这里，好奇心颇重的勃主撩起三脚猫的English打开了官方API：</code></pre><p>[官方API的老巢](file:///D:/Program%20Files%20%28x86%29/Unity/Editor/Data/Documentation/html/en/Manual<br>/script-CanvasScaler.html)</p>
+<pre><code>对于Canvas Scaler的描述是这样的“The Canvas Scaler component is used for controlling</code></pre><p>the overall scale and pixel density of UI elements in the Canvas. This scaling<br>affects everything under the Canvas, including font sizes and image<br>borders.”（画布定标器组件是用于控制UI元素的整体规模和像素密度在画布上。这个扩展影响在画布上的一切,包括字体大小和图像边界。）我知道，谁都受不了这该死的鸡翻，所以我还得重新翻过：Canvas<br>Scaler是用来控制Canvas上的UI元素整体规模和像素的组件，这个扩展影响Canvas上的一切，包括字体大小和图像边界。</p>
+<pre><code>Canvas Scaler的ui scale mode有三种值（constan pixel size、scale with screen</code></pre><p>size和constant physical size）,接下来我就来介（翻）绍（译）一下这三种情况下的各参数代表的含义</p>
+<h1 id="1-Constant-Pixel-Size-不变像素大小"><a href="#1-Constant-Pixel-Size-不变像素大小" class="headerlink" title="1.Constant Pixel Size 不变像素大小"></a>1.Constant Pixel Size 不变像素大小</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-95f1c5d756aee58d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>参数：</p>
+<p>Scale Factor–大小比例；</p>
+<p>Reference Pixels Per Unit – ,每单位代表像素量</p>
+<h1 id="2-Scale-With-Screen-Size根据屏幕大小定标"><a href="#2-Scale-With-Screen-Size根据屏幕大小定标" class="headerlink" title="2.Scale With Screen Size根据屏幕大小定标"></a>2.Scale With Screen Size根据屏幕大小定标</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-d79a9c9ac184e88b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>-Reference Resolution(参考分辨率) </p>
+<p>The resolution the UI layout is designed for. if the screen resolution is<br>larger, the UI will be scaled up, and if it’s smaller, the UI will be scaled<br>down.</p>
+<p>参照这个UI布局所依据的分辨率，如果屏幕分辨率更大，那么UI会变大，如果屏幕分辨率更小，那么UI会变小。</p>
+<p>-Screen Match Mode(屏幕匹配模式) </p>
+<p>Match Width or Height 参考宽或者高或者两者来规划画布</p>
+<p>Expand 横纵两个方向扩大画布使画布不小于参考</p>
+<p>Shrink 裁切画布使画布不大于参考</p>
+<p>-Reference Pixels Per Unit 每单位的参考像素</p>
+<p>当选择Match Width or Height时会有Match滑块，用来决定width和height的影响比例</p>
+<h1 id="3-Constant-Physical-Size-不变的物理尺寸"><a href="#3-Constant-Physical-Size-不变的物理尺寸" class="headerlink" title="3.Constant Physical Size 不变的物理尺寸"></a>3.Constant Physical Size 不变的物理尺寸</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-bb87da164114310b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Physical Unit可以设置物理单位</p>
+<p>Fallback Screen DPI屏幕分辨率不明是采用的分辨率</p>
+<p>Default Sprite DPI 精灵每英寸的默认像素</p>
+<p>Reference Pixels Per Unit</p>
+<h1 id="4-当Canvas的Render-Mode属性为world-space时"><a href="#4-当Canvas的Render-Mode属性为world-space时" class="headerlink" title="4.当Canvas的Render Mode属性为world space时"></a>4.当Canvas的Render Mode属性为world space时</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-3d8ab4edde4c3f77.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Canvas Scaler的ui Scale Mode为world不可改变</p>
 
         </div>
         
@@ -253,7 +232,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.767Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.932Z">2019-05-17</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
@@ -263,7 +242,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    1 分钟 读完 (大约 130 个字)
+                    12 分钟 读完 (大约 1866 个字)
                 </span>
                 
                 
@@ -272,15 +251,42 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/从Android读取Unity-assets下的图片并保存为Bitmap格式/">从Android读取Unity-assets下的图片并保存为Bitmap格式</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/脚本批量打包渠道包研究/">脚本批量打包渠道包研究</a>
             
         </h1>
         <div class="content">
-            <p>在unity工程下，建立文件夹“Plugins/Android/assets”，然后把需要的图片放在这个文件夹下，并取一个好用的名字</p>
-<p>（”Logo.png”），这个名字在Android这边是需要用到的，unity的工作做完之后，在Android这边写代码：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">AssetManager asm = getAssets();</span><br><span class="line"></span><br><span class="line">InputStream inputStream =null;</span><br><span class="line"></span><br><span class="line"> try &#123;</span><br><span class="line"></span><br><span class="line">     inputStream = asm.open(&quot;Logo.png&quot;);</span><br><span class="line"></span><br><span class="line"> &#125;catch (IOException e) &#123;</span><br><span class="line">     // TODO Auto-generated catch block</span><br><span class="line"></span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Drawable d =Drawable.createFromStream(inputStream,null);</span><br><span class="line"></span><br><span class="line">Bitmap B = ((BitmapDrawable) d).getBitmap();</span><br></pre></td></tr></table></figure>
+            <p>最近在研究Unity3D脚本批量打包，比如在Android平台下各种不同分辨率和不同内存大小的机器，可能还有不同的渠道包，不同渠道可能用的SDK都不一样，这一切的一切都表明你的代码无法做到自适应的，除非批量打包提供各个平台的预定义标签#define<br>。</p>
+<p>Unity默认提供了一些预定义标签如：</p>
+<p>UNITY_EDITOR  : 编辑器模式下。</p>
+<p>UNITY_STANDALONE：PC Mac Linux模型下。</p>
+<p>UNITY_IPHONE：IOS模式下。</p>
+<p>UNITY_ANDROID：ANDROID模式下。</p>
+<p>还有很多预定义标签、大家可以在这里看到：<a href="http://docs.unity3d.com/Documentation/Manual/PlatformDependentCompilation.html" target="_blank" rel="noopener">http://docs.unity3d.com/Documentation/Manual/PlatformDependentCompilation.html</a></p>
+<p>官方提供的标签属于比较大的范围标签，比如我希望在UNITY_ANDROID下面在写一些自定义的标签、类似 QQ UC<br>CMCC这样的渠道标签该如何呢？如下图所示，ProjectSetting打包界面每个平台都会有Scripting Define<br>Symbols这个选项，可以在这里添加每个平台下对应的自定义标签（多个标签用“;”号隔开），这里我设置的是Android平台，如果IOS也需要打这样的渠道标签那么也要在IOS页面Scripting<br>Define Symbols选项处添加对应的标签。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-8cd2f4f20fecaf37.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>标签做出来了就好办了，然后在代码中我们可以这样来写。如果在Scripting Define Symbols中没有出现的标签默认是不启用的，就像</p>
+<p>#define Test 一样，会自动被注释掉。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-bb2b668491c4ee83.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>然后我们看看如何实现脚本批量打包。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line">using UnityEditor;</span><br><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System;</span><br><span class="line">using System.IO;</span><br><span class="line">public class MyEditorScript</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    //得到工程中所有场景名称</span><br><span class="line">    static string[] SCENES = FindEnabledEditorScenes();</span><br><span class="line"></span><br><span class="line">    //一系列批量build的操作</span><br><span class="line"></span><br><span class="line">    [MenuItem(&quot;Custom/Build Android QQ&quot;)]</span><br><span class="line">    static void PerformAndroidQQBuild()</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        BulidTarget(&quot;QQ&quot;, &quot;Android&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [MenuItem(&quot;Custom/Build Android UC&quot;)]</span><br><span class="line">    static void PerformAndroidUCBuild()</span><br><span class="line">    &#123;</span><br><span class="line">        BulidTarget(&quot;UC&quot;, &quot;Android&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [MenuItem(&quot;Custom/Build Android CMCC&quot;)]</span><br><span class="line">    static void PerformAndroidCMCCBuild()</span><br><span class="line">    &#123;</span><br><span class="line">        BulidTarget(&quot;CMCC&quot;, &quot;Android&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [MenuItem(&quot;Custom/Build Android ALL&quot;)]</span><br><span class="line">    static void PerformAndroidALLBuild()</span><br><span class="line">    &#123;</span><br><span class="line">        BulidTarget(&quot;QQ&quot;, &quot;Android&quot;);</span><br><span class="line">        BulidTarget(&quot;UC&quot;, &quot;Android&quot;);</span><br><span class="line">        BulidTarget(&quot;CMCC&quot;, &quot;Android&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [MenuItem(&quot;Custom/Build iPhone QQ&quot;)]</span><br><span class="line">    static void PerformiPhoneQQBuild()</span><br><span class="line">    &#123;</span><br><span class="line">        BulidTarget(&quot;QQ&quot;, &quot;IOS&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [MenuItem(&quot;Custom/Build iPhone QQ&quot;)]</span><br><span class="line">    static void PerformiPhoneUCBuild()</span><br><span class="line">    &#123;</span><br><span class="line">        BulidTarget(&quot;UC&quot;, &quot;IOS&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [MenuItem(&quot;Custom/Build iPhone CMCC&quot;)]</span><br><span class="line">    static void PerformiPhoneCMCCBuild()</span><br><span class="line">    &#123;</span><br><span class="line">        BulidTarget(&quot;CMCC&quot;, &quot;IOS&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [MenuItem(&quot;Custom/Build iPhone ALL&quot;)]</span><br><span class="line">    static void PerformiPhoneALLBuild()</span><br><span class="line">    &#123;</span><br><span class="line">        BulidTarget(&quot;QQ&quot;, &quot;IOS&quot;);</span><br><span class="line">        BulidTarget(&quot;UC&quot;, &quot;IOS&quot;);</span><br><span class="line">        BulidTarget(&quot;CMCC&quot;, &quot;IOS&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //这里封装了一个简单的通用方法。</span><br><span class="line">    static void BulidTarget(string name, string target)</span><br><span class="line">    &#123;</span><br><span class="line">        string app_name = name;</span><br><span class="line">        string target_dir = Application.dataPath + &quot;/TargetAndroid&quot;;</span><br><span class="line">        string target_name = app_name + &quot;.apk&quot;;</span><br><span class="line"></span><br><span class="line">        BuildTargetGroup targetGroup = BuildTargetGroup.Android;</span><br><span class="line">        BuildTarget buildTarget = BuildTarget.Android;</span><br><span class="line"></span><br><span class="line">        string applicationPath = Application.dataPath.Replace(&quot;/Assets&quot;, &quot;&quot;);</span><br><span class="line">        if (target == &quot;Android&quot;)</span><br><span class="line">        &#123;</span><br><span class="line">            target_dir = applicationPath + &quot;/TargetAndroid&quot;;</span><br><span class="line">            target_name = app_name + &quot;.apk&quot;;</span><br><span class="line">            targetGroup = BuildTargetGroup.Android;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (target == &quot;IOS&quot;)</span><br><span class="line">        &#123;</span><br><span class="line">            target_dir = applicationPath + &quot;/TargetIOS&quot;;</span><br><span class="line">            target_name = app_name;</span><br><span class="line">            targetGroup = BuildTargetGroup.iPhone;</span><br><span class="line">            buildTarget = BuildTarget.iPhone;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //每次build删除之前的残留</span><br><span class="line">        if (Directory.Exists(target_dir))</span><br><span class="line">        &#123;</span><br><span class="line">            if (File.Exists(target_name))</span><br><span class="line">            &#123;</span><br><span class="line">                File.Delete(target_name);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            Directory.CreateDirectory(target_dir);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //==================这里是比较重要的东西=======================</span><br><span class="line">        switch (name)</span><br><span class="line">        &#123;</span><br><span class="line">            case &quot;QQ&quot;:</span><br><span class="line">                PlayerSettings.bundleIdentifier = &quot;com.game.qq&quot;;</span><br><span class="line">                PlayerSettings.bundleVersion = &quot;v0.0.1&quot;;</span><br><span class="line">                PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, &quot;QQ&quot;);</span><br><span class="line">                break;</span><br><span class="line">            case &quot;UC&quot;:</span><br><span class="line">                PlayerSettings.bundleIdentifier = &quot;com.game.uc&quot;;</span><br><span class="line">                PlayerSettings.bundleVersion = &quot;v0.0.1&quot;;</span><br><span class="line">                PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, &quot;UC&quot;);</span><br><span class="line">                break;</span><br><span class="line">            case &quot;CMCC&quot;:</span><br><span class="line">                PlayerSettings.bundleIdentifier = &quot;com.game.cmcc&quot;;</span><br><span class="line">                PlayerSettings.bundleVersion = &quot;v0.0.1&quot;;</span><br><span class="line">                PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, &quot;CMCC&quot;);</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //==================这里是比较重要的东西=======================</span><br><span class="line">        //开始Build场景，等待吧～</span><br><span class="line">        GenericBuild(SCENES, target_dir + &quot;/&quot; + target_name,</span><br><span class="line">buildTarget, BuildOptions.None);</span><br><span class="line">    &#125;</span><br><span class="line">    private static string[] FindEnabledEditorScenes()</span><br><span class="line">    &#123;</span><br><span class="line">        List&lt;string&gt; EditorScenes = new List&lt;string&gt;();</span><br><span class="line">        foreach (EditorBuildSettingsScene scene in EditorBuildSettings.scenes)</span><br><span class="line">        &#123;</span><br><span class="line">            if (!scene.enabled) continue;</span><br><span class="line">            EditorScenes.Add(scene.path);</span><br><span class="line">        &#125;</span><br><span class="line">        return EditorScenes.ToArray();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static void GenericBuild(string[] scenes, string target_dir,</span><br><span class="line">   BuildTarget build_target, BuildOptions build_options)</span><br><span class="line">    &#123;</span><br><span class="line">        EditorUserBuildSettings.SwitchActiveBuildTarget(build_target);</span><br><span class="line">        string res =</span><br><span class="line">       BuildPipeline.BuildPlayer(scenes, target_dir, build_target, build_options);</span><br><span class="line">        if (res.Length &lt;= 0)</span><br><span class="line">        &#123;</span><br><span class="line">            throw new Exception(&quot;BuildPlayer failure: &quot; + res);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;&#123;</span><br></pre></td></tr></table></figure>
 
-<p>这样就完成了unity图片的读取与转化Bitmap。</p>
+<p>这里面忘说了一点，如果我们希望在性能高的手机上用一套好的资源，在性能低的手机上用一套差一点的资源该怎么办？那么首先我们先搞清楚Unity会把什么资源打包，什么资源不打包？</p>
+<p>1.Resources文件夹</p>
+<p>Resources文件夹是一个只读的文件夹，通过Resources.Load()来读取对象。因为这个文件夹下的所有资源都可以运行时来加载，所以Resources文件夹下的所有东西都会被无条件的打到发布包中。建议这个文件夹下只放Prefab或者一些Object对象，因为Prefab会自动过滤掉对象上不需要的资源。举个例子我把模型文件还有贴图文件都放在了Resources文件夹下，但是我有两张贴图是没有在模型上用的，那么此时这两张没用的贴图也会被打包到发布包中。假如这里我用Prefab，那么Prefab会自动过滤到这两张不被用的贴图，这样发布包就会小一些了。</p>
+<p>2.StreamingAssets</p>
+<p>StreamingAssets文件夹也是一个只读的文件夹，但是它和Resources有点区别，Resources文件夹下的资源会进行一次压缩，而且也会加密，不使用点特殊办法是拿不到原始资源的。但是StreamingAssets文件夹就不一样了，它下面的所有资源不会被加密，然后是原封不动的打包到发布包中，这样很容易就拿到里面的文件。所以StreamingAssets适合放一些二进制文件，而Resources更适合放一些GameObject和Object文件。StreamingAssets<br>只能用过www类来读取！！</p>
+<p>3.<br>最后凡是在Hierarchy视图对象引用过的资源文件也会被无条件打包到发布包中。如果有一部分文件可能没有在Resources文件夹下也没有在StreamingAssets文件夹下，也没有被Hierarchy视图游戏对象引用，那么这类资源是不会被打包到发布包中的。</p>
+<p>OK！搞清楚这一点就好办了！在处理不同包对应不同资源包的时候，尽量让可配置的资源放在Resources<br>或StreamingAssets文件夹下，运行的时候程序动态的来读取它们，最后显示在游戏中就可以了。在批量打包前，在Project视图下创建不同包的资源文件夹，<br>然后脚本 AssetDatabase 动态的将资源拷贝至Resources或StreamingAssets 文件夹中，</p>
+<p><a href="http://docs.unity3d.com/Documentation/Manual/StreamingAssets.html" target="_blank" rel="noopener">http://docs.unity3d.com/Documentation/Manual/StreamingAssets.html</a></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[MenuItem(&quot;Custom/Build Android QQ&quot;)]</span><br><span class="line">static void PerformAndroidQQBuild()</span><br><span class="line">&#123;</span><br><span class="line">    //先把资源拷贝到Resources或者StreamingAssets</span><br><span class="line">    AssetDatabase.CopyAsset(&quot;path&quot;, &quot;newPath&quot;);</span><br><span class="line">    //然后开始编译版本</span><br><span class="line">    BulidTarget(&quot;QQ&quot;, &quot;Android&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码中说到还有一个重要的东西就是PlayerSettings类。因为在Build的时候不同平台下可能会有一些PlatformSettings是不一样的，所以需要在脚本里面动态的设置它，强大的参数列表在这里：<a href="http://docs.unity3d.com/Documentation/ScriptReference/PlayerSettings.html" target="_blank" rel="noopener">http://docs.unity3d.com/Documentation/ScriptReference/PlayerSettings.html</a>。根据情况来批量构建自己的工程吧～</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0acf00c4fa7faf49.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>另外，由于IOS工程比较特殊，使用这样的方法我们只能生成出来多个IOS的工程文件，但是这并不是最终发布的版本。如果想一键生成.ipa文件的话。</p>
+<p>1.通过命令行来Build<br>IOS<a href="http://docs.unity3d.com/Documentation/Manual/CommandLineArguments.html" target="_blank" rel="noopener">http://docs.unity3d.com/Documentation/Manual/CommandLineArguments.html</a></p>
+<p>2.通过shell来自动打包 1生成的xcode工程，最终生成渠道包。</p>
+<p>这两种方法我已经在网上找到了答案，今天太晚了就不在研究了，下一篇的时候我在补上。 祝大家学习愉快！！不早了，晚安！欢迎大家一起来讨论与学习，嘿嘿！！！</p>
+<p>代码下载地址：<a href="http://vdisk.weibo.com/s/HUf2W" target="_blank" rel="noopener">http://vdisk.weibo.com/s/HUf2W</a></p>
 
         </div>
         
@@ -302,7 +308,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.763Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.905Z">2019-05-17</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
@@ -312,7 +318,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    8 分钟 读完 (大约 1171 个字)
+                    14 分钟 读完 (大约 2100 个字)
                 </span>
                 
                 
@@ -321,56 +327,45 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/关于界面高度height的计算/">关于界面高度height的计算</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/Unity5开发Oculus项目入门范例/">Unity5开发Oculus项目入门范例</a>
             
         </h1>
         <div class="content">
-            <p>首先看一个例子，新建一个Panel，在下面添加两个Button，分别命名为Button、Button2。</p>
-<p>1、给Panel添加一个VerticalLayoutGroup组件，ChildForceExpand属性中勾上Width。</p>
-<p>2、给Button、Button2添加LayoutElement组件，其中Button的FlexibleHeight设置为0.3，Button2的FlexibleHeight设置为0.1</p>
-<p>3、将Panel的高度设置为100</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a61dd914895a4b69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c74d44cba15dfecb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>这时我们发现，Button的高度是70，Button2的高度是30。奇怪，这个高度是怎么算出来的呢？</p>
-<p>网上搜索一番，竟然很少有人讨论uGUI的AutoLayout，尤其是flexibleWidth/Height属性的意义，官方文档也语焉不详。这时只能放大招了，uGUI已经开源，索性把代码拉下来看看到底怎么实现的。下面是托管代码的地址：</p>
-<p><a href="https://bitbucket.org/Unity-Technologies/ui" target="_blank" rel="noopener">https://bitbucket.org/Unity-Technologies/ui</a></p>
-<p>uGUI的AutoLayout有三个核心接口，定义在ILayoutElement.cs文件中：</p>
-<p>ILayoutElement</p>
-<p>ILayoutController</p>
-<p>ILayoutIgnorer</p>
-<p>结构很清晰，由ILayoutElement提供布局信息，ILayoutController来控制布局，ILayoutIgnore提供给UI忽略AutoLayout的能力。</p>
-<p>例子中使用的VerticalLayoutGroup继承自HorizontalOrVerticalLayoutGroup，这个类实现了布局的核心逻辑，代码量不多，我就直接贴上来了</p>
-<p>其中SetChildrenAlongAxis方法清晰地阐释了minHeight,preferredHeight,flexibleHeight的涵义。</p>
-<p>为了帮助理解，我们先定义几个概念。我们把当前UI所有同级并参与自动布局的组件的preferredHeight总和称为totalPreferredHeight，minHeight的总和称为totalMinHeight，父UI的真实高度称为realHeight。总结如下：</p>
-<p>1、 <strong>minHeight</strong></p>
-<p>在自动布局中，此UI最小高度不会小于minHeight。这个参数定义了realHeight &lt;
-totalMinHeight时，当前子UI的height为minHeight。</p>
-<p>2、 <strong>preferredHeight</strong></p>
-<p>可以理解为，UI自身希望的高度。</p>
-<p>当totalMinHeight &lt; realHeight &lt;
-totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight之间一定百分比，把这个比例应用到每一个接受自动布局的子UI上，即是我们最终得到的效果</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-1240ece0245c46cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
-<p>3、 <strong>flexibleHeight</strong></p>
-<p>当realHeight &gt;<br>totalPreferredHeight时，父UI会剩下一部分高度。flexibleHeight就是告诉AutoLayout系统，应该怎么瓜分剩下的高度，使子UI填充满父UI。flexibleHeight默认是-1，不会进行扩充。当flexibleHeight</p>
-<blockquote>
-<p>0时，flexibleHeight值作为权重来计算当前子UI最终的高度，公式如下：</p>
-</blockquote>
-<p>height = preferredHeight + (flexibleHeight / totalFlexibleHeight) *
-(realHeight - totalPreferredHeight)</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7dd199a2b1bbe3d0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
-<p>flexibleHeight示意图</p>
-<p>弄清楚这些概念后，我们再看一下文章开头的例子。</p>
-<p>button1的flexibleHeight=0.3，button2的flexibleHeight=0.1，minHeight和preferredHeight都没有设置，按道理高度应该分别是75、25。为什么会出现70、30？</p>
-<p>查一下ILayoutElement的实现类</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4d6556ae3f039540.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
-<p>ILayoutElement实现类</p>
-<p>发现Image和Text实现了ILayoutElement，而我们的按钮中默认是有一个Image组件的，用脚本获取这个Image然后打印它的preferredHeight，发现等于10</p>
-<p>再套用flexibleHeight的计算公式：</p>
-<p>这里有个问题，一个GameObject上挂载两个ILayoutElement组件，是怎么决定用哪个的？这个可以在LayoutUtility.cs中找到答案：</p>
-<p>原来LayoutElement有一个layoutPriority属性用来决定优先级，这个属性暂时还没有在编辑器中暴露，也许后续版本会加强这方面的能力。</p>
-<p>AutoLayout系统会选用优先级最高的ILayoutElement里相应属性返回。Image和Text的优先级默认是0，LayoutElement默认优先级是1。所以正常情况会使用LayoutElement中的设置，但我们的例子中，LayoutElement没有设置preferredHeight，LayoutElement里布局相关的初始值都是-1，所以还是使用了Image的preferredHeight:10。</p>
-<p>【结语】</p>
-<p>其实，只要官方文档描述详细一些，根本没必要浪费时间去查这个来龙去脉。这几天在学习<a href="http://lib.csdn.net/base/1" target="_blank" rel="noopener">Swift</a>，苹果人性化的Programming<br>Guide加上iBooks的配合，使得学习这门语言真是件轻松愉快的事情。相比之下，Unity简直是在虐待开发者。Unity、Unreal、Cryengine等最近也为争市场弄得头破血流，除了降价开源提供新特性之外，完善文档也是不容忽视的工作，毕竟开发者才是这些厂商真正的衣食父母。</p>
+            <p>今天为大家介绍使用Unity 5开发Oculus项目的入门范例Oculus Sample<br>Framework，该范例由Oculus制作，是为VR开发者和设计师提供的实验性示例集合。</p>
+<p>其中包含了一系列的解决VR典型问题的示例场景，有第一人称视角的运动机制和基于注视的交互界面。每个范例都提供了在应用内调整参数的控制面板，这些参数包括传送过程中从透明到消失的时长，界面控制元素的延迟或瞄准器的Z深度等。该控制面板本身就很好的展示了VR中的控制器，可以直接将其用于自己的VR项目。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ab21d3ed18677a79.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>项目中的每个场景都展示了一个与VR开发相关的概念。整个范例是一个Unity 5 的项目。可以在Windows平台上执行，并且可以在Gear VR<br>Concepts<br>商城免费下载。这个应用可以让使用者在不打开Unity编辑器的情况下深入到场景中理解一些VR开发的概念。每个VR场景中都包含一份文档，所以可以深入到VR场景中直接学习。</p>
+<p>如果想要深入探索并实现示例内的VR操作界面没有提供的功能，建议在Unity中打开并编辑该项目。</p>
+<p>示例的主要作用是提供一套探索VR设计概念的工具，并非推荐大家都这么做。每个示例都包含了可供测试的游戏机制，其中有些设置会让玩家产生不适感，这是我们设计VR时需要避免的。这些功能的主要用途就是让开发者体验到什么是可行的，什么是不可行的。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-50469c218910664f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<h1 id="示例场景简介"><a href="#示例场景简介" class="headerlink" title="示例场景简介"></a>示例场景简介</h1><p>整个示例框架包含了很多场景。最好的学习方法就是进入场景中尝试。我们先作为测试人员来看看这几个场景。</p>
+<h1 id="十字准星"><a href="#十字准星" class="headerlink" title="十字准星"></a>十字准星</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-0c4279c604bca8bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>这个示例展示了基于注视位置的十字准星或者瞄准器，并探讨了一些必须注意的相关因素。在非VR游戏中，十字准星是否位于视野中心是无关紧要的，但VR开发者则必须要确定十字准星显示位置所代表的深度信息。十字准星的位置如果太近，观察者就会不舒服。如果太远，当准星看起来比场景中位于它下面的物体还远时，又会让玩家产生深度上的错觉。</p>
+<p>解决该问题的方法之一，是沿着玩家的视角进行光线投射，并将十字准星定位在视线接触到的第一个物体上。这样就能保证十字准星处在一个合适位置的同时不与场景中的深度信息冲突。你可以在示例中尝试上述方法或一些其它的解决方法，还可以在运行时手动控制十字准星的深度。</p>
+<p>这个示例也展示了一些其它概念，例如导弹是如何投射的。如果将十字准星对准导弹，并且该准星与玩家保持固定的距离，就必须决定导弹是沿着从枪口出发的一条轨迹穿过十字准星，还是沿着玩家视觉中心与准星连线的平行线穿过十字准星。后者是非VR游戏的常用做法，这种方法很直观。这个示例可以让你更直接的感受并理解这种区别。</p>
+<h1 id="运动"><a href="#运动" class="headerlink" title="运动"></a>运动</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-cbc09df04f835f1f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>这个示例场景可以体验到第一人称视角的实时移动控制，从而可以更好理解相关设计上的权衡。第一人称视角的移动控制设计需要非常小心，因为这种移动很容易造成不适感。</p>
+<p>这个场景可以调整的变量有：</p>
+<p>移动速度</p>
+<p>旋转速度</p>
+<p>玩家朝向是否由视觉方向控制</p>
+<p>旋转的步长（持续旋转或者使用固定步骤指定步长的旋转）</p>
+<p>当执行“每一步”旋转时的动画速度（非瞬间完成）</p>
+<h1 id="瞬移"><a href="#瞬移" class="headerlink" title="瞬移"></a>瞬移</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-75f1cac042207412.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>瞬移是VR中常用的移动方式，因为这样可以避免第一人称视角控制运动引起的不适感。这个示例场景实现了简单的瞬移机制。</p>
+<p>这个示例中展示的一个巧妙设计是玩家在瞬移后视角位置的旋转方式。这种模式中，瞬移后视角的方向是由玩家控制的，这个方向可以在瞬移前就设定好。上面的截图展示的就是这个操作，一个发光的虚拟人物出现在了瞬移的终点，展示了瞬移后玩家的朝向且可以由玩家来控制。在瞬移结束后，玩家面对的方向与之前设定的虚拟人的朝向是一致的。</p>
+<p>这看起来很直观，但可能存在玩家需要旋转头部才能看到瞬移终点的情况。这时玩家在瞬移完成后朝向与模型保持一致同时头部旋转呢？还是将最终朝向与旋转头部后的自然前方保持一致呢？</p>
+<p>这个示例展示了以上两种方式，至于哪一种更直观则取决于另一些因素。示例可以帮助你很直观的理解这两种模式的区别，并探索出个性化的解决方案。</p>
+<h1 id="UI（用户界面）"><a href="#UI（用户界面）" class="headerlink" title="UI（用户界面）"></a>UI（用户界面）</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-6a0512c37f502704.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>场景“Pointers” （指示点）和“Pointers – Gaze<br>Click”（指示点－凝视点击）展示了利用指示点来实现VR中的UI交互。两个场景均展示了基于凝视的交互机制，包含了与物理对象和平面UI的交互。</p>
+<p>场景“Pointers” （指示点）和“Pointers – Gaze Click”（指示点－凝视点击）很相似，只是“Pointers – Gaze<br>Click”（指示点－凝视点击）并不需要手柄或者触摸板。在这个场景中，凝视一个UI元素时会在凝视光标附近产生一个圆形的进度条，进度条会很快填充满（如上图所示）。当环形进度条填充完毕，就会执行相应UI所负责的动作。</p>
+<h1 id="其它示例场景"><a href="#其它示例场景" class="headerlink" title="其它示例场景"></a>其它示例场景</h1><p>篇幅有限无法一一介绍每个场景，各场景都包含对应的文档，我们可以在VR应用内查看这些文档。其它场景包括：</p>
+<p>Keyboard：VR键盘的简单实现。</p>
+<p>Mirror：展示了模型头部按照玩家头部动作进行运动，以实现场景中的镜像效果。</p>
+<p>Stairs：探索楼梯效果在第一人称视角下体验的舒适度。</p>
+<p>Surface Detail：探索不同着色技术所描绘出的不同表面细节，可以更好的理解它们在VR中的效果。</p>
+<p>Tracking Volume：展示一些方法，在用户离跟踪边界范围太近时给予提示。</p>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>这些示例只能作为理解和探索VR中一些常用设计的出发点。事实上，这些示例只是不断发展的VR交互中最浅显的部分。希望各位开发者能觉得这个出发点对你将来的新设计思路有一定帮助。</p>
 
         </div>
         
@@ -410,7 +405,7 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/43/">43</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/47/">47</a></li>
             
         </ul>
     </nav>
@@ -458,7 +453,7 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        128
+                        139
                     </p>
                 </div>
             </div>
@@ -478,7 +473,7 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        23
+                        29
                     </p>
                 </div>
             </div>
@@ -584,7 +579,7 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">12</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -630,7 +625,7 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/ReactNative/" style="font-size: 17px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 15px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/blog/tags/JavaScript优化/" style="font-size: 10px;">JavaScript优化</a> <a href="/blog/tags/ReactNative/" style="font-size: 16px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 14px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/RxJs/" style="font-size: 10px;">RxJs</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 17px;">Web</a> <a href="/blog/tags/Web优化/" style="font-size: 11px;">Web优化</a> <a href="/blog/tags/h5/" style="font-size: 10px;">h5</a> <a href="/blog/tags/npm/" style="font-size: 10px;">npm</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 15px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
     </div>
 </div>
 
@@ -649,10 +644,10 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -662,10 +657,10 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -675,10 +670,10 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.968Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/使用Mock.js进行独立于后端的前端开发/" class="has-link-black-ter is-size-6">使用Mock.js进行独立于后端的前端开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -688,10 +683,10 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.871Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/什么样的浏览器内核，才敢说是“自主研发”？内核科普长文/" class="has-link-black-ter is-size-6">什么样的浏览器内核，才敢说是“自主研发”？内核科普长文</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -701,10 +696,10 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.839Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/" class="has-link-black-ter is-size-6">前端黑科技：美团网页首帧优化实践</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -728,7 +723,7 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">128</span>
+                    <span class="level-item tag">139</span>
                 </span>
             </a>
         </li>
@@ -775,6 +770,20 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript/">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript优化/">
+                        <span class="tag">JavaScript优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative/">
                         <span class="tag">ReactNative</span>
                         <span class="tag is-grey">9</span>
@@ -798,6 +807,13 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
                         <span class="tag">ReactNative插件</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/RxJs/">
+                        <span class="tag">RxJs</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -840,6 +856,27 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web优化/">
+                        <span class="tag">Web优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/h5/">
+                        <span class="tag">h5</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/npm/">
+                        <span class="tag">npm</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -847,7 +884,7 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/后端/">
                         <span class="tag">后端</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
@@ -934,10 +971,10 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -947,10 +984,10 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -960,10 +997,10 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.968Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/使用Mock.js进行独立于后端的前端开发/" class="has-link-black-ter is-size-6">使用Mock.js进行独立于后端的前端开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -973,10 +1010,10 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.871Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/什么样的浏览器内核，才敢说是“自主研发”？内核科普长文/" class="has-link-black-ter is-size-6">什么样的浏览器内核，才敢说是“自主研发”？内核科普长文</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -986,10 +1023,10 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.839Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/" class="has-link-black-ter is-size-6">前端黑科技：美团网页首帧优化实践</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1013,7 +1050,7 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">128</span>
+                    <span class="level-item tag">139</span>
                 </span>
             </a>
         </li>
@@ -1060,6 +1097,20 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript/">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript优化/">
+                        <span class="tag">JavaScript优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative/">
                         <span class="tag">ReactNative</span>
                         <span class="tag is-grey">9</span>
@@ -1083,6 +1134,13 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
                         <span class="tag">ReactNative插件</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/RxJs/">
+                        <span class="tag">RxJs</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1125,6 +1183,27 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web优化/">
+                        <span class="tag">Web优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/h5/">
+                        <span class="tag">h5</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/npm/">
+                        <span class="tag">npm</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1132,7 +1211,7 @@ totalPreferredHeight时，realHeight处于totalMinHeight和totalPreferredHeight�
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/后端/">
                         <span class="tag">后端</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 

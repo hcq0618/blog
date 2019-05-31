@@ -153,17 +153,17 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.138Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.591Z">2019-05-17</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
+                <a class="has-link-grey -link" href="/blog/categories/Unity优化/">Unity优化</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    38 分钟 读完 (大约 5669 个字)
+                    2 分钟 读完 (大约 352 个字)
                 </span>
                 
                 
@@ -172,334 +172,196 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/Unity项目设计与管理/">Unity项目设计与管理</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/使用link-xml来控制strippinglevel减少dll库大小技巧、优化安装包大小/">使用link-xml来控制strippinglevel减少dll库大小技巧、优化安装包大小</a>
+            
+        </h1>
+        <div class="content">
+            <p>无论从减少安装包大小还是迎合unity64位IL2CPP默认就会打开StrippingLevel功能，通过库剖离来减少DLL的空间大小。</p>
+<p>那么问题是我们自定义库使用了一些type，例如xml，或者webclient c#封装的http请求等，如果被任性解剖出去，那么肯定是不允许的。</p>
+<p>可以在Assets/下添加link.xml文件来手动排除不被剖离的类。</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&lt;linker&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       &lt;assembly fullname=&quot;mscorlib&quot;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Reflection&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Security.Cryptography&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Runtime.CompilerServices&quot;&gt;</span><br><span class="line">preserve=&quot;all&quot;/</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Runtime.InteropServices&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Diagnostics&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Security&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 &lt; fullname=&quot;System.Security.Permissions&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       &lt;/assembly&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &lt;/linker&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如上我们保持link.xml里面的格式这样既可<br>assembly其实就是dll库名，我们要排除这个dll库里面的1：整个命名空间；2：某个命名空间里面的某个具体类</p>
+<p>补充针对排除整个命名空间可以这样加：</p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;assembly fullname=&quot;JsonDotNet&quot;&gt;</span><br><span class="line"></span><br><span class="line">                 &lt;namespace fullname=&quot;Newtonsoft.Json&quot; preserve=&quot;all&quot;/&gt;</span><br><span class="line"></span><br><span class="line"> &lt;/assembly&gt;</span><br></pre></td></tr></table></figure>
+
+<p>关于查看dll库可以用默认的mono编辑器或者vs点进目录文件分类的dll就能看见了。</p>
+<p>关于如何知道什么类或者命名空间你需要添加进去link.xml，只能你使用这个特殊命名空间才知道了。或者你通过xcode debug出错、eclipse<br>debug真机运行时出错来查看那些类空间报错添加进去即可。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.586Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity优化/">Unity优化</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    22 分钟 读完 (大约 3298 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/unity性能优化CPU篇/">unity性能优化CPU篇</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="CPU方面"><a href="#CPU方面" class="headerlink" title="CPU方面"></a><strong>CPU方面</strong></h1><p>就目前的Unity移动游戏而言，CPU方面的性能开销主要可归结为两大类：引擎模块性能开销和自身代码性能开销。其中，引擎模块中又可细致划分为渲染模块、动画模块、物理模块、UI模块、粒子系统、加载模块和GC调用等等。正因如此，我们在UWA测评报告中，就这些模块进行详细的性能分析，以方便大家快速定位项目的性能瓶颈，同时，根据我们的分析和建议对问题进行迅速排查和解决。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6d7487733bcced53.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>通过大量的性能测评数据，我们发现渲染模块、UI模块和加载模块，往往占据了游戏CPU性能开销的Top3。</p>
+<h1 id="一、渲染模块"><a href="#一、渲染模块" class="headerlink" title="一、渲染模块"></a>一、渲染模块</h1><p>渲染模块可以说是任何游戏中最为消耗CPU性能的引擎模块，因为几乎所有的游戏都离不开场景、物体和特效的渲染。对于渲染模块的优化，主要从以下两个方面入手：</p>
+<p> <strong>（1）降低Draw Call</strong></p>
+<p>Draw Call是渲染模块优化方面的重中之重，一般来说，Draw<br>Call越高，则渲染模块的CPU开销越大。究其原因，要从底层Driver和GPU的渲染流程讲起，限于篇幅我们不在这里做过多的介绍。有兴趣的朋友可以查看[这里](<a href="http://stackoverflow.com/questions/4853856" target="_blank" rel="noopener">http://stackoverflow.com/questions/4853856</a><br>/why-are-draw-calls-expensive)，或者自行Google相关的技术文献。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-67e508ef5b18ee12.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>降低Draw Call的方法则主要是减少所渲染物体的材质种类，并通过Draw Call Batching来减少其数量。Unity文档对于Draw Call<br>Batching的原理和注意事项有非常详细的讲解，感兴趣的朋友可以直接查看<br><a href="http://docs.unity3d.com/Manual/DrawCallBatching.html" target="_blank" rel="noopener">Unity官方文档</a>。</p>
+<p>但是，需要注意的是，游戏性能并非Draw Call越小越好。这是因为，决定渲染模块性能的除了Draw<br>Call之外，还有用于传输渲染数据的总线带宽。当我们使用Draw Call<br>Batching将同种材质的网格模型拼合在一起时，可能会造成同一时间需要传输的数据（Texture、VB/IB等）大大增加，以至于造成带宽“堵塞”，在资源无法及时传输过去的情况下，GPU只能等待，从而反倒降低了游戏的运行帧率。</p>
+<p>Draw Call和总线带宽是天平的两端，我们需要做的是尽可能维持天平的平衡，任何一边过高或过低，对性能来说都是无益的。</p>
+<p> <strong>（2）简化资源</strong></p>
+<p>简化资源是非常行之有效的优化手段。在大量的移动游戏中，其渲染资源其实是“过量”的，过量的网格资源、不合规的纹理资源等等。所以，我们在UWA测评报告中对资源的使用进行了详细的展示（每帧渲染的三角形面片数、网格和纹理资源的具体使用情况等），以帮助大家快速查找和完善存在问题的资源。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-64871c8f81e7bbca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>关于渲染模块在CPU方面的优化方法还有很多，比如LOD、Occlusion Culling和Culling<br>Distance等等。我们会在后续的渲染模块技术专题中进行更为详细的讲解，敬请期待。</p>
+<h1 id="二、UI模块"><a href="#二、UI模块" class="headerlink" title="二、UI模块"></a>二、UI模块</h1><p>UI模块同样也是几乎所有的游戏项目中必备的模块。一个性能优异的UI模块可以将游戏的用户体验再抬高一个档次。在目前国内的大量项目中，NGUI作为UI解决方案的占比仍然非常高。所以，UWA测评报告对NGUI的性能分析进行了极大的支持，我们会根据用户所使用的UI解决方案（UGUI或NGUI）的不同提供不同的性能分析和优化建议。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-bd934c805628bc0d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>在NGUI的优化方面，UIPanel.LateUpdate为性能优化的重中之重，它是NGUI中CPU开销最大的函数，没有之一。UI模块制作的难点并不在于其表现上，因为UI界面的表现力是由设计师来决定的，但两套表现完全一致的UI系统，其底层的性能开销则可能千差万别。如何让UI系统使用尽可能小的CPU开销来达到设计师所设计的表现力，则足以考验每一位UI开发人员的制作功底。</p>
+<p>目前，我们在UWA测评报告中将统计意义上CPU开销最为耗时的几个函数进行展示，并将其详细的CPU占用和堆内存分配进行统计，从而让研发团队对UI系统的性能开销进行直接地掌握，同时结合项目截图对UI模块何时存在较大开销进行直观地定位。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-df92d202638777bf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>对于UIPanel.LateUpdate的优化，主要着眼于UIPanel的布局，其原则如下：</p>
+<p>尽可能将动态UI元素和静态UI元素分离到不同的UIPanel中（UI的重建以UIPanel为单位），从而尽可能将因为变动的UI元素引起的重构控制在较小的范围内；</p>
+<p>尽可能让动态UI元素按照同步性进行划分，即运动频率不同的UI元素尽可能分离放在不同的UIPanel中；</p>
+<p>控制同一个UIPanel中动态UI元素的数量，数量越多，所创建的Mesh越大，从而使得重构的开销显著增加。比如，战斗过程中的HUD运动血条可能会出现较多，此时，建议研发团队将运动血条分离成不同的UIPanel，每组UIPanel下5~10个动态UI为宜。这种做法，其本质是从概率上尽可能降低单帧中UIPanel的重建开销。</p>
+<p>另外，限于篇幅限制，我们在此仅介绍NGUI中重要性能问题，而对于UGUI系统以及UI系统自身的Draw<br>Call问题，我们将在后续的UI模块技术专题中进行详细的讲解，敬请期待。</p>
+<h1 id="三、加载模块"><a href="#三、加载模块" class="headerlink" title="三、加载模块"></a>三、加载模块</h1><p>加载模块同样也是任何游戏项目中所不可缺少的组成成分。与之前两个模块不同的是，加载模块的性能开销比较集中，主要出现于场景切换处，且CPU占用峰值均较高。</p>
+<p>这里，我们先来说说场景切换时，其性能开销的主要体现形式。对于目前的Unity版本而言，场景切换时的主要性能开销主要体现在两个方面，前一场景的场景卸载和下一场景的场景加载。下面，我们就具体来说说这两个方面的性能瓶颈：</p>
+<p> <strong>（1）场景卸载</strong></p>
+<p>对于Unity引擎而言，场景卸载一般是由引擎自动完成的，即当我们调用类似Application.LoadLevel的API时，引擎即会开始对上一场景进行处理，其性能开销主要被以下几个部分占据：</p>
+<p> <strong>Destroy</strong></p>
+<p>引擎在切换场景时会收集未标识成“DontDestoryOnLoad”的GameObject及其Component，然后进行Destroy。同时，代码中的OnDestory被触发执行，这里的性能开销主要取决于OnDestroy回调函数中的代码逻辑。</p>
+<p> <strong>Resources.UnloadUnusedAssets</strong></p>
+<p>一般情况下，场景切换过程中，该API会被调用两次，一次为引擎在切换场景时自动调用，另一次则为用户手动调用（一般出现在场景加载后，用户调用它来确保上一场景的资源被卸载干净）。在我们测评过的大量项目中，该API的CPU开销主要集中在500ms~3000ms之间。其耗时开销主要取决于场景中Asset和Object的数量，数量越多，则耗时越慢。</p>
+<p> **  
+**</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-d8e869510c8181d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><strong>（2）场景加载</strong></p>
+<p>场景加载过程的性能开销又可细分成以下几个部分：</p>
+<p> <strong>资源加载</strong></p>
+<p>资源加载几乎占据了整个加载过程的90%时间以上，其加载效率主要取决于资源的加载方式（Resource.Load或AssetBundle加载）、加载量（纹理、网格、材质等资源数据的大小）和资源格式（纹理格式、音频格式等）等等。不同的加载方式、不同的资源格式，其加载效率可谓千差万别，所以我们在UWA测评报告中，特别将每种资源的具体使用情况进行展示，以帮助用户可以立刻查找到问题资源并及时进行改正。</p>
+<p> <strong>Instantiate实例化</strong></p>
+<p>在场景加载过程中，往往伴随着大量的Instantiate实例化操作，比如UI界面实例化、角色/怪物实例化、场景建筑实例化等等。在Instantiate实例化时，引擎底层会查看其相关的资源是否已经被加载，如果没有，则会先加载其相关资源，再进行实例化，这其实是大家遇到的大多数“Instantiate耗时问题”的根本原因，这也是为什么我们在之前的AssetBundle文章中所提倡的资源依赖关系打包并进行预加载，从而来缓解Instantiate实例化时的压力（关于AssetBundle资源的加载，则是另一个很大的Story了，我们会在以后的AssetBundle加载技术专题中进行详细的讲解）。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-e80baf4f0bea1efe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>另一方面，Instantiate实例化的性能开销还体现在脚本代码的序列化上，如果脚本中需要序列化的信息很多，则Instantiate实例化时的时间亦会很长。最直接的例子就是NGUI，其代码中存在很多SerializedField标识，从而在实例化时带来了较多的代码序列化开销。因此，在大家为代码增加序列化信息时，这一点是需要大家时刻关注的。</p>
+<p>以上是游戏项目中性能开销最大的三个模块，当然，游戏类型的不同、设计的不同，其他模块仍然会有较大的CPU占用。比如，ARPG游戏中的动画系统和物理系统，音乐休闲类游戏中的音频系统和粒子系统等。对此，我们会在后续的技术专题中进行详细的讲解，敬请期待。</p>
+<h1 id="四、代码效率"><a href="#四、代码效率" class="headerlink" title="四、代码效率"></a>四、代码效率</h1><p>逻辑代码在一个较为复杂的游戏项目中往往占据较大的性能开销。这种情况在MOBA、ARPG、MMORPG等游戏类型中非常常见。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ccb5ad79f16c368c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>在项目优化过程中，我们经常会想知道，到底是哪些函数占据了大量的CPU开销。同时，绝大多数的项目中其性能开销都遵循着“二八原则”，即80%的性能开销都集中在20%的函数上。所以，我们在UWA测评报告中将项目中代码占用的CPU开销进行统计，不仅可以提供代码的总体累积CPU占用，还可以更近一步看到函数内部的性能分配，从而帮助大家更快地定位问题函数。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-22842824b0a26021.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>当然，我们还希望可以为大家提供更多的代码性能信息，比如函数任何一帧中更为详细的性能分配、更为准确的截图信息等等。这些都是我们目前正在努力研发的功能，并在后续版本中提供给大家进行使用。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-b09d151fc1102b6e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.573Z">2019-05-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/blog/categories/Unity优化/">Unity优化</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    15 分钟 读完 (大约 2179 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity优化/Unity中的批处理优化与GPU-Instancing/">Unity中的批处理优化与GPU-Instancing</a>
             
         </h1>
         <div class="content">
             <blockquote>
 </blockquote>
-<p>不论是对于Unity初学者还是极有经验的开发者来说，项目设计与管理都是迟早需要接触并掌握的知识点。本文将由Unity技术支持工程师田彪，为大家详细全面地介绍Unity项目设计与管理的系统知识。全文分为五大块，今天先为大家介绍上篇策划及美术部分的内容。</p>
-<p>在制作游戏时，游戏内容各型各色，但使用Unity设计游戏项目通常大致包括以下几部分：</p>
-<p>项目简述</p>
-<p>策划文案</p>
-<p>美术资源</p>
-<p>程序逻辑</p>
-<p>性能优化</p>
-<p>我们会详细介绍游戏制作过程中的每一步工作，便于Unity开发者以及潜在的开发者对Unity游戏开发有更深的认识，帮助开发者在开发过程中少走弯路。</p>
-<h1 id="项目简述"><a href="#项目简述" class="headerlink" title="项目简述"></a>项目简述</h1><p>想要制作成功的游戏，前期调研工作必不可少，作为开发者，需要了解玩家的喜好，聆听玩家的声音。在游戏完全推向玩家那一刻，该游戏就不再属于项目组，而属于该游戏的受众。游戏项目在启动具体内容开发时，需要确立以下几点：</p>
-<h2 id="项目方向"><a href="#项目方向" class="headerlink" title="项目方向"></a>项目方向</h2><p>市场上存在各种类型的游戏，为了避免游戏过于同质化，项目组的相关负责人需要确定，该项目是定位于何种类型，是RPG还是FPS又或者是Sport类。</p>
-<h2 id="时间计划"><a href="#时间计划" class="headerlink" title="时间计划"></a>时间计划</h2><p>任何项目组制作的游戏最终都需要推向市场，只有得到玩家的支持，游戏才能走得更远。项目启动初期，必定会存在游戏开发的大致时间计划，是8个月还是1年，又或者是18个月<br>?</p>
-<h2 id="人员配置"><a href="#人员配置" class="headerlink" title="人员配置"></a>人员配置</h2><p>游戏项目开发必定存在经费预算，预算包括研发预算和推广预算两部分，项目组的人员配置通常取决于游戏复杂度和项目经费预算。在游戏总体内容固定前提下，人员数量与开发时间大致成反比，但是如果组内人员管理不善，也会存在不协调。所以在项目人员总数确定的情况下，还需明确项目组内具体分配，策划，美术，程序各多少人。</p>
-<h2 id="游戏大纲"><a href="#游戏大纲" class="headerlink" title="游戏大纲"></a>游戏大纲</h2><p>游戏大纲可以让所有项目组开发成员在没有接触游戏前能对将要开发的游戏有一个大致认识，同时也能激发项目组成员的想象力，对游戏内容提出更好的建议。</p>
-<p>游戏大纲是目前手游开发过程中被大多项目组忽略的重要一步。</p>
-<h1 id="策划文案"><a href="#策划文案" class="headerlink" title="策划文案"></a>策划文案</h1><p>“兵马未动，粮草先行~~”，优秀的策划文案是项目良好的开端。文案的内容相同，而排版不同，其效果必定也不同。设计文档应该逻辑清晰，排版干净，简单易懂，最好是图文并茂。比如可以是这样的</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-125b52c52ec3eadb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>也可以是这样的(&gt;_&lt;)</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3407d8ab1616c683.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<h1 id="美术资源"><a href="#美术资源" class="headerlink" title="美术资源"></a>美术资源</h1><p>美术是游戏的脸，玩家对游戏的第一印象是美术风格，美术直接决定了玩家是否会在游戏中停留超过十分钟。美术人员在制作相关美术资源时，具体涉及到以下几个部分。</p>
-<h2 id="标准-Standard"><a href="#标准-Standard" class="headerlink" title="标准 - Standard"></a>标准 - Standard</h2><p>预先制定完整的美术标准后，在整个项目开发中，美术资源反复修改的频率降低了，美术人员所做的无用工作定然也大大降低。美术资源的标准规范大致涵盖以下几点：</p>
-<p>材质数量</p>
-<p>模型三角面</p>
-<p>纹理尺寸</p>
-<p>粒子数量</p>
-<p>动画帧频</p>
-<h2 id="标准-Standard模型-Model"><a href="#标准-Standard模型-Model" class="headerlink" title="标准 - Standard模型 - Model"></a>标准 - Standard模型 - Model</h2><p>当美术人员把模型文件导入Unity编辑器时，若导入设置的各选项设置合理，对游戏性能有着良性影响，导入时需要注意以下事项。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-faaaa660d7149370.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>若勾选上图中”Read/Write Enabled”将会使该模型在内存中存在一份拷贝，用于在脚本中对模型进行修改。若该模型不会在脚本中进行修改，则不勾选。</p>
-<p>Optimize Mesh 必须勾选，便于引擎底层对Mesh进行优化处理。</p>
-<p>Normals &amp; Tangents 中的Normals选项若设置为非Import项，可以降低Memory，并减少ipa/apk包体容量。</p>
-<h2 id="着色器-Shader"><a href="#着色器-Shader" class="headerlink" title="着色器 - Shader"></a>着色器 - Shader</h2><p>Unity引擎在导入Shader到编辑器时，不会对Shader进行编译，而是在开发者发布到具体平台时再编译Shader。在Shader的查看面板可以查询具体信息，如下所示：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9bebfa8d9084b901.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>如果当前Shader为固定管线模式，点击上图中的Show generated code 按钮，可以查看对应的Vertex/fragment模式代码。</p>
-<p>点击上图中的Compile and show code可以生成对应的汇编代码或者GLSL代码。</p>
-<p>在工程文件夹的Library/ShaderCache文件下，可以查看所有的Shader缓存文件。</p>
-<p>Shader性能分心工具 — AMD GPU ShaderAnalyzer / PVRShaderEditor。</p>
-<h2 id="贴图-Texture"><a href="#贴图-Texture" class="headerlink" title="贴图 - Texture"></a>贴图 - Texture</h2><p>Unity支持目前主流的各种图片格式，包括PSD，TGA，PNG，GIF，BMP，JPG，TIFF，PICT等。引擎在导入图片时，会生成引擎自身所使用的贴图数据，在图片导入设置中，需要合理设置各选项。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9f86777aba9bd9d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>若勾选上图中”Read/Write Enabled”将会使该贴图在内存中存在一份拷贝，用于在脚本中对其进行修改。若该贴图不会在脚本中进行修改，则不勾选。</p>
-<p>若图片尺寸不是2的指数，其所占用内存的大小略大于原始尺寸，并且GPU对其进行读取的速度也有可能会略微偏慢。</p>
-<p>若勾选Generate Mip Maps，改贴图所占用内存会变大33%，但对整体性能有很大提升。</p>
-<p>在编辑器的Scene窗口下，选择Mipmaps可查看各贴图是否存在精度过剩，若有贴图精度过剩，可通过缩减对应贴图尺寸以节省空间。</p>
-<h2 id="光照-Lighting"><a href="#光照-Lighting" class="headerlink" title="光照 - Lighting"></a>光照 - Lighting</h2><p>Unity 5使用了全新的光照系统，更优的光照算法，有助于美术人员制作优美的场景，但是使用光照时，除了考虑到场景精美度时，还需要考虑到玩家设备的兼容性。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-2ed0e1416c4f9815.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>移动平台推荐使用Baked或 Mixed，避免使用RealTime模式的关照。</p>
-<p>Render Mode 不推荐使用Important。</p>
-<p>使用Baked模式时，在菜单Window-&gt;Lighting的Object标签页，可通过设置Scale In<br>Lightmap的值，以变更lightmap中有多少像素值用于该GameObject的光照计算。</p>
-<h2 id="动画-Animation-Animator"><a href="#动画-Animation-Animator" class="headerlink" title="动画 - Animation/Animator"></a>动画 - Animation/Animator</h2><p>Unity目前支持Animation和Animator两种动画播放形式。Animation是老式动画系统，Animator作为新的动画系统，有其特有的优势。在使用Animator时，理解如下信息，有助于更好的使用的Animator。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-99f94b303fde3152.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>勾选Apply Root Motion表示动画可以更改根节点的位置，如果不勾选，则根节点的位置信息无法通过动画更改，即便在动画帧里有关于根节点的位置信息。</p>
-<p>State 表示具体的动画状态信息，若要实现状态切换，通过Transition完成。</p>
-<p>Blend Tree 用于多个动画的平滑混合，并且可设置每个动画各自的权重值。</p>
-<p>在菜单Window-&gt;Animator窗口中可执行具体操作。</p>
-<h2 id="音效-Audio"><a href="#音效-Audio" class="headerlink" title="音效 - Audio"></a>音效 - Audio</h2><p>声音是游戏中不可或缺的部分，好的音乐效果对提升游戏品质有着重大意义，Unity支持主流的各种音乐格式，包括mp3，ogg，wav，aif等。但是，如果音乐格式设置不当，也会降低游戏性能。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-58e74229c7724ec2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>基于Vorbis编码的音乐文件（比如ogg）解压后占用10倍于其磁盘大小的内存。</p>
-<p>PCM音质高但是压缩率很低。</p>
-<p>Mp3格式音乐在iOS设备上有硬件解码器。</p>
-<p>Load Type 中的Decompress On Load 选项不推荐用于大文件。大文件推荐使用 Compressed In Memory选项。</p>
-<p>Load In Background 如果勾选表示该音频文件将在后台加载，而不会造成主线程阻塞。</p>
-<blockquote>
-</blockquote>
-<p>之前为大家介绍了项目设计与管理的<a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651037506&idx=1&sn=477ba3337342fb49da01646fe0b102af&scene=21#wechat_redirect" target="_blank" rel="noopener">策划与美术篇</a>，今天这篇文章将继续为大家分享程序与优化相关的内容。</p>
-<h1 id="程序逻辑"><a href="#程序逻辑" class="headerlink" title="程序逻辑"></a>程序逻辑</h1><p>游戏不单是美术资源的展现，存在着频繁的玩家交互行为，所有交互均通过程序脚本实现。在编写程序时，不仅要实现功能，同时也应该考虑到功能的扩展，以及当前功能实现方式对游戏中其他逻辑模块的影响。其主要涉及以下几方面:</p>
-<h2 id="逻辑架构"><a href="#逻辑架构" class="headerlink" title="逻辑架构"></a>逻辑架构</h2><p>在设计程序框架时，建议模块化设计各功能，保持各模块的独立性和封装性，同时单个模块满足“即插即用”。比如，整个游戏逻辑可分为；场景模块，角色模块，UI模块，网络通信模块，战斗模块等。</p>
-<p>模块化设计不仅游戏逻辑树简单易懂，便于代码审查，而且也有益于项目后期做性能优化以及Bug检查。比如，调试Bug时，如果禁用某一个模块，游戏正常运行，并且Bug不再出现，则Bug由该模块引擎的概率很高。同理，在做优化处理是，如果禁用某一个模块，发现CPU负载下降很多，则该模块造成性能瓶颈的概率也很高。</p>
-<h2 id="脚本应用"><a href="#脚本应用" class="headerlink" title="脚本应用"></a>脚本应用</h2><p>Unity的脚本使用托管机制，如果某脚本需要挂载到场景GameObject上，则该脚本需要继承于MonoBehaviour。在菜单Edit-&gt;<br>Project Settings -&gt; Script<br>Execution下，可更改各类脚本的执行顺序。同时，MonoBehaviour的执行并非使用系统反射机制，而是基于队列存储形式。</p>
-<p>Unity引擎本身是由C++代码编写实现，但是游戏开发者编写的代码通常为C#，所以从底层引擎的C++代码到逻辑层的C#之间定然存在托管开销。如果你在Unity<br>Profiler里发现诸如”Overhead”之类的字眼，其中便包括代码的托管开销部分（但不仅限于代码托管开销）。</p>
-<p>为了减少代码托管开销，在设计具体脚本时可以做一些优化处理。比如，有一个类ClassA，继承于MonoBehaviour，在其Update函数里会执行具体逻辑。若该类有30个实例同时存在，则会存在30次托管开销，遇到此类情况，建议删除ClassA中的Update函数，转而由自定义的UpdateEx函数替代。同时，额外编写一个ClassAManager类，其缓存一个ClassA的数组或者队列，每次Update时遍历该队列，执行每个实例的UpdateEx函数。</p>
-<h2 id="Asset管理"><a href="#Asset管理" class="headerlink" title="Asset管理"></a>Asset管理</h2><p>Unity中的Asset序列化支持二进制、文本模式、混合模式三种，具体可以在菜单Editor Settings –&gt; Asset Serialization<br>下进行设置，文本模式采用YAML格式，增加可读性。其中每一个资源文件都可以生成一个对应的meta文件。</p>
-<p>在制作场景时，建议把场景中的具体GameObject制作成Prefab，而不是直接使用FBX格式，这样便于引擎底层做资源管理。</p>
-<p>Unity引擎中各种美术资源都可以编译成AssetBundle，包括纹理，模型，Prefab，AnimationClip，AudioClip等。同时，AssetBundle支持压缩与非压缩格式，开发者可根据项目实际情况进行设置。</p>
-<h2 id="动态更新"><a href="#动态更新" class="headerlink" title="动态更新"></a>动态更新</h2><p>通常动态更新包括美术资源与脚本的更新，美术资源建议使用AssetBundle，脚本更新在Android平台上可使用dll反射实现（仅限Anadroid平台），或者通过其它第三方非官方模式。</p>
-<h1 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h1><p>性能优化，是每个游戏项目不可或缺的部分，而且没有一劳永逸的办法，只能一点一滴的实现。在此，我们主要介绍性能优化中必须处理的模块；包括图形，物理，程序，文件等，以及一些用于性能优化的工具。</p>
-<h2 id="图形优化-Graphics"><a href="#图形优化-Graphics" class="headerlink" title="图形优化 - Graphics"></a>图形优化 - Graphics</h2><p>要实现图形优化，首先需要熟悉图形学整个渲染管线流程，在此对其作简要介绍：</p>
-<p>应用程序 (Application) -&gt; 几何体 (Geometry) -&gt; 光栅化 (Rasterizer)。</p>
-<p>其中，几何体阶段具体包括：模型变换(Model &amp; View Transform) -&gt; 顶点着色(Vertex Shading) -&gt;<br>投影变换(Projection) -&gt; 裁切(Clipping) -&gt; 屏幕映射(Screen Mapping)。</p>
-<p>光栅化阶段包括： 三角设置(Triangle Setup) -&gt; 三角遍历(Triangle Traversal) -&gt; 像素作色(Pixel<br>Shading) - &gt; 合并(Merging)。</p>
-<p>进行图形优化时，首要步骤即为定位瓶颈在何处，CPU还是GPU？如果瓶颈在GPU，转而对CPU进行优化，是得不偿失的方法，犹如木桶原则，决定木桶能装多少水的是最短的那一块镶板。</p>
-<p>如果渲染瓶颈发生在CPU，通常对CPU进行的图形相关优化主要涉及以下几点：</p>
-<p> <strong>合并模型</strong> （美术人员手动合并或者使用引擎的Batching技术）</p>
-<p>在合并模型时，如果被合并的模型并未使用同一材质，那么该合并操作并不会提升性能。同理，如果被合并的模型使用了多重材质，而并不共用贴图，合并操作也不会提升性能。</p>
-<p>减少材质的使用数量，尽量 <strong>材质共用</strong></p>
-<p> <strong>纹理拼接</strong> ，把多张小尺寸纹理拼接到同一张大尺寸纹理中</p>
-<p> <strong>避免使用多重渲染</strong> ，比如反射，阴影，像素光照等</p>
-<p> <strong>动画优化</strong> ，包括减少骨骼数量，降低动画帧率等</p>
-<p>CPU在图形渲染中所承载的计算量没有GPU那么高（前提是设备同时具备GPU和CPU），所以在进行图形优化时，更多是针对GPU端，其具体包括：</p>
-<p> <strong>模型对象</strong></p>
-<p>调整模型三角面是优化美术资源的基本步骤，如果一个角色模型1500面能达到要求，那为何要使用1600面呢。</p>
-<p>当场景中某些对象被标记为Static时，禁止在脚本中对其进行位置，朝向，缩放更改，也就是如果需要更改一个对象的Transform属性值，则改对象不应该被标记为Static。</p>
-<p>在设计模型时，尽量减少UV映射缝隙和硬边的数量。</p>
-<p> <strong>光照设计</strong></p>
-<p>在移动设备上，尽量使用light map代替实时光照，即便美术人员需要很炫的光照效果，也可以预先由美术人员调节好实时光照效果后再进行light map烘焙。</p>
-<p>在某些特定情况下，美术人员可能需要一些特定对象呈现出酷炫的效果，建议使用Shader实现，而非采用增加额外的光源。</p>
-<p>减少像素光的数量，不仅可以降低CPU负载，也可以减少GPU消耗。如果场景中某像素光照作用的两个模型对象距离相隔较远，建议不要对该模型对象进行合并操作。</p>
-<p> <strong>Shader性能</strong></p>
-<p>Unity引擎为开发者提供了大量的内置Shader，基本满足开发者的项目需求。如果某些特殊效果需要自定义Shader，在编写Shader程序时，需要注意一些具体细节。</p>
-<p>在Shader程序中减少使用或者不使用条件语句。GPU在硬件层面上与CPU有着极大差异，GPU以ALU（逻辑运算单元）著称，而CPU则存在着大量的控制器。</p>
-<p>定义变量时，应考虑变量需要的精度位宽（Float<br>为32位，half为16位，fixed为10位），比如定义的变量用于UV坐标，则类型通常选择half即可，如果选择float，则会造成带宽浪费以及计算消耗增加。</p>
-<p>避免使用复杂的数学计算函数，比如sin，tan，pow，exp，log等，如果实在需要，建议单个Shader程序里该类复杂函数的使用次数不超过一次。</p>
-<p>移动平台避免使用Alpha Test和Alpha Blend指令，如果不可避免，建议使用Alpha Blend，而非Alpha Test。</p>
-<p> <strong>纹理压缩</strong></p>
-<p>压缩纹理不仅可以节省内存，同时也节省运算带宽。同时，建议3D模型贴图都应生成对应的Mipmaps，如果选择生成Mipmaps，则该纹理对应的内存大小相对原先会变大33%左右，但如果不选择生成Mipmaps，则在整体性能上会有很大损失。</p>
-<p> <strong>LOD使用</strong></p>
-<p>Unity中关于LOD的使用有LOD Group和Camera.layerCullDistances两种方式。其中LOD<br>Group主要用于大型模型对象，而Camera.layerCullDistances主要用于碎片化的模型对象。</p>
-<h2 id="物理优化-Physics"><a href="#物理优化-Physics" class="headerlink" title="物理优化 - Physics"></a>物理优化 - Physics</h2><p>Unity引擎中物理计算更新在FixedUpdate中完成，根据具体的游戏项目，如果游戏物理更新频率不需要太高，可以在菜单Project Settings<br>-&gt; Time 下更改Fixed TimeStep的值。</p>
-<p>使用物理碰撞体时，在满足设计要求前提下，建议使用Sphere Collider 或者 Box Collider代替Mesh Collider。Mesh<br>Collider和wheel Collider其计算较为复杂，能避免使用则避免之。</p>
-<p>被标记为Static的碰撞体，禁止对其移动位置。</p>
-<p>如果对象不需要Rigidbody组件，一律删除。</p>
-<p>在脚本中如果通过Physics.RaycastAll类似的接口获取固定对象，缓存所得到的对象，禁止通过程序中每帧调用该类接口去获取一个固定的对象。</p>
-<h2 id="程序优化-Scripts"><a href="#程序优化-Scripts" class="headerlink" title="程序优化 - Scripts"></a>程序优化 - Scripts</h2><p>程序优化的根本在于设计，在于程序员在编写程序时是否有细心思考。尽管Unity引擎本身由C++编写，但上层逻辑脚本基于Mono体系，内存管理使用GC机制。</p>
-<p>GC机制在内存管理存在实时性欠缺，而Mono内存基于内存池，即Mono所申请内存不会得到释放（只有在内存池中内存不够使用时，Mono才会申请新的内存），只会返回内存池。</p>
-<p>基于以上机制限制，应禁止频繁申请内存，尽量使用对象池管理对象，比如在Update函数里每帧都new<br>一个数组或者队列，这样极有可能造成GC还未回收先前的内存，内存池中内存不足，又重复申请新的内存，最终Mono内存池越来越大，这是很多开发者都曾遇到的问题。</p>
-<p>在Unity引擎层面，可以通过使用IL2CPP技术，使脚本运行速度更快，同时，也可以在Script Call<br>Optimization中设置忽略异常处理。针对具体脚本中负载瓶颈的定位，建议多使用引擎的Profiler工具。</p>
-<h2 id="文件优化-Files"><a href="#文件优化-Files" class="headerlink" title="文件优化 - Files"></a>文件优化 - Files</h2><p>如果要降低整体文件大小，首先得知道整个项目中每类资源文件具体大小。在Unity完成相关编译后，选择Console -&gt; Open Editor<br>Log选项，会得到如下图所示的信息:</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-11efc57b1f105778.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>其包括了具体各类资源的总大小，开发者可按照文件大小建立优化顺序。其中，具体在设计到脚本大小优化时，根据项目组具体情况，可以考虑选择.Net 2.0<br>Subset，在iOS平台也可使用Stripping方法。</p>
-<p>同时，建议把Resources文件夹下不曾使用的资源删除，需要使用的资源用AssetBundle代替。Resources文件夹下文件太多会严重影响程序的启动时间。</p>
-<h2 id="工具-Tools"><a href="#工具-Tools" class="headerlink" title="工具 - Tools"></a>工具 - Tools</h2><p>在执行性能优化时，有很多工具可以方便开发者快速定位到具体问题，包括引擎自身携带工具以及第三方工具，比如:</p>
-<p>Profiler</p>
-<p>Memory Profiler</p>
-<p>Frame Debugger</p>
-<p>Test Runner</p>
-<p>Mac OS -&gt; Instruments</p>
-<p>Allocations, Time Profiler</p>
-<p>最后，Unity的官方手册是Unity开发者执行性能优化的葵花宝典，在你素手无策时，不妨尝试如下步骤：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ad7be069869393dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3210346f296288c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.110Z">2019-05-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    24 分钟 读完 (大约 3564 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/Unity中的时间控制/">Unity中的时间控制</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="关卡创建"><a href="#关卡创建" class="headerlink" title="关卡创建"></a>关卡创建</h1><p>本文会探讨如何在Unity中使用时间控制进行关卡创建。在探讨之前，可以观看视频了解拥有时间控制玩法的解谜游戏《Lintrix》：</p>
-<p>因为与《Lintrix》拥有同样的时间控制玩法的游戏并不多见，因此本文以《Lintrix》为例，说明如何在Unity中实现该功能，以及它可以有哪些应用。<br>我们将以Unity引擎为例，并使用Unity相关的术语，但其概念也适用于其他引擎。</p>
-<h1 id="时间控制对创建关卡的意义"><a href="#时间控制对创建关卡的意义" class="headerlink" title="时间控制对创建关卡的意义"></a>时间控制对创建关卡的意义</h1><p>为什么要用时间控制来辅助创建关卡呢？这样设计的主要契机是：第一，《Lintrix》团队有成员在创建动画编辑器方面具有丰富经验；第二，Unity有一个时间轴，可以查看场景在任何时刻的表现。</p>
-<p>我们希望状态和属性，比如Unity对象的Transforms，可依赖于时间，并且能够跳转到特定时刻，因为如果这样的话，正常进行游戏的时候，所有对象都将拥有相应的状态。</p>
-<p>就游戏本身而言，因为《Lintrix》是确定性的游戏，所以可以很好地利用时间轴来实现时间控制。《Lintrix》场景的许多对象都在游戏进行时移动，并且它们彼此之间的相对位置非常重要，像时间轴这样的工具可以帮助关卡设计者更容易理解该关卡在游戏中的样子，以便在编辑器中进行创建。另外在大多数情况下，我们也很容易编辑某个时刻的关卡，从而让所有的对象在某个具体时间点定位或旋转，并且当时间设置为零或开始移动时，对象会自动重新计算其位置。</p>
-<p>我们提供了快捷键以便于对时间进行前进和后退操作。之后，关卡创建不仅是摆放物体后运行，更多的是向前或向后跳跃，以及重新定位对象，所以这些物体在关卡的任意时刻都要保持在其预先设计的位置。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-140c4eacca6d8184.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>这在《Lintrix》游戏中非常有用：一方面，希望玩家能够连接晶体来消灭所有的敌人；另一方面，又不希望这些连接会覆盖其他晶体或者彼此重叠。</p>
-<h1 id="如何避免对象碰撞"><a href="#如何避免对象碰撞" class="headerlink" title="如何避免对象碰撞"></a>如何避免对象碰撞</h1><p>实际上，在开发《Lintrix》游戏的过程中，重叠是个大问题，因为当场景中大多数对象移动时，很难防止它们过早碰撞。 大部分时间会出现类似这种糟糕的效果：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-1dfbf81f5821ec9a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>为了理解物体如何移动，我们添加了移动轨迹。它让敌人在晶体之间移动而不碰撞的问题更加容易避免。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ab68351f900d0193.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>它也可用于可视化晶体运动。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9923e29bb11ab99d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>我们在创建关卡时使用时间控制进行“计时”。 这里的计时表示调整关卡某些部分的运动，使得在关卡运行时物体早点或晚点出现。 有时甚至希望来回移动所有的动作。<br>例如，在关卡开始时可以预留给玩家一些时间，以便他们能够预估将会发生的景象。 使用时间轴可以轻松地将时间移至负值，并将此新时间设为零表示开始。</p>
-<p>因为在编辑器模式下更新时间的脚本被添加到控制时间的对象，如果想要启用或禁用对象上更改时间的效果，只需启用或禁用此脚本，并使它们响应或忽略时间的更改。</p>
-<h1 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h1><p>下面我们一起来看看如何在Unity中实现该功能。</p>
-<p> <strong>创建接口</strong></p>
-<p>首先创建一个非常简单的接口，让所有需要随时间变化的脚本都实现这个接口：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface ITimeChanging</span><br><span class="line">&#123;</span><br><span class="line">    void AddTime(float dt);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>定义时间操控实体</strong></p>
-<p>这个时间操控实体可以为一组实现了ITimeChanging接口的对象调用这些方法。 实体接口如下：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class TimeManager</span><br><span class="line">&#123;</span><br><span class="line">    float Time &#123; get; set; &#125;</span><br><span class="line">    IEnumerable&lt;ITimeChanging&gt; TimeDependants &#123; get; set; &#125;</span><br><span class="line">    void SetTimeBruteForce(float time);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在编辑器模式中，有一个可以让用户直接在运行模式下控制时间的脚本。如下图所示，你可以看到关卡控制器通过它的Update()来增加时间。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-42a1bb7af7898650.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>示例项目下载链接：</p>
-<p><a href="https://github.com/alexander91/timelineExample" target="_blank" rel="noopener">https://github.com/alexander91/timelineExample</a></p>
-<p> <strong>为时间控制添加物体响应</strong></p>
-<p>我们设置了一个时间轴管理器，允许跳转到不同的时刻。<br>以及几个带有线性运动（LineMovement）脚本的立方体，LineMovement脚本继承自ITimeChaning，并监听TimeManager中的时间改变（AddTime），可以在监视器面板设置这个立方体以给定速度朝预定方向移动，代码如下：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class LineMovement : MonoBehaviour, ITimeChanging</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    [SerializeField]</span><br><span class="line">    Vector3 direction = Vector3.up;</span><br><span class="line"></span><br><span class="line">    [SerializeField]</span><br><span class="line">    float speed = 0.2f;</span><br><span class="line"></span><br><span class="line">    public void AddTime(float dt)</span><br><span class="line">    &#123;</span><br><span class="line">        transform.position += dt * speed * direction.normalized;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>综上所述，编辑器自定义时间控制工具非常适用于确定性的游戏，这将让整个工作流程分外轻松。 另外，如果游戏中的动作很简单，也可以很容易在编辑器中提供各种选项。</p>
-<h1 id="时间倒退"><a href="#时间倒退" class="headerlink" title="时间倒退"></a>时间倒退</h1><p>之前我们探讨了Unity中时间控制在<a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651040085&idx=1&sn=12fe0737b989460f1573c8c38289ca11&chksm=bd1a9e648a6d17721c6e7e72aa67623e057abcf14c020e0a469fc57450b3b5631f3108de55fc&scene=21#wechat_redirect" target="_blank" rel="noopener">关卡创建</a>方面的应用，今天我们将以解谜游戏<a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651040085&idx=1&sn=12fe0737b989460f1573c8c38289ca11&chksm=bd1a9e648a6d17721c6e7e72aa67623e057abcf14c020e0a469fc57450b3b5631f3108de55fc&scene=21#wechat_redirect" target="_blank" rel="noopener">《Lintrix》</a>为例，继续为大家分享在开发游戏的过程中，如何在Unity中实现时间倒退功能，并且对游戏设计与机制进行深入的探讨，希望能对大家有帮助。</p>
-<h1 id="时间倒退功能的必要性"><a href="#时间倒退功能的必要性" class="headerlink" title="时间倒退功能的必要性"></a>时间倒退功能的必要性</h1><p>在开发并试玩游戏的过程中，我们认识到玩家往往会忘记在关卡中犯过的错误，所以需要在游戏中做大量的记录。事实上，一些游戏关卡的设计目的就是为了从各个方向分散玩家的注意力，让玩家在某个时刻忽视某个方向来的敌人，最终导致游戏失败。当然，游戏中也有很多选择可以用来帮助玩家回想起发生过的事情，例如展示遇到过敌人的轨迹，或者在玩家之前的游戏过程中角色死亡次数比较多的地方设置警示点。</p>
-<p>但有人担心这样做会让屏幕变得混乱，或者让玩家容易重复之前的行为而不去思考新的方式，降低了游戏的趣味性。为了解决这个问题，我们发现利用时间轴复用功能进行提示似乎是个不错的选择。因为每次游戏失败之后，在玩家点击“重新开始”按钮后，以相反的方向显示之前的游戏经历，如下图所示：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-95c8da7ee1a5ea26.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><em>从失败那一刻开始，呈现最有可能导致失败的片段</em></p>
-<p>但若要有一个完美的解决方案，应该还要知道之前发生了什么事情，记录下来作为回放。</p>
-<h1 id="实现方法-1"><a href="#实现方法-1" class="headerlink" title="实现方法"></a>实现方法</h1><p>事实上，反向回放要做的工作几乎都在上一篇为关卡设置时间轴时就完成了。而下面将要讲述的方法，虽然可能这不是最优的解决方案，但是这种做法十分简单。</p>
-<p>虽然用之前已经实现的后退操作就能完成敌人和水晶的运动。但是关卡中的其它事件是由玩家或者玩家动作触发的。对于这种情况，需要为TimeManager添加新的接口：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public delegate void ReversingTimeActionDelegate();</span><br><span class="line">public class TimeManager</span><br><span class="line">&#123;</span><br><span class="line">    class ReversingActionWithTime</span><br><span class="line">    &#123;</span><br><span class="line">        public float Time &#123; get; set; &#125;</span><br><span class="line">        public ReversingTimeActionDelegate ActionToCarryOut &#123; get; set; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public void RememberAction(ReversingTimeActionDelegate action)</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-<p>我们引入了ReversingActionWithTime这个类来记录动作的时间以及一个函数，它可以执行反向动作，这个逻辑与编程中的命令模式相似，但它是通过与时间绑定而不是点击ctrl+Z或其他类似的组合键来触发执行的。当关卡运行且动作发生时，只需要把RememberAction反向函数添加到这一时刻，如果想让时间倒退就可以调用这个函数。</p>
-<p>例如当有敌人碰到屏障且消失时，就添加这个函数。在之后点击重新开始后，就可以回放到这一时间点了。<br>这个函数会自动用于再次激活敌人的TimeManager调用，使敌人出现在屏幕上：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class Enemy</span><br><span class="line">&#123;</span><br><span class="line">    void onCollisionWithBarrier()</span><br><span class="line">    &#123;</span><br><span class="line">        timeManager.RememberAction(Activate);</span><br><span class="line">        Deactivate();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void Activate()</span><br><span class="line">    &#123;</span><br><span class="line">        // 进行激活相关的操作</span><br><span class="line">    &#125;</span><br><span class="line">    //.. 剩下的实现</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在时间倒退模式中，我们并不关心碰撞，因为这些碰撞已经在游戏正常运行的时候发生了。只需要倒退游戏状态以更快的速度跳过一些帧即可，<br>这里不需要太强大的设备，因为倒退可以按照正常速度的20倍进行，并且关卡倒退完成就相当于重置所有对象的位置。</p>
-<p>但是在某些情况下，也需要将一些变量的值存储在函数中。例如下图中黄色的搬运者敌人，一种在被消灭后会产生细小敌人的角色，它的确切运动需要记录下来，是因为生成的小敌人的运动轨迹会有1秒或2秒的随机延迟。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3af11a7f940de8e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<h1 id="视觉反馈"><a href="#视觉反馈" class="headerlink" title="视觉反馈"></a>视觉反馈</h1><p>为了让玩家更好地注意到时间倒退的发生，要添加一些视觉反馈功能。玩家非常喜欢游戏中时间倒退的部分，特别是引入像移动水晶或搬运者这些高端的东西的时候。时间倒退不仅是一个视觉体验，而且还能让玩家再回顾一次如何败给之前的敌人。这可以给玩家在游戏开始前留一些缓冲时间，可以减少一些挫败感。</p>
-<p>当玩家成功地通关之后，我们大概都会做相似的事情。比如把界面切换到游戏地图，而不仅仅是打开下一关卡，播放不同类型的动画并且有专门的地方让玩家查看进度。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-26cf5128bea95b78.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>例如在上图中，我们把红色的敌人高亮了，因为这是玩家需要看到的最重要的东西，同时，这样还会得到一个很好的视觉效果。我们还添加了时间倒退小图标，虽然最开始我们尝试过类似VHS的时间倒退效果，但这不符合我们的视觉风格。这个简单的效果只需使用灰度就能实现，但要让值大于0.7的红色像素保持不变。</p>
-<p>另外，如果想要将这个效果应用到相机而非单独的物体中，我们可以将着色器赋给某个材质，并将下面脚本绑定到相机中：</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line">public class BasicPostEffect : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    [SerializeField]</span><br><span class="line">    Material mat;</span><br><span class="line"></span><br><span class="line">    void OnRenderImage(RenderTexture src, RenderTexture dst)</span><br><span class="line">    &#123;</span><br><span class="line">        Graphics.Blit(src, dst, mat);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>接着，将新材质赋给相机对应的字段。有趣的事情是添加了这个效果之后，玩家最终可以直观的知道发生了什么事情，并且不再点击屏幕创建屏障了。同样有趣的是，有部分玩家观察到有一个倒退回放只会在十次重新开始后出现，但对这个回放丝毫没有印象。</p>
-<p>基于上述的讨论，我们还添加了双击屏幕任何地方就能跳过倒退回放的功能，双击屏幕也算是玩家想跳过的时候最常见的反应了。</p>
-<h1 id="延伸思考"><a href="#延伸思考" class="headerlink" title="延伸思考"></a>延伸思考</h1><p>这篇教程还可以举一反三，尝试一些其它用法。例如在游戏中，玩家失败后就及时提供指示信息，然后倒退一点时间并让玩家再次挑战。在我们看来，这比让整个关卡重新开始，或在玩家要行动的时候停下来提示的做法要好。还可以倒退回玩家连续多次失败的关节点。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>希望您能轻松上手这个功能，实现时间倒退的效果。在下一篇文章中，我们会关注利用了时间轴的游戏设计，了解如何解决一些常见的问题并提升游戏质量。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:24.085Z">2019-05-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/blog/categories/Unity/">Unity</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    9 分钟 读完 (大约 1343 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity/Unity中的单元测试和错误追踪/">Unity中的单元测试和错误追踪</a>
-            
-        </h1>
-        <div class="content">
-            <p>本文将由Unity大中华区企业支持经理高川，为大家分享Unity自带的单元测试及性能报告工具。</p>
-<p>在游戏开发过程中，Bug的出现是无法避免的。解决Bug的重要前提是及时发现Bug，准确定位Bug。Unity提供了两个优秀的工具来帮助大家完成“杀虫”工作。</p>
-<h1 id="Unity-Editor-Test-Runner"><a href="#Unity-Editor-Test-Runner" class="headerlink" title="Unity Editor Test Runner"></a><strong>Unity Editor Test Runner</strong></h1><p>在开发过程中，一个Bug被发现的越早，其修复的可能性越高，而修复成本则越低。为了尽早发现问题，避免Bug积累重叠，单元测试就显得尤为重要。</p>
-<p>单元测试可以针对特定功能模块进行持续的检测，帮助开发人员尽早发现问题，及时修正。在Unity编辑器中集成了单元测试模块。该模块源自著名的开源工程NUnit，与Unity引擎结合后，可以方便的完成日常开发中的单元测试功能。下面来介绍一下如何使用这个功能。</p>
-<p>首先要建立测试用例。测试用例的脚本需要放到Editor 目录下：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-d5113ae2da1fd04e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>在测试用例脚本中引入名字空间NUnit.Framework：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-8e2f91d10702d7ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>测试用例函数需要一个[Test]属性来标识：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-54367f8b1f3da754.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>测试用例函数中通过Assert类下面的一系列函数，进行断言测试：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7cac33e4c21d3c5c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>一个测试用例中可以有多个断言，只有所有断言都通过检测，才会认为一个测试用例通过了检测。</p>
-<p>写好全部测试用例后，打开Unity Editor的Windows-&gt;Editor Tests Runner，在Editor<br>Tests窗口中我们可以看到测试工具按钮和刚刚写的一系列测试用例：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-dcbc0dc7972c470c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>上面一栏中包含按钮：Run All，Run Selected和Run Failed</p>
-<p>- Run All：运行全部测试用例</p>
-<p>- Run Selected：运行当前选择的测试用例</p>
-<p>- Rerun Failed：重新运行全部失败的测试用例</p>
-<p>右侧的四个图标则分别表示：</p>
-<ul>
-<li><p>成功的测试用例数</p>
-<pre><code>- 失败的测试用例数
-
-- 被忽略的测试用例数
-
-- 尚未运行过的测试用例数</code></pre></li>
-</ul>
-<p>下方的树状结构表示具体测试用例当前的状态。</p>
-<p>同时Editor Tests提供headless的运行模式，可以很好的与CI&amp;CD等自动化流水线配合。</p>
-<h1 id="Game-Performance-Reporting"><a href="#Game-Performance-Reporting" class="headerlink" title="Game Performance Reporting"></a><strong>Game Performance Reporting</strong></h1><p>Unity提供的另外一个工具是Game Performance<br>Reporting（GPR）性能报告。这是一个用来做运行时错误追踪的系统。目前市面上也有很多运行时错误追踪系统，但很多在和Unity引擎结合使用中效果并不理想。主要表现在，追踪到的代码可读性差，错误追踪不准确，定位错误等等。结果造成了开发者看到很多错误报告上来，然而并不能解决的尴尬局面。做为Unity原生解决方案，Game<br>Performance Reporting性能报告系统完美解决了这个问题。下面来简单介绍一下这个系统。</p>
-<p>首先改系统整合简单。Game Performance<br>Reporting性能报告继承了Unity一贯的使用简单的风格，在Unity5.4之前的Unity版本（目前仅支持Unity5.x系统），开发者需要去Unity官网下载一个UnityPackage并导入工程。然后在游戏启动时的某个脚本上加上一句代码：</p>
-<blockquote>
-<p>CrashReporting.Init(“<project id>“);</project></p>
-</blockquote>
-<p>其中Project ID是在Unity官网上生成的唯一ID。</p>
-<p>在Unity5.4版本中，Game Performance<br>Reporting系统直接被整合到了编辑器中。开发者只需要在Services窗口中将Performance Reporting的开关打开即可：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-637491d3bc4f9696.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>当游戏在运行时（测试期或者上线后）出现异常的时候，通过登录Unity开发者页面的Unity Online Services 就可以查看到异常的信息。</p>
-<p>堆栈部分，在信息后台是可以看到清晰的异常定位的。这样可以快速的帮助开发者定位到问题所在：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-9769f8afc3f4ec7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>同时Game Performance Reporting提供异常的基本数据统计，包括异常出现的设备，异常出现的时间点，影响到的客户数量以及影响到的版本等等：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0231eb2f52ccc398.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>通过以上两个工具，在开发期和运行时，开发者都可以很好的管理游戏的Bug数量，评估工程的质量，及时发现和修改问题，从而提供更好的游戏体验给广大玩家。</p>
+<p>Unity大中华区技术经理马瑞曾经为大家带来<a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651040100&idx=1&sn=b6c2a5704626c9fd76936e6ca3e70105&chksm=bd1a9e558a6d1743b21d1982198e8eff42b3e2d9dc225401700884e5461abaaa7d351bbf947f&scene=21#wechat_redirect" target="_blank" rel="noopener">《Unity中的Daydream开发与实例》</a>，本文马瑞将继续为大家分享Unity中的批处理优化与GPU<br>Instancing技术。</p>
+<p>我们都希望能够在场景中投入一百万个物体，不幸的是，渲染和管理大量的游戏对象是以牺牲CPU和GPU性能为代价的，因为有太多Draw<br>Call的问题，最后我们必须找到其他的解决方案。</p>
+<p>在本文中，我们将讨论两种优化技术，它们可以帮助您减少Unity游戏中的Draw Call数量以提高整体性能：批处理和GPU Instancing。</p>
+<h1 id="批处理"><a href="#批处理" class="headerlink" title="批处理"></a>批处理</h1><p>开发者在日常工作中遇到的最常见的问题之一是性能不足，这是由于CPU和GPU的运行能力不足。一些游戏可以运行在PC上，但是在移动设备上不行。游戏运行时运行是否流畅受Draw<br>Call数量的影响很大。有几个解决方案能帮助您解决这个问题。最常见的是批处理，包括Static Batching和Dynamic Batching。</p>
+<p>Static Batching可以让引擎降低任何尺寸网格的Draw Call，如下图所示：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-e6663ef6e366ef72.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>要让场景中的物体使用Static Batching，需要将其标记为Static，并在Mesh Renderer中共享相同的材质，因为Static<br>Batching不会在CPU上做顶点转换，所以它通常比Dynamic<br>Batching更有效。不过它会使用更多的内存，例如你的场景中有相同物体的多个副本，Unity会将它们组合成一个大网格并可能会增加内存使用。Unity将尽可能多的网格结合到一个静态网格中，并将其作为一个Draw<br>Call提交。这种方法的缺点是：标记为Static的物体在其生命周期中不能移动。</p>
+<p>Dynamic Batching启用时，Unity将尝试自动批量移动物体到一个Draw<br>Call中。要使物体可以被动态批处理，它们应该共享相同的材质，但是还有一些其他限制：</p>
+<p> <strong>顶点数量：</strong> Dynamic<br>Batching场景中物体的每个顶点都有一定的开销，因此批处理只适用于少于900个顶点属性的网格物体。举个例子，如果你的着色器使用顶点位置，法线和一个UV，那么你可以动态批处理多达300个顶点；而如果你的着色器使用顶点位置，法线，UV0，UV1和切线，那么只有180个顶点。值得注意的是，属性计数限制可能会在将来更改。</p>
+<p> <strong>镜像信息：</strong> 如果物体包含的Transform具备镜像信息，例如A物体的大小是(1f, 1f, 1f)，而B物体的大小则是(-1f, -1f,<br>-1f)，则无法做批处理。</p>
+<p> <strong>材质</strong> ：如果物体使用不同的材质实例，即使它们本质上相同，也不会被批量处理。而Shadow Caster Rendering是个例外。</p>
+<p> <strong>渲染器：</strong><br>拥有光照贴图的物体有其他渲染器参数，例如光照贴图索引或光照贴图的偏移与缩放。一般来说，动态光照贴图的游戏对象应该指向要批量处理的完全相同光照贴图的位置。</p>
+<p> <strong>不能使用Multi-pass着色器的情况：</strong> 几乎所有的Unity着色器都支持多个灯光的正向渲染模式（Forward<br>Rendering），这要求额外的渲染次数，所以绘制 “额外的每像素灯”时不会被批处理；Legacy Deferred（Light Pre-<br>Pass）渲染路径不能被动态批处理，因为它必须绘制物体两次。</p>
+<p>Dynamic Batching通过将所有物体的顶点转换为CPU上的世界空间来工作，所以它只能在渲染Draw<br>Call的工作量小于CPU顶点转换工作量的时候，才会起到提高性能的作用。当用游戏机或如Metal这样的现代API，Draw<br>Call的开销通常低得多，Dynamic Batching就无法提高性能了。了解到以上限制后，如果明智地使用批处理，可以显著提高您游戏的性能。</p>
+<h1 id="GPU-Instancing"><a href="#GPU-Instancing" class="headerlink" title="GPU Instancing"></a>GPU Instancing</h1><p>提高图形性能的另一个好办法是使用GPU Instancing。GPU Instancing的最大优势是可以减少内存使用和CPU开销。当使用GPU<br>Instancing时，不需要打开批处理，GPU Instancing的目的是一个网格可以与一系列附加参数一起被推送到GPU。要利用GPU<br>Instancing，您必须使用相同的材质，且可以传递额外的参数到着色器，如颜色，浮点数等。</p>
+<p>Unity从5.4版本开始支持GPU Instancing。 唯一的限制是在游戏物体上要使用相同的材质和网格。 目前支持以下平台：</p>
+<p>Windows DX11/DX12 和 SM 4.0 或更高/OpenGL 4.1 或更高</p>
+<p>OS X and Linux：OpenGL 4.1 and above</p>
+<p>移动：OpenGL ES 3.0 或更高/Metal</p>
+<p>PlayStation 4</p>
+<p>Xbox One</p>
+<p>如果您想要进行进一步的优化，例如减少管理场景物体的开销，您也可以使用Graphics.DrawMeshInstanced方法。<br>您只需要传递您的网格，材质和附加属性来绘制您的物体。现在的限制是一次最多1023个实例。在Unity<br>5.6中，我们添加了Graphics.DrawMeshInstancedIndirect的新方法，可以用来指定需要渲染的实例数量。</p>
+<h1 id="GPU-Instancing案例"><a href="#GPU-Instancing案例" class="headerlink" title="GPU Instancing案例"></a>GPU Instancing案例</h1><p>要创建支持GPU Instancing的基本标准表面着色器，可以在您的项目里面点击：</p>
+<p>Create-&gt;Shader-&gt;StandardSurfaceShader(Instanced)。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c755236ca3a49904.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>然后，在材质属性中选择新创建的着色器。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-be6b5b5113d07a08.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>虽然实例化的物体共享相同的网格和材质，但您可以使用MaterialPropertyBlock API为每一个物体设置单独的着色器属性。</p>
+<p>如果一个游戏对象被标记为“Static”并且打开了Static Batching，那么这个游戏对象就不能进行GPU<br>Instancing，检视器中会出现一个警告框，提示“静态批处理”标志可以在播放器设置（Player<br>Settings）中取消。如果游戏对象支持Dynamic<br>Batching，但是它使用的某个材质可以进行实例化，那么这个游戏对象将不会被批处理，并且将被自动实例化。</p>
+<p>当使用Forward Rendering渲染模式，受多个灯光影响的物体无法有效地实例化。只有Base<br>Pass可以有效地利用实例化，而不是添加的Pass。此外，使用光照贴图或受不同光或Reflection<br>probe影响的物体无法实例化。如下图所示，您可以在Frame Debug中发现和GPU Instancing相关的Draw Call被标记为“Draw<br>Mesh（Instanced）”。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-cc44411a14a95ec0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>GPU Instancing是一个非常强大的功能。在Unity<br>5.6中，您可以使用Graphics.DrawMeshInstancedIndirect绘制大量网格。在Mac<br>Pro中，我们能够画出约68万个具有不同颜色的移动立方体并保持稳定的60帧每秒的帧率。</p>
+<p>下图是一个示例场景，超过6千个包子在天空中围绕一个大碗飞翔，它们都投射和接收阴影。由于使用了GPU<br>Instancing，几乎没有性能开销。这里的包子模型使用了StandardSurface Shader（Instanced）。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-83b94c5104e681a7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>在本文中，我们描述了用于优化渲染性能的两种最流行的技术：批处理和GPU<br>Instancing。我们向您展示了如何在实践中使用它们并讨论可能的应用。正因为有诸如批处理和GPU<br>Instancing等优化技术的存在，我们能够绘制大量的对象并保持稳定的性能。</p>
 
         </div>
         
@@ -539,7 +401,7 @@ var _hmt = _hmt || [];
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/blog/page/43/">43</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/47/">47</a></li>
             
         </ul>
     </nav>
@@ -587,7 +449,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        128
+                        139
                     </p>
                 </div>
             </div>
@@ -607,7 +469,7 @@ var _hmt = _hmt || [];
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        23
+                        29
                     </p>
                 </div>
             </div>
@@ -713,7 +575,7 @@ var _hmt = _hmt || [];
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">12</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -759,7 +621,7 @@ var _hmt = _hmt || [];
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/ReactNative/" style="font-size: 17px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 15px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/blog/tags/JavaScript优化/" style="font-size: 10px;">JavaScript优化</a> <a href="/blog/tags/ReactNative/" style="font-size: 16px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 14px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/RxJs/" style="font-size: 10px;">RxJs</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 17px;">Web</a> <a href="/blog/tags/Web优化/" style="font-size: 11px;">Web优化</a> <a href="/blog/tags/h5/" style="font-size: 10px;">h5</a> <a href="/blog/tags/npm/" style="font-size: 10px;">npm</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 15px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
     </div>
 </div>
 
@@ -778,10 +640,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -791,10 +653,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -804,10 +666,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.968Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/使用Mock.js进行独立于后端的前端开发/" class="has-link-black-ter is-size-6">使用Mock.js进行独立于后端的前端开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -817,10 +679,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.871Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/什么样的浏览器内核，才敢说是“自主研发”？内核科普长文/" class="has-link-black-ter is-size-6">什么样的浏览器内核，才敢说是“自主研发”？内核科普长文</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -830,10 +692,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.839Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/" class="has-link-black-ter is-size-6">前端黑科技：美团网页首帧优化实践</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -857,7 +719,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">128</span>
+                    <span class="level-item tag">139</span>
                 </span>
             </a>
         </li>
@@ -904,6 +766,20 @@ var _hmt = _hmt || [];
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript/">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript优化/">
+                        <span class="tag">JavaScript优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative/">
                         <span class="tag">ReactNative</span>
                         <span class="tag is-grey">9</span>
@@ -927,6 +803,13 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
                         <span class="tag">ReactNative插件</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/RxJs/">
+                        <span class="tag">RxJs</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -969,6 +852,27 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web优化/">
+                        <span class="tag">Web优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/h5/">
+                        <span class="tag">h5</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/npm/">
+                        <span class="tag">npm</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -976,7 +880,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/后端/">
                         <span class="tag">后端</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
@@ -1063,10 +967,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1076,10 +980,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1089,10 +993,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.968Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/使用Mock.js进行独立于后端的前端开发/" class="has-link-black-ter is-size-6">使用Mock.js进行独立于后端的前端开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1102,10 +1006,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.871Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/什么样的浏览器内核，才敢说是“自主研发”？内核科普长文/" class="has-link-black-ter is-size-6">什么样的浏览器内核，才敢说是“自主研发”？内核科普长文</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1115,10 +1019,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.839Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/" class="has-link-black-ter is-size-6">前端黑科技：美团网页首帧优化实践</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -1142,7 +1046,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">128</span>
+                    <span class="level-item tag">139</span>
                 </span>
             </a>
         </li>
@@ -1189,6 +1093,20 @@ var _hmt = _hmt || [];
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript/">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript优化/">
+                        <span class="tag">JavaScript优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative/">
                         <span class="tag">ReactNative</span>
                         <span class="tag is-grey">9</span>
@@ -1212,6 +1130,13 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
                         <span class="tag">ReactNative插件</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/RxJs/">
+                        <span class="tag">RxJs</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1254,6 +1179,27 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web优化/">
+                        <span class="tag">Web优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/h5/">
+                        <span class="tag">h5</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/npm/">
+                        <span class="tag">npm</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1261,7 +1207,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/后端/">
                         <span class="tag">后端</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 

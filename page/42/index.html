@@ -153,7 +153,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.421Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.545Z">2019-05-17</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
@@ -163,7 +163,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    9 分钟 读完 (大约 1304 个字)
+                    3 分钟 读完 (大约 491 个字)
                 </span>
                 
                 
@@ -172,41 +172,27 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/VR效果神器，Unity精品相机插件/">VR效果神器，Unity精品相机插件</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/DoTween对UI进行DoFade操作存在问题及解决办法/">DoTween对UI进行DoFade操作存在问题及解决办法</a>
             
         </h1>
         <div class="content">
-            <p>今天向大家推荐几款强大易用的相机插件，可以用于录制高清VR游戏视频、实现各种炫酷的相机特效，甚至有便利实现移动VR环境的移动解决方案。</p>
-<h1 id="Helios"><a href="#Helios" class="headerlink" title="Helios"></a>Helios</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-fdac312f305497a4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>Helios是用于录制高清流畅视频的插件，不但支持普通的2D视频、3D视频，而且有适用于VR环境的全景视频，还可以同时录制音频。Helios利用特别设计的着色器来获取场景截图，并将这些图片转换为适用于各种3D及全景视频平台所需的视频格式。</p>
-<p>目前Helios仅支持在Unity编辑器模式下使用。相比其它的全景视频解决方案，Helios功能更加完善，而且支持主流的VR头盔包括Oculus、Gear<br>VR、HTC Vive、Google<br>Cardboard。同时，全景视频平台如Facebook和YouTube。Helios可以直接导出6种不同质量的视频，最高支持90FPS的8K全景视频。当然，它还可以导出高清的GIF、JPEG或PNG图片。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c50db0b6679632db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>使用Helios也非常简单，其中已经内置好了用于录制不同视频的预制件（Prefab），并包含所有必需的脚本，只需将这些预制件添加到场景中，再简单进行一些设置即可。以录制3D视频为例，只需将Helios3D预制件拖拽至场景，然后在检视面板中设置Helios脚本的参数，以选择视频类型、质量、特效及存储目录等。剩下的就等Helios自动完成即可。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-40e007df16a5e140.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>下载地址：</p>
-<p><a href="https://www.assetstore.unity3d.com/en/#!/content/63643" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/63643</a></p>
-<h1 id="Camera-Transitions"><a href="#Camera-Transitions" class="headerlink" title="Camera Transitions"></a>Camera Transitions</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-f210c078e7076c5c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>Camera<br>Transitions可用来实现一系列的相机变换特效，适用于各种画面切换效果，包括缩放、盒式切换、渐变、闪现、翻转、翻页、折叠、抖动、线性模糊等等。Camera<br>Transitions几乎可以满足所有的全画面变换需求。</p>
-<p>Camera Transitions需要硬件GPU支持Shader Model<br>3.0及以上版本，基本上只要是2009年以后面世的GPU就没有问题。有些效果在移动设备上可能消耗比较大，例如翻页。类似的注意事项都已标示在插件网页上，使用时可以作为参考。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-250281f3e6907680.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>使用Camera Transitions首先需要在场景中新建一个空GameObject，然后为其添加Camera Transitions脚本。Camera<br>Transitions脚本会对所有特效做全局设置，如自动或手动切换、更新频率、特效的范围等。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-80655fab050a536c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>针对所有特效的使用代码，作者也给出了示例，只需调用一句代码即可。以圆圈扩散特效为例，只需调用DoTransition函数即可，其参数分别表示变换类型、原始相机、目标相机、变换时间以及一些可选的传入参数：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ec3b45c0c518e4c4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>上面的代码可实现如下效果：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-177bb8dce44ea717.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>而除了代码调用外，还可以利用CameraAssistantTransitions组件直接在检视面板中进行设置，免去手动编写代码的步骤。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-fa9da4d30941b425.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>下载地址：</p>
-<p><a href="https://www.assetstore.unity3d.com/en/#!/content/36055" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/36055</a></p>
-<h1 id="Mobile-VR-Movement-Pack"><a href="#Mobile-VR-Movement-Pack" class="headerlink" title="Mobile VR Movement Pack"></a>Mobile VR Movement Pack</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-1087903426222419.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>Mobile VR Movement<br>Pack提供了5种移动VR环境下的移动方案示例，包括路径点系统、导航网格、摇杆控制、自动行走及视线控制（向下看行走，向上看停止）几种方式。每个都提供了示例场景，可以支持Gear<br>VR、Google VR、Cardboard及Daydream平台。</p>
-<p>使用Mobile VR Movement Pack非常简单，插件提供了代表不同移动方式的预制件，只需将这些预制件拖拽至场景，然后删除场景中的其它相机即可。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-722d5eb9da5cbd0f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>插件还包括一系列用于实现各种不同效果的简明脚本。例如，添加了VR<br>WalkableSuface脚本的对象会被导航网格视为“可通过的”，以便找到正确的路径。VR Waypoint脚本则用来设置路径点。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ef1cb677599406e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>下载地址：</p>
-<p><a href="https://www.assetstore.unity3d.com/en/#!/content/69041" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/69041</a></p>
+            <p>Unity版本：5.2, 5.4</p>
+<p>当使用this.GetComponent&lt;Image().material.DOFade(0,<br>2).SetEase(Ease.InBounce);来对UGUI的Image进行褪色操作的时候本质是对UI的Graphic对象（Text，Image等都为Graphic的子类）的material进行操作,下例是对Text组件进行褪色操作：Transform.GetComponent().material.DoFade(0,1)。虽然脚本只挂在一个Text组件的物体上，但1秒之后发现，整个UI界面全部变为透明。</p>
+<p>（我也很纳闷，cube01.GetComponent&lt;Renderer ().material.color =<br>Color.black;这样的代码照理说是这样执行的（&lt;<a href="http://www.jianshu.com/p/ababf547d992）：" target="_blank" rel="noopener">http://www.jianshu.com/p/ababf547d992）：</a></p>
+<p> Material lastMat = cube01.GetComponent&lt;Renderer ().material</p>
+<p> Material m = Instantiate(lastMat) as Material</p>
+<p> cube01.GetComponent&lt;Renderer ().material = m</p>
+<p> m.color = Color.black</p>
+<p>应该是最自己持有的material进行操做。。。</p>
+<p>）</p>
+<p>经测试发现，所有使用缺省material的组件都是使用的默认的material，而这个material只存在一份，所有UI组件使用的默认material都只是该material的引用，在DoTween对其进行褪色操作之后，该material的alpha值保持为0不变，且游戏重新开始也不会将其alpha值重置为1。</p>
+<p>解决办法:</p>
+<p>导入DoTween后请确保Setup DoTween， Tools/DoTween Utility Panel/Setup<br>DoTween…。导入后就可以使用Image.DoFade了。</p>
+<p>使用Unity自带的Graphic.CrossFadeAlpha(float alpha, float duration, bool<br>ignoreTimeScale)函数来操作</p>
+<p>自己扩展DoTween的方法，下面是我扩展的一个例子,可以参考DoTwen官网的<a href="http://dotween.demigiant.com/examples.php" target="_blank" rel="noopener">Creating custom plugins<br>example</a></p>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br></pre></td><td class="code"><pre><span class="line">/  DoFadeTest.cs</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> /  Project: GUITest</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> /  Created by zhiheng.shao</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> /  Copyright  2016年 zhiheng.shao. All rights reserved.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> /  Description</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using UnityEngine;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using System.Collections;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using DG.Tweening;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using UnityEngine.UI;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> using DG.Tweening.RickExtension;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> public class DoFadeTest : MonoBehaviour</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     // Use this for initialization</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     Start()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         .GetComponent&lt;Image().DOFade(, ).SetEase(Ease.InBounce);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> namespace DG.Tweening.RickExtension</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     public static class DOTweenExteion</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         public static Tweener DOFade( Image image, float endValue, float</span><br><span class="line">duration)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             Debug.Log(&quot;CustomDoFade&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             return DOTween.To(image.AlphaGetter, image.AlphaSetter,</span><br><span class="line">endValue, duration);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         private static float AlphaGetter( Image image)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             return image.color.a;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         private static  AlphaSetter( Image image, float alpha)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             Color oldColor = image.color;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             oldColor.a = alpha;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">             image.color = oldColor;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>附：<a href="http://dotween.demigiant.com/index.php" target="_blank" rel="noopener">DoTween官网</a></p>
 
         </div>
         
@@ -228,7 +214,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.410Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.536Z">2019-05-17</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
@@ -238,7 +224,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    8 分钟 读完 (大约 1270 个字)
+                    11 分钟 读完 (大约 1658 个字)
                 </span>
                 
                 
@@ -247,37 +233,55 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/Unity酷炫特效脚本插件/">Unity酷炫特效脚本插件</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/轻松玩转Unity编辑器菜单扩展/">轻松玩转Unity编辑器菜单扩展</a>
             
         </h1>
         <div class="content">
-            <p>上周为大家介绍了Asset<br>Store中非常受欢迎的<a href="http://mp.weixin.qq.com/s?__biz=MjM5NjE1MTkwMg==&mid=2651039228&idx=1&sn=54505a8bbdb8b8988d8d5a5b53eb73cf&chksm=bd1a92cd8a6d1bdbe00ca42e8f128ffef14eb4d8ade97ae6d371ffdc218f4b45cfd2dff3a704&scene=21#wechat_redirect" target="_blank" rel="noopener">不同游戏类型的完整模板</a>，今天则分享一些脚本插件，用来实现各类酷炫的特效，包括爆炸、闪电及天空盒等。</p>
-<h1 id="Exploder"><a href="#Exploder" class="headerlink" title="Exploder"></a>Exploder</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-ee2bb64160017b2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>看名字就知道了，Exploder就是用来在Unity中实现各种爆炸效果的脚本插件。它可以实时分解网格，在几毫秒内将任意对象分崩离析。由于是实时计算，所以不需要预定义游戏对象作为碎片，所有过程仅需调用一行代码即可瞬间完成。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-8a1c0ce1024c6e9b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>该插件带有强大的网格切割器，会查找游戏对象上的网格将其切割为小碎片，在游戏对象上添加Rigidbody组件再设置好加速度即可实现爆炸效果。出于性能的考虑，这些小碎片会存放于预先分配的对象池中，以尽可能减少创建及初始化游戏对象的次数。</p>
-<p>使用Exploder非常简单，正如之前所说，仅需一行代码即可完成。首先，将插件Prefabs目录下的Exploder预制件拖拽至层级视图。然后从检视面板中调整爆炸相关的参数，例如碎片的数量等等。这一步也可以使用代码完成。为需要爆炸的目标对象添加ExploderOption脚本。接下来只需在任意脚本中调用ExplodeObject函数即可。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-56515fa422f627e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>Exploder还提供了FPS游戏示例场景，包含了FPS游戏的基本机制如瞄准、换武器及扔手榴弹等等。该插件同样支持移动平台，但建议针对不同机型使用不同的配置。</p>
-<p>下载地址：</p>
-<p><a href="https://www.assetstore.unity3d.com/en/#!/content/9771" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/9771</a></p>
-<h1 id="TENKOKU-Dynamic-Sky"><a href="#TENKOKU-Dynamic-Sky" class="headerlink" title="TENKOKU Dynamic Sky"></a>TENKOKU Dynamic Sky</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-642afb5ef1efa0b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>TENKOKU Dynamic<br>Sky是用于实现高度精确天气系统的插件，可以按照24小时循环实时动态设置天空场景。支持动态调整大气属性，例如白天与夜晚的天空亮度、雾效距离、云层密度、灰蒙程度、降雨、降雪及彩虹等等，几乎所有天气相关的属性都可以直接进行设置。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-498054e498457575.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>TENKOKU Dynamic Sky提供了很方便的编辑面板，所以不需编写代码也能轻松使用该插件。首先将Prefabs目录下的Tenkoku<br>DynamicSky预制件拖拽至场景，放置于(0,0,0)的位置，然后在相机上添加特效脚本Tenkoku Fog等，还可以根据实际需求加入其它的特效脚本。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c9d0304caa1d1d5c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>TENKOKU所有的核心代码都位于TenkokuModule脚本中，上述提到的各种天气属性也可以通过脚本进行修改。但请注意，该插件暂不支持移动平台。</p>
-<p>下载地址：</p>
-<p><a href="https://www.assetstore.unity3d.com/en/#!/content/34435" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/34435</a></p>
-<h1 id="Procedural-Lightning-2D-and-3D"><a href="#Procedural-Lightning-2D-and-3D" class="headerlink" title="Procedural Lightning (2D and 3D)"></a>Procedural Lightning (2D and 3D)</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-4ba5b44a391e769a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>Procedural Lightning用来实现各种闪电特效，当然也可以生成游戏所需的普通线性特效。该插件比较简单，仅需一个Draw<br>Call即可完成所有的淡入淡出、生长及发光等效果。整个渲染在GPU上完成，相比CPU渲染效率更高，并且支持一些配置较低的移动设备。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-8fd4951998f23f16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>使用该插件也非常简单，将插件核心脚本LightningBoltScript加入场景中的对象，设置好闪电及发光的材质，指定起始位置与结束位置，调整一些闪电属性，剩下的就交给Procedural<br>Lightning来完成。LightningBoltScript提供了非常多的属性设置，包括闪电路径数量等等都是可以预先设置的，调整这些参数让闪电达到理想的效果。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-7917f010fb2761e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>Procedural Lightning同时支持2D及3D，其中也提供了19种不同的示例，除了常见的2D闪电，还演示了立体闪电特效。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-af1e38a648af7cfc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>下载地址：</p>
-<p><a href="https://www.assetstore.unity3d.com/en/#!/content/34217" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/34217</a></p>
+            <p>Unity一个很强大的功能就是可扩展，你可以利用该功能创建出各种各样的工具，直接整合到Unity中使用。今天这篇文章将为大家全面介绍扩展Unity中所有菜单项的方法及各菜单项的适用场景。</p>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>Unity编辑器中可扩展的菜单总览如下图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-2574a078728d4094.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>这些菜单分别是：</p>
+<p>编辑器顶部的内置菜单（A、B、C、D）</p>
+<p>层级视图右键弹出菜单（B）</p>
+<p>项目视图右键弹出菜单（A）</p>
+<p>检视面板中点击Add Component按钮弹出的菜单（C）</p>
+<p>编辑器顶部的新菜单项（E）</p>
+<p>扩展菜单项，只需在静态方法前添加[MenuItem]属性声明即可，使用该属性需要引用UnityEditor命名空间。该方法是否公有、返回类型及方法名称均无关紧要。</p>
+<p>例如，在静态方法前添加[MenuItem(“Window/Custom SubMenu/Custom Window”)]即可实现如下效果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-ee8e75f5235f3f0b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>关于MenuItem路径参数的几点说明：</p>
+<p>如果根目录已存在于菜单项中（如“Assets”、“Window”等），那自定义菜单项将被添加到这些菜单下（“Component”除外）</p>
+<p>必须要指定根目录及菜单项名称</p>
+<p>菜单及菜单项名称均支持包含空格</p>
+<p>还可以在菜单项名称后添加某个按键代码来指定该菜单项的快捷键</p>
+<p>子菜单没有层级限制</p>
+<p>例如，添加以下代码：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-cebae67b5eb3a0e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>然后依次点击菜单项GameObject &gt; Create RedBlue GameObject，就会在场景中新建名为“RedBlue<br>GameObject”的游戏对象。</p>
+<p>另外MenuItem还可支持多个参数：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-d1afa5e64cb0d5c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>其中参数isValidateFunction决定是否启用菜单项，设为True时，如果函数返回值为真，则菜单项启用，函数返回值为假则禁用菜单项。参数priority决定了菜单项在菜单中显示的优先级。</p>
+<h1 id="何时使用哪种菜单"><a href="#何时使用哪种菜单" class="headerlink" title="何时使用哪种菜单"></a>何时使用哪种菜单</h1><p>由于对菜单的使用没有严格的限制，这就需要开发者们了解各项菜单原本的目的。下面就来看看什么时候要用什么菜单。</p>
+<h2 id="A"><a href="#A" class="headerlink" title="A"></a>A</h2><h2 id="Assets"><a href="#Assets" class="headerlink" title="Assets"></a>Assets</h2><p>Assets菜单用于在项目中创建或修改资源。在项目视图中右键点击也会弹出Assets菜单。另外，如果将自定义菜单项放在“Assets/Create”目录下，点击项目视图的“Create”按钮时也会出现该自定义的菜单项。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-5a36da78cea5bf13.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>什么情况下适合使用Assets菜单呢：</p>
+<p>新建ScriptableObject，所有自定义的ScriptableObject都可以通过Assets &gt;  Create子菜单来创建</p>
+<p>重命名精灵图集，右键点击包含多个精灵图片的纹理，用菜单项帮助快速重命名所有精灵图片</p>
+<h2 id="B"><a href="#B" class="headerlink" title="B"></a>B</h2><h2 id="GameObject"><a href="#GameObject" class="headerlink" title="GameObject"></a>GameObject</h2><p>GameObject菜单用于场景中与游戏对象息息相关的方法，如新建游戏对象或编辑已有对象等。右键单击项目视图也会显示GameObject子菜单，在层级视图点击Create按钮同样会显示GameObject子菜单。</p>
+<p>如果希望自定义菜单项可以同时出现在右键弹出菜单和层级视图的Create按钮弹出的菜单中，就必须将该自定义菜单项放置在已有的菜单项中，如2D<br>Object或UI等。如果没有合适的已有菜单项，也可以自己新建菜单项并将优先级设为50以下。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-1f1db4d7b262c212.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>如果自定义工具是用于为游戏对象添加脚本，那最好还是放在Component菜单下。使用GameObject菜单的几种情况是：</p>
+<p>新建预定义的游戏对象，例如预设体实例，你可以使用菜单项在新场景中设置好自定义相机</p>
+<p>将选中的游戏对象存为预设体，该工具功能与GameObject下的Break Prefab Instance正好相反</p>
+<h2 id="C"><a href="#C" class="headerlink" title="C"></a>C</h2><h2 id="Component"><a href="#Component" class="headerlink" title="Component"></a>Component</h2><p>Component菜单下的所有菜单项都是用于为选中的游戏对象添加组件，为了加强该功能，Unity并不允许通过MenuItem向该菜单增加菜单项，而是使用[AddComponentMenu]属性，该属性直接用于自定义的MonoBehaviour类。点击菜单项会自动添加该脚本。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-929dbe33570900db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>在脚本的类声明前添加[AddComponentMenu]属性，该脚本会同时出现在Component菜单以及在检视面板中查看游戏对象时点击Add<br>Component弹出的菜单中。该属性带有与MenuItem相同含义的路径参数，但不支持对自定义菜单项进行排序。</p>
+<p>添加自定义菜单项后的Component菜单如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-0a3d2662b4790bca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<h2 id="D"><a href="#D" class="headerlink" title="D"></a>D</h2><h2 id="Unity、File、Edit、Window以及Help"><a href="#Unity、File、Edit、Window以及Help" class="headerlink" title="Unity、File、Edit、Window以及Help"></a>Unity、File、Edit、Window以及Help</h2><p>这几个菜单比较简单，其中的菜单项也不会出现在Unity编辑器的其它地方。需要打开新窗口的功能可以放在Window菜单中。需要同时修改游戏对象及资源的工具，如自定义的重复创建或重命名等，则放在Editor菜单中。Unity对此没有具体要求，你可以按照自己的习惯来布置。</p>
+<h2 id="E"><a href="#E" class="headerlink" title="E"></a>E</h2><h2 id="新建菜单项"><a href="#新建菜单项" class="headerlink" title="新建菜单项"></a>新建菜单项</h2><p>如果已有菜单项均不适合自定义工具的功能，也可以自己新建一个菜单项。但Unity并不推荐在多人合作或共享资源的项目中新建菜单项，这可能会导致工具栏异常混乱。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-8ca12fc4c3ec0a5b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>关于Unity编辑器上方工具栏各菜单的扩展就介绍到这里，后续我们再为大家介绍各个菜单项的优先级如何设置。</p>
 
         </div>
         
@@ -299,7 +303,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.400Z">2019-05-17</time>
+                <time class="level-item has-text-grey" datetime="2019-05-17T03:27:23.525Z">2019-05-17</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/blog/categories/Unity插件/">Unity插件</a>
@@ -309,7 +313,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    9 分钟 读完 (大约 1311 个字)
+                    9 分钟 读完 (大约 1307 个字)
                 </span>
                 
                 
@@ -318,41 +322,86 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/精美实用的Unity场景资源/">精美实用的Unity场景资源</a>
+                <a class="has-link-black-ter" href="/blog/2019/05/17/Unity插件/FX-Maker/">FX-Maker</a>
             
         </h1>
         <div class="content">
-            <p>今天为大家介绍一些Asset<br>Store中非常受欢迎的场景资源，这些资源的共同点是尽可能利用最小的开销来实现更为壮观的场景，不仅能完美适用于PC端，对于移动平台也相当友好。</p>
-<h1 id="Greeble-Kit-R2"><a href="#Greeble-Kit-R2" class="headerlink" title="Greeble Kit R2"></a>Greeble Kit R2</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-95a6037bbb563dc0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>Greeble Kit是用于在Unity中制作科幻风场景的插件，拥有细节精致的多个场景和机器，几乎涵盖了科幻类场景所有内容。Greeble Kit<br>R2在此前的基础上增加了一些基于物理的材质和纹理，并提供了示例场景和预制件（Prefab）。</p>
-<p>该资源包完全支持基于物理的渲染（PBR），并且共有109张4K分辨率的纹理。所有资源以预制件的方式提供，整个资源包有100多个预制件，按照规模分为大中小三个类型，可以方便使用者进行自由组合并按需调整。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-f0ca8539786324a8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>每个预制件也是由小零件组成，可以很方便地对零件的方向、角度及大小进行调整来实现独一无二的金属科幻风场景。其中的材质都使用Unity标准着色器，也非常便于修改。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-79dee0fbb8f8f2eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>另外Greeble Kit R2还新增了机器人和大型机械装置，相信也能为大家提供不少灵感。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-a9fcef86646ad81f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>下载地址：<a href="https://www.assetstore.unity3d.com/en/#!/content/27563" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/27563</a></p>
-<h1 id="Low-Poly-Series-Landscape"><a href="#Low-Poly-Series-Landscape" class="headerlink" title="Low Poly Series: Landscape"></a>Low Poly Series: Landscape</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-56ef4677872c95d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>介绍了重金属，下面来看看小清新。Low Poly Series:<br>Landscape是一款低多边形风格的资源包，配色清晰，模型简单，只用很少的资源就能创建出非常壮观宏大的游戏场景，并且对移动设备也非常友好。</p>
-<p>该资源包共有168个不同的资源，包含多种不同的树木、叶子、植被、岩石及地形等等。最厉害的是所有这些资源共用2张纹理图，并使用Unity<br>5默认的天空盒及标准着色器。所有的模型文件都提供了3D Max源文件、导出的FBX文件以及Unity预制件，可高度自由化定制。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6496b305f50165ba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>该资源包提供了两种光照设置示例，分别表示白天跟夜晚的场景，都是使用资源中的资源零件组合而成的大场景。材质仅有简单的着色，再加上光照的配合，就能设计出不同明暗度的场景。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-51417295fbf493a7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-65371c29cfc3bdc0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>下载地址：<a href="https://www.assetstore.unity3d.com/en/#!/content/69650" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/69650</a></p>
-<h1 id><a href="#" class="headerlink" title=" "></a> </h1><h1 id="City-Adventure"><a href="#City-Adventure" class="headerlink" title="City Adventure"></a>City Adventure</h1><p><img src="http://upload-images.jianshu.io/upload_images/17266280-2a39a35dd117751e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>beffio非常擅于制作简单却精致的场景资源，上次为大家介绍的太空游戏必备场景包Space Journey也是出自beffio之手。City<br>Adventure与Space Journey类似，都是低多边形模型。City<br>Adventure是用来制作城镇场景的资源包，所有资源同样按模块分成各种不同的预制件，非常适合顶视图的生存构建类游戏。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-04a142b9c15657d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>City Adventure包含160多个独立物体及12种自定义贴图，提供了20多个示例场景，其中有12个都是非常大型的场景，如下图：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-8802df0b38e67a10.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>并且如此大型的场景运行时可以保证平均帧率达到60，仅有21个SetPass Calls：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-609c2a00070367e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>资源包中所有资源都针对游戏使用场景对三角形面数、纹理、UV图及图集等进行了深度优化，不仅适用于PC端，对于移动平台也同样使用。且该资源完全使用Unity引擎制作，能与Unity标准着色器完美结合。</p>
-<p>除了场景资源外，City<br>Adventure还提供了调色插件，可以一键更改整个场景的色调。同时针对不同的色调也提供了示例场景。使用方式也非常简单，只需在主相机上添加下面的脚本并调整相应的属性即可：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3a058f161c7f55fc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>City Adventure提供的调色示例如下：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/17266280-78a855b6de1692a8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
-<p>下载地址：<a href="https://www.assetstore.unity3d.com/en/#!/content/65307" target="_blank" rel="noopener">https://www.assetstore.unity3d.com/en/#!/content/65307</a></p>
+            <p>插件介绍</p>
+<pre><code>FX</code></pre><p>Maker是一款制作特效的工具，它专为移动操作系统做了优化。包括300种Prefab特效，300种纹理结构、100种网格、100种曲线效果。支持英文和韩文，由开发商IGSoft提供。是UNT3D中一款强大的粒子特效制作工具。</p>
+<p>概述</p>
+<ul>
+<li><p>FX Maker包含300个特效Prefabs。</p>
+</li>
+<li><p>已经为移动设备进行了优化。FX Maker是用来产生特效的工具（创建、查看、分析、测试）。</p>
+</li>
+<li><p>支持BuildSprite功能，可以把数百个三角形转化为仅仅2个三角形。</p>
+</li>
+<li><p>支持Mesh、Legacy和Shuriken粒子系统。</p>
+</li>
+<li><p>粒子大小调节（Transform.Scale）</p>
+</li>
+<li><p>调整速度（Mesh, Legacy, Shuriken）</p>
+</li>
+<li><p>适用于Unity 4.3.4或更高版本（支持Unity5）。</p>
+</li>
+<li><p>包含的资源：300个特效，300个纹理，100个Mesh，100个曲线动画。</p>
+</li>
+</ul>
+<p>FX Maker是Unity3d一款非常流行的效果制作插件。不但有超过300种效果预制体， 还可以自己制作效果。包含Mesh Effect<br>和Particle Effect。</p>
+<p>优点：资源库大，可以将消耗资源非常多的粒子效果<br>转换为帧动画效果。当然也可以直接用不转帧动画的效果，这种效果是画面最好的，但是对显卡开销大。帧动画显卡开销小，占内存大，适合移动平台。Fx<br>Maker还能自动保存。</p>
+<p>使用步骤:</p>
+<p> <strong>一:导入包</strong></p>
+<p> <strong><a href="http://jingyan.baidu.com/article/cb5d6105fda595005d2fe068.html" target="_blank" rel="noopener">http://jingyan.baidu.com/article/cb5d6105fda595005d2fe068.html</a></strong></p>
+<p> <strong>二:打开主场景sceneFXMaker</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-bdfac16af5b2839c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><strong>三:运行</strong></p>
+<p>运行界面如下，注意不要选全屏运行，要在运行时至少同时有Game界面和Inspector界面。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-368037fafdb02e0d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>当前运行的效果对应 _CurrentObject下面的物体。既可以对下图左侧的UI界面操作，亦可以对Hierarchy下面的物体进行直接操作。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-c6e6a1e96c871ef1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>EffectMesh</p>
+<p>网格动画，主要是平面的网格动画，Mesh_Ring和Mesh_Virtical有特殊形状的形状片的动画。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-098d2b794259c85e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>EffectParticle</p>
+<p>粒子效果，其中最后的Shuriken里包含的是新的Shuriken粒子系统，其他全是旧的粒子系统。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6b71f8fac79b364d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>EffectSample</p>
+<p>效果样例展示</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-405675a540b71ae2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>Resources</p>
+<p>包含一些资源，其中最重要的是Animation的曲线效果 和 Mesh下的网格</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-3c59d87459ba8efe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><strong>四:做简单的帧动画效果</strong></p>
+<p>1.选第一个Project文件夹，新建一个空效果</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-6250b847fcda0fa1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>2.从已有的效果拷贝物体过来</p>
+<p>已有效果，对着FX Maker UI里的物体点击右键，Copy</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-19fdd0b35db64029.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>3.运行看看效果</p>
+<p>4.做成帧动画(精灵动画)</p>
+<p>先点击Sprite</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-42d11dc429993e3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>在出现下图左侧的Build Sprite界面时，用鼠标滚轮调整视口，如右侧红框，使之刚好涵盖效果区域。</p>
+<p>接着可以直接点“Build Sprite”按钮</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-5ed42aa30c036b90.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p>之后就生成了新的效果,名字是 原名+_1 之类的,就在原效果旁边。</p>
+<p>对着新效果点右键，Export。 之后就生成了一般的Unity Package。</p>
+<p>包括了所有这个效果需要用到的资源。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-d58c25f8fdad2ac4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-4c347ee10f34bef2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><strong>五:使用导出的效果</strong></p>
+<p>直接导入使用即可。效果路径和原工程下的路径完全一样。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/17266280-47a3bc9dce185ef1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt>  </p>
+<p><strong>六 加入其他东西Build Sprite</strong></p>
+<p>并不一定要FxMaker的效果才可以拿来Build Sprite。任何东西，只要相机看得见就可以放进去Build<br>Sprite。并且可以和FxMaker的混合Build。</p>
+<p>将东西加到效果下，这里是将Unity包里的Constructor放到效果 NewEffect1里。</p>
+<p>正常Build Sprite</p>
+<p>Build好后把新效果里的NcBillboard去掉，或者NcBillboard里的Front Axis设置为 Axis_Back。不然方向会颠倒。</p>
+<p>由于使用的是Particle下的Addictive Shader,所以是与背景混合的半透明效果。</p>
+<p>所以只适合拿来做效果。</p>
+<p>至于真实物体的3D转2D,有兴趣的朋友可以自己去研究。</p>
+<p>帧数起码要在FPS20以上，否则卡顿感太明显。</p>
+<p>帧动画虽然不消耗显卡，但是贴图占内存还是比较大的。所以用完一定要释放内存。</p>
 
         </div>
         
@@ -389,6 +438,10 @@ var _hmt = _hmt || [];
             <li><a class="pagination-link is-current" href="/blog/page/42/">42</a></li>
             
             <li><a class="pagination-link has-text-black-ter" href="/blog/page/43/">43</a></li>
+            
+            <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/blog/page/47/">47</a></li>
             
         </ul>
     </nav>
@@ -436,7 +489,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        128
+                        139
                     </p>
                 </div>
             </div>
@@ -456,7 +509,7 @@ var _hmt = _hmt || [];
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        23
+                        29
                     </p>
                 </div>
             </div>
@@ -562,7 +615,7 @@ var _hmt = _hmt || [];
                 <span class="level-item">Web</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">12</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/blog/categories/其他/">
@@ -608,7 +661,7 @@ var _hmt = _hmt || [];
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/ReactNative/" style="font-size: 17px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 15px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 10px;">Web</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 16px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
+        <a href="/blog/tags/AR/" style="font-size: 10px;">AR</a> <a href="/blog/tags/C/" style="font-size: 13px;">C#</a> <a href="/blog/tags/C-优化/" style="font-size: 11px;">C#优化</a> <a href="/blog/tags/Google/" style="font-size: 10px;">Google</a> <a href="/blog/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/blog/tags/JavaScript优化/" style="font-size: 10px;">JavaScript优化</a> <a href="/blog/tags/ReactNative/" style="font-size: 16px;">ReactNative</a> <a href="/blog/tags/ReactNative优化/" style="font-size: 10px;">ReactNative优化</a> <a href="/blog/tags/ReactNative库/" style="font-size: 14px;">ReactNative库</a> <a href="/blog/tags/ReactNative插件/" style="font-size: 10px;">ReactNative插件</a> <a href="/blog/tags/RxJs/" style="font-size: 10px;">RxJs</a> <a href="/blog/tags/UML/" style="font-size: 10px;">UML</a> <a href="/blog/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/blog/tags/Unity优化/" style="font-size: 18px;">Unity优化</a> <a href="/blog/tags/Unity插件/" style="font-size: 19px;">Unity插件</a> <a href="/blog/tags/VR/" style="font-size: 11px;">VR</a> <a href="/blog/tags/Web/" style="font-size: 17px;">Web</a> <a href="/blog/tags/Web优化/" style="font-size: 11px;">Web优化</a> <a href="/blog/tags/h5/" style="font-size: 10px;">h5</a> <a href="/blog/tags/npm/" style="font-size: 10px;">npm</a> <a href="/blog/tags/后端/" style="font-size: 14px;">后端</a> <a href="/blog/tags/图像/" style="font-size: 11px;">图像</a> <a href="/blog/tags/小程序/" style="font-size: 10px;">小程序</a> <a href="/blog/tags/开源/" style="font-size: 10px;">开源</a> <a href="/blog/tags/数据库/" style="font-size: 11px;">数据库</a> <a href="/blog/tags/架构/" style="font-size: 11px;">架构</a> <a href="/blog/tags/移动支付/" style="font-size: 11px;">移动支付</a> <a href="/blog/tags/网络/" style="font-size: 15px;">网络</a> <a href="/blog/tags/网络安全/" style="font-size: 12px;">网络安全</a>
     </div>
 </div>
 
@@ -627,10 +680,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -640,10 +693,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -653,10 +706,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.968Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/使用Mock.js进行独立于后端的前端开发/" class="has-link-black-ter is-size-6">使用Mock.js进行独立于后端的前端开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -666,10 +719,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.871Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/什么样的浏览器内核，才敢说是“自主研发”？内核科普长文/" class="has-link-black-ter is-size-6">什么样的浏览器内核，才敢说是“自主研发”？内核科普长文</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -679,10 +732,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.839Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/" class="has-link-black-ter is-size-6">前端黑科技：美团网页首帧优化实践</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -706,7 +759,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">128</span>
+                    <span class="level-item tag">139</span>
                 </span>
             </a>
         </li>
@@ -753,6 +806,20 @@ var _hmt = _hmt || [];
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript/">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript优化/">
+                        <span class="tag">JavaScript优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative/">
                         <span class="tag">ReactNative</span>
                         <span class="tag is-grey">9</span>
@@ -776,6 +843,13 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
                         <span class="tag">ReactNative插件</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/RxJs/">
+                        <span class="tag">RxJs</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -818,6 +892,27 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web优化/">
+                        <span class="tag">Web优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/h5/">
+                        <span class="tag">h5</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/npm/">
+                        <span class="tag">npm</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -825,7 +920,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/后端/">
                         <span class="tag">后端</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
@@ -912,10 +1007,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.659Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/推荐React-Native-开源移动-UI-组件/" class="has-link-black-ter is-size-6">推荐React-Native-开源移动-UI-组件</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:03.104Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/跨域与跨域访问/" class="has-link-black-ter is-size-6">跨域与跨域访问</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -925,10 +1020,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.614Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/requestAnimationFrame帧动画/" class="has-link-black-ter is-size-6">requestAnimationFrame帧动画</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.989Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/npm安装方式的区别/" class="has-link-black-ter is-size-6">npm安装方式的区别</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -938,10 +1033,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.585Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-WebStorm代码模版/" class="has-link-black-ter is-size-6">React-Native-WebStorm代码模版</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.968Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/使用Mock.js进行独立于后端的前端开发/" class="has-link-black-ter is-size-6">使用Mock.js进行独立于后端的前端开发</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -951,10 +1046,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.569Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native性能优化/" class="has-link-black-ter is-size-6">React-Native国际化多语言</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.871Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/什么样的浏览器内核，才敢说是“自主研发”？内核科普长文/" class="has-link-black-ter is-size-6">什么样的浏览器内核，才敢说是“自主研发”？内核科普长文</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -964,10 +1059,10 @@ var _hmt = _hmt || [];
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-25T12:39:13.467Z">2019-05-25</time></div>
-                    <a href="/blog/2019/05/25/React-Native/React-Native-bundle拆分与合并之安卓篇/" class="has-link-black-ter is-size-6">React-Native-bundle拆分与合并之安卓篇</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T08:27:02.839Z">2019-05-31</time></div>
+                    <a href="/blog/2019/05/31/Web/前端黑科技：美团网页首帧优化实践/" class="has-link-black-ter is-size-6">前端黑科技：美团网页首帧优化实践</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/blog/categories/ReactNative/">ReactNative</a>
+                        <a class="has-link-grey -link" href="/blog/categories/Web/">Web</a>
                     </p>
                 </div>
             </div>
@@ -991,7 +1086,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">128</span>
+                    <span class="level-item tag">139</span>
                 </span>
             </a>
         </li>
@@ -1038,6 +1133,20 @@ var _hmt = _hmt || [];
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript/">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/JavaScript优化/">
+                        <span class="tag">JavaScript优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative/">
                         <span class="tag">ReactNative</span>
                         <span class="tag is-grey">9</span>
@@ -1061,6 +1170,13 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/ReactNative插件/">
                         <span class="tag">ReactNative插件</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/RxJs/">
+                        <span class="tag">RxJs</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1103,6 +1219,27 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/Web/">
                         <span class="tag">Web</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/Web优化/">
+                        <span class="tag">Web优化</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/h5/">
+                        <span class="tag">h5</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/blog/tags/npm/">
+                        <span class="tag">npm</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1110,7 +1247,7 @@ var _hmt = _hmt || [];
                 <div class="control">
                     <a class="tags has-addons" href="/blog/tags/后端/">
                         <span class="tag">后端</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">6</span>
                     </a>
                 </div>
                 
